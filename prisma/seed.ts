@@ -24,6 +24,14 @@ async function seed() {
     },
   });
 
+  const author = await prisma.author.create({
+    data: {
+      firstName: 'Robert',
+      lastName: 'K',
+      userId: user.id
+    }
+  })
+
   await prisma.note.create({
     data: {
       title: "My first note",
@@ -39,6 +47,14 @@ async function seed() {
       userId: user.id,
     },
   });
+
+  await prisma.quote.create({
+    data: {
+      authorId: 'fd1a23fd4s5a64df',
+      body: 'quote number 1',
+      userId: user.id,
+    }
+  })
 
   console.log(`Database has been seeded. 🌱`);
 }
