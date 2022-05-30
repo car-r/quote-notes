@@ -16,6 +16,8 @@ model User {
 
   password Password?
   notes    Note[]
+  quotes   Quote[]
+  authors  Author[]
 }
 
 model Password {
@@ -29,6 +31,35 @@ model Note {
   id    String @id @default(cuid())
   title String
   body  String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId String
+}
+
+model Quote {
+  id    String @id @default(cuid())
+  body String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId String
+
+  author Author @relation(fields: [authorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  authorId String 
+
+}
+
+model Author {
+  id    String @id @default(cuid())
+  firstName String
+  lastName  String?
+
+  quote Quote[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
