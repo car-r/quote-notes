@@ -9,7 +9,10 @@ export const loader = async ({params}: any) => {
     const author = await prisma.author.findUnique({
         where: { id: quote?.authorId}
     })
-    return {author, quote}
+    const content = await prisma.content.findUnique({
+        where: { id: quote?.contentId}
+    })
+    return {author, quote, content}
 }
 
 export const action =async ({ request, params }: any) => {
@@ -26,12 +29,16 @@ export default function QuoteDetail() {
     return (
         <div>
             <h2>Quote Detail</h2>
-            <p>{quote.quote.body}</p>
+            <div className="p-4 mb-6 border border-stone-800 bg-stone-800 rounded-md text-stone-300/60">
+                <p className="text-xl text-center pb-6 italic font-semibold">"{quote.quote.body}"</p>
+                <p className="font-light">{quote.author.firstName} {quote.author.lastName}, <span className="font-thin">{quote.content.title}</span></p>
+            </div>
+            
             <Form method="post">
                 <button
                     name="_method"
                     value="delete"
-                    className="px-4 py-2 bg-green-500"
+                    className="px-4 py-2 bg-blue-400 rounded text-white hover:bg-blue-600"
                 >
                     Delete
                 </button>

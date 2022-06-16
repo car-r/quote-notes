@@ -1,6 +1,7 @@
 import { redirect } from "@remix-run/node"
 import { Form, useLoaderData } from "@remix-run/react"
 import { prisma } from "~/db.server"
+import { useState } from "react"
 
 export const action = async ({request}: any) => {
     const form = await request.formData()
@@ -8,8 +9,9 @@ export const action = async ({request}: any) => {
     const body = form.get('body')
     const userId = form.get('userId')
     const contentId = form.get('contentId')
+    const authorName = form.get('authorName')
 
-    const fields = { authorId, body, userId, contentId }
+    const fields = { authorId, body, userId, contentId, authorName }
 
     const quote = await prisma.quote.create({ data: fields})
     return redirect(`/quotes/${quote.id}`)
@@ -24,7 +26,23 @@ export const loader = async () => {
 
 export default function NewQuote() {
     const data = useLoaderData()
+    const [authorName, setAuthorName] = useState(data.authors[0].firstName + ' ' + data.authors[0].lastName)
+
+    function onAuthorChange(e: any) {
+        console.log(e.target.value)
+        console.log(data.authors.length)
+        for (const author of data.authors) {
+            if (author.id === e.target.value) {
+                console.log('its a match on ' + author.firstName + ' ' + author.lastName)
+                setAuthorName(author.firstName + ' ' + author.lastName)
+            }
+            else {
+                console.log('no match')
+            }
+        }
+    }
     console.log(data)
+    
     return (
         <div>
             <h2>New quote</h2>
@@ -41,7 +59,7 @@ export default function NewQuote() {
                     <label>
                         Author:
                     </label>
-                    <select name="authorId" className="bg-stone-700 rounded-sm">
+                    <select name="authorId" className="bg-stone-700 rounded-sm" onChange={onAuthorChange}>
                         {data.authors.map((author: any) => (
                             <option key={author.id}  value={author.id}>{author.firstName}</option>
                         ))}
@@ -68,9 +86,12 @@ export default function NewQuote() {
                         ))}
                     </select>
                 </div>
+                <div>
+                  <input type="hidden" name="authorName" value={authorName}/>
+                </div>
                 
                 <div>
-                    <button type="submit" className="px-4 py-2 bg-blue-400 text-white">Add Quote</button>
+                    <button type="submit" className="px-4 py-2 bg-blue-400 text-white rounded">Add Quote</button>
                 </div>
             </Form>
         </div>
