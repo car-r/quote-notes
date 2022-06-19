@@ -61,8 +61,8 @@ model Quote {
 
 model Author {
   id    String @id @default(cuid())
-  firstName String
-  lastName  String?
+  name String
+  imgUrl String
 
   quote Quote[]
   content Content[]
@@ -77,6 +77,8 @@ model Author {
 model Content {
   id    String @id @default(cuid())
   title String
+  authorName String
+  imgUrl String
 
   author Author @relation(fields: [authorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   authorId String
