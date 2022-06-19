@@ -15,7 +15,7 @@ export default function AuthorsIndex() {
             <div className="grid grid-cols-1 gap-4">
                 {authors.map((author: any) => (
                     <Link to={`/authors/${author.id}`} key={author.id}>
-                        {author.firstName}
+                        {author.name}
                     </Link>
                 ))}
             </div>
