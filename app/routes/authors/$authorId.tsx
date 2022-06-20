@@ -20,13 +20,12 @@ export default function AuthorDetail() {
     const quotes = data.quotes
     const content = data.content
     return (
-        <div>
-            <h2>{data.author.firstName} {data.author.lastName}</h2>
+        <div className="flex flex-col pt-10">
+            <h3 className="text-xl pb-6">{data.author.name}</h3>
             {data.quotes.map((quote: any) => (
                 <Link to={`/quotes/${quote.id}`} key={quote.id}>
                     <div className="p-4 mb-6 border border-stone-800 bg-stone-800 rounded-md text-stone-300/60 hover:border-blue-400">
                         <p className="text-xl text-center pb-6 italic font-semibold">"{quote.body}"</p>
-                        <p className="font-light"><Link to={`/authors/${quote.authorId}`}>{quote.authorName}</Link></p>
                     </div>
                 </Link>
             ))}    

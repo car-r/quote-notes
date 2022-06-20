@@ -103,6 +103,7 @@ async function seed() {
   await prisma.quote.create({
     data: {
       body: "Most people fail to realize that in life, it's not how much money your make. It's how much money you keep.",
+      authorName: 'Robert Kiyosaki',
       userId: user.id,
       authorId: author.id,
       contentId: content.id

@@ -18,13 +18,14 @@ export default function QuotesIndex() {
     return (
         <>
             <div className="flex flex-col pt-10">
-                <h3 className="text-xl">Quotes</h3>
+                <h3 className="text-xl pb-6">Saved Quotes</h3>
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
                     {data.quotes.map((quote: any) => (
                         <Link to={`/quotes/${quote.id}`} key={quote.id}
                             className="p-4 border border-stone-800 bg-stone-800 rounded-md text-stone-300/60 hover:border-blue-400"
                         >
-                            {quote.body}
+                            <p className="text-xl text-center pb-6 italic font-semibold">"{quote.body}"</p>
+                            <p className="font-light"><Link to={`/authors/${quote.authorId}`}>{quote.authorName}</Link></p>
                         </Link>))
                     }
                 </div>
