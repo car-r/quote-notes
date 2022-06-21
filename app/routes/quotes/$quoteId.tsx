@@ -22,28 +22,48 @@ export const action =async ({ request, params }: any) => {
         await prisma.quote.delete({ where: { id: params.quoteId}})
         return redirect('/quotes')
     }
+
+    // add note Action
+    // if(form.get('_method') !== 'delete') {
+    //     await prisma.quoteNote.create({ where: {quoteId: params.quoteId}})
+    //     return redirect(`/quotes/${params.quoteId}`)
+    // }
 }
 
 export default function QuoteDetail() {
     const quote = useLoaderData()
     console.log(quote)
     return (
-        <div>
-            <h2>Quote Detail</h2>
-            <div className="p-4 mb-6 border border-stone-800 bg-stone-800 rounded-md text-stone-300/60">
-                <p className="text-xl text-center pb-6 italic font-semibold">"{quote.quote.body}"</p>
-                <p className="font-light"><Link to={`/authors/${quote.author.id}`}>{quote.quote.authorName}</Link>, <span className="font-thin"><Link to={`/content/${quote.content.id}`}>{quote.content.title}</Link></span></p>
+        <div className="flex flex-col pt-10 max-w-4xl">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="md:col-span-2">
+                    <div className="p-4 mb-4 border border-stone-800 bg-stone-800 rounded-md text-stone-300/60">
+                        <p className="text-xl text-center pb-6 italic font-semibold">"{quote.quote.body}"</p>
+                        <p className="font-light"><Link to={`/authors/${quote.author.id}`}>{quote.quote.authorName}</Link>, <span className="font-thin"><Link to={`/content/${quote.content.id}`}>{quote.content.title}</Link></span></p>
+                    </div>
+                    <Form method="post">
+                        <button
+                            name="_method"
+                            value="delete"
+                            className="px-4 py-2 bg-blue-400 rounded text-white hover:bg-blue-600"
+                        >
+                            Delete
+                        </button>
+                    </Form>
+                </div>
+                <div className="">
+                    <Form className="flex flex-col" method="post" name="_method">
+                        <label>
+                        <textarea
+                            name="body"
+                            rows={4}
+                            className="w-full mb-4 text-stone-800 rounded-md border-2 border-stone-800 py-2 px-3 text-lg"
+                        />
+                        </label>
+                        <button className="px-4 py-2 bg-blue-400 rounded text-white hover:bg-blue-600">Add Note</button>
+                    </Form>
+                </div>
             </div>
-            
-            <Form method="post">
-                <button
-                    name="_method"
-                    value="delete"
-                    className="px-4 py-2 bg-blue-400 rounded text-white hover:bg-blue-600"
-                >
-                    Delete
-                </button>
-            </Form>
         </div>
     )
 }
