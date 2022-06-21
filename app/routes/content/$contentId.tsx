@@ -17,8 +17,8 @@ export default function AuthorDetail() {
     const content = data.content
     console.log(data)
     return (
-        <div>
-            <h2 className="text-stone-300/60 text-xl font-bold">{data.content.title} Quotes</h2>
+        <div className="flex flex-col pt-10">
+            <h2 className="text-stone-300/60 text-xl pb-6">{data.content.title} Quotes</h2>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
             {data.quotes.map((quote: any) => (
                 <Link to={`/quotes/${quote.id}`} key={quote.id}>
