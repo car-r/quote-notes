@@ -46,7 +46,7 @@ export default function QuoteDetail() {
     console.log(quote)
     return (
         <div className="flex flex-col pt-10 max-w-4xl">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
                 <div className="md:col-span-2">
                     <div className="p-4 mb-4 border border-stone-800 bg-stone-800 rounded-md text-stone-300/60">
                         <p className="text-xl text-center pb-6 italic font-semibold">"{quote.quote.body}"</p>
@@ -75,11 +75,18 @@ export default function QuoteDetail() {
                     </Form>
                 </div>
             </div>
+            <div>
+            <h3 className="text-xl pb-6">Quote Notes</h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                
                 {quote.notes.map((note: any) => (
-                    <div>{note.body}</div>
+                    <div key={note.id} className='p-4 bg-stone-600 text-stone-100'>
+                        {note.body}
+                    </div>
                 ))}
             </div>
+            </div>
+            
         </div>
     )
 }
