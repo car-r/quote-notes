@@ -18,8 +18,9 @@ export default function Index() {
    <div className="flex flex-col pt-10">
       <div className="pb-10">
         <h3 className="text-xl pb-6">Your Quotes</h3>
-        <div className="flex gap-4 scroll-auto overflow-auto scrollbar-hide snap-x snap-mandatory">
+        <div className="flex gap-4 whitespace-nowrap overflow-x-scroll scrollbar-hide snap-x snap-mandatory">
           {data.quotes.map((quote: any) => (
+            
             <Link to={`/quotes/${quote.id}`} key={quote.id}
             className="p-4 border border-stone-800 bg-stone-800 rounded-md text-stone-300/60 hover:border-blue-400 w-56"
             >

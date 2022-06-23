@@ -61,7 +61,7 @@ export default function NewQuote() {
                     </label>
                     <select name="authorId" className="bg-stone-700 rounded-sm" onChange={onAuthorChange}>
                         {data.authors.map((author: any) => (
-                            <option key={author.id}  value={author.id}>{author.firstName}</option>
+                            <option key={author.id}  value={author.id}>{author.name}</option>
                         ))}
                     </select>
                 </div>
