@@ -1,5 +1,6 @@
 import { Form, Link, useLoaderData } from "@remix-run/react";
 import { redirect } from "@remix-run/server-runtime";
+import QuoteNote from "~/components/QuoteNote";
 import { prisma } from "~/db.server";
 
 export const loader = async ({params}: any) => {
@@ -76,12 +77,13 @@ export default function QuoteDetail() {
                 </div>
             </div>
             <div>
-            <h3 className="text-xl pb-6">Quote Notes</h3>
+            <div className="py-6">
+                <h3 className="text-xl tracking-wide font-semibold pb-2 border-stone-800 border-b-2">Quote Notes</h3>
+            </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                
                 {quote.notes.map((note: any) => (
-                    <div key={note.id} className='p-4 bg-stone-600 text-stone-100'>
-                        {note.body}
+                    <div key={note.id} >
+                        <QuoteNote note={note}/>
                     </div>
                 ))}
             </div>
