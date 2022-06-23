@@ -22,6 +22,11 @@ export default function Sidebar() {
                         Authors
                     </li>
                 </Link>
+                <Link to='/quoteNotes'>
+                    <li className="py-1 px-3 border border-stone-900 rounded-md hover:border-blue-400">
+                        Notes
+                    </li>
+                </Link>
             </ul>
         </div>
 )
