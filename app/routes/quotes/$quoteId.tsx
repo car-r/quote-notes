@@ -21,7 +21,7 @@ export const loader = async ({params}: any) => {
     return {author, quote, content, notes}
 }
 
-export const action =async ({ request, params }: any) => {
+export const action = async ({ request, params }: any) => {
     const form = await request.formData()
     const formBody = form.get('body')
     console.log(Object.fromEntries(form))

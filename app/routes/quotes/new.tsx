@@ -26,15 +26,15 @@ export const loader = async () => {
 
 export default function NewQuote() {
     const data = useLoaderData()
-    const [authorName, setAuthorName] = useState(data.authors[0].firstName + ' ' + data.authors[0].lastName)
+    const [authorName, setAuthorName] = useState(data.authors[0].name)
 
     function onAuthorChange(e: any) {
         console.log(e.target.value)
         console.log(data.authors.length)
         for (const author of data.authors) {
             if (author.id === e.target.value) {
-                console.log('its a match on ' + author.firstName + ' ' + author.lastName)
-                setAuthorName(author.firstName + ' ' + author.lastName)
+                console.log('its a match on ' + author.name)
+                setAuthorName(author.name)
             }
             else {
                 console.log('no match')
