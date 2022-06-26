@@ -3,21 +3,23 @@ import { redirect } from "@remix-run/server-runtime"
 import QuoteNote from "~/components/QuoteNote"
 import { prisma } from "~/db.server"
 
-export const loader =async ({params}: any) => {
+export const loader = async ({params}: any) => {
     const data = await prisma.quoteNote.findUnique({
         where: {id: params.quoteNoteId}
     })
     return data
 }
 
-export const action =async ({ request, params }: any) => {
+export const action = async ({ request, params }: any) => {
     const note = await request.formData()
+    const userId = 'cl4kuy4wu0009lnmfgbvhhww8'
+
 
     if (note.get('_method') === 'delete') {
         await prisma.quoteNote.delete({ 
-            where: { id: params.quoteNoteId}
+            where: { id: params.quoteNoteId }
         })
-        return redirect(`/quotes/${params.quoteId}`)
+        return redirect(`/quoteNotes`)
     }
 }
 
