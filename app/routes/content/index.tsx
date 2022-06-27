@@ -10,8 +10,12 @@ export default function ContentIndex() {
     const data = useLoaderData()
     console.log(data)
     return (
-        <div className="flex flex-col pt-10">
-            <h3 className="text-xl pb-6">Saved Content</h3>
+        <div className="flex flex-col pt-10 max-w-4xl">
+            <div className="pb-6">
+                <h3 className="text-2xl tracking-wide font-semibold pb-2 border-stone-800 border-b-2">
+                Your Content
+                </h3>
+            </div>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
                 {data.map((content: any) => (
                     <Link to={`/content/${content.id}`} key={content.id}

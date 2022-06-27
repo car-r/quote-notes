@@ -4,7 +4,7 @@ export default function Sidebar() {
     return (
         <div className="hidden md:block pr-10 py-4">
             <Link to={'/'}>
-                <p className="text-2xl font-extrabold py-2">QuoteNotes</p>
+                <p className="text-2xl font-extrabold py-4 mr-2">QuoteNotes</p>
             </Link>
             <ul className="flex flex-col gap-4">
                 <Link to='/quotes'>

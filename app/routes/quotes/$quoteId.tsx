@@ -78,7 +78,7 @@ export default function QuoteDetail() {
             </div>
             <div>
             <div className="py-6">
-                <h3 className="text-xl tracking-wide font-semibold pb-2 border-stone-800 border-b-2">Quote Notes</h3>
+                <h3 className="text-xl tracking-wide font-semibold pb-2 border-stone-800 border-b-2">Notes</h3>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {quote.notes.map((note: any) => (
