@@ -44,7 +44,7 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body className="h-full bg-stone-900">
+      <body className="h-full bg-stone-900 flex mx-auto ">
         <Layout>
           <Outlet />
         </Layout>

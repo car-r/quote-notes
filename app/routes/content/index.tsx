@@ -1,4 +1,5 @@
 import { Link, useLoaderData } from "@remix-run/react"
+import AddContentCard from "~/components/AddContentCard"
 import { prisma } from "~/db.server"
 
 export const loader = async () => {
@@ -17,23 +18,29 @@ export default function ContentIndex() {
                 </h3>
             </div>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+                <Link to={`/content/new`}
+                    className="p-4 border border-stone-800 bg-stone-800 rounded-md text-stone-300/60 hover:border-blue-400"
+                    >
+                    <AddContentCard />
+                </Link>
+                
                 {data.map((content: any) => (
                     <Link to={`/content/${content.id}`} key={content.id}
                     className="p-4 border border-stone-800 bg-stone-800 rounded-md text-stone-300/60 hover:border-blue-400"
                     >
-                    <div className="pb-2">
-                        <img src={content.imgUrl} alt={content.title} 
-                            className="object-fit max-w-96"
-                        />
-                    </div>
-                    <div>
-                        <p className="font-bold">
-                            {content.title}
-                        </p>     
-                        <p className="text-sm font-thin tracking-wider">
-                            {content.authorName}
-                        </p>               
-                    </div>
+                        <div className="pb-2">
+                            <img src={content.imgUrl} alt={content.title} 
+                                className="object-fit max-w-96"
+                            />
+                        </div>
+                        <div>
+                            <p className="font-bold">
+                                {content.title}
+                            </p>     
+                            <p className="text-sm font-thin tracking-wider">
+                                {content.authorName}
+                            </p>               
+                        </div>
                     </Link>
                 ))}
             </div>

@@ -5,11 +5,11 @@ import { useState } from "react"
 
 export const action = async ({request}: any) => {
     const form = await request.formData()
-    const firstName = form.get('firstName')
-    const lastName = form.get('lastName')
-    const userId = 'cl3s9mghr000235mfaooaaqcb'
+    const name = form.get('name')
+    const imgUrl = form.get('imgUrl')
+    const userId = 'cl4kuy4wu0009lnmfgbvhhww8'
 
-    const fields = { firstName, lastName, userId }
+    const fields = { name, imgUrl, userId }
 
     const author = await prisma.author.create({ data: fields})
     return redirect(`/authors/${author.id}`)
@@ -31,14 +31,14 @@ export default function NewAuthor() {
                         <label>
                             Author Name:
                         </label>
-                        <input type="text" name="firstName" className="px-2 border border-stone-800 bg-stone-700 rounded"/>
+                        <input type="text" name="name" className="px-2 border border-stone-800 bg-stone-700 rounded"/>
                     </div>
                     
                     <div className="flex flex-col gap-1">
                         <label>
                             Image URL:
                         </label>
-                        <input type="text" name="firstName" className="px-2 border border-stone-800 bg-stone-700 rounded"/>
+                        <input type="text" name="imgUrl" className="px-2 border border-stone-800 bg-stone-700 rounded"/>
                     </div>
                 </div>           
                 <div>
