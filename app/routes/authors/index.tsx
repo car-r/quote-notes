@@ -1,5 +1,6 @@
 
 import { Form, Link, useLoaderData } from "@remix-run/react"
+import AddAuthorCard from "~/components/AddAuthorCard"
 import AuthorCard from "~/components/AuthorCard"
 import { prisma } from "~/db.server"
 
@@ -18,7 +19,10 @@ export default function AuthorsIndex() {
                 Your Authors
                 </h3>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <Link to="/authors/new" className="">
+                <AddAuthorCard />           
+            </Link>
                 {authors.map((author: any) => (
                     <Link to={`/authors/${author.id}`} key={author.id} className="">
                         <AuthorCard author={author}/>
