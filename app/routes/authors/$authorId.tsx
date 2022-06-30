@@ -20,7 +20,7 @@ export default function AuthorDetail() {
     const quotes = data.quotes
     const content = data.content
     return (
-        <div className="flex flex-col pt-10">
+        <div className="flex flex-col pt-10 max-w-4xl">
             <h3 className="text-xl pb-6">{data.author.name}</h3>
             <div className="mb-8">
                 <h4 className="font-bold tracking-wider mb-2">Content</h4>
