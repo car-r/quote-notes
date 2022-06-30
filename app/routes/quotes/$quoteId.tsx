@@ -16,6 +16,11 @@ export const loader = async ({params}: any) => {
     })
 
     const notes = await prisma.quoteNote.findMany({
+        orderBy: [
+            {
+                createdAt: 'desc',
+            },
+        ],
         where: {quoteId: params.quoteId}
     })
     return {author, quote, content, notes}
@@ -44,6 +49,7 @@ export const action = async ({ request, params }: any) => {
 
 export default function QuoteDetail() {
     const quote = useLoaderData()
+    const notes = quote.notes
     console.log(quote)
     return (
         <div className="flex flex-col pt-10 max-w-4xl">
@@ -77,16 +83,18 @@ export default function QuoteDetail() {
                 </div>
             </div>
             <div>
-            <div className="py-6">
-                <h3 className="text-xl tracking-wide font-semibold pb-2 border-stone-800 border-b-2">Notes</h3>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {quote.notes.map((note: any) => (
-                    <div key={note.id} >
-                        <QuoteNote note={note}/>
-                    </div>
-                ))}
-            </div>
+                <div className="py-6">
+                    <h3 className="text-xl tracking-wide font-semibold pb-2 border-stone-800 border-b-2">
+                        Notes
+                    </h3>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    {quote.notes.map((note: any) => (
+                        <div key={note.id} >
+                            <QuoteNote note={note}/>
+                        </div>
+                    ))}
+                </div>
             </div>
             
         </div>
