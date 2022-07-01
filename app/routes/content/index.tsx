@@ -19,7 +19,7 @@ export default function ContentIndex() {
             </div>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
                 <Link to={`/content/new`}
-                    className="p-4 border border-stone-800 bg-stone-700 outline-dashed hover:outline-dashed-blue-400 rounded-md text-stone-300/60"
+                    className="p-4 border border-stone-800 bg-stone-700 outline-dashed rounded-md text-stone-300/60"
                     >
                     <AddContentCard />
                 </Link>
