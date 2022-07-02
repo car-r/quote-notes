@@ -71,7 +71,7 @@ export default function QuotesIndex() {
                                     </div>
                                 </Form>
                                 <Link to={`/quotes/${quote.id}`}>
-                                    <div className="flex flex-col h-5/6 ">
+                                    <div className="flex flex-col h-5/6 justify-center">
                                         <p className="text-xl text-center pb-6 italic font-semibold">"{quote.body}"</p>
                                         <p className="font-light mt-auto"><Link to={`/authors/${quote.authorId}`}>{quote.authorName}</Link></p>
                                     </div>
