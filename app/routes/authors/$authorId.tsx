@@ -1,4 +1,5 @@
 import { useLoaderData, Link } from "@remix-run/react"
+import AuthorRouteAuthorCard from "~/components/AuthorRouteAuthorCard"
 import { prisma } from "~/db.server"
 
 export const loader = async ({params}: any) => {
@@ -6,24 +7,36 @@ export const loader = async ({params}: any) => {
         where: { id: params.authorId }
     })
     const quotes = await prisma.quote.findMany({
-        where: { authorId: params.authorId}
+        where: { authorId: params.authorId }
+    })
+    const favoriteQuotes = await prisma.quote.findMany({
+        where: { authorId: params.authorId, isFavorited: {equals: true} }
     })
     const content = await prisma.content.findMany({
         where: { authorId: params.authorId}
     })
-    return {author, quotes, content}
+    return {author, quotes, favoriteQuotes, content}
 }
 
 export default function AuthorDetail() {
     const data = useLoaderData()
     console.log(data)
-    const quotes = data.quotes
+    const quotes = data.favoriteQuotes
     const content = data.content
     return (
         <div className="flex flex-col pt-10 max-w-4xl">
-            <h3 className="text-xl pb-6">{data.author.name}</h3>
+            <div className="pb-6">
+                <h3 className="text-2xl tracking-wide font-semibold pb-2 border-stone-800 border-b-2">
+                    {data.author.name}
+                </h3>
+            </div>
+            <AuthorRouteAuthorCard author={data}/>
             <div className="mb-8">
-                <h4 className="font-bold tracking-wider mb-2">Content</h4>
+                <div className="py-6">
+                    <h3 className="text-xl tracking-wide font-semibold">
+                        Content
+                    </h3>
+                </div>
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 ">
                 {data.content.map((content: any) => (
                     <Link to={`/content/${content.id}`} key={content.id}
@@ -47,12 +60,16 @@ export default function AuthorDetail() {
                 </div>
             </div>
             <div className="flex flex-col">
-                <h4 className="font-bold tracking-wider mb-2">Quotes</h4>
+                <div className="py-6">
+                    <h3 className="text-xl tracking-wide font-semibold">
+                        Favorite Quotes
+                    </h3>
+                </div>
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
                     {data.quotes.map((quote: any) => (
                         <Link to={`/quotes/${quote.id}`} key={quote.id}>
-                            <div className="p-4 mb-6 border border-stone-800 bg-stone-800 rounded-md text-stone-300/60 hover:border-blue-400">
-                                <p className="text-xl text-center pb-6 italic font-semibold">"{quote.body}"</p>
+                            <div className="p-4 border border-stone-800 bg-stone-800 rounded-md text-stone-300/60 hover:border-blue-400">
+                                <p className="text-xl text-center italic font-semibold">"{quote.body}"</p>
                             </div>
                         </Link>
                     ))}
