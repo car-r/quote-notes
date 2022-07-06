@@ -44,6 +44,7 @@ export default function AuthorDetail() {
                 </h3>
             </div>
             <div className="grid grid-cols-1 md:flex gap-6 max-w-4xl">
+                {data.quotes.length < 1 ? null : 
                 <div className="grid grid-cols-1 gap-4 md:gap-6 md:grid-cols-1 lg:grid-cols-2">
                     {data.quotes.map((quote: any) => (
                         <Link to={`/quotes/${quote.id}`} key={quote.id}>
@@ -53,7 +54,8 @@ export default function AuthorDetail() {
                             </div>
                         </Link>
                     ))}
-                </div>
+                    
+                </div>}
                 <div className="flex flex-col order-first md:order-last">
                     <Form method="post"
                         className="flex flex-col gap-4 border border-stone-800 bg-stone-800 p-4 rounded-md text-stone-300/60 font-light"
