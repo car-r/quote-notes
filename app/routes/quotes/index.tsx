@@ -4,14 +4,18 @@ import { useState } from "react";
 import AddQuoteCard from "~/components/AddQuoteCard";
 
 import { prisma } from "~/db.server";
+import { requireUserId } from "~/session.server";
 
-export const loader = async () => {
+export const loader = async ({request}: any) => {
+    const userId = await requireUserId(request);
     const quotes = await prisma.quote.findMany(
         {orderBy: [
             {
                 createdAt: 'desc',
             },
-        ],}
+        ],
+        where: {userId: userId}
+        }
     )
     const authors = await prisma.author.findMany()
     return {quotes, authors}
@@ -20,6 +24,7 @@ export const loader = async () => {
 export const action = async ({request}: any) => {
     const form = await request.formData()
     const id = form.get('id')
+    // const isFavorited = form.get('isFavorited')
     const stringIsFavorited = form.get('isFavorited')
     const isFavorited = JSON.parse(stringIsFavorited)
     console.log(id + isFavorited)
@@ -55,7 +60,7 @@ export default function QuotesIndex() {
                                         <div className="flex flex-col">
                                         <input type="hidden" name="id" value={quote.id}/>
                                         <input type="hidden" name="isFavorited" value={!quote.isFavorited}/>
-                                        {/* <input type="checkbox" name="isFavorited" onChange={() => toggleCheckbox(quote.isFavorited)} checked={favoriteState}/> */}
+                                        {/* <input type="checkbox" name="isFavorited" /> */}
                                             <button type="submit" className="">
                                                 {quote.isFavorited ? 
                                                     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
