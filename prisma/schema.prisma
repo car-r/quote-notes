@@ -53,6 +53,13 @@ model QuoteNote {
 
   quote Quote @relation(fields: [quoteId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   quoteId String
+
+  author Author @relation(fields: [authorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  authorId String 
+
+  content Content? @relation(fields: [contentId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  contentId String? 
+
 }
 
 model Quote {
@@ -84,6 +91,7 @@ model Author {
 
   quote Quote[]
   content Content[]
+  quoteNote QuoteNote[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -102,6 +110,8 @@ model Content {
   authorId String
 
   quote Quote[]
+  quoteNote QuoteNote[]
+
 
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   userId String

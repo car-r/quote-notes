@@ -29,8 +29,10 @@ export const loader = async ({params}: any) => {
 export const action = async ({ request, params }: any) => {
     const form = await request.formData()
     const formBody = form.get('body')
+    const authorId = form.get('authorId')
+    const contentId = form.get('contentId')
     console.log(Object.fromEntries(form))
-    const userId = 'cl4kuy4wu0009lnmfgbvhhww8'
+    const userId = 'cl5j0h3ey00090bmf1xn3f4vo'
 
     if(form.get('_method') === 'delete') {
         await prisma.quote.delete({ where: { id: params.quoteId}})
@@ -41,7 +43,7 @@ export const action = async ({ request, params }: any) => {
     if(form.get('_method') !== 'delete') {
         const body = formBody
         const quoteId = params.quoteId
-        const fields = {body, quoteId, userId}
+        const fields = { body, quoteId, userId, authorId, contentId}
         await prisma.quoteNote.create({ data: fields })
         return redirect(`/quotes/${params.quoteId}`)
     }
@@ -78,6 +80,8 @@ export default function QuoteDetail() {
                             className="w-full mb-4 text-stone-800 rounded-md border-2 border-stone-800 py-2 px-3 text-lg"
                         />
                         </label>
+                        <input type="hidden" name="authorId" value={quote.quote.authorId}/>
+                        <input type="hidden" name="contentId" value={quote.quote.contentId}/>
                         <button className="px-4 py-2 bg-blue-400 rounded text-white hover:bg-blue-600">Add Note</button>
                     </Form>
                 </div>
