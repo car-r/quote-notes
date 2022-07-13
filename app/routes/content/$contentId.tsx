@@ -43,26 +43,27 @@ export default function AuthorDetail() {
                 {data.content.title} Quotes
                 </h3>
             </div>
-            <div className="grid grid-cols-1 md:flex gap-6 max-w-4xl">
+            <div className="grid grid-cols-1 md:flex gap-6 max-w-6xl">
                 {data.quotes.length < 1 ? null : 
-                <div className="grid grid-cols-1 gap-4 md:gap-6 md:grid-cols-1 lg:grid-cols-2">
-                    {data.quotes.map((quote: any) => (
-                        <Link to={`/quotes/${quote.id}`} key={quote.id}>
-                            <div className="p-4  border border-stone-800 bg-stone-800 rounded-md text-stone-300/60 hover:border-blue-400">
-                                <p className="text-xl text-center pb-6 italic font-semibold">"{quote.body}"</p>
-                                <p className="font-light"><Link to={`/authors/${quote.authorId}`}>{quote.authorName}</Link>, <span className="font-thin"><Link to={`/content/${quote.contentId}`}>{content.title}</Link></span></p>
-                            </div>
-                        </Link>
-                    ))}
-                    
-                </div>}
+                    <div className="grid grid-cols-1 gap-4 md:gap-6 md:grid-cols-1 lg:grid-cols-2">
+                        {data.quotes.map((quote: any) => (
+                            <Link to={`/quotes/${quote.id}`} key={quote.id}>
+                                <div className="p-4  border border-stone-800 bg-stone-800 rounded-md text-stone-300/60 hover:border-blue-400">
+                                    <p className="text-xl text-center pb-6 italic font-semibold">"{quote.body}"</p>
+                                    <p className="font-light"><Link to={`/authors/${quote.authorId}`}>{quote.authorName}</Link>, <span className="font-thin"><Link to={`/content/${quote.contentId}`}>{content.title}</Link></span></p>
+                                </div>
+                            </Link>
+                        ))}
+                        
+                    </div>
+                }
                 <div className="flex flex-col order-first md:order-last">
                     <Form method="post"
                         className="flex flex-col gap-4 border border-stone-800 bg-stone-800 p-4 rounded-md text-stone-300/60 font-light"
                     >
                         <div className="flex flex-col">
                             <label>
-                                Quote:
+                                
                             </label>
                             <textarea
                             name="body"
@@ -81,10 +82,15 @@ export default function AuthorDetail() {
                         <input type="hidden" name="contentId" value={content.id}/>
                         </div>
                         <div className="hidden">
-                        <input type="hidden" name="userId" value='cl4kuy4wu0009lnmfgbvhhww8'/>
+                        <input type="hidden" name="userId" value='cl5j0h3ey00090bmf1xn3f4vo'/>
                         </div>
                         <div className="flex flex-col">
-                            <button type="submit" className="px-4 py-2 bg-blue-400 text-white rounded">Add Quote</button>
+                            <button type="submit" className="px-4 py-2 bg-blue-400 text-white rounded flex justify-center">
+                                Add Quote
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+                                </svg>
+                            </button>
                         </div>
                     </Form>
                 </div>

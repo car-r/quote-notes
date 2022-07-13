@@ -79,5 +79,6 @@ export default function AuthorDetail() {
                 </div>   
             </div> 
         </div>
+
     )
 }

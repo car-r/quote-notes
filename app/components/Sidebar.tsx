@@ -1,8 +1,8 @@
-import { Link } from "@remix-run/react";
+import { Form, Link } from "@remix-run/react";
 
 export default function Sidebar() {
     return (
-        <div className="hidden md:block pr-10 py-4">
+        <div className="hidden md:block md:w-52 pr-10 py-4">
             <Link to={'/'}>
                 <p className="text-2xl font-extrabold py-4 mr-2">QuoteNotes</p>
             </Link>
@@ -47,6 +47,19 @@ export default function Sidebar() {
                         </li>
                     </div>
                 </Link>
+                <Form action="/logout" method="post">
+                    <div className="flex py-1 px-3 border border-stone-900 rounded-md hover:border-blue-400">
+                        <button
+                            className="flex"
+                            type="submit"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                            </svg>
+                            Logout
+                        </button>
+                    </div>
+                </Form>
             </ul>
         </div>
 )
