@@ -15,7 +15,10 @@ export const loader = async ({params}: any) => {
     const content = await prisma.content.findMany({
         where: { authorId: params.authorId}
     })
-    return {author, quotes, favoriteQuotes, content}
+    const quoteNotes = await prisma.quoteNote.findMany({
+        where: { authorId: params.authorId}
+    })
+    return {author, quotes, favoriteQuotes, content, quoteNotes}
 }
 
 export default function AuthorDetail() {
