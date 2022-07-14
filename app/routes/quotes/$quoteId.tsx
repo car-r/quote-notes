@@ -94,9 +94,9 @@ export default function QuoteDetail() {
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     {quote.notes.map((note: any) => (
-                        <div key={note.id} >
+                        <Link to={`/quotenotes/${note.id}`} key={note.id} >
                             <QuoteNote note={note}/>
-                        </div>
+                        </Link>
                     ))}
                 </div>
             </div>

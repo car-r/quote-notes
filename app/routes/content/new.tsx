@@ -87,7 +87,7 @@ export default function NewContent(): JSX.Element {
                             </div>
                         </div>           
                         <div className="flex flex-col">
-                            <button type="submit" className="px-4 py-2 bg-blue-400 text-white rounded">Create Author</button>
+                            <button type="submit" className="px-4 py-2 bg-blue-400 text-white rounded">Add New Content</button>
                         </div>
                     </Form>
                 </div>
