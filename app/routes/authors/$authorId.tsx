@@ -10,7 +10,7 @@ export const loader = async ({params}: any) => {
         where: { authorId: params.authorId }
     })
     const favoriteQuotes = await prisma.quote.findMany({
-        where: { authorId: params.authorId, isFavorited: {equals: true} }
+        where: { authorId: params.authorId, isFavorited: {equals: "isFavorited"} }
     })
     const content = await prisma.content.findMany({
         where: { authorId: params.authorId}

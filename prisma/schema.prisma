@@ -69,7 +69,8 @@ model Quote {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   authorName String?
-  isFavorited Boolean @default(false)
+  // isFavorited Boolean @default(false)
+  isFavorited String @default("notFavorited")
 
   note QuoteNote[]
 

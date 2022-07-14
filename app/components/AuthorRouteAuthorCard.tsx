@@ -3,7 +3,7 @@ export default function AuthorRouteAuthorCard({author}: any) {
     const favorites = {title: 'Favorites', count: author.favoriteQuotes.length}
     const contents = {title: 'Content', count: author.content.length}
     const notes = {title: 'Notes', count: author.quoteNotes.length}
-    const detailArray = [contents, quotes, favorites, notes]
+    const detailArray = [contents, quotes, notes]
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="flex flex-col bg-stone-800 p-4 rounded-lg max-w-xl">
