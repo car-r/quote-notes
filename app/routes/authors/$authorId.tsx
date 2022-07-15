@@ -1,4 +1,6 @@
-import { useLoaderData, Link } from "@remix-run/react"
+import { useLoaderData, Link, useParams } from "@remix-run/react"
+import { redirect } from "@remix-run/server-runtime"
+import { useState } from "react"
 import AuthorRouteAuthorCard from "~/components/AuthorRouteAuthorCard"
 import { prisma } from "~/db.server"
 
@@ -21,6 +23,18 @@ export const loader = async ({params}: any) => {
     return {author, quotes, favoriteQuotes, content, quoteNotes}
 }
 
+export const action = async ({request, params}: any) => {
+    const form = await request.formData()
+    const name = form.get('name')
+    const imgUrl = form.get('imgUrl')
+    const userId = 'cl5j0h3ey00090bmf1xn3f4vo'
+
+    const fields = { name, imgUrl, userId }
+
+    const author = await prisma.author.update({where: {id: params.authorId}, data: fields})
+    return redirect(`/authors`)
+}
+
 export default function AuthorDetail() {
     const data = useLoaderData()
     console.log(data)
@@ -33,7 +47,7 @@ export default function AuthorDetail() {
                     {data.author.name}
                 </h3>
             </div>
-            <AuthorRouteAuthorCard author={data}/>
+            <AuthorRouteAuthorCard author={data} />
             <div className="mb-8">
                 <div className="py-6">
                     <h3 className="text-xl tracking-wide font-semibold">
