@@ -41,7 +41,7 @@ async function seed() {
     data: {
       name: "Robert Kiyosaki",
       imgUrl: 'https://www.richdad.com/MediaLibrary/RichDad/Images/about/robert-kiyosaki/robert-office-desk-chewing-glasses-01.jpg',
-      userId: user.id
+      userId: user2.id
     }
   })
 
@@ -52,13 +52,15 @@ async function seed() {
       userId: user2.id
     }
   })
-  // const author2 = await prisma.author.create({
-  //   data: {
-  //     firstName: "Avery",
-  //     lastName: "Carl",
-  //     userId: user2.id
-  //   }
-  // })
+
+  const author3 = await prisma.author.create({
+    data: {
+      name: "Andrew Hunt",
+      imgUrl: "https://m.media-amazon.com/images/S/amzn-author-media-prod/nss2a5eho42ssngjjdpfurn96u._SX450_.jpg",
+      userId: user.id
+    }
+  })
+
 
   const content = await prisma.content.create({
     data: {
@@ -80,11 +82,21 @@ async function seed() {
     }
   })
 
+  const content3 = await prisma.content.create({
+    data: {
+      title: "The Programmatic Programmer",
+      imgUrl: 'https://images-na.ssl-images-amazon.com/images/I/51W1sBPO7tL._SX380_BO1,204,203,200_.jpg',
+      authorId: author3.id,
+      authorName: 'Andrew Hunt',
+      userId: user.id
+    }
+  })
+
   await prisma.quote.create({
     data: {
       body: "Thinking that a job makes you secure is lying to yourself.",
       authorName: 'Robert Kiyosaki',
-      userId: user.id,
+      userId: user2.id,
       authorId: author.id,
       contentId: content.id
     }
@@ -94,7 +106,7 @@ async function seed() {
     data: {
       body: "A job is really a short-term solution to a long-term problem.",
       authorName: 'Robert Kiyosaki',
-      userId: user.id,
+      userId: user2.id,
       authorId: author.id,
       contentId: content.id
     }
@@ -104,7 +116,7 @@ async function seed() {
     data: {
       body: "Most people fail to realize that in life, it's not how much money your make. It's how much money you keep.",
       authorName: 'Robert Kiyosaki',
-      userId: user.id,
+      userId: user2.id,
       authorId: author.id,
       contentId: content.id
     }
@@ -114,7 +126,7 @@ async function seed() {
     data: {
       body: "Rich people acquire assets. The poor and middle class acquire liabilities they think are assets.",
       authorName: 'Robert Kiyosaki',
-      userId: user.id,
+      userId: user2.id,
       authorId: author.id,
       contentId: content.id
     }
@@ -124,7 +136,7 @@ async function seed() {
     data: {
       body: "An asset puts money in my pocket. A liability takes money out of my pocket.",
       authorName: 'Robert Kiyosaki',
-      userId: user.id,
+      userId: user2.id,
       authorId: author.id,
       contentId: content.id
     }
@@ -134,7 +146,7 @@ async function seed() {
     data: {
       body: "An intelligent person hires people who are more intelligent than he is.",
       authorName: 'Robert Kiyosaki',
-      userId: user.id,
+      userId: user2.id,
       authorId: author.id,
       contentId: content.id
     }
@@ -197,6 +209,66 @@ async function seed() {
       userId: user2.id,
       authorId: author2.id,
       contentId: content2.id
+    }
+  })
+
+  await prisma.quote.create({
+    data: {
+      body: "A pragmatic programmer takes charge of his or her own career, and isn't afraid to admit ignorance or error.",
+      authorName: 'Andrew Hunt',
+      userId: user.id,
+      authorId: author3.id,
+      contentId: content3.id
+    }
+  })
+
+  await prisma.quote.create({
+    data: {
+      body: "Before you approach anyone to tell them why something can't be done, is late, or is borken, stop and listen to yourself.",
+      authorName: 'Andrew Hunt',
+      userId: user.id,
+      authorId: author3.id,
+      contentId: content3.id
+    }
+  })
+
+  await prisma.quote.create({
+    data: {
+      body: "Don't leave 'broken windows' (bad designs, wrong decisions, or poor code) unrepaired. Fix each one as soon as it is discovered.",
+      authorName: 'Andrew Hunt',
+      userId: user.id,
+      authorId: author3.id,
+      contentId: content3.id
+    }
+  })
+
+  await prisma.quote.create({
+    data: {
+      body: "Systems drift from their specifications feature by feature, while patch after patch gets added to a piece of code until there's nothing of the original left.",
+      authorName: 'Andrew Hunt',
+      userId: user.id,
+      authorId: author3.id,
+      contentId: content3.id
+    }
+  })
+
+  await prisma.quote.create({
+    data: {
+      body: "Don't spoil a perfectly good program by overembellishment and over-refinement.",
+      authorName: 'Andrew Hunt',
+      userId: user.id,
+      authorId: author3.id,
+      contentId: content3.id
+    }
+  })
+
+  await prisma.quote.create({
+    data: {
+      body: "Learn at least one new language every year. Different languages solve the same problems in different ways.",
+      authorName: 'Andrew Hunt',
+      userId: user.id,
+      authorId: author3.id,
+      contentId: content3.id
     }
   })
 
