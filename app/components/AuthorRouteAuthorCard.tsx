@@ -1,5 +1,7 @@
-import { Link } from "@remix-run/react"
+import { Form, Link } from "@remix-run/react"
+import { useState } from "react"
 export default function AuthorRouteAuthorCard({author}: any) {
+    const [showEditAuthor, setShowEditAuthor] = useState(false)
     const quotes = {title: 'Quotes', count: author.quotes.length}
     const favorites = {title: 'Favorites', count: author.favoriteQuotes.length}
     const contents = {title: 'Content', count: author.content.length}
@@ -10,16 +12,54 @@ export default function AuthorRouteAuthorCard({author}: any) {
             <div className="flex flex-col p-4 rounded-lg max-w-xl items-center">
                 <img src={author.author.imgUrl} className="w-72 h-72 object-cover max-w-72 rounded-full" alt={author.name}/>
             </div>
-            <div className="flex flex-col  p-4 rounded-lg max-w-3xl">
-                <div className="mb-4">
-                    {detailArray.map((detail) => (
-                        <div key={detail.title} className="flex flex-col py-3 border-b border-stone-700 w-full last:border-0 ">
-                            <p className="text-sm font-semibold tracking-wider uppercase">{detail.title}</p>
-                            <p><span className="font-thin text-2xl">{detail.count}</span></p>
+            <div className="flex flex-col p-4 rounded-lg max-w-3xl">
+                {showEditAuthor ? 
+                <div className="flex flex-col gap-4">
+                    
+                    <Form method="post"
+                        className="flex flex-col gap-6 border border-stone-800 bg-stone-800 rounded-md text-stone-300/60 font-light mt-2"
+                    >
+                        <div className="flex flex-col gap-4">
+                            <div className="flex flex-col gap-1">
+                                <label>
+                                    Author Name:
+                                </label>
+                                <input type="text" name="name" className="px-2 border border-stone-800 bg-stone-700 rounded" defaultValue={author.author.name}/>
+                            </div>
+                            
+                            <div className="flex flex-col gap-1">
+                                <label>
+                                    Image URL:
+                                </label>
+                                <input type="text" name="imgUrl" className="px-2 border border-stone-800 bg-stone-700 rounded" defaultValue={author.author.imgUrl}/>
+                            </div>
+                        </div>           
+                        <div className="flex justify-between">
+                            <button type="submit" className="px-6 py-2 bg-blue-400 text-white rounded">Update</button> 
+                            <button type="submit" name="_method" value="delete" className="px-6 py-2 border border-red-500 text-white rounded hover:bg-red-700">Delete</button>
                         </div>
-                    ))}
+                    </Form>
+                    <div className="border-2 border-stone-600  py-2 px-3 mt-5 rounded cursor-pointer hover:bg-stone-600" onClick={() => setShowEditAuthor(false)}>
+                        <p className="text-center">Show Author Stats</p>
+                    </div>
+                </div> 
+                : 
+                <div>
+                    <div className="mb-4">
+                        {detailArray.map((detail) => (
+                            <div key={detail.title} className="flex flex-col py-3 border-b border-stone-700 w-full last:border-0 ">
+                                <p className="text-sm font-semibold tracking-wider uppercase">{detail.title}</p>
+                                <p><span className="font-thin text-2xl">{detail.count}</span></p>
+                            </div>
+                        ))}
+                    </div>
+                    <div onClick={() => setShowEditAuthor(!showEditAuthor)} 
+                        className="px-4 py-2 bg-blue-400 text-white rounded text-center cursor-pointer">
+                        Edit Author
+                    </div>
                 </div>
-                <Link to={`/authors/${author.author.id}/edit`} className="px-4 py-2 bg-blue-400 text-white rounded text-center">Edit Author</Link>
+                }
+                {/* <Link to={`/authors/${author.author.id}/edit`} className="px-4 py-2 bg-blue-400 text-white rounded text-center">Edit Author</Link> */}
             </div>
         </div>
     )
