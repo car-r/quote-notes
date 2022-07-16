@@ -1,6 +1,7 @@
 import { Form, Link, useLoaderData } from "@remix-run/react"
 import { redirect } from "@remix-run/server-runtime"
 import QuoteNote from "~/components/QuoteNote"
+import QuoteNoteDeleteCard from "~/components/QuoteNoteDeleteCard"
 import { prisma } from "~/db.server"
 
 export const loader = async ({params}: any) => {
@@ -47,7 +48,8 @@ export default function QuoteNoteId() {
                             <p className="font-light"><Link to={`/authors/${data.quote.authorId}`}>{data.quote.authorName}</Link></p>
                         </div>
                     </Link>
-                    <div className="flex flex-col gap-1 bg-stone-800 p-4 rounded-lg max-w-2xl">
+                    <QuoteNoteDeleteCard quoteNote={data}/>
+                    {/* <div className="flex flex-col gap-1 bg-stone-800 p-4 rounded-lg max-w-2xl">
                         <div className="flex flex-col py-3 border-b border-stone-700 w-full">
                             <p className="text-sm font-semibold tracking-wider uppercase">Note ID: </p>
                             <p className="truncate ..."><span className="font-thin text-lg">{data.data.id}</span></p>
@@ -70,7 +72,7 @@ export default function QuoteNoteId() {
                                 </button>
                             </Form>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </div>
