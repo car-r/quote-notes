@@ -1,6 +1,7 @@
 import { Form, Link, useLoaderData } from "@remix-run/react";
 import { redirect } from "@remix-run/server-runtime";
 import QuoteDetailCard from "~/components/QuoteDetailCard";
+import QuoteEditCard from "~/components/QuoteEditCard";
 import QuoteNote from "~/components/QuoteNote";
 import { prisma } from "~/db.server";
 
@@ -59,7 +60,8 @@ export default function QuoteDetail() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
                 <QuoteDetailCard quote={quote}/>
                 <div className="">
-                    <div className="flex flex-col gap-1 bg-stone-800 p-4 rounded-lg max-w-3xl mb-4">
+                    <QuoteEditCard quote={quote}/>
+                    {/* <div className="flex flex-col gap-1 bg-stone-800 p-4 rounded-lg max-w-3xl mb-4">
                         <div className="flex flex-col py-3 border-b border-stone-700 w-full">
                             <p className="text-sm font-semibold tracking-wider uppercase">Quote ID: </p>
                             <p className="truncate ..."><span className="font-thin text-lg truncate">{quote.quote.id}</span></p>
@@ -82,7 +84,7 @@ export default function QuoteDetail() {
                                 </button>
                             </Form>
                         </div>
-                    </div>
+                    </div> */}
                     <Form className="flex flex-col" method="post" name="_method">
                         <label>
                         <textarea
