@@ -4,6 +4,7 @@ import AddNoteCard from "~/components/AddNoteCard";
 import QuoteDetailCard from "~/components/QuoteDetailCard";
 import QuoteEditCard from "~/components/QuoteEditCard";
 import QuoteNote from "~/components/QuoteNote";
+import QuoteNoteGrid from "~/components/QuoteNoteGrid";
 import { prisma } from "~/db.server";
 
 export const loader = async ({params}: any) => {
@@ -63,18 +64,6 @@ export default function QuoteDetail() {
                 <div className="">
                     <QuoteEditCard quote={quote}/>
                     <AddNoteCard quote={quote}/>
-                    {/* <Form className="flex flex-col" method="post" name="_method">
-                        <label>
-                        <textarea
-                            name="body"
-                            rows={4}
-                            className="w-full mb-4 text-stone-800 rounded-md border-2 border-stone-800 py-2 px-3 text-lg"
-                        />
-                        </label>
-                        <input type="hidden" name="authorId" value={quote.quote.authorId}/>
-                        <input type="hidden" name="contentId" value={quote.quote.contentId}/>
-                        <button className="px-4 py-2 bg-blue-400 rounded text-white hover:bg-blue-600">Add Note</button>
-                    </Form> */}
                 </div>
             </div>
             <div>
@@ -83,15 +72,8 @@ export default function QuoteDetail() {
                         Notes
                     </h3>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    {quote.notes.map((note: any) => (
-                        <Link to={`/quotenotes/${note.id}`} key={note.id} >
-                            <QuoteNote note={note}/>
-                        </Link>
-                    ))}
-                </div>
+                <QuoteNoteGrid quote={quote}/>
             </div>
-            
         </div>
     )
 }
