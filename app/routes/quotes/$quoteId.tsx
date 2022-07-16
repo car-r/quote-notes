@@ -1,5 +1,6 @@
 import { Form, Link, useLoaderData } from "@remix-run/react";
 import { redirect } from "@remix-run/server-runtime";
+import QuoteDetailCard from "~/components/QuoteDetailCard";
 import QuoteNote from "~/components/QuoteNote";
 import { prisma } from "~/db.server";
 
@@ -56,23 +57,9 @@ export default function QuoteDetail() {
     return (
         <div className="flex flex-col pt-10 max-w-4xl">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-                <div className="md:col-span-2">
-                    <div className="p-4 mb-4 border border-stone-800 bg-stone-800 rounded-md text-stone-300/60">
-                        <p className="text-xl text-center pb-6 italic font-semibold">"{quote.quote.body}"</p>
-                        <p className="font-light"><Link to={`/authors/${quote.author.id}`}>{quote.quote.authorName}</Link>, <span className="font-thin"><Link to={`/content/${quote.content.id}`}>{quote.content.title}</Link></span></p>
-                    </div>
-                    {/* <Form method="post">
-                        <button
-                            name="_method"
-                            value="delete"
-                            className="px-4 py-2 bg-blue-400 rounded text-white hover:bg-blue-600"
-                        >
-                            Delete
-                        </button>
-                    </Form> */}
-                </div>
+                <QuoteDetailCard quote={quote}/>
                 <div className="">
-                <div className="flex flex-col gap-1 bg-stone-800 p-4 rounded-lg max-w-3xl mb-4">
+                    <div className="flex flex-col gap-1 bg-stone-800 p-4 rounded-lg max-w-3xl mb-4">
                         <div className="flex flex-col py-3 border-b border-stone-700 w-full">
                             <p className="text-sm font-semibold tracking-wider uppercase">Quote ID: </p>
                             <p className="truncate ..."><span className="font-thin text-lg truncate">{quote.quote.id}</span></p>
