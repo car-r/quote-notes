@@ -1,6 +1,7 @@
 import { Form, Outlet, useLoaderData } from "@remix-run/react"
 import { Link } from "@remix-run/react"
 import { redirect } from "@remix-run/server-runtime"
+import PageTitle from "~/components/PageTitle"
 import { prisma } from "~/db.server"
 
 export const loader = async ({params}: any) => {
@@ -38,11 +39,7 @@ export default function AuthorDetail() {
     console.log(data)
     return (
         <div className="flex flex-col pt-10">
-            <div className="pb-6">
-                <h3 className="text-2xl tracking-wide font-semibold pb-2 border-stone-800 border-b-2">
-                {data.content.title} Quotes
-                </h3>
-            </div>
+            <PageTitle children={`${data.content.title} Quotes`}/>
             <div className="grid grid-cols-1 md:flex gap-6 max-w-6xl">
                 {data.quotes.length < 1 ? null : 
                     <div className="grid grid-cols-1 gap-4 md:gap-6 md:grid-cols-1 lg:grid-cols-2">
