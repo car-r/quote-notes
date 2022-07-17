@@ -1,4 +1,4 @@
-import { Form } from "@remix-run/react";
+import { Form, useActionData } from "@remix-run/react";
 import { redirect } from "@remix-run/server-runtime";
 import { prisma } from "~/db.server"
 import { useState } from "react"
@@ -10,6 +10,34 @@ export const action = async ({request}: any) => {
     const imgUrl = form.get('imgUrl')
     const userId = 'cl5j0h3ey00090bmf1xn3f4vo'
 
+    const errors = {
+        name: '',
+        imgUrl: ''
+    }
+
+    function checkAuthorName(name: any) {
+        if(!name || name.length < 3) {
+            return errors.name = `Author name too short`
+        }
+    }
+
+    checkAuthorName(name)
+
+    const isValidImageUrl = new RegExp('(jpe?g|png|gif|bmp)$')
+
+    const validateImageUrl = (value: string) => {
+        if (!isValidImageUrl.test(value)) {
+            errors.imgUrl = `Not valid Img URL`
+        }
+    }
+
+    validateImageUrl(imgUrl)
+
+    if (errors.name) {
+        const values = Object.fromEntries(form)
+        return { errors, values }
+    }
+
     const fields = { name, imgUrl, userId }
 
     const author = await prisma.author.create({ data: fields})
@@ -17,6 +45,8 @@ export const action = async ({request}: any) => {
 }
 
 export default function NewAuthor() {
+    const actionData = useActionData()
+    console.log(actionData)
     return (
         <div className="flex flex-col pt-10 md:max-w-4xl pb-6">
             <div className="flex flex-col w-full md:grid md:grid-cols-4">
@@ -26,29 +56,7 @@ export default function NewAuthor() {
                     </h3>
                 </div>
                 <div className="col-span-1">
-                    <NewAuthorCard />
-                    {/* <Form method="post"
-                        className="flex flex-col sm:w-96 gap-4 border border-stone-800 bg-stone-800 p-4 rounded-md text-stone-300/60 font-light"
-                    >
-                        <div className="flex flex-col gap-3">
-                            <div className="flex flex-col gap-1">
-                                <label>
-                                    Author Name:
-                                </label>
-                                <input type="text" name="name" className="px-2 border border-stone-800 bg-stone-700 rounded"/>
-                            </div>
-                            
-                            <div className="flex flex-col gap-1">
-                                <label>
-                                    Image URL:
-                                </label>
-                                <input type="text" name="imgUrl" className="px-2 border border-stone-800 bg-stone-700 rounded"/>
-                            </div>
-                        </div>           
-                        <div className="flex flex-col">
-                            <button type="submit" className="px-4 py-2 bg-blue-400 text-white rounded">Create Author</button>
-                        </div>
-                    </Form> */}
+                    <NewAuthorCard actionData={actionData}/>
                 </div>
             </div>
         </div>
