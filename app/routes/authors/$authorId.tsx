@@ -31,6 +31,11 @@ export const action = async ({request, params}: any) => {
 
     const fields = { name, imgUrl, userId }
 
+    if(form.get('_method') === 'delete') {
+        await prisma.author.delete({ where: { id: params.authorId}})
+        return redirect('/authors')
+    }
+
     const author = await prisma.author.update({where: {id: params.authorId}, data: fields})
     return redirect(`/authors`)
 }
