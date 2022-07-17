@@ -4,6 +4,7 @@ import { useState } from "react"
 import AuthorRouteAuthorCard from "~/components/AuthorRouteAuthorCard"
 import ContentCard from "~/components/ContentCard"
 import PageTitle from "~/components/PageTitle"
+import QuoteDetailCard from "~/components/QuoteDetailCard"
 import { prisma } from "~/db.server"
 
 export const loader = async ({params}: any) => {
@@ -58,24 +59,9 @@ export default function AuthorDetail() {
                     </h3>
                 </div>
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 ">
-                {data.content.map((content: any) => (
-                    <Link to={`/content/${content.id}`} key={content.id}
-                    
-                    >
-                        {/* <div className="pb-2">
-                            <img src={content.imgUrl} alt={content.title} 
-                                className="object-fit max-w-96"
-                            />
-                        </div>
-                        <div>
-                            <p className="font-bold">
-                                {content.title}
-                            </p>     
-                            <p className="text-sm font-thin tracking-wider">
-                                {content.authorName}
-                            </p>               
-                        </div> */}
-                        <ContentCard content={content}/>
+                    {data.content.map((content: any) => (
+                        <Link to={`/content/${content.id}`} key={content.id}>
+                            <ContentCard content={content}/>
                         </Link>
                     ))}
                 </div>
