@@ -34,7 +34,6 @@ export default function QuoteEditCard({quote}: any) {
                             <button type="submit" name="_method" value="update" className="px-6 py-2 bg-blue-400 hover:bg-blue-600 text-white rounded">
                                 Update
                             </button> 
-
                         </div>
                     </Form>
                     <div onClick={() => setShowEditQuote(false)} 
