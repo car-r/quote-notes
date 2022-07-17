@@ -21,15 +21,15 @@ export default function AuthorRouteAuthorCard({author}: any) {
                     >
                         <div className="flex flex-col gap-4">
                             <div className="flex flex-col gap-1">
-                                <label>
-                                    Author Name:
+                                <label className="text-sm font-semibold tracking-wider uppercase">
+                                    Author Name
                                 </label>
                                 <input type="text" name="name" className="px-2 border border-stone-800 bg-stone-700 rounded" defaultValue={author.author.name}/>
                             </div>
                             
                             <div className="flex flex-col gap-1">
-                                <label>
-                                    Image URL:
+                                <label className="text-sm font-semibold tracking-wider uppercase">
+                                    Image URL
                                 </label>
                                 <input type="text" name="imgUrl" className="px-2 border border-stone-800 bg-stone-700 rounded" defaultValue={author.author.imgUrl}/>
                             </div>

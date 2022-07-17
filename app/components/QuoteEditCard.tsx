@@ -42,7 +42,7 @@ export default function QuoteEditCard({quote}: any) {
                 : 
                 <div>
                     <div className="flex flex-col py-3 border-b border-stone-700 w-full">
-                        <p className="text-sm font-semibold tracking-wider uppercase">Quote ID: </p>
+                        <p className="text-sm font-semibold tracking-wider uppercase">Quote ID</p>
                         <p className="truncate ..."><span className="font-thin text-lg truncate">{quote.quote.id}</span></p>
                     </div>
                     <div className="flex flex-col py-3 border-b border-stone-700 w-full last:border-0">
