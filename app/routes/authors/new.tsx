@@ -2,6 +2,7 @@ import { Form } from "@remix-run/react";
 import { redirect } from "@remix-run/server-runtime";
 import { prisma } from "~/db.server"
 import { useState } from "react"
+import NewAuthorCard from "~/components/NewAuthorCard";
 
 export const action = async ({request}: any) => {
     const form = await request.formData()
@@ -25,7 +26,8 @@ export default function NewAuthor() {
                     </h3>
                 </div>
                 <div className="col-span-1">
-                    <Form method="post"
+                    <NewAuthorCard />
+                    {/* <Form method="post"
                         className="flex flex-col sm:w-96 gap-4 border border-stone-800 bg-stone-800 p-4 rounded-md text-stone-300/60 font-light"
                     >
                         <div className="flex flex-col gap-3">
@@ -46,7 +48,7 @@ export default function NewAuthor() {
                         <div className="flex flex-col">
                             <button type="submit" className="px-4 py-2 bg-blue-400 text-white rounded">Create Author</button>
                         </div>
-                    </Form>
+                    </Form> */}
                 </div>
             </div>
         </div>
