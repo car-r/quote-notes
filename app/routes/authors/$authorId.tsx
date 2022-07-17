@@ -2,6 +2,7 @@ import { useLoaderData, Link, useParams } from "@remix-run/react"
 import { redirect } from "@remix-run/server-runtime"
 import { useState } from "react"
 import AuthorRouteAuthorCard from "~/components/AuthorRouteAuthorCard"
+import PageTitle from "~/components/PageTitle"
 import { prisma } from "~/db.server"
 
 export const loader = async ({params}: any) => {
@@ -47,11 +48,12 @@ export default function AuthorDetail() {
     const content = data.content
     return (
         <div className="flex flex-col pt-10 max-w-4xl">
-            <div className="pb-6">
+            <PageTitle children={data.author.name}/>
+            {/* <div className="pb-6">
                 <h3 className="text-2xl tracking-wide font-semibold pb-2 border-stone-800 border-b-2">
                     {data.author.name}
                 </h3>
-            </div>
+            </div> */}
             <AuthorRouteAuthorCard author={data} />
             <div className="mb-8">
                 <div className="py-6">
