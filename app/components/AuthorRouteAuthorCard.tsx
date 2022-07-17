@@ -54,12 +54,11 @@ export default function AuthorRouteAuthorCard({author}: any) {
                         ))}
                     </div>
                     <div onClick={() => setShowEditAuthor(!showEditAuthor)} 
-                        className="px-4 py-2 bg-blue-400 text-white rounded text-center cursor-pointer">
+                        className="px-4 py-2 border-2 border-blue-400 bg-blue-400 text-white rounded text-center cursor-pointer hover:bg-stone-800">
                         Edit Author
                     </div>
                 </div>
                 }
-                {/* <Link to={`/authors/${author.author.id}/edit`} className="px-4 py-2 bg-blue-400 text-white rounded text-center">Edit Author</Link> */}
             </div>
         </div>
     )
