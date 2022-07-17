@@ -44,12 +44,6 @@ export default function QuoteNoteId() {
                 </div>
                 <div className="flex flex-col gap-4 col-end-4 col-span-1">
                     <QuoteNoteQuoteCard quote={data}/>
-                    {/* <Link to={`/quotes/${data.quote.id}`} >
-                        <div className="p-4  border border-stone-800 bg-stone-800 rounded-md text-stone-300/60 hover:border-blue-400">
-                            <p className="text-xl text-center pb-6 italic font-semibold">"{data.quote.body}"</p>
-                            <p className="font-light"><Link to={`/authors/${data.quote.authorId}`}>{data.quote.authorName}</Link></p>
-                        </div>
-                    </Link> */}
                     <QuoteNoteDeleteCard quoteNote={data}/>
                 </div>
             </div>
