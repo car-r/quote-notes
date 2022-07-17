@@ -33,6 +33,7 @@ export const loader = async ({params}: any) => {
 export const action = async ({ request, params }: any) => {
     const form = await request.formData()
     const formBody = form.get('body')
+    const quoteBody = form.get('quoteBody')
     const authorId = form.get('authorId')
     const contentId = form.get('contentId')
     console.log(Object.fromEntries(form))
@@ -42,6 +43,14 @@ export const action = async ({ request, params }: any) => {
         await prisma.quote.delete({ where: { id: params.quoteId}})
         return redirect('/quotes')
     }
+
+    if(form.get('_method') === 'update') {
+        const body = formBody
+        const fields = {body}
+        await prisma.quote.update({where: {id: params.quoteId}, data: fields})
+        return redirect('/quotes')
+    }
+
 
     // add note Action
     if(form.get('_method') !== 'delete') {
@@ -55,8 +64,8 @@ export const action = async ({ request, params }: any) => {
 
 export default function QuoteDetail() {
     const quote = useLoaderData()
-    const notes = quote.notes
     console.log(quote)
+    
     return (
         <div className="flex flex-col pt-10 max-w-4xl">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
