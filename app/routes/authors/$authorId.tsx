@@ -1,10 +1,9 @@
-import { useLoaderData, Link, useParams } from "@remix-run/react"
+import { useLoaderData, Link, useActionData } from "@remix-run/react"
 import { redirect } from "@remix-run/server-runtime"
 import { useState } from "react"
 import AuthorRouteAuthorCard from "~/components/AuthorRouteAuthorCard"
 import ContentCard from "~/components/ContentCard"
 import PageTitle from "~/components/PageTitle"
-import QuoteDetailCard from "~/components/QuoteDetailCard"
 import { prisma } from "~/db.server"
 
 export const loader = async ({params}: any) => {
@@ -39,19 +38,48 @@ export const action = async ({request, params}: any) => {
         return redirect('/authors')
     }
 
+    const errors = {
+        name: '',
+        imgUrl: ''
+    }
+
+    function checkAuthorName(name: any) {
+        if(!name || name.length < 3) {
+            return errors.name = `Author name too short`
+        }
+    }
+
+    checkAuthorName(name)
+
+    const isValidImageUrl = new RegExp('(jpe?g|png|gif|bmp)$')
+
+    const validateImageUrl = (value: string) => {
+        if (!isValidImageUrl.test(value)) {
+            return errors.imgUrl = `Not a valid Image URL`
+        }
+    }
+
+    validateImageUrl(imgUrl)
+
+    if (errors.name || errors.imgUrl) {
+        const values = Object.fromEntries(form)
+        return { errors, values }
+    }
+
     const author = await prisma.author.update({where: {id: params.authorId}, data: fields})
     return redirect(`/authors`)
 }
 
 export default function AuthorDetail() {
     const data = useLoaderData()
+    const actionData = useActionData()
+
     console.log(data)
-    const quotes = data.favoriteQuotes
-    const content = data.content
+
     return (
         <div className="flex flex-col pt-10 max-w-4xl">
             <PageTitle children={data.author.name}/>
-            <AuthorRouteAuthorCard author={data} />
+            <AuthorRouteAuthorCard author={data} actionData={actionData}/>
             <div className="mb-8">
                 <div className="py-6">
                     <h3 className="text-xl tracking-wide font-semibold">

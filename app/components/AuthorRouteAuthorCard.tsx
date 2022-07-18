@@ -1,12 +1,14 @@
 import { Form, Link } from "@remix-run/react"
 import { useState } from "react"
-export default function AuthorRouteAuthorCard({author}: any) {
+
+export default function AuthorRouteAuthorCard({author, actionData}: any) {
     const [showEditAuthor, setShowEditAuthor] = useState(false)
     const quotes = {title: 'Quotes', count: author.quotes.length}
     const favorites = {title: 'Favorites', count: author.favoriteQuotes.length}
     const contents = {title: 'Content', count: author.content.length}
     const notes = {title: 'Notes', count: author.quoteNotes.length}
     const detailArray = [contents, quotes, notes]
+    console.log(actionData)
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 bg-stone-800 rounded-xl py-2">
             <div className="flex flex-col p-4 rounded-lg max-w-xl items-center">
@@ -24,14 +26,29 @@ export default function AuthorRouteAuthorCard({author}: any) {
                                 <label className="text-sm font-semibold tracking-wider uppercase">
                                     Author Name
                                 </label>
-                                <input type="text" name="name" className="px-2 border border-stone-800 bg-stone-700 rounded" defaultValue={author.author.name}/>
+                                {actionData?.errors.name ? (
+                                    <div className="flex flex-col">
+                                        <input type="text" name="name" className="px-2 border border-red-400 bg-stone-700 rounded" defaultValue={author.author.name}/>
+                                        <p className="text-red-400 text-sm">{actionData.errors.name}</p>
+                                    </div>
+                                ) : 
+                                    <input type="text" name="name" className="px-2 border border-stone-800 bg-stone-700 rounded w-full" defaultValue={author.author.name}/>
+                                }
                             </div>
                             
                             <div className="flex flex-col gap-1">
                                 <label className="text-sm font-semibold tracking-wider uppercase">
                                     Image URL
                                 </label>
-                                <input type="text" name="imgUrl" className="px-2 border border-stone-800 bg-stone-700 rounded" defaultValue={author.author.imgUrl}/>
+                                {/* <input type="text" name="imgUrl" className="px-2 border border-stone-800 bg-stone-700 rounded" defaultValue={author.author.imgUrl}/> */}
+                                {actionData?.errors.imgUrl ? (
+                                    <div className="flex flex-col">
+                                        <input type="text" name="imgUrl" className="px-2 border border-red-400 bg-stone-700 rounded" defaultValue={author.author.imgUrl}/>
+                                        <p className="text-red-400 text-sm">{actionData.errors.imgUrl}</p>
+                                    </div>
+                                ) :
+                                    <input type="text" name="imgUrl" className="px-2 border border-stone-800 bg-stone-700 rounded" defaultValue={author.author.imgUrl}/>
+                                }
                             </div>
                         </div>           
                         <div className="flex justify-between">
