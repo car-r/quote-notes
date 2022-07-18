@@ -1,5 +1,4 @@
 import { Form } from "@remix-run/react";
-import { action } from "~/routes/join";
 
 export default function NewAuthorCard({actionData}: any) {
     console.log(actionData)
@@ -24,7 +23,7 @@ export default function NewAuthorCard({actionData}: any) {
                             Image URL
                         </label>
                         <input type="text" name="imgUrl" className="px-2 border border-stone-800 bg-stone-700 rounded"/>
-                        {actionData?.errors.name && (
+                        {actionData?.errors.imgUrl && (
                             <p className="text-red-400 text-sm">{actionData.errors.imgUrl}</p>
                         )}
                     </div>

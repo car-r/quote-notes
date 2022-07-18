@@ -27,13 +27,13 @@ export const action = async ({request}: any) => {
 
     const validateImageUrl = (value: string) => {
         if (!isValidImageUrl.test(value)) {
-            errors.imgUrl = `Not valid Img URL`
+            return errors.imgUrl = `Not a valid Image URL`
         }
     }
 
     validateImageUrl(imgUrl)
 
-    if (errors.name) {
+    if (errors.name || errors.imgUrl) {
         const values = Object.fromEntries(form)
         return { errors, values }
     }
