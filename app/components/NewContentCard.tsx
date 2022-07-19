@@ -1,7 +1,7 @@
 import { Form } from "@remix-run/react";
 
-export default function NewContentCard({data, onAuthorChange, authorName}: any) {
-
+export default function NewContentCard({data, onAuthorChange, authorName, actionData}: any) {
+    console.log(actionData)
     return (
         <div className="col-span-1">
             <Form method="post"
@@ -13,6 +13,9 @@ export default function NewContentCard({data, onAuthorChange, authorName}: any) 
                             Title
                         </label>
                         <input type="text" name="title" className="px-2 border border-stone-800 bg-stone-700 rounded"/>
+                        {actionData?.errors.title && (
+                            <p className="text-red-400 text-sm">{actionData.errors.title}</p>
+                        )}
                     </div>
 
                     <div className="flex flex-col gap-1">
@@ -31,8 +34,11 @@ export default function NewContentCard({data, onAuthorChange, authorName}: any) 
                             Image URL
                         </label>
                         <input type="text" name="imgUrl" className="px-2 border border-stone-800 bg-stone-700 rounded"/>
+                        {actionData?.errors.imgUrl && (
+                            <p className="text-red-400 text-sm">{actionData.errors.imgUrl}</p>
+                        )}
                     </div>
-                    <div>
+                    <div className="">
                         <input type="hidden" name="authorName" value={authorName}/>
                     </div>
                 </div>           
