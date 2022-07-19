@@ -1,4 +1,4 @@
-import { Form, useLoaderData } from "@remix-run/react";
+import { Form, useActionData, useLoaderData } from "@remix-run/react";
 import { redirect } from "@remix-run/server-runtime";
 import { useState } from "react";
 import NewContentCard from "~/components/NewContentCard";
@@ -21,6 +21,34 @@ export const action = async ({request}: any) => {
     const imgUrl = form.get('imgUrl')
     // const userId = 'cl4kuy4wu0009lnmfgbvhhww8'
 
+    const errors = {
+        title: '',
+        imgUrl: ''
+    }
+
+    function checkTitleName(title: any) {
+        if(!title || title.length < 3) {
+            return errors.title = `Title too short`
+        }
+    }
+
+    checkTitleName(title)
+
+    const isValidImageUrl = new RegExp('(jpe?g|png|gif|bmp)$')
+
+    const validateImageUrl = (value: string) => {
+        if (!isValidImageUrl.test(value)) {
+            return errors.imgUrl = `Not a valid Image URL`
+        }
+    }
+
+    validateImageUrl(imgUrl)
+
+    if (errors.title || errors.imgUrl) {
+        const values = Object.fromEntries(form)
+        return { errors, values }
+    }
+
     const fields = { authorName, authorId, title, imgUrl, userId }
 
     const content = await prisma.content.create({ data: fields})
@@ -30,6 +58,8 @@ export const action = async ({request}: any) => {
 export default function NewContent(): JSX.Element {
     const data = useLoaderData()
     const [authorName, setAuthorName] = useState(data.authors[0].name)
+    
+    const actionData = useActionData()
 
     function onAuthorChange(e: any) {
         console.log(e.target.value)
@@ -54,7 +84,7 @@ export default function NewContent(): JSX.Element {
                     New Content
                     </h3>
                 </div>
-                <NewContentCard data={data} onAuthorChange={onAuthorChange} authorName={authorName}/>
+                <NewContentCard data={data} onAuthorChange={onAuthorChange} authorName={authorName} actionData={actionData}/>
             </div>
         </div>
     )
