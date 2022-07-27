@@ -19,7 +19,7 @@ export default function Index() {
    <div className="flex flex-col pt-10">
       <div className="pb-10">
         <h3 className="text-xl pb-6">Your Quotes</h3>
-        <div className="flex overflow-x-auto space-x-8 whitespace-nowrap min-w-0">
+        <div className="flex overflow-x-auto space-x-8 min-w-0">
           <div className="flex gap-4 ">
           {data.quotes.map((quote: any) => (
             
