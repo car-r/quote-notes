@@ -1,6 +1,7 @@
 import { useLoaderData, Link, useActionData } from "@remix-run/react"
 import { redirect } from "@remix-run/server-runtime"
 import { useState } from "react"
+import AddContentCard from "~/components/AddContentCard"
 import AuthorRouteAuthorCard from "~/components/AuthorRouteAuthorCard"
 import ContentCard from "~/components/ContentCard"
 import PageTitle from "~/components/PageTitle"
@@ -87,11 +88,21 @@ export default function AuthorDetail() {
                     </h3>
                 </div>
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 ">
-                    {data.content.map((content: any) => (
-                        <Link to={`/content/${content.id}`} key={content.id}>
-                            <ContentCard content={content}/>
-                        </Link>
-                    ))}
+                    {data.content.length < 1 ? 
+                        <Link to={`/content/new`}
+                        className="p-4 border border-stone-800 bg-stone-700 outline-dashed rounded-md text-stone-300/60"
+                        >
+                        <AddContentCard />
+                    </Link> 
+                    : 
+                    <div>
+                        {data.content.map((content: any) => (
+                            <Link to={`/content/${content.id}`} key={content.id}>
+                                <ContentCard content={content}/>
+                            </Link>
+                        ))}
+                    </div>
+                    }
                 </div>
             </div>
             <div className="flex flex-col">

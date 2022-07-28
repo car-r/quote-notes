@@ -45,7 +45,7 @@ export const action = async ({ request, params }: any) => {
     }
 
     if(form.get('_method') === 'update') {
-        const body = formBody
+        const body = quoteBody
         const fields = {body}
         await prisma.quote.update({where: {id: params.quoteId}, data: fields})
         return redirect('/quotes')
