@@ -112,8 +112,8 @@ export default function NewQuote() {
                         </select>
                     </div>
                     <input type="hidden" name="authorName" value={authorName}/>
-                    <div>
-                        <button type="submit" className="px-4 py-2 bg-blue-400 text-white rounded">Add Quote</button>
+                    <div className="flex flex-col">
+                        <button type="submit" className="px-4 py-2 bg-blue-400 text-white rounded hover:bg-blue-600">Add Quote</button>
                     </div>
                 </Form>
             </div>

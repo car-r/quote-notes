@@ -1,7 +1,8 @@
 import { Form } from "@remix-run/react";
 import { useState } from "react";
 
-export default function QuoteEditCard({quote}: any) {
+export default function QuoteEditCard({quote, actionData}: any) {
+    console.log(actionData)
     const [showEditQuote, setShowEditQuote] = useState(false)
     return (
         <div className="flex flex-col gap-1 bg-stone-800 px-4 pb-4 pt-1 rounded-lg max-w-3xl mb-4">
@@ -17,17 +18,20 @@ export default function QuoteEditCard({quote}: any) {
                                 </svg>
                             </button>
                             <div className="flex flex-col gap-4">
-                            <div className="flex flex-col gap-1">
-                                <label className="text-sm font-semibold tracking-wider uppercase">
-                                    Quote
-                                </label>
-                                <textarea
-                                    name="quoteBody"
-                                    rows={2}
-                                    className="w-full mb-2 text-stone-800 rounded-md border-2 border-stone-800 py-2 px-3 text-sm" 
-                                    defaultValue={quote.quote.body}
-                                />
-                            </div>
+                                <div className="flex flex-col gap-1">
+                                    <label className="text-sm font-semibold tracking-wider uppercase">
+                                        Quote
+                                    </label>
+                                    <textarea
+                                        name="quoteBody"
+                                        rows={2}
+                                        className="w-full mb-0 text-stone-800 rounded-md border-2 border-stone-800 py-2 px-3 text-sm" 
+                                        defaultValue={quote.quote.body}
+                                    />
+                                    {actionData?.errors.body && (
+                                        <p className="text-red-400 text-sm">{actionData.errors.body}</p>
+                                    )}
+                                </div>
                             </div>
                         </div>           
                         <div className="flex flex-col">
@@ -37,8 +41,8 @@ export default function QuoteEditCard({quote}: any) {
                         </div>
                     </Form>
                     <div onClick={() => setShowEditQuote(false)} 
-                        className="px-4 py-2 border-2 border-blue-400 hover:bg-blue-400 text-white rounded text-center cursor-pointer">
-                        Hide Edit Quote
+                        className="border-2 border-stone-600 py-2 px-3 mt-2 rounded cursor-pointer hover:bg-stone-600">
+                        <p className="text-center">Show Quote Details</p>
                     </div>
                 </div> 
                 : 
