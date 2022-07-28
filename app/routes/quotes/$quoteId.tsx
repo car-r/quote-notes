@@ -1,4 +1,4 @@
-import { Form, Link, useLoaderData } from "@remix-run/react";
+import { Form, Link, useActionData, useLoaderData } from "@remix-run/react";
 import { redirect } from "@remix-run/server-runtime";
 import AddNoteCard from "~/components/AddNoteCard";
 import QuoteDetailCard from "~/components/QuoteDetailCard";
@@ -46,6 +46,24 @@ export const action = async ({ request, params }: any) => {
 
     if(form.get('_method') === 'update') {
         const body = quoteBody
+
+        const errors = {
+            body: ''
+        }
+    
+        function checkBody(body: any) {
+            if(!body || body.length < 4) {
+                return errors.body = `Quote too short`
+            }
+        }
+    
+        checkBody(body)
+    
+        if (errors.body) {
+            const values = Object.fromEntries(form)
+            return { errors, values }
+        }
+
         const fields = {body}
         await prisma.quote.update({where: {id: params.quoteId}, data: fields})
         return redirect('/quotes')
@@ -56,6 +74,24 @@ export const action = async ({ request, params }: any) => {
     if(form.get('_method') !== 'delete') {
         const body = formBody
         const quoteId = params.quoteId
+
+        const errors = {
+            noteBody: ''
+        }
+    
+        function checkBody(body: any) {
+            if(!body || body.length < 4) {
+                return errors.noteBody = `Note too short`
+            }
+        }
+    
+        checkBody(body)
+    
+        if (errors.noteBody) {
+            const values = Object.fromEntries(form)
+            return { errors, values }
+        }
+
         const fields = { body, quoteId, userId, authorId, contentId}
         await prisma.quoteNote.create({ data: fields })
         return redirect(`/quotes/${params.quoteId}`)
@@ -64,6 +100,7 @@ export const action = async ({ request, params }: any) => {
 
 export default function QuoteDetail() {
     const quote = useLoaderData()
+    const actionData = useActionData()
     console.log(quote)
     
     return (
@@ -71,8 +108,8 @@ export default function QuoteDetail() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
                 <QuoteDetailCard quote={quote}/>
                 <div className="">
-                    <QuoteEditCard quote={quote}/>
-                    <AddNoteCard quote={quote}/>
+                    <QuoteEditCard quote={quote} actionData={actionData}/>
+                    <AddNoteCard quote={quote} actionData={actionData}/>
                 </div>
             </div>
             <div>

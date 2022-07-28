@@ -45,7 +45,7 @@ export default function AuthorDetail() {
                     <div className="grid grid-cols-1 gap-4 md:gap-6 md:grid-cols-1 lg:grid-cols-2">
                         {data.quotes.map((quote: any) => (
                             <Link to={`/quotes/${quote.id}`} key={quote.id}>
-                                <div className="p-4  border border-stone-800 bg-stone-800 rounded-md text-stone-300/60 hover:border-blue-400">
+                                <div className="p-4  border border-stone-800 bg-stone-800 rounded-md text-stone-300/60 hover:border-blue-400 hover:text-stone-100">
                                     <p className="text-xl text-center pb-6 italic font-semibold">"{quote.body}"</p>
                                     <p className="font-light"><Link to={`/authors/${quote.authorId}`}>{quote.authorName}</Link>, <span className="font-thin"><Link to={`/content/${quote.contentId}`}>{content.title}</Link></span></p>
                                 </div>
