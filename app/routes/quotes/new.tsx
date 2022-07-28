@@ -1,5 +1,5 @@
 import { redirect } from "@remix-run/node"
-import { Form, useLoaderData } from "@remix-run/react"
+import { Form, useActionData, useLoaderData } from "@remix-run/react"
 import { prisma } from "~/db.server"
 import { useState } from "react"
 import { requireUserId } from "~/session.server";
@@ -14,6 +14,24 @@ export const action = async ({request}: any) => {
 
     const fields = { authorId, body, userId, contentId, authorName }
 
+    const errors = {
+        body: ''
+        
+    }
+
+    function checkBody(body: any) {
+        if(!body || body.length < 4) {
+            return errors.body = `Quote too short`
+        }
+    }
+
+    checkBody(body)
+
+    if (errors.body) {
+        const values = Object.fromEntries(form)
+        return { errors, values }
+    }
+
     const quote = await prisma.quote.create({ data: fields})
     return redirect(`/quotes/${quote.id}`)
 }
@@ -26,8 +44,12 @@ export const loader = async () => {
 }
 
 export default function NewQuote() {
+    const actionData = useActionData()
     const data = useLoaderData()
     const [authorName, setAuthorName] = useState(data.authors[0].name)
+    const [authorId, setAuthorId] = useState(data.authors[0].id)
+    // useState to set authorId with a default state of data.authors[0].id for dynamic content dropdown by author
+    // add filter method to content.map to only show content from setAuthorId
 
     function onAuthorChange(e: any) {
         console.log(e.target.value)
@@ -36,6 +58,7 @@ export default function NewQuote() {
             if (author.id === e.target.value) {
                 console.log('its a match on ' + author.name)
                 setAuthorName(author.name)
+                setAuthorId(author.id)
             }
             else {
                 console.log('no match')
@@ -53,7 +76,7 @@ export default function NewQuote() {
                     </h3>
                 </div>
                 <Form method="post"
-                    className="flex flex-col gap-4 border border-stone-800 bg-stone-800 p-4 rounded-md text-stone-300/60 font-light"
+                    className="flex flex-col gap-6 border border-stone-800 bg-stone-800 p-4 rounded-md text-stone-300/60 font-light"
                 >
                     <div className="flex flex-col gap-1">
                         <label className="text-sm font-semibold tracking-wider uppercase">
@@ -62,8 +85,11 @@ export default function NewQuote() {
                         <textarea
                         name="body"
                         rows={3}
-                        className="min-w-xl mb-4 text-stone-800 rounded-md border-2 border-stone-800 py-2 px-3 text-lg"
+                        className="min-w-xl mb-1 text-stone-800 rounded-md border-2 border-stone-800 py-2 px-3 text-lg"
                         />
+                        {actionData?.errors.body && (
+                            <p className="text-red-400 text-sm">{actionData.errors.body}</p>
+                        )}
                     </div>
                     <div className="flex flex-col gap-1">
                         <label className="text-sm font-semibold tracking-wider uppercase">
@@ -80,16 +106,12 @@ export default function NewQuote() {
                             Content:
                         </label>
                         <select name="contentId" className="bg-stone-700 rounded-sm">
-                            <option key='empty' value='null'></option>
-                            {data.content.map((content: any) => (
+                            {data.content.filter((content: any) => content.authorId === authorId).map((content: any) => (
                                 <option key={content.id}  value={content.id}>{content.title}</option>
                             ))}
                         </select>
                     </div>
-                    <div>
-                        <input type="hidden" name="authorName" value={authorName}/>
-                    </div>
-                
+                    <input type="hidden" name="authorName" value={authorName}/>
                     <div>
                         <button type="submit" className="px-4 py-2 bg-blue-400 text-white rounded">Add Quote</button>
                     </div>
