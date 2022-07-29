@@ -1,13 +1,13 @@
-import { Form, Link, useActionData, useLoaderData } from "@remix-run/react";
+import { useActionData, useLoaderData } from "@remix-run/react";
 import { redirect } from "@remix-run/server-runtime";
 import AddNoteCard from "~/components/AddNoteCard";
 import QuoteDetailCard from "~/components/QuoteDetailCard";
 import QuoteEditCard from "~/components/QuoteEditCard";
-import QuoteNote from "~/components/QuoteNote";
 import QuoteNoteGrid from "~/components/QuoteNoteGrid";
 import { prisma } from "~/db.server";
+import { requireUserId } from "~/session.server";
 
-export const loader = async ({params}: any) => {
+export const loader = async ({params, request}: any) => {
     const quote = await prisma.quote.findUnique({
         where: { id: params.quoteId}
     })
@@ -31,13 +31,13 @@ export const loader = async ({params}: any) => {
 }
 
 export const action = async ({ request, params }: any) => {
+    const userId = await requireUserId(request);
     const form = await request.formData()
     const formBody = form.get('body')
     const quoteBody = form.get('quoteBody')
     const authorId = form.get('authorId')
     const contentId = form.get('contentId')
     console.log(Object.fromEntries(form))
-    const userId = 'cl5j0h3ey00090bmf1xn3f4vo'
 
     if(form.get('_method') === 'delete') {
         await prisma.quote.delete({ where: { id: params.quoteId}})
