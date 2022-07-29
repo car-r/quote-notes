@@ -3,12 +3,14 @@ import { redirect } from "@remix-run/server-runtime";
 import { prisma } from "~/db.server"
 import { useState } from "react"
 import NewAuthorCard from "~/components/NewAuthorCard";
+import { requireUserId } from "~/session.server";
 
 export const action = async ({request}: any) => {
     const form = await request.formData()
     const name = form.get('name')
     const imgUrl = form.get('imgUrl')
-    const userId = 'cl5j0h3ey00090bmf1xn3f4vo'
+    const userId = await requireUserId(request);
+    // const userId = 'cl5j0h3ey00090bmf1xn3f4vo'
 
     const errors = {
         name: '',

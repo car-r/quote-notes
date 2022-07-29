@@ -3,8 +3,10 @@ import { Link } from "@remix-run/react"
 import { redirect } from "@remix-run/server-runtime"
 import PageTitle from "~/components/PageTitle"
 import { prisma } from "~/db.server"
+import { requireUserId } from "~/session.server";
 
-export const loader = async ({params}: any) => {
+export const loader = async ({params, request}: any) => {
+    const userId = await requireUserId(request);
     const content = await prisma.content.findUnique({
         where: { id: params.contentId }
     })
