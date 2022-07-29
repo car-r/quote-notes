@@ -35,7 +35,7 @@ export const action = async ({request}: any) => {
     return redirect(`/content/${contentId}`)
 }
 
-export default function AuthorDetail() {
+export default function ContentIdRoute() {
     const data = useLoaderData()
     const content = data.content
     console.log(data)
