@@ -1,7 +1,6 @@
-import { Form, useActionData } from "@remix-run/react";
+import { useActionData } from "@remix-run/react";
 import { redirect } from "@remix-run/server-runtime";
 import { prisma } from "~/db.server"
-import { useState } from "react"
 import NewAuthorCard from "~/components/NewAuthorCard";
 import { requireUserId } from "~/session.server";
 
@@ -10,7 +9,6 @@ export const action = async ({request}: any) => {
     const name = form.get('name')
     const imgUrl = form.get('imgUrl')
     const userId = await requireUserId(request);
-    // const userId = 'cl5j0h3ey00090bmf1xn3f4vo'
 
     const errors = {
         name: '',
