@@ -1,27 +1,28 @@
 import { useLoaderData, Link, useActionData } from "@remix-run/react"
 import { redirect } from "@remix-run/server-runtime"
-import { useState } from "react"
 import AddContentCard from "~/components/AddContentCard"
 import AuthorRouteAuthorCard from "~/components/AuthorRouteAuthorCard"
 import ContentCard from "~/components/ContentCard"
 import PageTitle from "~/components/PageTitle"
 import { prisma } from "~/db.server"
+import { requireUserId } from "~/session.server";
 
-export const loader = async ({params}: any) => {
+export const loader = async ({params, request}: any) => {
+    const userId = await requireUserId(request);
     const author = await prisma.author.findUnique({
         where: { id: params.authorId }
     })
     const quotes = await prisma.quote.findMany({
-        where: { authorId: params.authorId }
+        where: { userId: userId, authorId: params.authorId }
     })
     const favoriteQuotes = await prisma.quote.findMany({
-        where: { authorId: params.authorId, isFavorited: {equals: "isFavorited"} }
+        where: { userId: userId, authorId: params.authorId, isFavorited: {equals: "isFavorited"} }
     })
     const content = await prisma.content.findMany({
-        where: { authorId: params.authorId}
+        where: { userId: userId, authorId: params.authorId}
     })
     const quoteNotes = await prisma.quoteNote.findMany({
-        where: { authorId: params.authorId}
+        where: { userId: userId, authorId: params.authorId}
     })
     return {author, quotes, favoriteQuotes, content, quoteNotes}
 }
@@ -68,7 +69,7 @@ export const action = async ({request, params}: any) => {
     }
 
     const author = await prisma.author.update({where: {id: params.authorId}, data: fields})
-    return redirect(`/authors`)
+    return redirect(`/authors/${author.id}`)
 }
 
 export default function AuthorDetail() {
