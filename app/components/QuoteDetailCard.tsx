@@ -1,4 +1,4 @@
-import { Form, Link } from "@remix-run/react";
+import { Link } from "@remix-run/react";
 
 export default function QuoteDetailCard({quote}: any) {
     console.log(quote)

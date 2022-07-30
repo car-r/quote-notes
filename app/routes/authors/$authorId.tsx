@@ -29,10 +29,11 @@ export const loader = async ({params, request}: any) => {
 }
 
 export const action = async ({request, params}: any) => {
+    const userId = await requireUserId(request);
     const form = await request.formData()
     const name = form.get('name')
     const imgUrl = form.get('imgUrl')
-    const userId = 'cl5j0h3ey00090bmf1xn3f4vo'
+    // const userId = 'cl5j0h3ey00090bmf1xn3f4vo'
 
     const fields = { name, imgUrl, userId }
 
@@ -80,7 +81,7 @@ export default function AuthorDetail() {
     console.log(data)
 
     return (
-        <div className="flex flex-col pt-10 max-w-4xl">
+        <div className="flex flex-col pt-10 max-w-5xl">
             <PageTitle children={data.author.name}/>
             <AuthorRouteAuthorCard author={data} actionData={actionData}/>
             <div className="mb-20">
