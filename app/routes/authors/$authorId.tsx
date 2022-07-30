@@ -4,6 +4,7 @@ import AddContentCard from "~/components/AddContentCard"
 import AuthorRouteAuthorCard from "~/components/AuthorRouteAuthorCard"
 import ContentCard from "~/components/ContentCard"
 import PageTitle from "~/components/PageTitle"
+import SectionTitle from "~/components/SectionTitle"
 import { prisma } from "~/db.server"
 import { requireUserId } from "~/session.server";
 
@@ -82,12 +83,8 @@ export default function AuthorDetail() {
         <div className="flex flex-col pt-10 max-w-4xl">
             <PageTitle children={data.author.name}/>
             <AuthorRouteAuthorCard author={data} actionData={actionData}/>
-            <div className="mb-8">
-                <div className="py-6">
-                    <h3 className="text-xl tracking-wide font-semibold">
-                        Content
-                    </h3>
-                </div>
+            <div className="mb-20">
+                <SectionTitle children={'Content'}/>
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 ">
                     {data.content.length < 1 ? 
                         <Link to={`/content/new`}
@@ -107,22 +104,34 @@ export default function AuthorDetail() {
                 </div>
             </div>
             <div className="flex flex-col">
-                <div className="py-6">
-                    <h3 className="text-xl tracking-wide font-semibold">
-                        Favorite Quotes
-                    </h3>
+                {data.favoriteQuotes.length > 0 ?
+                <div>
+                    <SectionTitle children={'Favorite Quotes'}/>
+                    <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+                        {data.favoriteQuotes.map((quote: any) => (
+                            <Link to={`/quotes/${quote.id}`} key={quote.id}>
+                                <div className="p-4 border border-stone-800 bg-stone-800 rounded-md hover:ring-2 ring-blue-400 hover:text-stone-100">
+                                    <p className="text-xl text-center italic font-semibold">"{quote.body}"</p>
+                                </div>
+                            </Link>
+                        ))}
+                    </div> 
                 </div>
-                <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-                    {data.quotes.map((quote: any) => (
-                        <Link to={`/quotes/${quote.id}`} key={quote.id}>
-                            <div className="p-4 border border-stone-800 bg-stone-800 rounded-md hover:ring-2 ring-blue-400 hover:text-stone-100">
-                                <p className="text-xl text-center italic font-semibold">"{quote.body}"</p>
-                            </div>
-                        </Link>
-                    ))}
-                </div>   
+                :
+                <div>
+                    <SectionTitle children={'Quotes'}/>
+                    <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+                        {data.quotes.map((quote: any) => (
+                            <Link to={`/quotes/${quote.id}`} key={quote.id}>
+                                <div className="p-4 border border-stone-800 bg-stone-800 rounded-md hover:ring-2 ring-blue-400 hover:text-stone-100">
+                                    <p className="text-xl text-center italic font-semibold">"{quote.body}"</p>
+                                </div>
+                            </Link>
+                        ))}
+                    </div>  
+                </div>
+                } 
             </div> 
         </div>
-
     )
 }
