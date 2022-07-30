@@ -1,16 +1,16 @@
-import { Form, Link } from "@remix-run/react"
+import { Form } from "@remix-run/react"
 import { useState } from "react"
 
 export default function AuthorRouteAuthorCard({author, actionData}: any) {
     const [showEditAuthor, setShowEditAuthor] = useState(false)
     const quotes = {title: 'Quotes', count: author.quotes.length}
-    const favorites = {title: 'Favorites', count: author.favoriteQuotes.length}
+    // const favorites = {title: 'Favorites', count: author.favoriteQuotes.length}
     const contents = {title: 'Content', count: author.content.length}
     const notes = {title: 'Notes', count: author.quoteNotes.length}
     const detailArray = [contents, quotes, notes]
     console.log(actionData)
     return (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 bg-stone-800 rounded-xl py-2">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 bg-stone-800 rounded-xl py-2 mb-20">
             <div className="flex flex-col p-4 rounded-lg max-w-xl items-center">
                 <img src={author.author.imgUrl} className="w-72 h-72 object-cover max-w-72 rounded-full" alt={author.name}/>
             </div>
@@ -40,7 +40,6 @@ export default function AuthorRouteAuthorCard({author, actionData}: any) {
                                 <label className="text-sm font-semibold tracking-wider uppercase">
                                     Image URL
                                 </label>
-                                {/* <input type="text" name="imgUrl" className="px-2 border border-stone-800 bg-stone-700 rounded" defaultValue={author.author.imgUrl}/> */}
                                 {actionData?.errors.imgUrl ? (
                                     <div className="flex flex-col">
                                         <input type="text" name="imgUrl" className="px-2 border border-red-400 bg-stone-700 rounded" defaultValue={author.author.imgUrl}/>
@@ -62,7 +61,7 @@ export default function AuthorRouteAuthorCard({author, actionData}: any) {
                 </div> 
                 : 
                 <div>
-                    <div className="mb-4">
+                    <div className="mb-3">
                         {detailArray.map((detail) => (
                             <div key={detail.title} className="flex flex-col py-3 border-b border-stone-700 w-full last:border-0 ">
                                 <p className="text-sm font-semibold tracking-wider uppercase">{detail.title}</p>
