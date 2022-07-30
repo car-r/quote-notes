@@ -1,6 +1,5 @@
-import { Form, Link, useLoaderData } from "@remix-run/react";
-import { json, redirect } from "@remix-run/server-runtime";
-import { useState } from "react";
+import { useLoaderData } from "@remix-run/react";
+import { redirect } from "@remix-run/server-runtime";
 import AddQuoteCard from "~/components/AddQuoteCard";
 import PageTitle from "~/components/PageTitle";
 import QuoteIndexCard from "~/components/QuoteIndexCard";
@@ -37,9 +36,8 @@ export const action = async ({request}: any) => {
 }
 
 export default function QuotesIndex() {
-
     const data = useLoaderData()
-
+    console.log(data)
     return (
         <>
             <div className="flex flex-col pt-10 max-w-4xl">
