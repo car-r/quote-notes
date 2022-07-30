@@ -38,11 +38,21 @@ export const action = async ({ request, params }: any) => {
     const quoteBody = form.get('quoteBody')
     const authorId = form.get('authorId')
     const contentId = form.get('contentId')
+    const id = params.quoteId
+    const isFavorited = form.get('isFavorited')
     console.log(Object.fromEntries(form))
 
     if(form.get('_method') === 'delete') {
         await prisma.quote.delete({ where: { id: params.quoteId}})
         return redirect('/quotes')
+    }
+
+    if(form.get('_method') !== 'delete' || 'update' ) {
+        await prisma.quote.update({
+            where: { id: id },
+            data: { isFavorited: isFavorited }
+        })
+        return redirect(`/quotes/${id}`)
     }
 
 
