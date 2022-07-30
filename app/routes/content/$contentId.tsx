@@ -105,8 +105,8 @@ export default function ContentIdRoute() {
                             <label></label>
                             <textarea
                             name="body"
-                            rows={2}
-                            className="min-w-xl mb-4 text-stone-800 rounded-md border-2 border-stone-800 py-2 px-3 text-lg"
+                            rows={3}
+                            className="min-w-xl mb-1 text-stone-800 rounded-md border-2 border-stone-800 py-2 px-3 text-lg"
                             />
                         </div>
                         <div className="hidden">
