@@ -65,7 +65,7 @@ model QuoteNote {
 model Quote {
   id    String @id @default(cuid())
   body String
-  contentTitle String
+  // contentTitle String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -81,8 +81,8 @@ model Quote {
   author Author @relation(fields: [authorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   authorId String 
 
-  content Content? @relation(fields: [contentId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  contentId String? 
+  content Content @relation(fields: [contentId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  contentId String 
 
 }
 

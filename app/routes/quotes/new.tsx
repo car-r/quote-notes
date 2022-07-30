@@ -16,7 +16,6 @@ export const action = async ({request}: any) => {
 
     const errors = {
         body: ''
-        
     }
 
     function checkBody(body: any) {
@@ -48,8 +47,6 @@ export default function NewQuote() {
     const data = useLoaderData()
     const [authorName, setAuthorName] = useState(data.authors[0].name)
     const [authorId, setAuthorId] = useState(data.authors[0].id)
-    // useState to set authorId with a default state of data.authors[0].id for dynamic content dropdown by author
-    // add filter method to content.map to only show content from setAuthorId
 
     function onAuthorChange(e: any) {
         console.log(e.target.value)
@@ -65,6 +62,7 @@ export default function NewQuote() {
             }
         }
     }
+
     console.log(data)
     
     return (
@@ -111,6 +109,7 @@ export default function NewQuote() {
                             ))}
                         </select>
                     </div>
+                    
                     <input type="hidden" name="authorName" value={authorName}/>
                     <div className="flex flex-col">
                         <button type="submit" className="px-4 py-2 bg-blue-400 text-white rounded hover:bg-blue-600">Add Quote</button>

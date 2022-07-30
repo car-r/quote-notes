@@ -99,7 +99,7 @@ async function seed() {
       userId: user2.id,
       authorId: author.id,
       contentId: content.id,
-      contentTitle: "Rich Dad Poor Dad"
+      // contentTitle: "Rich Dad Poor Dad"
     }
   })
 
@@ -110,7 +110,7 @@ async function seed() {
       userId: user2.id,
       authorId: author.id,
       contentId: content.id,
-      contentTitle: "Rich Dad Poor Dad"
+      // contentTitle: "Rich Dad Poor Dad"
     }
   })
 
@@ -121,7 +121,7 @@ async function seed() {
       userId: user2.id,
       authorId: author.id,
       contentId: content.id,
-      contentTitle: "Rich Dad Poor Dad"
+      // contentTitle: "Rich Dad Poor Dad"
     }
   })
 
@@ -132,7 +132,7 @@ async function seed() {
       userId: user2.id,
       authorId: author.id,
       contentId: content.id,
-      contentTitle: "Rich Dad Poor Dad"
+      // contentTitle: "Rich Dad Poor Dad"
     }
   })
 
@@ -143,7 +143,7 @@ async function seed() {
       userId: user2.id,
       authorId: author.id,
       contentId: content.id,
-      contentTitle: "Rich Dad Poor Dad"
+      // contentTitle: "Rich Dad Poor Dad"
     }
   })
 
@@ -154,7 +154,7 @@ async function seed() {
       userId: user2.id,
       authorId: author.id,
       contentId: content.id,
-      contentTitle: "Rich Dad Poor Dad"
+      // contentTitle: "Rich Dad Poor Dad"
     }
   })
 
@@ -165,7 +165,7 @@ async function seed() {
       userId: user2.id,
       authorId: author2.id,
       contentId: content2.id,
-      contentTitle: "Short-Term Rental, Long Term Wealth"
+      // contentTitle: "Short-Term Rental, Long Term Wealth"
     }
   })
 
@@ -176,7 +176,7 @@ async function seed() {
       userId: user2.id,
       authorId: author2.id,
       contentId: content2.id,
-      contentTitle: "Short-Term Rental, Long Term Wealth"
+      // contentTitle: "Short-Term Rental, Long Term Wealth"
     }
   })
 
@@ -187,7 +187,7 @@ async function seed() {
       userId: user2.id,
       authorId: author2.id,
       contentId: content2.id,
-      contentTitle: "Short-Term Rental, Long Term Wealth"
+      // contentTitle: "Short-Term Rental, Long Term Wealth"
     }
   })
 
@@ -198,7 +198,7 @@ async function seed() {
       userId: user2.id,
       authorId: author2.id,
       contentId: content2.id,
-      contentTitle: "Short-Term Rental, Long Term Wealth"
+      // contentTitle: "Short-Term Rental, Long Term Wealth"
     }
   })
 
@@ -209,7 +209,7 @@ async function seed() {
       userId: user2.id,
       authorId: author2.id,
       contentId: content2.id,
-      contentTitle: "Short-Term Rental, Long Term Wealth"
+      // contentTitle: "Short-Term Rental, Long Term Wealth"
     }
   })
 
@@ -220,7 +220,7 @@ async function seed() {
       userId: user2.id,
       authorId: author2.id,
       contentId: content2.id,
-      contentTitle: "Short-Term Rental, Long Term Wealth"
+      // contentTitle: "Short-Term Rental, Long Term Wealth"
     }
   })
 
@@ -231,7 +231,7 @@ async function seed() {
       userId: user.id,
       authorId: author3.id,
       contentId: content3.id,
-      contentTitle: "The Programmatic Programmer"
+      // contentTitle: "The Programmatic Programmer"
     }
   })
 
@@ -242,7 +242,7 @@ async function seed() {
       userId: user.id,
       authorId: author3.id,
       contentId: content3.id,
-      contentTitle: "The Programmatic Programmer"
+      // contentTitle: "The Programmatic Programmer"
     }
   })
 
@@ -253,7 +253,7 @@ async function seed() {
       userId: user.id,
       authorId: author3.id,
       contentId: content3.id,
-      contentTitle: "The Programmatic Programmer"
+      // contentTitle: "The Programmatic Programmer"
     }
   })
 
@@ -264,7 +264,7 @@ async function seed() {
       userId: user.id,
       authorId: author3.id,
       contentId: content3.id,
-      contentTitle: "The Programmatic Programmer"
+      // contentTitle: "The Programmatic Programmer"
     }
   })
 
@@ -275,7 +275,7 @@ async function seed() {
       userId: user.id,
       authorId: author3.id,
       contentId: content3.id,
-      contentTitle: "The Programmatic Programmer"
+      // contentTitle: "The Programmatic Programmer"
     }
   })
 
@@ -286,7 +286,7 @@ async function seed() {
       userId: user.id,
       authorId: author3.id,
       contentId: content3.id,
-      contentTitle: "The Programmatic Programmer"
+      // contentTitle: "The Programmatic Programmer"
     }
   })
 
