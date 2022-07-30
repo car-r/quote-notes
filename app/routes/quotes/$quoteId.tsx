@@ -14,7 +14,7 @@ export const loader = async ({params, request}: any) => {
     const author = await prisma.author.findUnique({
         where: { id: quote?.authorId}
     })
-    // id showing red because content is not required for quote model?
+
     const content = await prisma.content.findUnique({
         where: { id: quote?.contentId}
     })
