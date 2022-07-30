@@ -1,12 +1,19 @@
 import { Link, useLoaderData } from "@remix-run/react";
 import AuthorCard from "~/components/AuthorCard";
 import { prisma } from "~/db.server";
+import { requireUserId } from "~/session.server";
 
-
-export const loader = async () => {
-  const quotes = await prisma.quote.findMany()
-  const content = await prisma.content.findMany()
-  const authors = await prisma.author.findMany()
+export const loader = async ({request}: any) => {
+  const userId = await requireUserId(request);
+  const quotes = await prisma.quote.findMany({
+    where: {userId: userId}
+  })
+  const content = await prisma.content.findMany({
+    where: {userId: userId}
+  })
+  const authors = await prisma.author.findMany({
+    where: {userId: userId}
+  })
 
   return {quotes, content, authors}
 }
