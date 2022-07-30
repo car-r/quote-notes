@@ -28,7 +28,7 @@ export const action = async ({request}: any) => {
     const isFavorited = form.get('isFavorited')
     console.log(id + isFavorited)
 
-    const quote = await prisma.quote.update({
+    await prisma.quote.update({
         where: { id: id },
         data: { isFavorited: isFavorited }
     })
