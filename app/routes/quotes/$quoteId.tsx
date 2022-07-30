@@ -44,6 +44,7 @@ export const action = async ({ request, params }: any) => {
         return redirect('/quotes')
     }
 
+
     if(form.get('_method') === 'update') {
         const body = quoteBody
 
