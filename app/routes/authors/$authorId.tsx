@@ -115,7 +115,7 @@ export default function AuthorDetail() {
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
                     {data.quotes.map((quote: any) => (
                         <Link to={`/quotes/${quote.id}`} key={quote.id}>
-                            <div className="p-4 border border-stone-800 bg-stone-800 rounded-md text-stone-300/60 hover:border-blue-400">
+                            <div className="p-4 border border-stone-800 bg-stone-800 rounded-md hover:ring-2 ring-blue-400 hover:text-stone-100">
                                 <p className="text-xl text-center italic font-semibold">"{quote.body}"</p>
                             </div>
                         </Link>
