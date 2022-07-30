@@ -68,13 +68,13 @@ export default function NewQuote() {
     return (
         <div className="flex flex-col pt-10 md:max-w-4xl pb-6">
             <div className="flex flex-col w-full md:grid md:grid-cols-3">
-                <div className="col-span-4 pb-6">
+                <div className="col-span-3 pb-6">
                     <h3 className="text-2xl tracking-wide font-semibold pb-2 border-stone-800 border-b-2">
                     New Quote
                     </h3>
                 </div>
                 <Form method="post"
-                    className="flex flex-col gap-6 border border-stone-800 bg-stone-800 p-4 rounded-md text-stone-300/60 font-light"
+                    className="flex flex-col gap-6 border border-stone-800 bg-stone-800 p-4 rounded-md text-stone-300/60 font-light md:w-72"
                 >
                     <div className="flex flex-col gap-1">
                         <label className="text-sm font-semibold tracking-wider uppercase">
@@ -93,17 +93,17 @@ export default function NewQuote() {
                         <label className="text-sm font-semibold tracking-wider uppercase">
                             Author
                         </label>
-                        <select name="authorId" className="bg-stone-700 rounded-sm" onChange={onAuthorChange}>
+                        <select name="authorId" className="bg-stone-700 rounded-sm p-1" onChange={onAuthorChange}>
                             {data.authors.map((author: any) => (
                                 <option key={author.id}  value={author.id}>{author.name}</option>
                             ))}
                         </select>
                     </div>
-                    <div className="flex flex-col">
+                    <div className="flex flex-col gap-1">
                         <label className="text-sm font-semibold tracking-wider uppercase">
-                            Content:
+                            Content
                         </label>
-                        <select name="contentId" className="bg-stone-700 rounded-sm">
+                        <select name="contentId" className="bg-stone-700 rounded-sm p-1">
                             {data.content.filter((content: any) => content.authorId === authorId).map((content: any) => (
                                 <option key={content.id}  value={content.id}>{content.title}</option>
                             ))}
