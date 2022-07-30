@@ -98,7 +98,8 @@ async function seed() {
       authorName: 'Robert Kiyosaki',
       userId: user2.id,
       authorId: author.id,
-      contentId: content.id
+      contentId: content.id,
+      contentTitle: "Rich Dad Poor Dad"
     }
   })
 
@@ -108,7 +109,8 @@ async function seed() {
       authorName: 'Robert Kiyosaki',
       userId: user2.id,
       authorId: author.id,
-      contentId: content.id
+      contentId: content.id,
+      contentTitle: "Rich Dad Poor Dad"
     }
   })
 
@@ -118,7 +120,8 @@ async function seed() {
       authorName: 'Robert Kiyosaki',
       userId: user2.id,
       authorId: author.id,
-      contentId: content.id
+      contentId: content.id,
+      contentTitle: "Rich Dad Poor Dad"
     }
   })
 
@@ -128,7 +131,8 @@ async function seed() {
       authorName: 'Robert Kiyosaki',
       userId: user2.id,
       authorId: author.id,
-      contentId: content.id
+      contentId: content.id,
+      contentTitle: "Rich Dad Poor Dad"
     }
   })
 
@@ -138,7 +142,8 @@ async function seed() {
       authorName: 'Robert Kiyosaki',
       userId: user2.id,
       authorId: author.id,
-      contentId: content.id
+      contentId: content.id,
+      contentTitle: "Rich Dad Poor Dad"
     }
   })
 
@@ -148,7 +153,8 @@ async function seed() {
       authorName: 'Robert Kiyosaki',
       userId: user2.id,
       authorId: author.id,
-      contentId: content.id
+      contentId: content.id,
+      contentTitle: "Rich Dad Poor Dad"
     }
   })
 
@@ -158,7 +164,8 @@ async function seed() {
       authorName: 'Avery Carl',
       userId: user2.id,
       authorId: author2.id,
-      contentId: content2.id
+      contentId: content2.id,
+      contentTitle: "Short-Term Rental, Long Term Wealth"
     }
   })
 
@@ -168,7 +175,8 @@ async function seed() {
       authorName: 'Avery Carl',
       userId: user2.id,
       authorId: author2.id,
-      contentId: content2.id
+      contentId: content2.id,
+      contentTitle: "Short-Term Rental, Long Term Wealth"
     }
   })
 
@@ -178,7 +186,8 @@ async function seed() {
       authorName: 'Avery Carl',
       userId: user2.id,
       authorId: author2.id,
-      contentId: content2.id
+      contentId: content2.id,
+      contentTitle: "Short-Term Rental, Long Term Wealth"
     }
   })
 
@@ -188,7 +197,8 @@ async function seed() {
       authorName: 'Avery Carl',
       userId: user2.id,
       authorId: author2.id,
-      contentId: content2.id
+      contentId: content2.id,
+      contentTitle: "Short-Term Rental, Long Term Wealth"
     }
   })
 
@@ -198,7 +208,8 @@ async function seed() {
       authorName: 'Avery Carl',
       userId: user2.id,
       authorId: author2.id,
-      contentId: content2.id
+      contentId: content2.id,
+      contentTitle: "Short-Term Rental, Long Term Wealth"
     }
   })
 
@@ -208,7 +219,8 @@ async function seed() {
       authorName: 'Avery Carl',
       userId: user2.id,
       authorId: author2.id,
-      contentId: content2.id
+      contentId: content2.id,
+      contentTitle: "Short-Term Rental, Long Term Wealth"
     }
   })
 
@@ -218,7 +230,8 @@ async function seed() {
       authorName: 'Andrew Hunt',
       userId: user.id,
       authorId: author3.id,
-      contentId: content3.id
+      contentId: content3.id,
+      contentTitle: "The Programmatic Programmer"
     }
   })
 
@@ -228,7 +241,8 @@ async function seed() {
       authorName: 'Andrew Hunt',
       userId: user.id,
       authorId: author3.id,
-      contentId: content3.id
+      contentId: content3.id,
+      contentTitle: "The Programmatic Programmer"
     }
   })
 
@@ -238,7 +252,8 @@ async function seed() {
       authorName: 'Andrew Hunt',
       userId: user.id,
       authorId: author3.id,
-      contentId: content3.id
+      contentId: content3.id,
+      contentTitle: "The Programmatic Programmer"
     }
   })
 
@@ -248,7 +263,8 @@ async function seed() {
       authorName: 'Andrew Hunt',
       userId: user.id,
       authorId: author3.id,
-      contentId: content3.id
+      contentId: content3.id,
+      contentTitle: "The Programmatic Programmer"
     }
   })
 
@@ -258,7 +274,8 @@ async function seed() {
       authorName: 'Andrew Hunt',
       userId: user.id,
       authorId: author3.id,
-      contentId: content3.id
+      contentId: content3.id,
+      contentTitle: "The Programmatic Programmer"
     }
   })
 
@@ -268,7 +285,8 @@ async function seed() {
       authorName: 'Andrew Hunt',
       userId: user.id,
       authorId: author3.id,
-      contentId: content3.id
+      contentId: content3.id,
+      contentTitle: "The Programmatic Programmer"
     }
   })
 

@@ -65,6 +65,7 @@ model QuoteNote {
 model Quote {
   id    String @id @default(cuid())
   body String
+  contentTitle String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
