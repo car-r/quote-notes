@@ -1,6 +1,6 @@
 import { Form, Link } from "@remix-run/react";
 
-export default function Sidebar() {
+export default function Sidebar({toggle, isOpen}: any) {
     return (
         <div className="hidden md:block md:w-72 pl-6 pr-10 py-4">
             <Link to={'/'}>

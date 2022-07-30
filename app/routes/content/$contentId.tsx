@@ -53,7 +53,7 @@ export default function ContentIdRoute() {
     const content = data.content
     // console.log(data)
     return (
-        <div className="flex flex-col pt-10">
+        <div className="flex flex-col pt-6 md:pt-10">
             <PageTitle children={`${data.content.title} Quotes`}/>
             <div className="grid grid-cols-1 md:flex gap-6 max-w-6xl">
                 {data.quotes.length < 1 ? null : 

@@ -30,7 +30,7 @@ export default function QuoteNoteId() {
     const data = useLoaderData()
     console.log(data)
     return (
-        <div className="flex flex-col pt-10 md:max-w-5xl pb-6">
+        <div className="flex flex-col pt-6 md:pt-10 md:max-w-5xl pb-6">
             <div className="flex flex-col w-full md:grid md:grid-cols-3">
                 <div className="col-span-4 pb-6">
                     <h3 className="text-2xl tracking-wide font-semibold pb-2 border-stone-800 border-b-2">

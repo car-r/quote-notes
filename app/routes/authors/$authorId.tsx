@@ -81,7 +81,7 @@ export default function AuthorDetail() {
     console.log(data)
 
     return (
-        <div className="flex flex-col pt-10 max-w-5xl">
+        <div className="flex flex-col pt-6 md:pt-10 max-w-5xl">
             <PageTitle children={data.author.name}/>
             <AuthorRouteAuthorCard author={data} actionData={actionData}/>
             <div className="mb-20">
