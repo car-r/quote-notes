@@ -4,6 +4,7 @@ import AddNoteCard from "~/components/AddNoteCard";
 import QuoteDetailCard from "~/components/QuoteDetailCard";
 import QuoteEditCard from "~/components/QuoteEditCard";
 import QuoteNoteGrid from "~/components/QuoteNoteGrid";
+import SectionTitle from "~/components/SectionTitle";
 import { prisma } from "~/db.server";
 import { requireUserId } from "~/session.server";
 
@@ -113,12 +114,8 @@ export default function QuoteDetail() {
                     <AddNoteCard quote={quote} actionData={actionData}/>
                 </div>
             </div>
-            <div>
-                <div className="py-6">
-                    <h3 className="text-xl tracking-wide font-semibold pb-2 border-stone-800 border-b-2">
-                        Notes
-                    </h3>
-                </div>
+            <div className="mt-20">
+                <SectionTitle children={"Notes"}/>
                 <QuoteNoteGrid quote={quote}/>
             </div>
         </div>
