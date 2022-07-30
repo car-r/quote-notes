@@ -116,7 +116,7 @@ export default function QuoteDetail() {
     console.log(quote)
     
     return (
-        <div className="flex flex-col pt-10 max-w-5xl">
+        <div className="flex flex-col pt-6 md:pt-10 max-w-5xl">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
                 <QuoteDetailCard quote={quote}/>
                 <div className="">
