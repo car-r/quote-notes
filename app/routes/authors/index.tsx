@@ -21,7 +21,7 @@ export default function AuthorsIndex() {
         <div className="flex flex-col pt-10 max-w-4xl">
             <PageTitle children={`Your Authors`}/>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                <Link to="/authors/new" className="hover:text-blue-400">
+                <Link to="/authors/new" className="hover:text-stone-100">
                     <AddAuthorCard />           
                 </Link>
                 {authors.map((author: any) => (

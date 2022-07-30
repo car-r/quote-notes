@@ -2,7 +2,7 @@ import { Form, Link } from "@remix-run/react";
 
 export default function QuoteIndexCard({quote}: any) {
     return (
-        <div className="flex flex-col p-4 border border-stone-800 bg-stone-800 rounded-md text-stone-300/60 hover:border-blue-400 hover:text-stone-100">   
+        <div className="flex flex-col p-4 border border-stone-800 bg-stone-800 rounded-md text-stone-300/60 hover:ring-2 ring-blue-400 hover:text-stone-100">   
             <div className="flex-1">
                 <Form method="post">
                     <div onClick={() => console.log('clicked')} className="flex justify-end mb-1">   

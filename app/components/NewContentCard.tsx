@@ -38,7 +38,7 @@ export default function NewContentCard({data, onAuthorChange, authorName, action
                             <p className="text-red-400 text-sm">{actionData.errors.imgUrl}</p>
                         )}
                     </div>
-                    <div className="">
+                    <div className="hidden">
                         <input type="hidden" name="authorName" value={authorName}/>
                     </div>
                 </div>           
