@@ -33,14 +33,9 @@ export const action = async ({request}: any) => {
     console.log(Object.fromEntries(form))
 
     if (form.get('_method') !== 'create') {
-    //     const form = await request.formData()
-    // const id = form.get('id')
-    // const isFavorited = form.get('isFavorited')
-    console.log(id + isFavorited)
-
-    const quote = await prisma.quote.update({
+    await prisma.quote.update({
         where: { id: id },
-        data: { isFavorited: isFavorited, contentId: contentId }
+        data: { isFavorited: isFavorited }
     })
         return redirect(`/content/${contentId}`)
     }
