@@ -16,47 +16,46 @@ export default function AuthorRouteAuthorCard({author, actionData}: any) {
             </div>
             <div className="flex flex-col p-4 rounded-lg max-w-3xl">
                 {showEditAuthor ? 
-                <div className="flex flex-col gap-4">
-                    
+                <div className="flex flex-col gap-4 min-h-full">
                     <Form method="post"
                         className="flex flex-col gap-6 border border-stone-800 bg-stone-800 rounded-md text-stone-300/60 font-light mt-2"
                     >
-                        <div className="flex flex-col gap-4">
-                            <div className="flex flex-col gap-1">
+                        <div className="flex flex-col gap-4 md:gap-6">
+                            <div className="flex flex-col gap-1 md:gap-2">
                                 <label className="text-sm font-semibold tracking-wider uppercase">
                                     Author Name
                                 </label>
                                 {actionData?.errors.name ? (
                                     <div className="flex flex-col">
-                                        <input type="text" name="name" className="px-2 border border-red-400 bg-stone-700 rounded" defaultValue={author.author.name}/>
+                                        <input type="text" name="name" className="px-2 py-1 border border-red-400 bg-stone-700 rounded" defaultValue={author.author.name}/>
                                         <p className="text-red-400 text-sm">{actionData.errors.name}</p>
                                     </div>
                                 ) : 
-                                    <input type="text" name="name" className="px-2 border border-stone-800 bg-stone-700 rounded w-full" defaultValue={author.author.name}/>
+                                    <input type="text" name="name" className="px-2 py-1 border border-stone-800 bg-stone-700 rounded w-full" defaultValue={author.author.name}/>
                                 }
                             </div>
                             
-                            <div className="flex flex-col gap-1">
+                            <div className="flex flex-col gap-1 md:gap-2">
                                 <label className="text-sm font-semibold tracking-wider uppercase">
                                     Image URL
                                 </label>
                                 {actionData?.errors.imgUrl ? (
                                     <div className="flex flex-col">
-                                        <input type="text" name="imgUrl" className="px-2 border border-red-400 bg-stone-700 rounded" defaultValue={author.author.imgUrl}/>
+                                        <input type="text" name="imgUrl" className="px-2 py-1 border border-red-400 bg-stone-700 rounded" defaultValue={author.author.imgUrl}/>
                                         <p className="text-red-400 text-sm">{actionData.errors.imgUrl}</p>
                                     </div>
                                 ) :
-                                    <input type="text" name="imgUrl" className="px-2 border border-stone-800 bg-stone-700 rounded" defaultValue={author.author.imgUrl}/>
+                                    <input type="text" name="imgUrl" className="px-2 py-1 border border-stone-800 bg-stone-700 rounded" defaultValue={author.author.imgUrl}/>
                                 }
                             </div>
                         </div>           
-                        <div className="flex justify-between">
-                            <button type="submit" className="px-6 py-2 bg-blue-400 text-white rounded">Update</button> 
+                        <div className="flex flex-col gap-4 md:flex md:flex-row md:justify-between">
+                            <button type="submit" className="px-6 py-2 bg-blue-400 text-white rounded hover:bg-blue-600">Update</button> 
                             <button type="submit" name="_method" value="delete" className="px-6 py-2 border border-red-500 text-white rounded hover:bg-red-700">Delete</button>
                         </div>
                     </Form>
-                    <div className="border-2 border-stone-600  py-2 px-3 mt-5 rounded cursor-pointer hover:bg-stone-600" onClick={() => setShowEditAuthor(false)}>
-                        <p className="text-center">Show Author Stats</p>
+                    <div className="mt-auto relative border-2 border-stone-600  py-2 px-3 rounded cursor-pointer hover:bg-stone-600" onClick={() => setShowEditAuthor(false)}>
+                        <p className="text-center ">Show Author Stats</p>
                     </div>
                 </div> 
                 : 
