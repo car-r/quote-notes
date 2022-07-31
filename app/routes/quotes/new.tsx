@@ -11,11 +11,13 @@ export const action = async ({request}: any) => {
     const body = form.get('body')
     const contentId = form.get('contentId')
     const authorName = form.get('authorName')
+    console.log(Object.fromEntries(form))
 
     const fields = { authorId, body, userId, contentId, authorName }
 
     const errors = {
-        body: ''
+        body: '',
+        contentId: ''
     }
 
     function checkBody(body: any) {
@@ -26,7 +28,15 @@ export const action = async ({request}: any) => {
 
     checkBody(body)
 
-    if (errors.body) {
+    function checkContentId(contentId: any) {
+        if(contentId === 'nocontent') {
+            return errors.contentId = `Please create content first`
+        }
+    }
+
+    checkContentId(contentId)
+
+    if (errors.body || errors.contentId) {
         const values = Object.fromEntries(form)
         return { errors, values }
     }
@@ -104,10 +114,16 @@ export default function NewQuote() {
                             Content
                         </label>
                         <select name="contentId" className="bg-stone-700 rounded-sm p-1">
-                            {data.content.filter((content: any) => content.authorId === authorId).map((content: any) => (
-                                <option key={content.id}  value={content.id}>{content.title}</option>
+                            {data.content.filter((content: any) => content.authorId === authorId) < 1 ? 
+                                <option value='nocontent'></option> 
+                                : 
+                                data.content.filter((content: any) => content.authorId === authorId).map((content: any) => (
+                                <option key={content.id} value={content.id} >{content.title}</option>
                             ))}
                         </select>
+                        {actionData?.errors.contentId && (
+                            <p className="text-red-400 text-sm">{actionData.errors.contentId}</p>
+                        )}
                     </div>
                     
                     <input type="hidden" name="authorName" value={authorName}/>
