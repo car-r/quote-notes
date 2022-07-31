@@ -17,7 +17,10 @@ export default function AddNoteCard({quote, actionData}: any) {
                 )}
                 <input type="hidden" name="authorId" value={quote.quote.authorId}/>
                 <input type="hidden" name="contentId" value={quote.quote.contentId}/>
-                <button className="px-4 py-2 mt-2 bg-blue-400 rounded text-white hover:bg-blue-600">Add Note</button>
+                <button name="_method" value="note"
+                    className="px-4 py-2 mt-2 bg-blue-400 rounded text-white hover:bg-blue-600">
+                    Add Note
+                </button>
             </Form>
         </div>
     )
