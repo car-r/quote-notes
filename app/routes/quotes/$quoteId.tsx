@@ -47,15 +47,6 @@ export const action = async ({ request, params }: any) => {
         return redirect('/quotes')
     }
 
-    if(form.get('_method') !== 'delete' || 'update' ) {
-        await prisma.quote.update({
-            where: { id: id },
-            data: { isFavorited: isFavorited }
-        })
-        return redirect(`/quotes/${id}`)
-    }
-
-
     if(form.get('_method') === 'update') {
         const body = quoteBody
 
@@ -83,7 +74,7 @@ export const action = async ({ request, params }: any) => {
 
 
     // add note Action
-    if(form.get('_method') !== 'delete') {
+    if(form.get('_method') === 'note') {
         const body = formBody
         const quoteId = params.quoteId
 
@@ -107,6 +98,14 @@ export const action = async ({ request, params }: any) => {
         const fields = { body, quoteId, userId, authorId, contentId}
         await prisma.quoteNote.create({ data: fields })
         return redirect(`/quotes/${params.quoteId}`)
+    }
+
+    if(form.get('_method') !== ('delete' || 'update' || 'note') ) {
+        await prisma.quote.update({
+            where: { id: id },
+            data: { isFavorited: isFavorited }
+        })
+        return redirect(`/quotes/${id}`)
     }
 }
 
