@@ -1,6 +1,5 @@
 import { Link, useLoaderData } from "@remix-run/react";
 import AuthorCard from "~/components/AuthorCard";
-import PageTitle from "~/components/PageTitle";
 import SectionTitle from "~/components/SectionTitle";
 import { prisma } from "~/db.server";
 import { requireUserId } from "~/session.server";
@@ -30,14 +29,12 @@ export default function Index() {
   return (
    <div className="flex flex-col pt-6 md:pt-10 max-w-5xl">
       <div className="pb-20">
-        {/* <PageTitle children={'Dashboard'}/> */}
         <SectionTitle children={'Favorite Quotes'}/>
-        {/* <h3 className="text-xl pb-6">Your Quotes</h3> */}
         <div className="flex">
           <div className="flex flex-col md:flex md:flex-row gap-4 ">
             {data.quotes.map((quote: any) => (
               <Link to={`/quotes/${quote.id}`} key={quote.id}
-                className="flex flex-col p-4 border border-stone-800 bg-stone-800 rounded-md hover:ring-2 hover:ring-blue-400 w-full hover:text-stone-100"
+                className="flex flex-col w-full md:max-w-sm p-4 border border-stone-800 bg-stone-800 rounded-md hover:ring-2 hover:ring-blue-400 hover:text-stone-100"
               >
                 <p className="text-xl text-center pb-6 italic font-semibold ">"{quote.body}"</p>
                 <p className="font-light mt-auto"><Link to={`/authors/${quote.authorId}`}>{quote.authorName}</Link></p>
@@ -48,7 +45,6 @@ export default function Index() {
       </div>
       <div className="pb-20">
         <SectionTitle children={'Your Content'}/>
-        {/* <h3 className="text-xl pb-6">Your Content</h3> */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 ">
           {data.content.map((content: any) => (
             <Link to={`/content/${content.id}`} key={content.id}
