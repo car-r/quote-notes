@@ -1,5 +1,6 @@
 import { Form } from "@remix-run/react";
 import { useState } from "react";
+import moment from 'moment'
 
 export default function QuoteEditCard({quote, actionData}: any) {
     console.log(actionData)
@@ -53,7 +54,7 @@ export default function QuoteEditCard({quote, actionData}: any) {
                     </div>
                     <div className="flex flex-col py-3 border-b border-stone-700 w-full last:border-0">
                         <p className="text-sm font-semibold tracking-wider uppercase">Quote created</p>
-                        <p><span className="font-thin text-lg">{quote.quote.createdAt}</span></p>
+                        <p><span className="font-thin text-lg">{moment(quote.quote.createdAt).format('MMM DD, YYYY')}</span></p>
                     </div>
                     <div className="mt-6 flex flex-col">
                         <div onClick={() => setShowEditQuote(!showEditQuote)} 
