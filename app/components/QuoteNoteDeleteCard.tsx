@@ -1,4 +1,5 @@
 import { Form } from "@remix-run/react";
+import moment from "moment";
 
 export default function QuoteNoteDeleteCard({quoteNote}: any) {
     return (
@@ -9,7 +10,7 @@ export default function QuoteNoteDeleteCard({quoteNote}: any) {
             </div>
             <div className="flex flex-col py-3 border-b border-stone-700 w-full last:border-0">
                 <p className="text-sm font-semibold tracking-wider uppercase">Note created</p>
-                <p><span className="font-thin text-lg">{quoteNote.data.createdAt}</span></p>
+                <p><span className="font-thin text-lg">{moment(quoteNote.data.createdAt).format('MMM DD, YYYY')}</span></p>
             </div>
             <div className="mt-6 flex flex-col">
                 <Form method="post">
