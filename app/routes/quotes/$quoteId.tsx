@@ -40,6 +40,8 @@ export const action = async ({ request, params }: any) => {
     const contentId = form.get('contentId')
     const id = params.quoteId
     const isFavorited = form.get('isFavorited')
+    const date: any = new Date
+    const updatedAt = date.toISOString()
     console.log(Object.fromEntries(form))
 
     if(form.get('_method') === 'delete') {
@@ -97,6 +99,10 @@ export const action = async ({ request, params }: any) => {
 
         const fields = { body, quoteId, userId, authorId, contentId}
         await prisma.quoteNote.create({ data: fields })
+        await prisma.quote.update({
+            where: {id: quoteId},
+            data: { updatedAt: updatedAt}
+        })
         return redirect(`/quotes/${params.quoteId}`)
     }
 
