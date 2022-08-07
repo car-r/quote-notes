@@ -1,6 +1,7 @@
 import { Form, useLoaderData } from "@remix-run/react"
 import { Link } from "@remix-run/react"
 import { redirect } from "@remix-run/server-runtime"
+import ContentEditCard from "~/components/ContentEditCard"
 import PageTitle from "~/components/PageTitle"
 import { prisma } from "~/db.server"
 import { requireUserId } from "~/session.server";
@@ -18,48 +19,85 @@ export const loader = async ({params, request}: any) => {
         ],
         where: { userId: userId, contentId: params.contentId}
     })
-    return {content, quotes}
+    const authors = await prisma.author.findMany({
+        orderBy: [
+            {
+                createdAt: 'desc',
+            },
+        ],
+        where: { userId: userId}
+    })
+    return {content, quotes, authors}
 }
 
 export const action = async ({request}: any) => {
     const userId = await requireUserId(request);
     const form = await request.formData()
     const authorId = form.get('authorId')
+    const selectAuthorId = form.get('selectAuthorId')
     const body = form.get('body')
     const contentId = form.get('contentId')
     const authorName = form.get('authorName')
     const id = form.get('id')
     const isFavorited = form.get('isFavorited')
+    const title = form.get('title')
+    const imgUrl = form.get('imgUrl')
+    const selectAuthorName = form.get('selectAuthorName')
     console.log(Object.fromEntries(form))
 
-    if (form.get('_method') !== 'create') {
-    await prisma.quote.update({
-        where: { id: id },
-        data: { isFavorited: isFavorited }
+    // Action to update if Quote is favorited
+    if (form.get('_method') === 'update') {
+        const authorId = selectAuthorId
+        const authorName = selectAuthorName
+        await prisma.content.update({
+            where: { id: contentId },
+            data: { title: title, authorId: authorId, imgUrl: imgUrl, authorName: authorName }
     })
         return redirect(`/content/${contentId}`)
     }
 
+    // Action to create Quote
     if(form.get('_method') === 'create') {
         const fields = { authorId, body, userId, contentId, authorName }
         await prisma.quote.create({ data: fields})
         return redirect(`/content/${contentId}`)
     }
 
+    if(form.get('_method') === 'deleteContent') {
+        await prisma.content.delete({where: {id: contentId}})
+        return redirect(`/content`)
+    }
+
+    // Action to update if Quote is favorited
+    if (form.get('_method') !== 'create') {
+        await prisma.quote.update({
+            where: { id: id },
+            data: { isFavorited: isFavorited }
+        })
+            return redirect(`/content/${contentId}`)
+    }
 }
 
 export default function ContentIdRoute() {
     const data = useLoaderData()
     const content = data.content
+    const authors = data.authors
     // console.log(data)
+
     return (
-        <div className="flex flex-col pt-6 md:pt-10">
+        <div className="flex flex-col pt-6 md:pt-10 max-w-6xl">
             <PageTitle children={`${data.content.title} Quotes`}/>
-            <div className="grid grid-cols-1 md:flex gap-6 max-w-6xl">
-                {data.quotes.length < 1 ? null : 
+            <div className="grid grid-cols-1 md:flex gap-6 ">
+                {data.quotes.length < 1 ? 
                     <div className="grid grid-cols-1 gap-4 md:gap-6 md:grid-cols-1 lg:grid-cols-2">
+                        <div className="flex flex-col h-32 justify-center p-4 outline-dashed border border-stone-800 bg-stone-800 rounded-md lg:w-96 ">
+                            <p className="text-center">Add your first quote</p>
+                        </div>
+                    </div> 
+                    : 
+                    <div className="grid grid-cols-1 gap-4 md:gap-6 md:grid-cols-1 md:grid-flow-row md:auto-rows-max lg:grid-cols-2">
                         {data.quotes.map((quote: any) => (
-                            <div key={quote.id} className="p-4  border border-stone-800 bg-stone-800 rounded-md text-stone-300/60 hover:ring-2 hover:ring-blue-400 hover:text-stone-100">
+                            <div key={quote.id} className="flex flex-col p-4 border border-stone-800 bg-stone-800 rounded-md text-stone-300/60 hover:ring-2 hover:ring-blue-400 hover:text-stone-100">
                                 <div className="flex flex-col min-h-full">
                                     <Form method="post">
                                         <div onClick={() => console.log('clicked')} className="flex justify-end mb-2">   
@@ -81,7 +119,7 @@ export default function ContentIdRoute() {
                                             </div>
                                         </div>
                                     </Form>
-                                    <Link to={`/quotes/${quote.id}`} className="flex flex-col flex-1 min-h-full justify-center mb-6">
+                                    <Link to={`/quotes/${quote.id}`} className="flex flex-col flex-1 justify-center mb-6">
                                         <div className=" ">
                                                 <p className="text-xl text-center italic font-semibold">"{quote.body}"</p>
                                         </div>
@@ -97,7 +135,7 @@ export default function ContentIdRoute() {
                         ))}
                     </div>
                 }
-                <div className="flex flex-col order-first md:order-last">
+                <div className="flex flex-col md:h-screen md:sticky top-10 gap-6 order-first md:order-last">
                     <Form method="post"
                         className="flex flex-col gap-4 border border-stone-800 bg-stone-800 p-4 rounded-md text-stone-300/60 font-light"
                     >
@@ -128,6 +166,9 @@ export default function ContentIdRoute() {
                             </button>
                         </div>
                     </Form>
+                    <div>
+                        <ContentEditCard content={content} authors={authors}/>
+                    </div>
                 </div>
             </div>
         </div>
