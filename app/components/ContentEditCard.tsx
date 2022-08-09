@@ -46,7 +46,8 @@ export default function ContentEditCard({content, authors}: any) {
                                     </label>
                                     <select name="selectAuthorId" className="bg-stone-700 rounded-sm p-1" onChange={onAuthorChange}>
                                         <option value={content.authorId}>{content.authorName}</option>
-                                        {authors.map((author: any) => (
+                                        {/* filter author out of map since it is displaed in option value above */}
+                                        {authors.filter((author: any) => author.id !== content.authorId).map((author: any) => (
                                             <option key={author.id}  value={author.id}>{author.name}</option>
                                     ))}
                                     </select>
@@ -100,7 +101,7 @@ export default function ContentEditCard({content, authors}: any) {
                 <div className="flex flex-col mt-4">
                     <div onClick={() => setShowEditContent(!showEditContent)} 
                         className="px-4 py-2 border-2 border-blue-400 hover:bg-blue-400 text-white rounded text-center cursor-pointer">
-                        Edit Quote
+                        Edit Content
                     </div>
                 </div>
             </div>

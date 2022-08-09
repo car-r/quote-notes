@@ -45,14 +45,18 @@ export const action = async ({request}: any) => {
     const selectAuthorName = form.get('selectAuthorName')
     console.log(Object.fromEntries(form))
 
-    // Action to update if Quote is favorited
+    // Action to update Content
     if (form.get('_method') === 'update') {
         const authorId = selectAuthorId
         const authorName = selectAuthorName
         await prisma.content.update({
             where: { id: contentId },
             data: { title: title, authorId: authorId, imgUrl: imgUrl, authorName: authorName }
-    })
+        })
+        await prisma.quote.updateMany({ 
+            where: { contentId: contentId },
+            data: { authorId: authorId, authorName: authorName }
+        })
         return redirect(`/content/${contentId}`)
     }
 
