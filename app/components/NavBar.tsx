@@ -1,7 +1,5 @@
 import { Link } from "@remix-run/react"
 
-Link
-
 export default function NavBar({toggle, isOpen}: any) {
     return (
         <div className="block  md:hidden">
@@ -43,7 +41,7 @@ export default function NavBar({toggle, isOpen}: any) {
                                 Authors
                             </p>
                         </Link>
-                        <Link to='/notes'>
+                        <Link to='/quoteNotes'>
                             <p className='text-xl p-2 rounded-md hover:ring-2 hover:ring-blue-400 hover:ease-in-out hover:duration-300 hover:text-slate-100 cursor-pointer'>
                                 Notes
                             </p>

@@ -10,15 +10,20 @@ export default function AuthorRouteAuthorCard({author, actionData}: any) {
     const detailArray = [contents, quotes, notes]
     console.log(actionData)
     return (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 bg-stone-800 rounded-xl py-2 mb-20">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4  rounded-xl py-2 mb-20">
             <div className="flex flex-col p-4 rounded-lg max-w-xl items-center">
-                <img src={author.author.imgUrl} className="w-72 h-72 object-cover max-w-72 rounded-full" alt={author.name}/>
+                <img 
+                    src={author.author.imgUrl} 
+                    className="w-72 h-72 object-cover max-w-72 rounded-full" 
+                    alt={author.name}
+                    onError={(e: any) => e.target.src = 'https://icon-library.com/images/default-user-icon/default-user-icon-8.jpg'}
+                />
             </div>
             <div className="flex flex-col p-4 rounded-lg max-w-3xl">
                 {showEditAuthor ? 
-                <div className="flex flex-col gap-4 min-h-full">
+                <div className="flex flex-col  gap-4 min-h-full">
                     <Form method="post"
-                        className="flex flex-col gap-6 border border-stone-800 bg-stone-800 rounded-md text-stone-300/60 font-light mt-2"
+                        className="flex flex-col gap-6  rounded-md text-stone-300/60 font-light mt-2"
                     >
                         <div className="flex flex-col gap-4 md:gap-6">
                             <div className="flex flex-col gap-1 md:gap-2">
