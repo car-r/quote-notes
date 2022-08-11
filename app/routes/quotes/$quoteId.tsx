@@ -44,11 +44,13 @@ export const action = async ({ request, params }: any) => {
     const updatedAt = date.toISOString()
     console.log(Object.fromEntries(form))
 
+    // Action to delete quote
     if(form.get('_method') === 'delete') {
         await prisma.quote.delete({ where: { id: params.quoteId}})
         return redirect('/quotes')
     }
 
+    // Action to update quote
     if(form.get('_method') === 'update') {
         const body = quoteBody
 
@@ -56,6 +58,7 @@ export const action = async ({ request, params }: any) => {
             body: ''
         }
     
+        // validation check to make sure body isn't less than 4 characters
         function checkBody(body: any) {
             if(!body || body.length < 4) {
                 return errors.body = `Quote too short`
@@ -75,7 +78,7 @@ export const action = async ({ request, params }: any) => {
     }
 
 
-    // add note Action
+    // Action to create a quoteNote
     if(form.get('_method') === 'note') {
         const body = formBody
         const quoteId = params.quoteId
@@ -99,13 +102,17 @@ export const action = async ({ request, params }: any) => {
 
         const fields = { body, quoteId, userId, authorId, contentId}
         await prisma.quoteNote.create({ data: fields })
+
+        // update the createdAt date when a new note is added to a quote
         await prisma.quote.update({
             where: {id: quoteId},
             data: { updatedAt: updatedAt}
         })
+
         return redirect(`/quotes/${params.quoteId}`)
     }
 
+    // Action to update favorite status of quote
     if(form.get('_method') !== ('delete' || 'update' || 'note') ) {
         await prisma.quote.update({
             where: { id: id },

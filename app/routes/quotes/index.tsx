@@ -37,11 +37,12 @@ export const action = async ({request}: any) => {
 
 export default function QuotesIndex() {
     const data = useLoaderData()
+    const qouteCount = data.quotes.length
     console.log(data)
     return (
         <>
             <div className="flex flex-col pt-6 md:pt-10 max-w-5xl">
-                <PageTitle children={`Your Quotes`}/>
+                <PageTitle children={`${qouteCount} Quotes`}/>
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
                     <AddQuoteCard />
                     {data.quotes.map((quote: any) => (
