@@ -84,7 +84,8 @@ export default function ContentEditCard({content, authors}: any) {
             :
             <div> 
                 <div className="pb-2">
-                    <img src={content.imgUrl} alt={content.title} 
+                    <img src={content.imgUrl} alt={content.title}
+                        onError={(e: any) => e.target.src = 'https://neelkanthpublishers.com/assets/bookcover_thumb.png'} 
                         className="object-fit md:max-w-xs"
                     />
                 </div>
