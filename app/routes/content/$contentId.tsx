@@ -1,4 +1,4 @@
-import { Form, useLoaderData } from "@remix-run/react"
+import { Form, useActionData, useLoaderData } from "@remix-run/react"
 import { Link } from "@remix-run/react"
 import { redirect } from "@remix-run/server-runtime"
 import ContentEditCard from "~/components/ContentEditCard"
@@ -49,24 +49,76 @@ export const action = async ({request}: any) => {
     if (form.get('_method') === 'update') {
         const authorId = selectAuthorId
         const authorName = selectAuthorName
+
+        const errors = {
+            title: '',
+            imgUrl: ''
+        }
+
+        function checkTitleName(title: any) {
+            if(!title || title.length < 3) {
+                return errors.title = `Title too short`
+            }
+        }
+
+        checkTitleName(title)
+
+
+        const isValidImageUrl = new RegExp('(jpe?g|png|gif|bmp)$')
+
+        const validateImageUrl = (value: string) => {
+            if (!isValidImageUrl.test(value)) {
+                return errors.imgUrl = `Not a valid Image URL`
+            }
+        
+        }
+
+        validateImageUrl(imgUrl)
+
+        if (errors.title || errors.imgUrl) {
+            const values = Object.fromEntries(form)
+            return { errors, values }
+        }
+
         await prisma.content.update({
             where: { id: contentId },
             data: { title: title, authorId: authorId, imgUrl: imgUrl, authorName: authorName }
         })
+
         await prisma.quote.updateMany({ 
             where: { contentId: contentId },
             data: { authorId: authorId, authorName: authorName }
         })
+
         return redirect(`/content/${contentId}`)
+
     }
 
     // Action to create Quote
     if(form.get('_method') === 'create') {
+        const errors = {
+            body: '',
+        }
+
+        function checkBody(body: any) {
+            if(!body || body.length < 4) {
+                return errors.body = `Quote too short`
+            }
+        }
+    
+        checkBody(body)
+
+        if (errors.body) {
+            const values = Object.fromEntries(form)
+            return { errors, values }
+        }
+
         const fields = { authorId, body, userId, contentId, authorName }
         await prisma.quote.create({ data: fields})
         return redirect(`/content/${contentId}`)
     }
 
+    // Action to delete Content
     if(form.get('_method') === 'deleteContent') {
         await prisma.content.delete({where: {id: contentId}})
         return redirect(`/content`)
@@ -86,7 +138,8 @@ export default function ContentIdRoute() {
     const data = useLoaderData()
     const content = data.content
     const authors = data.authors
-    // console.log(data)
+    
+    const actionData = useActionData()
 
     return (
         <div className="flex flex-col pt-6 md:pt-10 max-w-6xl">
@@ -150,6 +203,9 @@ export default function ContentIdRoute() {
                             rows={3}
                             className="min-w-xl mb-1 text-stone-800 rounded-md border-2 border-stone-800 py-2 px-3 text-lg"
                             />
+                            {actionData?.errors.body && (
+                                <p className="text-red-400 text-sm">{actionData.errors.body}</p>
+                            )}
                         </div>
                         <div className="hidden">
                             <input type="hidden" name="authorId" value={content.authorId}/>
@@ -171,7 +227,7 @@ export default function ContentIdRoute() {
                         </div>
                     </Form>
                     <div>
-                        <ContentEditCard content={content} authors={authors}/>
+                        <ContentEditCard content={content} authors={authors} actionData={actionData}/>
                     </div>
                 </div>
             </div>

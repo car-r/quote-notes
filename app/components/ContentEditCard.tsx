@@ -1,9 +1,10 @@
 import { Form, Link } from "@remix-run/react";
 import { useState } from "react";
 
-export default function ContentEditCard({content, authors}: any) {
+export default function ContentEditCard({content, authors, actionData}: any) {
     const [showEditContent, setShowEditContent] = useState(false)
     const [authorName, setAuthorName] = useState(content.authorName)
+    console.log(actionData)
 
     function onAuthorChange(e: any) {
         console.log(e.target.value)
@@ -35,9 +36,9 @@ export default function ContentEditCard({content, authors}: any) {
                                         Title
                                     </label>
                                     <input type="text" name="title" className="px-2 border border-stone-800 bg-stone-700 rounded" defaultValue={content.title}/>
-                                    {/* {actionData?.errors.title && (
+                                    {actionData?.errors.title && (
                                         <p className="text-red-400 text-sm">{actionData.errors.title}</p>
-                                    )} */}
+                                    )}
                                 </div>
 
                                 <div className="flex flex-col gap-1">
@@ -58,9 +59,9 @@ export default function ContentEditCard({content, authors}: any) {
                                         Image URL
                                     </label>
                                     <input type="text" name="imgUrl" className="px-2 border border-stone-800 bg-stone-700 rounded" defaultValue={content.imgUrl}/>
-                                    {/* {actionData?.errors.imgUrl && (
+                                    {actionData?.errors.imgUrl && (
                                         <p className="text-red-400 text-sm">{actionData.errors.imgUrl}</p>
-                                    )} */}
+                                    )}
                                 </div>
                                 <div className="hidden">
                                     <input type="hidden" name="selectAuthorName" value={authorName}/>
