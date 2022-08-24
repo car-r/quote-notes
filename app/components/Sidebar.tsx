@@ -2,7 +2,7 @@ import { Form, Link } from "@remix-run/react";
 
 export default function Sidebar({toggle, isOpen}: any) {
     return (
-        <div className="hidden md:block md:w-72 pl-6 pr-10 py-4">
+        <div className="hidden md:block md:w-72 pl-6 pr-6 mr-6 py-4 border-r border-stone-800">
             <Link to={'/'}>
                 <p className="text-2xl font-extrabold py-4 mr-2 hover:text-stone-100">QuoteNotes</p>
             </Link>

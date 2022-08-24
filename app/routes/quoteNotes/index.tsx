@@ -19,9 +19,18 @@ export default function QuoteNoteIndex() {
         <>
             <div className="flex flex-col pt-6 md:pt-10 max-w-4xl">
                 <div className="pb-6">
+                    {noteCount > 0 ? 
+                        <h3 className="text-2xl tracking-wide font-semibold pb-2 border-stone-800 border-b-2">
+                        {`${noteCount} Notes`}
+                        </h3>
+                    : 
                     <h3 className="text-2xl tracking-wide font-semibold pb-2 border-stone-800 border-b-2">
-                    {`${noteCount} Notes`}
+                        Notes
                     </h3>
+                    }
+                    {/* <h3 className="text-2xl tracking-wide font-semibold pb-2 border-stone-800 border-b-2">
+                    {`${noteCount} Notes`}
+                    </h3> */}
                 </div>
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
                     {data.map((note: any) => (
