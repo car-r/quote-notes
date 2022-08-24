@@ -20,7 +20,12 @@ export default function AuthorsIndex() {
     console.log(authors)
     return (
         <div className="flex flex-col pt-6 md:pt-10 max-w-5xl">
-            <PageTitle children={`${authorCount} Authors`}/>
+            {authorCount > 0 ? 
+                <PageTitle children={`${authorCount} Authors`}/>
+                :
+                <PageTitle children={`Authors`}/>
+            }
+            {/* <PageTitle children={`${authorCount} Authors`}/> */}
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 <Link to="/authors/new" className="hover:text-stone-100">
                     <AddAuthorCard />           

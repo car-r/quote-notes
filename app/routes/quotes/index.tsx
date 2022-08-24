@@ -42,7 +42,12 @@ export default function QuotesIndex() {
     return (
         <>
             <div className="flex flex-col pt-6 md:pt-10 max-w-5xl">
-                <PageTitle children={`${qouteCount} Quotes`}/>
+                {qouteCount > 0 ?
+                    <PageTitle children={`${qouteCount} Quotes`}/>
+                    :
+                    <PageTitle children={`Quotes`}/>
+                }
+                
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
                     <AddQuoteCard />
                     {data.quotes.map((quote: any) => (
