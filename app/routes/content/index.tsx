@@ -10,7 +10,15 @@ export const loader = async ({request}: any) => {
     const data = await prisma.content.findMany(
         {where: {userId: userId}}
     )
-    return data
+
+    const groupContent = await prisma.quote.groupBy({
+        where: {userId: userId},
+        by: ['contentId'],
+        _count: {_all: true}
+        
+    })
+
+    return {data, groupContent}
 }
 
 export default function ContentIndex() {
@@ -31,7 +39,7 @@ export default function ContentIndex() {
                     <AddContentCard />
                 </Link>
                 
-                {data.map((content: any) => (
+                {data.data.map((content: any) => (
                     <Link to={`/content/${content.id}`} key={content.id}>
                         <ContentCard content={content}/>
                     </Link>

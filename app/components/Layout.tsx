@@ -9,10 +9,12 @@ export default function Layout({children}: any) {
     }
 
     return (
-        <div className="flex flex-col md:flex md:flex-row px-4 w-full mx-auto  text-stone-300/60">
+        <div className="flex flex-col min-h-screen lg:flex lg:flex-row px-4 w-full mx-auto text-stone-300/60">
             <NavBar toggle={toggle} isOpen={isOpen}/>
+
             <Sidebar toggle={toggle} isOpen={isOpen}/>
-            <div className="w-full">
+
+            <div className="w-full overflow-auto px-1">
                 {children}
             </div>
         </div>

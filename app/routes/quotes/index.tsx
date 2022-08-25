@@ -7,6 +7,25 @@ import QuoteIndexCard from "~/components/QuoteIndexCard";
 import { prisma } from "~/db.server";
 import { requireUserId } from "~/session.server";
 
+import {
+    Chart as ChartJS,
+    CategoryScale,
+    LinearScale,
+    BarElement,
+    Title,
+    Tooltip,
+    Legend,
+  } from 'chart.js';
+import { Bar } from 'react-chartjs-2';
+ChartJS.register(
+    CategoryScale,
+    LinearScale,
+    BarElement,
+    Title,
+    Tooltip,
+    Legend
+);
+
 export const loader = async ({request}: any) => {
     const userId = await requireUserId(request);
     const quotes = await prisma.quote.findMany(
@@ -19,7 +38,13 @@ export const loader = async ({request}: any) => {
         }
     )
     const authors = await prisma.author.findMany()
-    return {quotes, authors}
+
+    const groupQuotes = await prisma.quote.groupBy({
+        where: {userId: userId},
+        by: ['authorName'],
+        _count: {_all: true}
+      })
+    return {quotes, authors, groupQuotes}
 }
 
 export const action = async ({request}: any) => {
@@ -38,6 +63,18 @@ export const action = async ({request}: any) => {
 export default function QuotesIndex() {
     const data = useLoaderData()
     const qouteCount = data.quotes.length
+    const authorList = data.groupQuotes.map((author: any) => (author.authorName))
+    const quoteCountList = data.groupQuotes.map((quote: any) => (quote._count._all))
+
+    const barData = {
+        labels: authorList,
+        datasets: [{label: 'Quotes By Author',
+          data: quoteCountList,
+          backgroundColor: 'rgba(255, 99, 132, 0.5)',
+          borderWidth: 1,
+          maxBarThickness: 75
+        }]
+      }
     console.log(data)
     return (
         <>
@@ -47,7 +84,15 @@ export default function QuotesIndex() {
                     :
                     <PageTitle children={`Quotes`}/>
                 }
-                
+                {quoteCountList.length > 0 ? 
+                <div className="pb-20 pt-10 w-full flex flex-col overflow-hidden">
+                    <Bar
+                        data={barData}
+                    />
+                </div>
+                :
+                null
+                }
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
                     <AddQuoteCard />
                     {data.quotes.map((quote: any) => (
