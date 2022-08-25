@@ -59,7 +59,7 @@ export default function QuoteIndexCard({quote}: any) {
                     </div>
                 </Link>
                 <div className="flex mt-auto">
-                    <p className="font-light">
+                    <p className="font-light tracking-wide">
                         <Link to={`/authors/${quote.authorId}`}>{quote.authorName}</Link>
                     </p>
                 </div>
