@@ -3,7 +3,24 @@ import AuthorCard from "~/components/AuthorCard";
 import SectionTitle from "~/components/SectionTitle";
 import { prisma } from "~/db.server";
 import { requireUserId } from "~/session.server";
-
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
+import { Bar } from 'react-chartjs-2';
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 export const loader = async ({request}: any) => {
   const userId = await requireUserId(request);
@@ -19,17 +36,45 @@ export const loader = async ({request}: any) => {
     take: 3,
     where: {userId: userId}
   })
+  const groupQuotes = await prisma.quote.groupBy({
+    where: {userId: userId},
+    by: ['authorName'],
+    _count: {_all: true}
+  })
 
-  return {quotes, content, authors}
+
+  return {quotes, content, authors, groupQuotes}
 }
+
+
 
 export default function Index() {
 
   const data = useLoaderData()
-  console.log(data)
+  const authorList = data.groupQuotes.map((author: any) => (author.authorName))
+  const quoteCountList = data.groupQuotes.map((quote: any) => (quote._count._all))
+  console.log(data, authorList, quoteCountList)
+
+  const barData = {
+    labels: authorList,
+    datasets: [{label: 'Quotes By Author',
+      data: quoteCountList,
+      backgroundColor: 'rgba(255, 99, 132, 0.5)',
+      borderWidth: 1,
+    }]
+  }
   return (
    <div className="flex flex-col pt-6 md:pt-10 max-w-5xl">
       <div className="pb-20">
+        {quoteCountList > 0 ? 
+          <div>
+            <Bar
+              data={barData}
+            />
+        </div>
+        :
+        null
+        }
         <SectionTitle children={'Favorite Quotes'}/>
         <div className="flex">
           <div className="flex flex-col md:flex md:flex-row gap-4 ">
