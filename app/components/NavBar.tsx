@@ -15,8 +15,8 @@ export default function NavBar({toggle, isOpen}: any) {
                 }
             </div>
             <div className={
-                isOpen ? `min-h-screen z-50 w-full transform transition duration-200 ease-in-out md:hidden `
-                : `min-h-screen absolute z-50  inset-y-0 transform -translate-y-full transition duration-300 ease-in-out md:hidden`
+                isOpen ? `min-h-screen z-50 w-full transform transition duration-200 ease-in-out lg:hidden `
+                : `min-h-screen absolute z-50  inset-y-0 transform -translate-y-full transition duration-300 ease-in-out lg:hidden`
                 }
                 onClick={toggle}
             >

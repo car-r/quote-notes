@@ -61,6 +61,7 @@ export const loader = async ({request}: any) => {
 
   const groupQuotes = await prisma.author.findMany({
     where: {userId: userId},
+    take: 4,
     orderBy: {
       quote: {
         '_count': 'desc'
@@ -71,6 +72,20 @@ export const loader = async ({request}: any) => {
         select: {
           quote: true,
         },
+      }
+    }
+  })
+
+  const userData = await prisma.user.findUnique({
+    where: {id: userId},
+    include: {
+      _count: {
+        select: {
+          quotes: true,
+          authors: true,
+          content: true,
+          quoteNote: true
+        }
       }
     }
   })
@@ -88,7 +103,7 @@ export const loader = async ({request}: any) => {
     where: { userId: userId}
   })
 
-  return {quotes, content, authors, groupQuotes, qouteCount, contentCount, authorCount, noteCount}
+  return {quotes, content, authors, groupQuotes, qouteCount, contentCount, authorCount, noteCount, userData}
 }
 
 
@@ -128,19 +143,19 @@ export default function Index() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pb-32">
         <div className="border-2 border-stone-800 p-4 rounded-xl">
           <p className="uppercase text-sm font-light tracking-wider">Quotes</p>
-          <p className="text-4xl">{data.qouteCount}</p>
+          <p className="text-4xl">{data.userData._count.quotes}</p>
         </div>
         <div className="border-2 border-stone-800 p-4 rounded-xl">
           <p className="uppercase text-sm font-light tracking-wider">Content</p>
-          <p className="text-4xl">{data.contentCount}</p>
+          <p className="text-4xl">{data.userData._count.content}</p>
         </div>
         <div className="border-2 border-stone-800 p-4 rounded-xl">
           <p className="uppercase text-sm font-light tracking-wider">Authors</p>
-          <p className="text-4xl">{data.authorCount}</p>
+          <p className="text-4xl">{data.userData._count.authors}</p>
         </div>
         <div className="border-2 border-stone-800 p-4 rounded-xl">
           <p className="uppercase text-sm font-light tracking-wider">Notes</p>
-          <p className="text-4xl">{data.noteCount}</p>
+          <p className="text-4xl">{data.userData._count.quoteNote}</p>
         </div>
       </div>
       <div className="pb-20 flex flex-col">
@@ -177,7 +192,7 @@ export default function Index() {
         </div>
       </div>
       <div className="pb-20">
-        <SectionTitle children={'Your Content'}/>
+        <SectionTitle children={'Top Content'}/>
         {data.content.length > 0 ?
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 ">
           {data.content.map((content: any) => (
@@ -212,7 +227,7 @@ export default function Index() {
         }
       </div>
       <div className="pb-20">
-        <SectionTitle children={'Your Authors'}/>
+        <SectionTitle children={'Top Authors'}/>
         {data.authors.length > 0 ?
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {data.authors.map((author: any) => (
