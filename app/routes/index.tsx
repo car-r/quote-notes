@@ -35,19 +35,60 @@ export const loader = async ({request}: any) => {
   })
   const content = await prisma.content.findMany({
     take: 3,
-    where: {userId: userId}
+    where: {userId: userId},
+    orderBy: {
+      quote: {
+        '_count': 'desc'
+      }
+    }
   })
   const authors = await prisma.author.findMany({
     take: 3,
-    where: {userId: userId}
-  })
-  const groupQuotes = await prisma.quote.groupBy({
     where: {userId: userId},
-    by: ['authorName'],
-    _count: {_all: true}
+    orderBy: {
+      quote: {
+        '_count': 'desc'
+      }
+    }
   })
 
-  return {quotes, content, authors, groupQuotes}
+  // const groupQuotes = await prisma.quote.groupBy({
+  //   where: {userId: userId},
+  //   by: ['authorName'],
+  //   _count: {_all: true},
+    
+  // })
+
+  const groupQuotes = await prisma.author.findMany({
+    where: {userId: userId},
+    orderBy: {
+      quote: {
+        '_count': 'desc'
+      }
+    },
+    include: {
+      _count: {
+        select: {
+          quote: true,
+        },
+      }
+    }
+  })
+
+  const qouteCount = await prisma.quote.count({
+    where: { userId: userId}
+  })
+  const contentCount = await prisma.content.count({
+    where: { userId: userId}
+  })
+  const authorCount = await prisma.author.count({
+    where: { userId: userId}
+  })
+  const noteCount = await prisma.quoteNote.count({
+    where: { userId: userId}
+  })
+
+  return {quotes, content, authors, groupQuotes, qouteCount, contentCount, authorCount, noteCount}
 }
 
 
@@ -55,8 +96,10 @@ export const loader = async ({request}: any) => {
 export default function Index() {
 
   const data = useLoaderData()
-  const authorList = data.groupQuotes.map((author: any) => (author.authorName))
-  const quoteCountList = data.groupQuotes.map((quote: any) => (quote._count._all))
+  // const authorList = data.groupQuotes.map((author: any) => (author.authorName))
+  // const quoteCountList = data.groupQuotes.map((quote: any) => (quote._count._all))
+  const authorList = data.groupQuotes.map((author: any) => (author.name))
+  const quoteCountList = data.groupQuotes.map((quote: any) => (quote._count.quote))
   console.log(data, authorList, quoteCountList)
   const options = {
     responsive: true,
@@ -76,7 +119,7 @@ export default function Index() {
       data: quoteCountList,
       backgroundColor: 'rgba(255, 99, 132, 0.5)',
       borderWidth: 1,
-      maxBarThickness: 100,
+      maxBarThickness: 75
     }]
   }
   return (
@@ -85,19 +128,19 @@ export default function Index() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pb-32">
         <div className="border-2 border-stone-800 p-4 rounded-xl">
           <p className="uppercase text-sm font-light tracking-wider">Quotes</p>
-          <p className="text-4xl">{`25`}</p>
-        </div>
-        <div className="border-2 border-stone-800 p-4 rounded-xl">
-          <p className="uppercase text-sm font-light tracking-wider">Authors</p>
-          <p className="text-4xl">{`25`}</p>
+          <p className="text-4xl">{data.qouteCount}</p>
         </div>
         <div className="border-2 border-stone-800 p-4 rounded-xl">
           <p className="uppercase text-sm font-light tracking-wider">Content</p>
-          <p className="text-4xl">{`25`}</p>
+          <p className="text-4xl">{data.contentCount}</p>
+        </div>
+        <div className="border-2 border-stone-800 p-4 rounded-xl">
+          <p className="uppercase text-sm font-light tracking-wider">Authors</p>
+          <p className="text-4xl">{data.authorCount}</p>
         </div>
         <div className="border-2 border-stone-800 p-4 rounded-xl">
           <p className="uppercase text-sm font-light tracking-wider">Notes</p>
-          <p className="text-4xl">{`25`}</p>
+          <p className="text-4xl">{data.noteCount}</p>
         </div>
       </div>
       <div className="pb-20 flex flex-col">
@@ -135,7 +178,7 @@ export default function Index() {
       </div>
       <div className="pb-20">
         <SectionTitle children={'Your Content'}/>
-        {data.content.map > 0 ?
+        {data.content.length > 0 ?
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 ">
           {data.content.map((content: any) => (
             <Link to={`/content/${content.id}`} key={content.id}
