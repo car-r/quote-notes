@@ -35,16 +35,44 @@ export const loader = async ({request}: any) => {
   })
   const content = await prisma.content.findMany({
     take: 3,
-    where: {userId: userId}
+    where: {userId: userId},
+    orderBy: {
+      quote: {
+        '_count': 'desc'
+      }
+    }
   })
   const authors = await prisma.author.findMany({
     take: 3,
-    where: {userId: userId}
-  })
-  const groupQuotes = await prisma.quote.groupBy({
     where: {userId: userId},
-    by: ['authorName'],
-    _count: {_all: true}
+    orderBy: {
+      quote: {
+        '_count': 'desc'
+      }
+    }
+  })
+
+  // const groupQuotes = await prisma.quote.groupBy({
+  //   where: {userId: userId},
+  //   by: ['authorName'],
+  //   _count: {_all: true},
+    
+  // })
+
+  const groupQuotes = await prisma.author.findMany({
+    where: {userId: userId},
+    orderBy: {
+      quote: {
+        '_count': 'desc'
+      }
+    },
+    include: {
+      _count: {
+        select: {
+          quote: true,
+        },
+      }
+    }
   })
 
   const qouteCount = await prisma.quote.count({
@@ -68,8 +96,10 @@ export const loader = async ({request}: any) => {
 export default function Index() {
 
   const data = useLoaderData()
-  const authorList = data.groupQuotes.map((author: any) => (author.authorName))
-  const quoteCountList = data.groupQuotes.map((quote: any) => (quote._count._all))
+  // const authorList = data.groupQuotes.map((author: any) => (author.authorName))
+  // const quoteCountList = data.groupQuotes.map((quote: any) => (quote._count._all))
+  const authorList = data.groupQuotes.map((author: any) => (author.name))
+  const quoteCountList = data.groupQuotes.map((quote: any) => (quote._count.quote))
   console.log(data, authorList, quoteCountList)
   const options = {
     responsive: true,
@@ -148,7 +178,7 @@ export default function Index() {
       </div>
       <div className="pb-20">
         <SectionTitle children={'Your Content'}/>
-        {data.content.map > 0 ?
+        {data.content.length > 0 ?
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 ">
           {data.content.map((content: any) => (
             <Link to={`/content/${content.id}`} key={content.id}
