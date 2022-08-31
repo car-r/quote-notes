@@ -131,9 +131,9 @@ export default function QuoteDetail() {
         <div className="flex flex-col pt-6 md:pt-10 max-w-5xl">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
                 <QuoteDetailCard quote={quote}/>
-                <div className="">
-                    <QuoteEditCard quote={quote} actionData={actionData}/>
+                <div className="flex flex-col gap-6">
                     <AddNoteCard quote={quote} actionData={actionData}/>
+                    <QuoteEditCard quote={quote} actionData={actionData}/>
                 </div>
             </div>
             <div className="mt-20">
