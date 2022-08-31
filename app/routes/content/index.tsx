@@ -23,8 +23,8 @@ export const loader = async ({request}: any) => {
 
 export default function ContentIndex() {
     const data = useLoaderData()
-    const contentCount = data.length
-    console.log(data)
+    const contentCount = data.data.length
+    console.log(data, contentCount)
     return (
         <div className="flex flex-col pt-6 md:pt-10 max-w-5xl">
             {contentCount > 0 ?

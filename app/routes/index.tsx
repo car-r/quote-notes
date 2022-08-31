@@ -90,20 +90,7 @@ export const loader = async ({request}: any) => {
     }
   })
 
-  const qouteCount = await prisma.quote.count({
-    where: { userId: userId}
-  })
-  const contentCount = await prisma.content.count({
-    where: { userId: userId}
-  })
-  const authorCount = await prisma.author.count({
-    where: { userId: userId}
-  })
-  const noteCount = await prisma.quoteNote.count({
-    where: { userId: userId}
-  })
-
-  return {quotes, content, authors, groupQuotes, qouteCount, contentCount, authorCount, noteCount, userData}
+  return {quotes, content, authors, groupQuotes, userData}
 }
 
 
@@ -141,22 +128,30 @@ export default function Index() {
    <div className="flex flex-col pt-6 md:pt-10 max-w-5xl">
       <PageTitle children={`Dashboard`}/>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pb-32">
-        <div className="border-2 border-stone-800 p-4 rounded-xl">
-          <p className="uppercase text-sm font-light tracking-wider">Quotes</p>
-          <p className="text-4xl">{data.userData._count.quotes}</p>
-        </div>
-        <div className="border-2 border-stone-800 p-4 rounded-xl">
-          <p className="uppercase text-sm font-light tracking-wider">Content</p>
-          <p className="text-4xl">{data.userData._count.content}</p>
-        </div>
-        <div className="border-2 border-stone-800 p-4 rounded-xl">
-          <p className="uppercase text-sm font-light tracking-wider">Authors</p>
-          <p className="text-4xl">{data.userData._count.authors}</p>
-        </div>
-        <div className="border-2 border-stone-800 p-4 rounded-xl">
-          <p className="uppercase text-sm font-light tracking-wider">Notes</p>
-          <p className="text-4xl">{data.userData._count.quoteNote}</p>
-        </div>
+        <Link to="/quotes">
+          <div className="border-2 border-stone-800 p-4 rounded-xl hover:ring-2 hover:ring-blue-400 hover:text-stone-100">
+            <p className="uppercase text-sm font-light tracking-wider">Quotes</p>
+            <p className="text-4xl">{data.userData._count.quotes}</p>
+          </div>
+        </Link>
+        <Link to="/content">
+          <div className="border-2 border-stone-800 p-4 rounded-xl hover:ring-2 hover:ring-blue-400 hover:text-stone-100">
+            <p className="uppercase text-sm font-light tracking-wider">Content</p>
+            <p className="text-4xl">{data.userData._count.content}</p>
+          </div>
+        </Link>
+        <Link to="/authors">
+          <div className="border-2 border-stone-800 p-4 rounded-xl hover:ring-2 hover:ring-blue-400 hover:text-stone-100">
+            <p className="uppercase text-sm font-light tracking-wider">Authors</p>
+            <p className="text-4xl">{data.userData._count.authors}</p>
+          </div>
+        </Link>
+        <Link to="/quoteNotes">
+          <div className="border-2 border-stone-800 p-4 rounded-xl hover:ring-2 hover:ring-blue-400 hover:text-stone-100">
+            <p className="uppercase text-sm font-light tracking-wider">Notes</p>
+            <p className="text-4xl">{data.userData._count.quoteNote}</p>
+          </div>
+        </Link>
       </div>
       <div className="pb-20 flex flex-col">
         {quoteCountList.length > 0 ? 
