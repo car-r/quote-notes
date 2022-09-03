@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
+import QuoteDetail from "~/routes/quotes/$quoteId";
 
 const prisma = new PrismaClient();
 
@@ -92,7 +93,7 @@ async function seed() {
     }
   })
 
-  await prisma.quote.create({
+  const quote1 = await prisma.quote.create({
     data: {
       body: "Thinking that a job makes you secure is lying to yourself.",
       authorName: 'Robert Kiyosaki',
@@ -306,6 +307,14 @@ async function seed() {
       userId: user.id,
     },
   });
+
+  await prisma.tag.create({
+    data: {
+      body: "Hello, world!",
+      userId: user.id,
+      quoteId: quote1.id,
+    }
+  })
 
 
 

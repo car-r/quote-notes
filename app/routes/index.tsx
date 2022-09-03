@@ -17,6 +17,7 @@ import AddAuthorCard from "~/components/AddAuthorCard";
 import AddContentCard from "~/components/AddContentCard";
 import AddQuoteCard from "~/components/AddQuoteCard";
 import PageTitle from "~/components/PageTitle";
+import { NONAME } from "dns";
 
 ChartJS.register(
   CategoryScale,
@@ -107,11 +108,21 @@ export default function Index() {
     responsive: true,
     plugins: {
       legend: {
+        display: false,
         position: 'top' as const,
+        labels: {
+          // This more specific font property overrides the global property
+          font: {
+              size: 12
+          }
+        }
       },
       title: {
         display: true,
-        text: 'Quotes By Author'
+        text: 'Quotes By Author',
+        font: {
+          size: 16
+      }
       }
     }
   }
@@ -127,7 +138,7 @@ export default function Index() {
   return (
    <div className="flex flex-col pt-6 md:pt-10 max-w-5xl">
       <PageTitle children={`Dashboard`}/>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pb-32">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pb-20">
         <Link to="/quotes">
           <div className="border-2 border-stone-800 p-4 rounded-xl hover:ring-2 hover:ring-blue-400 hover:text-stone-100">
             <p className="uppercase text-sm font-light tracking-wider">Quotes</p>
@@ -154,7 +165,7 @@ export default function Index() {
         </Link>
       </div>
       <div className="pb-20 flex flex-col">
-        {quoteCountList.length > 0 ? 
+        {/* {quoteCountList.length > 0 ? 
           <div className="pb-32 w-full flex flex-col overflow-hidden">
             <Bar
               data={barData}
@@ -163,7 +174,7 @@ export default function Index() {
           </div>
         :
         null
-        }
+        } */}
         <SectionTitle children={'Favorite Quotes'}/>
         <div className="flex">
           {data.quotes.length > 0 ?

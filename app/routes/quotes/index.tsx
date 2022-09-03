@@ -17,6 +17,7 @@ import {
     Legend,
   } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
+import { useState } from "react";
 ChartJS.register(
     CategoryScale,
     LinearScale,
@@ -34,7 +35,10 @@ export const loader = async ({request}: any) => {
                 createdAt: 'desc',
             },
         ],
-        where: {userId: userId}
+        where: {userId: userId},
+        include: {
+            tag: true, // Return all fields
+          }
         }
     )
     const authors = await prisma.author.findMany()
@@ -43,8 +47,11 @@ export const loader = async ({request}: any) => {
         where: {userId: userId},
         by: ['authorName'],
         _count: {_all: true}
-      })
-    return {quotes, authors, groupQuotes}
+    })
+
+    const tags = await prisma.tag.findMany()
+
+    return {quotes, authors, groupQuotes, tags}
 }
 
 export const action = async ({request}: any) => {
@@ -65,6 +72,7 @@ export default function QuotesIndex() {
     const qouteCount = data.quotes.length
     const authorList = data.groupQuotes.map((author: any) => (author.authorName))
     const quoteCountList = data.groupQuotes.map((quote: any) => (quote._count._all))
+    const [tags, setTags] = useState('')
 
     const barData = {
         labels: authorList,
@@ -76,6 +84,7 @@ export default function QuotesIndex() {
         }]
       }
     console.log(data)
+    console.log(tags)
     return (
         <>
             <div className="flex flex-col pt-6 md:pt-10 max-w-5xl">
@@ -84,7 +93,7 @@ export default function QuotesIndex() {
                     :
                     <PageTitle children={`Quotes`}/>
                 }
-                {quoteCountList.length > 0 ? 
+                {/* {quoteCountList.length > 0 ? 
                 <div className="pb-20 pt-10 w-full flex flex-col overflow-hidden">
                     <Bar
                         data={barData}
@@ -92,10 +101,31 @@ export default function QuotesIndex() {
                 </div>
                 :
                 null
-                }
+                } */}
+                <div className="flex gap-4 pb-6 overflow-auto">
+                        <div className="items-center flex text-xs text-stone-300 font-thin  px-4 py-2 rounded-xl bg-stone-800 whitespace-nowrap"
+                            onClick={() => setTags(``)}
+                        >
+                            <p  className="">
+                                all
+                            </p>
+                        </div>
+                    {data.tags.map((tag: any) => (
+                        <div key={tag.id} className="items-center flex text-xs text-stone-300 font-thin  px-4 py-2 rounded-xl bg-stone-800 whitespace-nowrap"
+                            onClick={() => setTags(tag.body)}
+                        >
+                            <p  className="">
+                                <span>
+                                    {tag.body}
+                                </span>
+                            </p>
+                        </div>
+                    ))}
+                </div>
+                
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
                     <AddQuoteCard />
-                    {data.quotes.map((quote: any) => (
+                    {data.quotes.filter((quote: any) => quote.tag.body !== tags).map((quote: any) => (
                         <div key={quote.id}>
                             <QuoteIndexCard quote={quote} />
                         </div>

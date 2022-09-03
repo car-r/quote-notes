@@ -4,7 +4,7 @@ import { useState } from "react";
 export default function ContentEditCard({content, authors, actionData}: any) {
     const [showEditContent, setShowEditContent] = useState(false)
     const [authorName, setAuthorName] = useState(content.authorName)
-    console.log(actionData)
+    // console.log(actionData)
 
     function onAuthorChange(e: any) {
         console.log(e.target.value)
