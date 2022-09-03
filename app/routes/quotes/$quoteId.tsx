@@ -4,13 +4,18 @@ import AddNoteCard from "~/components/AddNoteCard";
 import QuoteDetailCard from "~/components/QuoteDetailCard";
 import QuoteEditCard from "~/components/QuoteEditCard";
 import QuoteNoteGrid from "~/components/QuoteNoteGrid";
+import QuoteTags from "~/components/QuoteTags";
 import SectionTitle from "~/components/SectionTitle";
 import { prisma } from "~/db.server";
 import { requireUserId } from "~/session.server";
 
 export const loader = async ({params, request}: any) => {
+    const userId = await requireUserId(request);
     const quote = await prisma.quote.findUnique({
-        where: { id: params.quoteId}
+        where: { id: params.quoteId},
+        include: {
+            tag: true, // Return all fields
+        }
     })
     const author = await prisma.author.findUnique({
         where: { id: quote?.authorId}
@@ -40,6 +45,7 @@ export const action = async ({ request, params }: any) => {
     const contentId = form.get('contentId')
     const id = params.quoteId
     const isFavorited = form.get('isFavorited')
+    const tagBody = form.get('tagBody')
     const date: any = new Date
     const updatedAt = date.toISOString()
     console.log(Object.fromEntries(form))
@@ -112,20 +118,59 @@ export const action = async ({ request, params }: any) => {
         return redirect(`/quotes/${params.quoteId}`)
     }
 
+    // Action to add tag
+    if(form.get('_method') === 'tag') {
+        const body: string = tagBody
+        const quoteId: string = params.quoteId
+
+        const errors = {
+            tagBody: ''
+        }
+    
+        function checkBody(body: any) {
+            if(!body || body.length < 3) {
+                return errors.tagBody = `Tag too short`
+            }
+        }
+    
+        checkBody(body)
+    
+        if (errors.tagBody) {
+            const values = Object.fromEntries(form)
+            return { errors, values }
+        }
+
+        const fields = {body, quoteId, userId}
+        await prisma.tag.create({ 
+            data: fields
+        })
+        return redirect(`/quotes/${id}`)
+    }
+    
+    // Action to delete tag
+    if(form.get('_method') === 'deleteTag') {
+        const values = Object.fromEntries(form)
+        const tagId = form.get('tagId')  
+        await prisma.tag.delete({ where: { id: tagId}})
+        return redirect(`/quotes/${id}`)
+    }
+
     // Action to update favorite status of quote
-    if(form.get('_method') !== ('delete' || 'update' || 'note') ) {
+    if(form.get('_method') !== ('delete' || 'update' || 'note' || 'deleteTag' || 'tag') ) {
         await prisma.quote.update({
             where: { id: id },
             data: { isFavorited: isFavorited }
         })
         return redirect(`/quotes/${id}`)
     }
+
+    
 }
 
 export default function QuoteDetail() {
     const quote = useLoaderData()
     const actionData = useActionData()
-    console.log(quote)
+    // console.log(quote)
     
     return (
         <div className="flex flex-col pt-6 md:pt-10 max-w-5xl">
@@ -133,7 +178,8 @@ export default function QuoteDetail() {
                 <QuoteDetailCard quote={quote}/>
                 <div className="flex flex-col gap-6">
                     <AddNoteCard quote={quote} actionData={actionData}/>
-                    <QuoteEditCard quote={quote} actionData={actionData}/>
+                    {/* <QuoteEditCard quote={quote} actionData={actionData}/> */}
+                    <QuoteTags quote={quote} actionData={actionData}/>
                 </div>
             </div>
             <div className="mt-20">

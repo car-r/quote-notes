@@ -1,7 +1,7 @@
 import { Form } from "@remix-run/react";
 
 export default function AddNoteCard({quote, actionData}: any) {
-    console.log(actionData)
+    // console.log(actionData)
     return (
         <div>
             <Form className="flex flex-col " method="post" name="_method">
