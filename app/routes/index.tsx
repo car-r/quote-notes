@@ -18,6 +18,7 @@ import AddContentCard from "~/components/AddContentCard";
 import AddQuoteCard from "~/components/AddQuoteCard";
 import PageTitle from "~/components/PageTitle";
 import { NONAME } from "dns";
+import QuoteSmallCard from "~/components/QuoteSmallCard";
 
 ChartJS.register(
   CategoryScale,
@@ -31,9 +32,10 @@ ChartJS.register(
 export const loader = async ({request}: any) => {
   const userId = await requireUserId(request);
   const quotes = await prisma.quote.findMany({
-    take: 3,
+    take: 5,
     where: {userId: userId, isFavorited: 'isFavorited'}
   })
+
   const content = await prisma.content.findMany({
     take: 3,
     where: {userId: userId},
@@ -176,17 +178,20 @@ export default function Index() {
         null
         } */}
         <SectionTitle children={'Favorite Quotes'}/>
-        <div className="flex">
+        <div className="flex overflow-auto">
           {data.quotes.length > 0 ?
-            <div className="flex flex-col md:flex md:flex-row gap-4 ">
+            <div className="flex md:flex md:flex-row gap-4 ml-1">
               {data.quotes.map((quote: any) => (
-              <Link to={`/quotes/${quote.id}`} key={quote.id}
-                className="flex flex-col w-full md:max-w-sm p-4 border border-stone-800 bg-stone-800 rounded-md hover:ring-2 hover:ring-blue-400 hover:text-stone-100"
-              >
-                <p className="text-xl text-center pb-6 italic font-semibold ">"{quote.body}"</p>
-                <p className="font-light mt-auto"><Link to={`/authors/${quote.authorId}`}>{quote.authorName}</Link></p>
-              </Link>
-            ))}
+              // <Link to={`/quotes/${quote.id}`} key={quote.id}
+              //   className="flex flex-col w-full md:max-w-sm p-4 border border-stone-800 bg-stone-800 rounded-md hover:ring-2 hover:ring-blue-400 hover:text-stone-100"
+              // >
+              //   <p className="text-xl text-center pb-6 italic font-semibold ">"{quote.body}"</p>
+              //   <p className="font-light mt-auto"><Link to={`/authors/${quote.authorId}`}>{quote.authorName}</Link></p>
+              // </Link>
+                <Link to={`/quotes/${quote.id}`} key={quote.id}>
+                  <QuoteSmallCard quote={quote}/>
+                </Link>
+              ))}
             </div>
             :
             <div className="flex flex-col md:flex md:flex-row gap-4 ">
