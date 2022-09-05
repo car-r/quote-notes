@@ -18,6 +18,9 @@ import {
   } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 import { useState } from "react";
+import SectionTitle from "~/components/SectionTitle";
+import AuthorCard from "~/components/AuthorCard";
+import QuoteIndexSmallCard from "~/components/QuoteIndexSmallCard";
 ChartJS.register(
     CategoryScale,
     LinearScale,
@@ -41,7 +44,12 @@ export const loader = async ({request}: any) => {
           }
         }
     )
-    const authors = await prisma.author.findMany()
+    const authors = await prisma.author.findMany({
+        where: {userId: userId},
+        include: {
+            quote: true, // Return all fields
+        }
+    })
 
     const groupQuotes = await prisma.quote.groupBy({
         where: {userId: userId},
@@ -72,7 +80,7 @@ export default function QuotesIndex() {
     const qouteCount = data.quotes.length
     const authorList = data.groupQuotes.map((author: any) => (author.authorName))
     const quoteCountList = data.groupQuotes.map((quote: any) => (quote._count._all))
-    const [tags, setTags] = useState('')
+    const [tags, setTags] = useState<string[]>([])
 
     const barData = {
         labels: authorList,
@@ -104,7 +112,7 @@ export default function QuotesIndex() {
                 } */}
                 <div className="flex gap-4 pb-6 overflow-auto">
                         <div className="items-center flex text-xs text-stone-300 font-thin  px-4 py-2 rounded-xl bg-stone-800 whitespace-nowrap"
-                            onClick={() => setTags(``)}
+                            onClick={() => setTags([])}
                         >
                             <p  className="">
                                 all
@@ -112,22 +120,43 @@ export default function QuotesIndex() {
                         </div>
                     {data.tags.map((tag: any) => (
                         <div key={tag.id} className="items-center flex text-xs text-stone-300 font-thin  px-4 py-2 rounded-xl bg-stone-800 whitespace-nowrap"
-                            onClick={() => setTags(tag.body)}
+                            onClick={() => setTags(prevTags => [...prevTags, tag.body])}
                         >
-                            <p  className="">
-                                <span>
-                                    {tag.body}
-                                </span>
-                            </p>
+                            <p  className="">{tag.body}</p>
                         </div>
                     ))}
                 </div>
-                
+                <div>
+                    <SectionTitle children={`Authors`} />
+                    <div className="flex flex-col gap-4 py-2 w-full">
+                        {data.authors.map((author: any) => (
+                            <div key={author.id} className="flex gap-2 items-center w-full ">
+                                <div className="grid grid-cols-1 justify-center justify-items-center min-w-fit items-center  border border-green-400">
+                                    <div className="mb-2">
+                                        <img src={author.imgUrl} alt={author.name}
+                                        onError={(e: any) => e.target.src = 'https://icon-library.com/images/default-user-icon/default-user-icon-8.jpg'}
+                                        className="w-32 h-32 object-cover mr-4 rounded-full"/>
+                                    </div>
+                                    <p className="">{author.name}</p>
+                                </div>
+                                <div className="flex gap-2 p-2 overflow-auto">
+                                    {author.quote.map((quote: any) => (
+                                        <div key={quote.id} className="">
+                                            <QuoteIndexSmallCard quote={quote} />
+                                            {/* <QuoteIndexCard quote={quote} /> */}
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
                     <AddQuoteCard />
                     {data.quotes.filter((quote: any) => quote.tag.body !== tags).map((quote: any) => (
                         <div key={quote.id}>
                             <QuoteIndexCard quote={quote} />
+                            {/* <QuoteIndexSmallCard quote={quote} /> */}
                         </div>
                         ))
                     }

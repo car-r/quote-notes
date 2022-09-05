@@ -46,7 +46,7 @@ export default function QuoteTags({quote, actionData}: any) {
                         <label className="text-sm font-semibold tracking-wider uppercase">
                     
                         </label>
-                        <input type="text" name="tagBody" className="px-2 py-1 border border-stone-800 bg-stone-700 rounded"/>
+                        <input type="text" name="tagBody" className="px-2 py-1 border border-stone-800 bg-stone-700 rounded" placeholder="enter a tag"/>
                         {actionData?.errors.tagBody && (
                             <p className="text-red-400 text-sm mb-2">{actionData.errors.tagBody}</p>
                         )}
