@@ -61,7 +61,15 @@ export const loader = async ({request}: any) => {
         where: {userId: userId}
     })
 
-    return {quotes, authors, groupQuotes, tags}
+    const tagsWithQuotes = await prisma.tag.findMany({
+        where: {userId: userId},
+        include: {
+            quote: true, // Return all fields
+        }
+        
+    })
+
+    return {quotes, authors, groupQuotes, tags, tagsWithQuotes}
 }
 
 export const action = async ({request}: any) => {
@@ -83,23 +91,32 @@ export default function QuotesIndex() {
     const qouteCount = data.quotes.length
     const authorList = data.groupQuotes.map((author: any) => (author.authorName))
     const quoteCountList = data.groupQuotes.map((quote: any) => (quote._count._all))
-    const [tags, setTags] = useState<string[]>([])
+    const [tags, setTags] = useState<string[]>(['Real Estate'])
     // const [filteredQuotes, setFilteredQuotes] = useState([])
+    
 
 
     // const filteredQuotes = (quotes: any) => {
     //     quotes.filter(quote => 
     //         quote.tag.some(tag => tags.includes(tag.body))
     // }
-    const filterQuotes = data.quotes.filter(quote => 
+
+    function aggregateTags(prevTags) {
+        setTags(prevTags => [...prevTags, tag.body])
+    }
+
+    const filterQuotes = (tags) => data.quotes.filter(quote => 
         // quote.tag.some(tag => tags.includes(tag.body))
-        quote.tag.some(tag => tag.body === 'Real Estate')
+        quote.tag.some(tag => tags.includes(tag.body))
     )
-    console.log('filter quotes --> ', filterQuotes)
+    console.log('filter quotes --> ', filterQuotes(tags))
 
     useEffect(() => {
         // function to run to filter the quotes when tags state updates
+        filterQuotes(tags)
     }, [tags])
+
+    const filteredQuotes = filterQuotes(tags)
 
     const barData = {
         labels: authorList,
@@ -130,8 +147,8 @@ export default function QuotesIndex() {
                 null
                 } */}
                 <div className="flex gap-4 pb-6 overflow-auto scrollbar-hide">
-                        <div className="items-center flex text-xs text-stone-300 font-thin  px-4 py-2 rounded-xl bg-stone-800 whitespace-nowrap"
-                            onClick={() => setTags([])}
+                        <div className="items-center flex text-xs text-stone-300 font-thin  px-4 py-2 rounded-xl bg-stone-800 whitespace-nowrap checked:bg-slate-200"
+                            onClick={() => setTags(['all'])}
                         >
                             <p  className="">
                                 all
@@ -139,7 +156,7 @@ export default function QuotesIndex() {
                         </div>
                     {data.tags.map((tag: any) => (
                         <div key={tag.id} className="items-center flex text-xs text-stone-300 font-thin  px-4 py-2 rounded-xl bg-stone-800 whitespace-nowrap"
-                            onClick={() => setTags(prevTags => [...prevTags, tag.body])}
+                            onClick={() => setTags(tag.body)}
                         >
                             <p  className="">{tag.body}</p>
                         </div>
@@ -172,14 +189,27 @@ export default function QuotesIndex() {
                 </div> */}
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
                     <AddQuoteCard />
-                    
-                    {data.quotes.map((quote: any) => (
+                    {tags[0] === 'all' ? 
+                        data.quotes.map((quote: any) => (
+                            <div key={quote.id}>
+                                <QuoteIndexCard quote={quote} />
+                                
+                            </div>
+                        ))
+                        : filteredQuotes.map((quote: any) => (
+                            <div key={quote.id}>
+                                <QuoteIndexCard quote={quote} />
+                                
+                            </div>
+                        ))
+                    }
+                    {/* {data.quotes.map((quote: any) => (
                         <div key={quote.id}>
                             <QuoteIndexCard quote={quote} />
                             
                         </div>
                         ))
-                    }
+                    } */}
                 </div>
             </div>
         </>
