@@ -17,7 +17,7 @@ import {
     Legend,
   } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SectionTitle from "~/components/SectionTitle";
 import AuthorCard from "~/components/AuthorCard";
 import QuoteIndexSmallCard from "~/components/QuoteIndexSmallCard";
@@ -57,7 +57,9 @@ export const loader = async ({request}: any) => {
         _count: {_all: true}
     })
 
-    const tags = await prisma.tag.findMany()
+    const tags = await prisma.tag.findMany({
+        where: {userId: userId}
+    })
 
     return {quotes, authors, groupQuotes, tags}
 }
@@ -77,10 +79,27 @@ export const action = async ({request}: any) => {
 
 export default function QuotesIndex() {
     const data = useLoaderData()
+    const quotes = data.quotes
     const qouteCount = data.quotes.length
     const authorList = data.groupQuotes.map((author: any) => (author.authorName))
     const quoteCountList = data.groupQuotes.map((quote: any) => (quote._count._all))
     const [tags, setTags] = useState<string[]>([])
+    // const [filteredQuotes, setFilteredQuotes] = useState([])
+
+
+    // const filteredQuotes = (quotes: any) => {
+    //     quotes.filter(quote => 
+    //         quote.tag.some(tag => tags.includes(tag.body))
+    // }
+    const filterQuotes = data.quotes.filter(quote => 
+        // quote.tag.some(tag => tags.includes(tag.body))
+        quote.tag.some(tag => tag.body === 'Real Estate')
+    )
+    console.log('filter quotes --> ', filterQuotes)
+
+    useEffect(() => {
+        // function to run to filter the quotes when tags state updates
+    }, [tags])
 
     const barData = {
         labels: authorList,
@@ -90,7 +109,7 @@ export default function QuotesIndex() {
           borderWidth: 1,
           maxBarThickness: 75
         }]
-      }
+    }
     console.log(data)
     console.log(tags)
     return (
@@ -110,7 +129,7 @@ export default function QuotesIndex() {
                 :
                 null
                 } */}
-                <div className="flex gap-4 pb-6 overflow-auto">
+                <div className="flex gap-4 pb-6 overflow-auto scrollbar-hide">
                         <div className="items-center flex text-xs text-stone-300 font-thin  px-4 py-2 rounded-xl bg-stone-800 whitespace-nowrap"
                             onClick={() => setTags([])}
                         >
@@ -126,7 +145,7 @@ export default function QuotesIndex() {
                         </div>
                     ))}
                 </div>
-                <div>
+                {/* <div>
                     <SectionTitle children={`Authors`} />
                     <div className="flex flex-col gap-4 py-2 w-full">
                         {data.authors.map((author: any) => (
@@ -143,20 +162,21 @@ export default function QuotesIndex() {
                                     {author.quote.map((quote: any) => (
                                         <div key={quote.id} className="">
                                             <QuoteIndexSmallCard quote={quote} />
-                                            {/* <QuoteIndexCard quote={quote} /> */}
+                                            <QuoteIndexCard quote={quote} />
                                         </div>
                                     ))}
                                 </div>
                             </div>
                         ))}
                     </div>
-                </div>
+                </div> */}
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
                     <AddQuoteCard />
-                    {data.quotes.filter((quote: any) => quote.tag.body !== tags).map((quote: any) => (
+                    
+                    {data.quotes.map((quote: any) => (
                         <div key={quote.id}>
                             <QuoteIndexCard quote={quote} />
-                            {/* <QuoteIndexSmallCard quote={quote} /> */}
+                            
                         </div>
                         ))
                     }
