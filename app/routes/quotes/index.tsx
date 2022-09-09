@@ -57,8 +57,19 @@ export const loader = async ({request}: any) => {
         _count: {_all: true}
     })
 
-    const tags = await prisma.tag.findMany({
-        where: {userId: userId}
+    // const tags = await prisma.tag.findMany({
+    //     where: {userId: userId}
+    // })
+
+    const tags = await prisma.tag.groupBy({
+        where: {userId: userId},
+        by: ['body'],
+        _count: true,
+        orderBy: [{
+            _count: {
+                quoteId: 'desc'
+            }
+        }]
     })
 
     const tagsWithQuotes = await prisma.tag.findMany({
@@ -91,7 +102,7 @@ export default function QuotesIndex() {
     const qouteCount = data.quotes.length
     const authorList = data.groupQuotes.map((author: any) => (author.authorName))
     const quoteCountList = data.groupQuotes.map((quote: any) => (quote._count._all))
-    const [tags, setTags] = useState<string[]>(['Real Estate'])
+    const [tags, setTags] = useState<string[]>(['all'])
     // const [filteredQuotes, setFilteredQuotes] = useState([])
     
 
@@ -101,13 +112,13 @@ export default function QuotesIndex() {
     //         quote.tag.some(tag => tags.includes(tag.body))
     // }
 
-    function aggregateTags(prevTags) {
-        setTags(prevTags => [...prevTags, tag.body])
-    }
+    // function aggregateTags(prevTags) {
+    //     setTags(prevTags => [...prevTags, tag.body])
+    // }
 
-    const filterQuotes = (tags) => data.quotes.filter(quote => 
+    const filterQuotes = (tags: any) => data.quotes.filter((quote: any) => 
         // quote.tag.some(tag => tags.includes(tag.body))
-        quote.tag.some(tag => tags.includes(tag.body))
+        quote.tag.some((tag: any) => tags.includes(tag.body))
     )
     console.log('filter quotes --> ', filterQuotes(tags))
 
@@ -147,7 +158,7 @@ export default function QuotesIndex() {
                 null
                 } */}
                 <div className="flex gap-4 pb-6 overflow-auto scrollbar-hide">
-                        <div className="items-center flex text-xs text-stone-300 font-thin  px-4 py-2 rounded-xl bg-stone-800 whitespace-nowrap checked:bg-slate-200"
+                        <div className="items-center flex text-xs text-stone-300 font-thin  px-4 py-2 rounded-xl bg-stone-800 whitespace-nowrap "
                             onClick={() => setTags(['all'])}
                         >
                             <p  className="">
@@ -192,24 +203,15 @@ export default function QuotesIndex() {
                     {tags[0] === 'all' ? 
                         data.quotes.map((quote: any) => (
                             <div key={quote.id}>
-                                <QuoteIndexCard quote={quote} />
-                                
+                                <QuoteIndexCard quote={quote} />   
                             </div>
                         ))
                         : filteredQuotes.map((quote: any) => (
                             <div key={quote.id}>
                                 <QuoteIndexCard quote={quote} />
-                                
                             </div>
                         ))
                     }
-                    {/* {data.quotes.map((quote: any) => (
-                        <div key={quote.id}>
-                            <QuoteIndexCard quote={quote} />
-                            
-                        </div>
-                        ))
-                    } */}
                 </div>
             </div>
         </>
