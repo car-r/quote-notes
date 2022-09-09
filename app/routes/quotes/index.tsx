@@ -35,6 +35,11 @@ export const loader = async ({request}: any) => {
     const quotes = await prisma.quote.findMany(
         {orderBy: [
             {
+                note: {
+                    _count: 'desc'
+                }
+            },
+            {
                 createdAt: 'desc',
             },
         ],
@@ -105,13 +110,6 @@ export default function QuotesIndex() {
     const [tags, setTags] = useState<string[]>(['all'])
     // const [filteredQuotes, setFilteredQuotes] = useState([])
     
-
-
-    // const filteredQuotes = (quotes: any) => {
-    //     quotes.filter(quote => 
-    //         quote.tag.some(tag => tags.includes(tag.body))
-    // }
-
     // function aggregateTags(prevTags) {
     //     setTags(prevTags => [...prevTags, tag.body])
     // }
@@ -125,7 +123,7 @@ export default function QuotesIndex() {
     useEffect(() => {
         // function to run to filter the quotes when tags state updates
         filterQuotes(tags)
-    }, [tags])
+    }, [tags]) // FIX React Hook useEffect has a missing dependency: 'filterQuotes'. Either include it or remove the dependency array.
 
     const filteredQuotes = filterQuotes(tags)
 
@@ -148,17 +146,8 @@ export default function QuotesIndex() {
                     :
                     <PageTitle children={`Quotes`}/>
                 }
-                {/* {quoteCountList.length > 0 ? 
-                <div className="pb-20 pt-10 w-full flex flex-col overflow-hidden">
-                    <Bar
-                        data={barData}
-                    />
-                </div>
-                :
-                null
-                } */}
-                <div className="flex gap-4 pb-6 overflow-auto scrollbar-hide">
-                        <div className="items-center flex text-xs text-stone-300 font-thin  px-4 py-2 rounded-xl bg-stone-800 whitespace-nowrap "
+                <div className="flex gap-4 pb-4 mb-4 overflow-auto scrollbar-thin scrollbar-track-stone-700 scrollbar-thumb-stone-600">
+                        <div className="items-center flex text-xs text-stone-300 font-thin  px-4 py-2 rounded-xl bg-stone-800 whitespace-nowrap cursor-pointer"
                             onClick={() => setTags(['all'])}
                         >
                             <p  className="">
@@ -166,7 +155,7 @@ export default function QuotesIndex() {
                             </p>
                         </div>
                     {data.tags.map((tag: any) => (
-                        <div key={tag.id} className="items-center flex text-xs text-stone-300 font-thin  px-4 py-2 rounded-xl bg-stone-800 whitespace-nowrap"
+                        <div key={tag.id} className="items-center flex text-xs text-stone-300 font-thin  px-4 py-2 rounded-xl bg-stone-800 whitespace-nowrap cursor-pointer"
                             onClick={() => setTags(tag.body)}
                         >
                             <p  className="">{tag.body}</p>
