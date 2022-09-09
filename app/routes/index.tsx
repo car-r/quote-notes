@@ -46,7 +46,7 @@ export const loader = async ({request}: any) => {
     }
   })
   const authors = await prisma.author.findMany({
-    take: 3,
+    take: 4,
     where: {userId: userId},
     orderBy: {
       quote: {
@@ -178,9 +178,9 @@ export default function Index() {
         null
         } */}
         <SectionTitle children={'Favorite Quotes'}/>
-        <div className="flex overflow-auto">
+        <div className="flex overflow-auto pb-4 scrollbar-thin scrollbar-track-stone-800 scrollbar-thumb-stone-600">
           {data.quotes.length > 0 ?
-            <div className="flex md:flex md:flex-row gap-4 ml-1">
+            <div className="flex md:flex md:flex-row gap-4 mx-1">
               {data.quotes.map((quote: any) => (
               // <Link to={`/quotes/${quote.id}`} key={quote.id}
               //   className="flex flex-col w-full md:max-w-sm p-4 border border-stone-800 bg-stone-800 rounded-md hover:ring-2 hover:ring-blue-400 hover:text-stone-100"

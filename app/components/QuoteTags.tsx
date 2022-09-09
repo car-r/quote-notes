@@ -23,7 +23,7 @@ export default function QuoteTags({quote, actionData}: any) {
                         </button>
                     </div>
                     {/* <p className="text-sm font-semibold tracking-wider uppercase">Tags</p> */}
-                    <div className="flex gap-1 overflow-auto pt-2 pb-4 scrollbar-thin scrollbar-track-stone-600 scrollbar-thumb-stone-500">
+                    <div className="flex gap-1 overflow-auto pt-2 pb-4 scrollbar-thin scrollbar-track-stone-700 scrollbar-thumb-stone-600">
                     {quote.quote.tag?.map((tag: any) => (
                         <Form key={tag.id} method="post" name="_method">
                             <div className="items-center flex text-xs text-stone-300 font-thin truncate px-2 py-1 rounded-xl bg-stone-700 gap-1">
@@ -53,7 +53,7 @@ export default function QuoteTags({quote, actionData}: any) {
                             <p className="text-red-400 text-sm mb-2">{actionData.errors.tagBody}</p>
                         )}
                     <button name="_method" value="tag"
-                        className="px-4 py-2 mt-4 bg-blue-400 rounded text-white hover:bg-blue-600">
+                        className="px-4 py-2 mt-4 border-2 border-blue-400 hover:bg-blue-400 text-white rounded text-center cursor-pointer">
                         Add Tag
                     </button>
                 </Form>
