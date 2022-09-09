@@ -4,6 +4,8 @@ import { useState } from "react";
 export default function QuoteTags({quote, actionData}: any) {
     const [settings, setSettings] = useState(false)
 
+    // function to loop through settings array and remove a duplicate?
+
     console.log('quoteTags component -> ', quote.quote.tag)
 
     return (
@@ -21,7 +23,7 @@ export default function QuoteTags({quote, actionData}: any) {
                         </button>
                     </div>
                     {/* <p className="text-sm font-semibold tracking-wider uppercase">Tags</p> */}
-                    <div className="flex gap-1 overflow-auto py-2">
+                    <div className="flex gap-1 overflow-auto pt-2 pb-4 scrollbar-thin scrollbar-track-stone-600 scrollbar-thumb-stone-500">
                     {quote.quote.tag?.map((tag: any) => (
                         <Form key={tag.id} method="post" name="_method">
                             <div className="items-center flex text-xs text-stone-300 font-thin truncate px-2 py-1 rounded-xl bg-stone-700 gap-1">
