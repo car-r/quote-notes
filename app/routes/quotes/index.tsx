@@ -50,6 +50,7 @@ export const loader = async ({request}: any) => {
         }
     )
 
+
     const authors = await prisma.author.findMany({
         where: {userId: userId},
         include: {
@@ -57,15 +58,13 @@ export const loader = async ({request}: any) => {
         }
     })
 
+
     const groupQuotes = await prisma.quote.groupBy({
         where: {userId: userId},
         by: ['authorName'],
         _count: {_all: true}
     })
 
-    // const tags = await prisma.tag.findMany({
-    //     where: {userId: userId}
-    // })
 
     const tags = await prisma.tag.groupBy({
         where: {userId: userId},
@@ -77,6 +76,7 @@ export const loader = async ({request}: any) => {
             }
         }]
     })
+
 
     const tagsWithQuotes = await prisma.tag.findMany({
         where: {userId: userId},
@@ -163,31 +163,6 @@ export default function QuotesIndex() {
                         </div>
                     ))}
                 </div>
-                {/* <div>
-                    <SectionTitle children={`Authors`} />
-                    <div className="flex flex-col gap-4 py-2 w-full">
-                        {data.authors.map((author: any) => (
-                            <div key={author.id} className="flex gap-2 items-center w-full ">
-                                <div className="grid grid-cols-1 justify-center justify-items-center min-w-fit items-center  border border-green-400">
-                                    <div className="mb-2">
-                                        <img src={author.imgUrl} alt={author.name}
-                                        onError={(e: any) => e.target.src = 'https://icon-library.com/images/default-user-icon/default-user-icon-8.jpg'}
-                                        className="w-32 h-32 object-cover mr-4 rounded-full"/>
-                                    </div>
-                                    <p className="">{author.name}</p>
-                                </div>
-                                <div className="flex gap-2 p-2 overflow-auto">
-                                    {author.quote.map((quote: any) => (
-                                        <div key={quote.id} className="">
-                                            <QuoteIndexSmallCard quote={quote} />
-                                            <QuoteIndexCard quote={quote} />
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div> */}
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
                     <AddQuoteCard />
                     {tags[0] === 'all' ? 
