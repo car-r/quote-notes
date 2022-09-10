@@ -49,6 +49,7 @@ export const loader = async ({request}: any) => {
           }
         }
     )
+
     const authors = await prisma.author.findMany({
         where: {userId: userId},
         include: {
@@ -146,7 +147,7 @@ export default function QuotesIndex() {
                     :
                     <PageTitle children={`Quotes`}/>
                 }
-                <div className="flex gap-4 pb-4 mb-4 overflow-auto scrollbar-thin scrollbar-track-stone-700 scrollbar-thumb-stone-600">
+                <div className="flex gap-4 pb-6 mb-6 overflow-auto scrollbar-thin scrollbar-track-stone-800 scrollbar-thumb-stone-700">
                         <div className="items-center flex text-xs text-stone-300 font-thin  px-4 py-2 rounded-xl bg-stone-800 whitespace-nowrap cursor-pointer"
                             onClick={() => setTags(['all'])}
                         >

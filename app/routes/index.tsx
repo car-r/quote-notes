@@ -19,6 +19,7 @@ import AddQuoteCard from "~/components/AddQuoteCard";
 import PageTitle from "~/components/PageTitle";
 import { NONAME } from "dns";
 import QuoteSmallCard from "~/components/QuoteSmallCard";
+import AuthorHomeCard from "~/components/AuthorHomeCard";
 
 ChartJS.register(
   CategoryScale,
@@ -33,7 +34,12 @@ export const loader = async ({request}: any) => {
   const userId = await requireUserId(request);
   const quotes = await prisma.quote.findMany({
     take: 5,
-    where: {userId: userId, isFavorited: 'isFavorited'}
+    where: {userId: userId, isFavorited: 'isFavorited'},
+    orderBy: {
+      note: {
+        '_count': 'desc'
+      }
+    }
   })
 
   const content = await prisma.content.findMany({
@@ -166,7 +172,7 @@ export default function Index() {
           </div>
         </Link>
       </div>
-      <div className="pb-20 flex flex-col">
+      <div className="pb-28 flex flex-col">
         {/* {quoteCountList.length > 0 ? 
           <div className="pb-32 w-full flex flex-col overflow-hidden">
             <Bar
@@ -202,30 +208,30 @@ export default function Index() {
           }
         </div>
       </div>
-      <div className="pb-20">
+      <div className="pb-28">
         <SectionTitle children={'Top Content'}/>
         {data.content.length > 0 ?
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 ">
-          {data.content.map((content: any) => (
-            <Link to={`/content/${content.id}`} key={content.id}
-            className="p-4 border border-stone-800 bg-stone-800 rounded-md hover:ring-2  hover:ring-blue-400 hover:text-stone-100"
-            >
-            <div className="pb-2">
-                <img src={content.imgUrl} alt={content.title}
-                  onError={(e: any) => e.target.src = 'https://neelkanthpublishers.com/assets/bookcover_thumb.png'} 
-                  className="object-fit max-w-96"
-                />
-            </div>
-            <div>
-                <p className="font-bold">
-                    {content.title}
-                </p>     
-                <p className="text-sm font-thin tracking-wider">
-                    {content.authorName}
-                </p>               
-            </div>
-            </Link>
-          ))}
+            {data.content.map((content: any) => (
+              <Link to={`/content/${content.id}`} key={content.id}
+              className="p-4 border border-stone-800 bg-stone-800 rounded-md hover:ring-2  hover:ring-blue-400 hover:text-stone-100"
+              >
+              <div className="pb-2">
+                  <img src={content.imgUrl} alt={content.title}
+                    onError={(e: any) => e.target.src = 'https://neelkanthpublishers.com/assets/bookcover_thumb.png'} 
+                    className="object-fit max-w-96"
+                  />
+              </div>
+              <div>
+                  <p className="font-bold">
+                      {content.title}
+                  </p>     
+                  <p className="text-sm font-thin tracking-wider">
+                      {content.authorName}
+                  </p>               
+              </div>
+              </Link>
+            ))}
           </div>
           :
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 ">
@@ -237,13 +243,14 @@ export default function Index() {
           </div>
         }
       </div>
-      <div className="pb-20">
+      <div className="pb-28">
         <SectionTitle children={'Top Authors'}/>
         {data.authors.length > 0 ?
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="flex gap-4 overflow-auto pb-6 scrollbar-thin scrollbar-track-stone-800 scrollbar-thumb-stone-600 p-1">
             {data.authors.map((author: any) => (
                 <Link to={`/authors/${author.id}`} key={author.id} className="">
-                  <AuthorCard author={author}/>
+                  {/* <AuthorCard author={author}/> */}
+                  <AuthorHomeCard author={author}/>
                 </Link>
               ))}
           </div>

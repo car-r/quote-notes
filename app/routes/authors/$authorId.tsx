@@ -85,7 +85,7 @@ export default function AuthorDetail() {
         <div className="flex flex-col pt-6 md:pt-10 max-w-5xl">
             <PageTitle children={data.author.name}/>
             <AuthorRouteAuthorCard author={data} actionData={actionData}/>
-            <div className="mb-20">
+            <div className="mb-28">
                 <SectionTitle children={'Content'}/>
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 ">
                     {data.content.length < 1 ? 
@@ -120,16 +120,16 @@ export default function AuthorDetail() {
                 :
                 <div>
                     <SectionTitle children={'Quotes'}/>
-                    <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+                    <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 mb-28">
                         {data.quotes.length < 1 ? <AddQuoteCard /> : 
-                        data.quotes.map((quote: any) => (
-                            <Link to={`/quotes/${quote.id}`} key={quote.id}>
-                                <div className="p-4 border border-stone-800 bg-stone-800 rounded-md hover:ring-2 ring-blue-400 hover:text-stone-100">
-                                    <p className="text-xl text-center italic font-semibold">"{quote.body}"</p>
-                                </div>
-                            </Link>
-                        ))
-                    }
+                            data.quotes.map((quote: any) => (
+                                <Link to={`/quotes/${quote.id}`} key={quote.id}>
+                                    <div className="p-4 border border-stone-800 bg-stone-800 rounded-md hover:ring-2 ring-blue-400 hover:text-stone-100">
+                                        <p className="text-xl text-center italic font-semibold">"{quote.body}"</p>
+                                    </div>
+                                </Link>
+                            ))
+                        }
                     </div>  
                 </div>
                 } 
