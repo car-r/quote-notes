@@ -152,7 +152,7 @@ export default function ContentIdRoute() {
                         </div>
                     </div> 
                     : 
-                    <div className="grid grid-cols-1 gap-4 md:gap-6 md:grid-cols-1 md:grid-flow-row md:auto-rows-max lg:grid-cols-2">
+                    <div className="grid grid-cols-1 gap-4 md:gap-6 md:grid-cols-1 md:grid-flow-row md:auto-rows-max lg:grid-cols-2 pb-1">
                         {data.quotes.map((quote: any) => (
                             <div key={quote.id} className="flex flex-col p-4 border border-stone-800 bg-stone-800 rounded-md text-stone-300/60 hover:ring-2 hover:ring-blue-400 hover:text-stone-100">
                                 <div className="flex flex-col min-h-full">
@@ -178,11 +178,11 @@ export default function ContentIdRoute() {
                                     </Form>
                                     <Link to={`/quotes/${quote.id}`} className="flex flex-col flex-1 justify-center mb-6">
                                         <div className=" ">
-                                                <p className="text-xl text-center italic font-semibold">"{quote.body}"</p>
+                                                <p className="text-lg md:text-xl text-center italic font-semibold">"{quote.body}"</p>
                                         </div>
                                     </Link>
                                     <div className="flex mt-auto">
-                                        <p className="font-light">
+                                        <p className="text-sm md:text-base font-light">
                                             <Link to={`/authors/${quote.authorId}`}>{quote.authorName}</Link>, 
                                             <span className="font-thin pl-2"><Link to={`/content/${quote.contentId}`}>{content.title}</Link></span>
                                         </p>

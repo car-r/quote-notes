@@ -55,11 +55,11 @@ export default function QuoteIndexCard({quote}: any) {
                 </Form>
                 <Link to={`/quotes/${quote.id}`} className="flex flex-col flex-1 min-h-full justify-center mb-6">
                     <div className=" ">
-                            <p className="text-xl text-center italic font-semibold">"{quote.body}"</p>
+                            <p className="text-lg md:text-xl text-center italic font-semibold">"{quote.body}"</p>
                     </div>
                 </Link>
                 <div className="flex mt-auto">
-                    <p className="font-light tracking-wide">
+                    <p className="text-sm md:text-base font-light tracking-wide">
                         <Link to={`/authors/${quote.authorId}`}>{quote.authorName}</Link>
                     </p>
                 </div>

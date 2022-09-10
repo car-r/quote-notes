@@ -20,6 +20,7 @@ import PageTitle from "~/components/PageTitle";
 import { NONAME } from "dns";
 import QuoteSmallCard from "~/components/QuoteSmallCard";
 import AuthorHomeCard from "~/components/AuthorHomeCard";
+import ContentHomeCard from "~/components/ContentHomeCard";
 
 ChartJS.register(
   CategoryScale,
@@ -33,7 +34,7 @@ ChartJS.register(
 export const loader = async ({request}: any) => {
   const userId = await requireUserId(request);
   const quotes = await prisma.quote.findMany({
-    take: 5,
+    take: 7,
     where: {userId: userId, isFavorited: 'isFavorited'},
     orderBy: {
       note: {
@@ -146,7 +147,7 @@ export default function Index() {
   return (
    <div className="flex flex-col pt-6 md:pt-10 max-w-5xl">
       <PageTitle children={`Dashboard`}/>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pb-20">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pb-28">
         <Link to="/quotes">
           <div className="border-2 border-stone-800 p-4 rounded-xl hover:ring-2 hover:ring-blue-400 hover:text-stone-100">
             <p className="uppercase text-sm font-light tracking-wider">Quotes</p>
@@ -173,28 +174,12 @@ export default function Index() {
         </Link>
       </div>
       <div className="pb-28 flex flex-col">
-        {/* {quoteCountList.length > 0 ? 
-          <div className="pb-32 w-full flex flex-col overflow-hidden">
-            <Bar
-              data={barData}
-              options={options}
-            />
-          </div>
-        :
-        null
-        } */}
         <SectionTitle children={'Favorite Quotes'}/>
-        <div className="flex overflow-auto pb-4 scrollbar-thin scrollbar-track-stone-800 scrollbar-thumb-stone-600">
+        <div className="flex overflow-auto pb-4 snap-x scrollbar-thin scrollbar-track-stone-800 scrollbar-thumb-stone-700">
           {data.quotes.length > 0 ?
             <div className="flex md:flex md:flex-row gap-4 mx-1">
               {data.quotes.map((quote: any) => (
-              // <Link to={`/quotes/${quote.id}`} key={quote.id}
-              //   className="flex flex-col w-full md:max-w-sm p-4 border border-stone-800 bg-stone-800 rounded-md hover:ring-2 hover:ring-blue-400 hover:text-stone-100"
-              // >
-              //   <p className="text-xl text-center pb-6 italic font-semibold ">"{quote.body}"</p>
-              //   <p className="font-light mt-auto"><Link to={`/authors/${quote.authorId}`}>{quote.authorName}</Link></p>
-              // </Link>
-                <Link to={`/quotes/${quote.id}`} key={quote.id}>
+                <Link to={`/quotes/${quote.id}`} key={quote.id} className="snap-start px-1">
                   <QuoteSmallCard quote={quote}/>
                 </Link>
               ))}
@@ -211,33 +196,16 @@ export default function Index() {
       <div className="pb-28">
         <SectionTitle children={'Top Content'}/>
         {data.content.length > 0 ?
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 ">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 ">
             {data.content.map((content: any) => (
-              <Link to={`/content/${content.id}`} key={content.id}
-              className="p-4 border border-stone-800 bg-stone-800 rounded-md hover:ring-2  hover:ring-blue-400 hover:text-stone-100"
-              >
-              <div className="pb-2">
-                  <img src={content.imgUrl} alt={content.title}
-                    onError={(e: any) => e.target.src = 'https://neelkanthpublishers.com/assets/bookcover_thumb.png'} 
-                    className="object-fit max-w-96"
-                  />
-              </div>
-              <div>
-                  <p className="font-bold">
-                      {content.title}
-                  </p>     
-                  <p className="text-sm font-thin tracking-wider">
-                      {content.authorName}
-                  </p>               
-              </div>
+              <Link to={`/content/${content.id}`} key={content.id}>
+                <ContentHomeCard content={content} />
               </Link>
             ))}
           </div>
           :
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 ">
-            <Link 
-              to={`/content/new`}
-              className="">
+            <Link to={`/content/new`}>
               <AddContentCard />
             </Link>
           </div>
@@ -246,9 +214,9 @@ export default function Index() {
       <div className="pb-28">
         <SectionTitle children={'Top Authors'}/>
         {data.authors.length > 0 ?
-          <div className="flex gap-4 overflow-auto pb-6 scrollbar-thin scrollbar-track-stone-800 scrollbar-thumb-stone-600 p-1">
+          <div className="flex gap-4 overflow-auto pb-6 snap-x scrollbar-thin scrollbar-track-stone-800 scrollbar-thumb-stone-700 p-1">
             {data.authors.map((author: any) => (
-                <Link to={`/authors/${author.id}`} key={author.id} className="">
+                <Link to={`/authors/${author.id}`} key={author.id} className=" snap-start px-1">
                   {/* <AuthorCard author={author}/> */}
                   <AuthorHomeCard author={author}/>
                 </Link>

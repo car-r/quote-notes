@@ -24,7 +24,7 @@ export default function QuoteDetailCard({quote}: any) {
                         </div>
                     </div>
                 </Form>
-                <p className="text-xl text-center pb-6 italic font-semibold">"{quote.quote.body}"</p>
+                <p className="text-lg sm:text-xl text-center pb-6 italic font-semibold">"{quote.quote.body}"</p>
                 <p className="font-light">
                     <Link to={`/authors/${quote.quote.authorId}`} className="hover:text-stone-100">
                         {quote.quote.authorName}
