@@ -11,22 +11,26 @@ import { requireUserId } from "~/session.server";
 
 export const loader = async ({params, request}: any) => {
     const userId = await requireUserId(request);
+
     const author = await prisma.author.findUnique({
-        where: { id: params.authorId }
+        where: { id: params.authorId },
+        include: {
+            _count: {
+              select: {
+                quote: true,
+                content: true,
+                quoteNote: true
+              }
+            },
+            content: true,
+          }
     })
-    const quotes = await prisma.quote.findMany({
-        where: { userId: userId, authorId: params.authorId }
-    })
+
     const favoriteQuotes = await prisma.quote.findMany({
         where: { userId: userId, authorId: params.authorId, isFavorited: {equals: "isFavorited"} }
     })
-    const content = await prisma.content.findMany({
-        where: { userId: userId, authorId: params.authorId}
-    })
-    const quoteNotes = await prisma.quoteNote.findMany({
-        where: { userId: userId, authorId: params.authorId}
-    })
-    return {author, quotes, favoriteQuotes, content, quoteNotes}
+
+    return {author, favoriteQuotes}
 }
 
 export const action = async ({request, params}: any) => {
@@ -88,13 +92,13 @@ export default function AuthorDetail() {
             <div className="mb-28">
                 <SectionTitle children={'Content'}/>
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 ">
-                    {data.content.length < 1 ? 
+                    {data.author._count.content < 1 ? 
                         <Link to={`/content/new`}>
                             <AddContentCard />
                         </Link> 
                     : 
                     <div>
-                        {data.content.map((content: any) => (
+                        {data.author.content.map((content: any) => (
                             <Link to={`/content/${content.id}`} key={content.id}>
                                 <ContentCard content={content}/>
                             </Link>
@@ -103,7 +107,7 @@ export default function AuthorDetail() {
                     }
                 </div>
             </div>
-            <div className="flex flex-col">
+            <div className="flex flex-col pb-1">
                 {data.favoriteQuotes.length > 0 ?
                 <div>
                     <SectionTitle children={'Favorite Quotes'}/>
@@ -111,7 +115,7 @@ export default function AuthorDetail() {
                         {data.favoriteQuotes.map((quote: any) => (
                             <Link to={`/quotes/${quote.id}`} key={quote.id}>
                                 <div className="p-4 border border-stone-800 bg-stone-800 rounded-md hover:ring-2 ring-blue-400 hover:text-stone-100">
-                                    <p className="text-xl text-center italic font-semibold">"{quote.body}"</p>
+                                    <p className="text-md text-center italic font-semibold">"{quote.body}"</p>
                                 </div>
                             </Link>
                         ))}
@@ -125,7 +129,7 @@ export default function AuthorDetail() {
                             data.quotes.map((quote: any) => (
                                 <Link to={`/quotes/${quote.id}`} key={quote.id}>
                                     <div className="p-4 border border-stone-800 bg-stone-800 rounded-md hover:ring-2 ring-blue-400 hover:text-stone-100">
-                                        <p className="text-xl text-center italic font-semibold">"{quote.body}"</p>
+                                        <p className="text-lg text-center italic font-semibold">"{quote.body}"</p>
                                     </div>
                                 </Link>
                             ))

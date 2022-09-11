@@ -3,12 +3,13 @@ import { useState } from "react"
 
 export default function AuthorRouteAuthorCard({author, actionData}: any) {
     const [showEditAuthor, setShowEditAuthor] = useState(false)
-    const quotes = {title: 'Quotes', count: author.quotes.length}
+    const quotes = {title: 'Quotes', count: author.author._count.quote}
     // const favorites = {title: 'Favorites', count: author.favoriteQuotes.length}
-    const contents = {title: 'Content', count: author.content.length}
-    const notes = {title: 'Notes', count: author.quoteNotes.length}
+    const contents = {title: 'Content', count: author.author._count.content}
+    const notes = {title: 'Notes', count: author.author._count.quoteNote}
     const detailArray = [contents, quotes, notes]
     console.log(actionData)
+    console.log(detailArray)
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4  rounded-xl py-2 mb-20">
             <div className="flex flex-col p-4 rounded-lg max-w-xl items-center">

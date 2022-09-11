@@ -196,7 +196,7 @@ export default function Index() {
       <div className="pb-28">
         <SectionTitle children={'Top Content'}/>
         {data.content.length > 0 ?
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 ">
+          <div className="flex overflow-auto pb-6 snap-x scrollbar-thin scrollbar-track-stone-800 scrollbar-thumb-stone-700 p-1 gap-4 ">
             {data.content.map((content: any) => (
               <Link to={`/content/${content.id}`} key={content.id}>
                 <ContentHomeCard content={content} />
