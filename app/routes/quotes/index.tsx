@@ -21,6 +21,7 @@ import { useEffect, useState } from "react";
 import SectionTitle from "~/components/SectionTitle";
 import AuthorCard from "~/components/AuthorCard";
 import QuoteIndexSmallCard from "~/components/QuoteIndexSmallCard";
+import AddQuoteBtn from "~/components/AddQuoteBtn";
 ChartJS.register(
     CategoryScale,
     LinearScale,
@@ -46,6 +47,8 @@ export const loader = async ({request}: any) => {
         where: {userId: userId},
         include: {
             tag: true, // Return all fields
+            author: true,
+            content: true
           }
         }
     )
@@ -143,7 +146,7 @@ export default function QuotesIndex() {
         <>
             <div className="flex flex-col pt-6 md:pt-10 max-w-5xl">
                 {qouteCount > 0 ?
-                    <PageTitle children={`${qouteCount} Quotes`}/>
+                    <PageTitle children={`${qouteCount} Quotes`} btn={<AddQuoteBtn />}/>
                     :
                     <PageTitle children={`Quotes`}/>
                 }
@@ -164,7 +167,6 @@ export default function QuotesIndex() {
                     ))}
                 </div>
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-                    <AddQuoteCard />
                     {tags[0] === 'all' ? 
                         data.quotes.map((quote: any) => (
                             <div key={quote.id}>

@@ -1,6 +1,7 @@
 import { useActionData, useLoaderData } from "@remix-run/react";
 import { redirect } from "@remix-run/server-runtime";
 import AddNoteCard from "~/components/AddNoteCard";
+import PageTitle from "~/components/PageTitle";
 import QuoteDetailCard from "~/components/QuoteDetailCard";
 import QuoteEditCard from "~/components/QuoteEditCard";
 import QuoteNoteGrid from "~/components/QuoteNoteGrid";
@@ -174,6 +175,7 @@ export default function QuoteDetail() {
     
     return (
         <div className="flex flex-col pt-6 md:pt-10 max-w-5xl">
+            <PageTitle children={`Quote`}/>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
                 <QuoteDetailCard quote={quote}/>
                 <div className="flex flex-col gap-6">
@@ -182,7 +184,7 @@ export default function QuoteDetail() {
                     <QuoteTags quote={quote} actionData={actionData}/>
                 </div>
             </div>
-            <div className="mt-20">
+            <div className="mt-20 mb-28">
                 <SectionTitle children={"Notes"}/>
                 <QuoteNoteGrid quote={quote}/>
             </div>

@@ -115,18 +115,18 @@ export default function QuotesIndex() {
     //     setTags(prevTags => [...prevTags, tag.body])
     // }
 
-    const filterQuotes = (tags: any) => data.quotes.filter((quote: any) => 
-        // quote.tag.some(tag => tags.includes(tag.body))
-        quote.tag.some((tag: any) => tags.includes(tag.body))
-    )
-    console.log('filter quotes --> ', filterQuotes(tags))
+    // const filterQuotes = (tags: any) => data.quotes.filter((quote: any) => 
+    //     // quote.tag.some(tag => tags.includes(tag.body))
+    //     quote.tag.some((tag: any) => tags.includes(tag.body))
+    // )
+    // console.log('filter quotes --> ', filterQuotes(tags))
 
-    useEffect(() => {
-        // function to run to filter the quotes when tags state updates
-        filterQuotes(tags)
-    }, [tags]) // FIX React Hook useEffect has a missing dependency: 'filterQuotes'. Either include it or remove the dependency array.
+    // useEffect(() => {
+    //     // function to run to filter the quotes when tags state updates
+    //     filterQuotes(tags)
+    // }, [tags]) // FIX React Hook useEffect has a missing dependency: 'filterQuotes'. Either include it or remove the dependency array.
 
-    const filteredQuotes = filterQuotes(tags)
+    // const filteredQuotes = filterQuotes(tags)
 
     const barData = {
         labels: authorList,
@@ -168,7 +168,10 @@ export default function QuotesIndex() {
                     <AddQuoteCard />
                     {data.quotes.map((quote: any) => (
                             <div key={quote.id}>
-                                <QuoteIndexCard quote={quote} />   
+                                {/* <QuoteIndexCard quote={quote} />    */}
+                                <div className="p-4 rounded-lg bg-stone-800">
+                                    {quote.body}
+                                </div>
                             </div>
                         ))}
                 </div>
