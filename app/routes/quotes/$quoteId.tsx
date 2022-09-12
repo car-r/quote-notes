@@ -120,13 +120,15 @@ export const action = async ({ request, params }: any) => {
 
     // Action to add tag
     if(form.get('_method') === 'tag') {
-        const body: string = tagBody
+        const oldBody: string = tagBody
         const quoteId: string = params.quoteId
 
         const errors = {
             tagBody: ''
         }
-    
+
+        const body = oldBody.replace(/\s+/g, '-').toLowerCase()
+
         function checkBody(body: any) {
             if(!body || body.length < 3) {
                 return errors.tagBody = `Tag too short`
@@ -134,6 +136,7 @@ export const action = async ({ request, params }: any) => {
         }
     
         checkBody(body)
+
     
         if (errors.tagBody) {
             const values = Object.fromEntries(form)

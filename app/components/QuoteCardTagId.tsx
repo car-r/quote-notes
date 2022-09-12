@@ -25,7 +25,7 @@ export default function QuoteCardTagId({quote}: any) {
                             </div>
                         </div>
                     </Form>
-                    <Link to={`/quotes/${quote.quote.id}`} className="flex flex-col flex-1 min-h-full justify-center mb-6">
+                    <Link to={`/quotes/${quote.quoteId}`} className="flex flex-col flex-1 min-h-full justify-center mb-6">
                         <div className=" ">
                                 <p className="text-lg text-center italic font-semibold">"{quote.quote.body}"</p>
                         </div>
