@@ -25,7 +25,6 @@ export default function AuthorsIndex() {
                 :
                 <PageTitle children={`Authors`}/>
             }
-            {/* <PageTitle children={`${authorCount} Authors`}/> */}
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 <Link to="/authors/new" className="hover:text-stone-100">
                     <AddAuthorCard />           

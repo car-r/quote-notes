@@ -105,7 +105,7 @@ export const action = async ({request}: any) => {
 
 export default function QuotesIndex() {
     const data = useLoaderData()
-    const quotes = data.quotes
+
     const qouteCount = data.quotes.length
     const authorList = data.groupQuotes.map((author: any) => (author.authorName))
     const quoteCountList = data.groupQuotes.map((quote: any) => (quote._count._all))
@@ -138,13 +138,6 @@ export default function QuotesIndex() {
                     ))}
                 </div>
                 <div className="">
-                    {/* {data.quotes.map((quote: any) => (
-                            <Link to={`/testQuotes/${quote.id}`} key={quote.id}>
-                                <div className="p-4 rounded-lg bg-stone-800">
-                                    {quote.body}
-                                </div>
-                            </Link>
-                        ))} */}
                     <Outlet />
                 </div>
             </div>
