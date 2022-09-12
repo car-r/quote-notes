@@ -1,5 +1,6 @@
 import { Link, useLoaderData } from "@remix-run/react"
 import AddContentCard from "~/components/AddContentCard"
+import AddContentBtn from "~/components/AddContentBtn"
 import ContentCard from "~/components/ContentCard"
 import PageTitle from "~/components/PageTitle"
 import { prisma } from "~/db.server"
@@ -28,16 +29,13 @@ export default function ContentIndex() {
     return (
         <div className="flex flex-col pt-6 md:pt-10 max-w-5xl">
             {contentCount > 0 ?
-                <PageTitle children={`${contentCount} Content`}/>
+                <PageTitle children={`${contentCount} Content`} btn={<AddContentBtn />}/>
                 :
                 <PageTitle children={`Content`}/>
             }
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 pb-1">
-                <Link to={`/content/new`}>
-                    <AddContentCard />
-                </Link>
                 {data.data.map((content: any) => (
-                    <Link to={`/content/${content.id}`} key={content.id}>
+                    <Link to={`/content/${content.id}`} key={content.id} className="flex">
                         <ContentCard content={content}/>
                     </Link>
                 ))}
