@@ -1,9 +1,10 @@
 import { Link, useLoaderData } from "@remix-run/react";
 import QuoteNote from "~/components/QuoteNote";
+import PageTitle from "~/components/PageTitle";
 import { prisma } from "~/db.server";
 import { requireUserId } from "~/session.server";
 
-export const loader =async ({request}: any) => {
+export const loader = async ({request}: any) => {
     const userId = await requireUserId(request);
     const data = await prisma.quoteNote.findMany({
         where: {userId: userId}
@@ -18,20 +19,14 @@ export default function QuoteNoteIndex() {
     return (
         <>
             <div className="flex flex-col pt-6 md:pt-10 max-w-5xl">
-                <div className="pb-6">
                     {noteCount > 0 ? 
-                        <h3 className="text-2xl tracking-wide font-semibold pb-2 border-stone-800 border-b-2">
-                        {`${noteCount} Notes`}
-                        </h3>
+                        <PageTitle children={`${noteCount} Notes`}/>
                         : 
-                        <h3 className="text-2xl tracking-wide font-semibold pb-2 border-stone-800 border-b-2">
-                            Notes
-                        </h3>
+                        <PageTitle children={`Notes`}/>
                     }
-                </div>
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
                     {data.map((note: any) => (
-                        <Link to={`/quoteNotes/${note.id}`} key={note.id}>
+                        <Link to={`/quoteNotes/${note.id}`} key={note.id} className="flex">
                             <QuoteNote note={note}/>
                         </Link>))
                     }

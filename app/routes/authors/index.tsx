@@ -1,6 +1,5 @@
 
 import { Link, useLoaderData } from "@remix-run/react"
-import AddAuthorCard from "~/components/AddAuthorCard"
 import AddAuthorBtn from "~/components/AddAuthorBtn"
 import AuthorCard from "~/components/AuthorCard"
 import PageTitle from "~/components/PageTitle"
