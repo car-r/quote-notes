@@ -130,7 +130,7 @@ export default function QuotesIndex() {
                         </Link>
                     {data.tags.map((tag: any) => (
                         <NavLink to={`/quotes/tags/${tag.body}`} key={tag.id} className={({ isActive }) =>
-                        ` ${isActive ? "bg-stone-600 items-center flex text-xs text-stone-300 font-thin  px-4 py-2 rounded-xl  whitespace-nowrap cursor-pointer" : "items-center flex text-xs text-stone-300 font-thin  px-4 py-2 rounded-xl bg-stone-800 whitespace-nowrap cursor-pointer"}`
+                        ` ${isActive ? "bg-stone-700 items-center flex text-xs text-stone-100 font-thin  px-4 py-2 rounded-xl  whitespace-nowrap cursor-pointer" : "items-center flex text-xs text-stone-300 font-thin  px-4 py-2 rounded-xl bg-stone-800 whitespace-nowrap cursor-pointer"}`
                         }>
                             <div key={tag.id} >
                                 <p  className="">{tag.body}</p>

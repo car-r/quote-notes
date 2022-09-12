@@ -5,7 +5,7 @@ export default function QuoteIndexCard({quote}: any) {
         <div className="p-4 border border-stone-800 bg-stone-800 rounded-md text-stone-300/60 hover:ring-2 hover:ring-blue-400 hover:text-stone-100">
             <div className="flex flex-col min-h-full">
                 <Form method="post">
-                    <div onClick={() => console.log('clicked')} className="flex justify-end mb-2">   
+                    <div onClick={() => console.log('clicked')} className="flex justify-end">   
                         <div className="flex flex-col">
                         <input type="hidden" name="id" value={quote.id}/>
 
@@ -24,7 +24,7 @@ export default function QuoteIndexCard({quote}: any) {
                         </div>
                     </div>
                 </Form>
-                <Link to={`/quotes/${quote.id}`} className="flex flex-col flex-1 min-h-full justify-center mb-6">
+                <Link to={`/quotes/${quote.id}`} className="flex flex-col flex-1 min-h-full justify-center py-4">
                     <div className=" ">
                             <p className="text-lg  text-center italic font-semibold">"{quote.body}"</p>
                     </div>
