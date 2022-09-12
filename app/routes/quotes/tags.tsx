@@ -1,13 +1,35 @@
-import { Link, useLoaderData } from "@remix-run/react";
+import { Link, Outlet, useLoaderData } from "@remix-run/react";
 import { redirect } from "@remix-run/server-runtime";
+import AddQuoteCard from "~/components/AddQuoteCard";
 import PageTitle from "~/components/PageTitle";
 import QuoteIndexCard from "~/components/QuoteIndexCard";
 
 import { prisma } from "~/db.server";
 import { requireUserId } from "~/session.server";
 
+import {
+    Chart as ChartJS,
+    CategoryScale,
+    LinearScale,
+    BarElement,
+    Title,
+    Tooltip,
+    Legend,
+  } from 'chart.js';
+import { Bar } from 'react-chartjs-2';
+import { useEffect, useState } from "react";
+import SectionTitle from "~/components/SectionTitle";
+import AuthorCard from "~/components/AuthorCard";
+import QuoteIndexSmallCard from "~/components/QuoteIndexSmallCard";
 import AddQuoteBtn from "~/components/AddQuoteBtn";
-import { useState } from "react";
+ChartJS.register(
+    CategoryScale,
+    LinearScale,
+    BarElement,
+    Title,
+    Tooltip,
+    Legend
+);
 
 export const loader = async ({request}: any) => {
     const userId = await requireUserId(request);
@@ -25,8 +47,6 @@ export const loader = async ({request}: any) => {
         where: {userId: userId},
         include: {
             tag: true, // Return all fields
-            author: true,
-            content: true,
           }
         }
     )
@@ -102,13 +122,12 @@ export default function QuotesIndex() {
                     <PageTitle children={`Quotes`} btn={<AddQuoteBtn />}/>
                 }
                 <div className="flex gap-4 pb-6 mb-6 overflow-auto scrollbar-thin scrollbar-track-stone-800 scrollbar-thumb-stone-700">
-                        <div className="items-center flex text-xs text-stone-300 font-thin  px-4 py-2 rounded-xl bg-stone-800 whitespace-nowrap cursor-pointer"
-                            onClick={() => setTags(['all'])}
-                        >
-                            <p  className="">
+                        <Link to="/quotes">
+                            <div className="items-center flex text-xs text-stone-300 font-thin  px-4 py-2 rounded-xl bg-stone-800 whitespace-nowrap cursor-pointer"
+                            >
                                 all
-                            </p>
-                        </div>
+                            </div>
+                        </Link>
                     {data.tags.map((tag: any) => (
                         <Link to={`/quotes/tags/${tag.body}`} key={tag.id}>
                             <div key={tag.id} className="items-center flex text-xs text-stone-300 font-thin  px-4 py-2 rounded-xl bg-stone-800 whitespace-nowrap cursor-pointer">
@@ -118,10 +137,15 @@ export default function QuotesIndex() {
                         </Link>
                     ))}
                 </div>
-                <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 mb-1">
-                    {data.quotes.map((quote: any) => (
-                        <QuoteIndexCard quote={quote} key={quote.id}/>
-                    ))}
+                <div className="">
+                    {/* {data.quotes.map((quote: any) => (
+                            <Link to={`/testQuotes/${quote.id}`} key={quote.id}>
+                                <div className="p-4 rounded-lg bg-stone-800">
+                                    {quote.body}
+                                </div>
+                            </Link>
+                        ))} */}
+                    <Outlet />
                 </div>
             </div>
         </>

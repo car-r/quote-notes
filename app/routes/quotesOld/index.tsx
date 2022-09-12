@@ -1,4 +1,4 @@
-import { Link, useLoaderData } from "@remix-run/react";
+import { useLoaderData } from "@remix-run/react";
 import { redirect } from "@remix-run/server-runtime";
 import AddQuoteCard from "~/components/AddQuoteCard";
 import PageTitle from "~/components/PageTitle";
@@ -21,6 +21,7 @@ import { useEffect, useState } from "react";
 import SectionTitle from "~/components/SectionTitle";
 import AuthorCard from "~/components/AuthorCard";
 import QuoteIndexSmallCard from "~/components/QuoteIndexSmallCard";
+import AddQuoteBtn from "~/components/AddQuoteBtn";
 ChartJS.register(
     CategoryScale,
     LinearScale,
@@ -46,6 +47,8 @@ export const loader = async ({request}: any) => {
         where: {userId: userId},
         include: {
             tag: true, // Return all fields
+            author: true,
+            content: true
           }
         }
     )
@@ -62,7 +65,7 @@ export const loader = async ({request}: any) => {
     const groupQuotes = await prisma.quote.groupBy({
         where: {userId: userId},
         by: ['authorName'],
-        _count: {_all: true},
+        _count: {_all: true}
     })
 
 
@@ -115,18 +118,18 @@ export default function QuotesIndex() {
     //     setTags(prevTags => [...prevTags, tag.body])
     // }
 
-    // const filterQuotes = (tags: any) => data.quotes.filter((quote: any) => 
-    //     // quote.tag.some(tag => tags.includes(tag.body))
-    //     quote.tag.some((tag: any) => tags.includes(tag.body))
-    // )
-    // console.log('filter quotes --> ', filterQuotes(tags))
+    const filterQuotes = (tags: any) => data.quotes.filter((quote: any) => 
+        // quote.tag.some(tag => tags.includes(tag.body))
+        quote.tag.some((tag: any) => tags.includes(tag.body))
+    )
+    console.log('filter quotes --> ', filterQuotes(tags))
 
-    // useEffect(() => {
-    //     // function to run to filter the quotes when tags state updates
-    //     filterQuotes(tags)
-    // }, [tags]) // FIX React Hook useEffect has a missing dependency: 'filterQuotes'. Either include it or remove the dependency array.
+    useEffect(() => {
+        // function to run to filter the quotes when tags state updates
+        filterQuotes(tags)
+    }, [tags]) // FIX React Hook useEffect has a missing dependency: 'filterQuotes'. Either include it or remove the dependency array.
 
-    // const filteredQuotes = filterQuotes(tags)
+    const filteredQuotes = filterQuotes(tags)
 
     const barData = {
         labels: authorList,
@@ -143,7 +146,7 @@ export default function QuotesIndex() {
         <>
             <div className="flex flex-col pt-6 md:pt-10 max-w-5xl">
                 {qouteCount > 0 ?
-                    <PageTitle children={`${qouteCount} Quotes`}/>
+                    <PageTitle children={`${qouteCount} Quotes`} btn={<AddQuoteBtn />}/>
                     :
                     <PageTitle children={`Quotes`}/>
                 }
@@ -156,24 +159,26 @@ export default function QuotesIndex() {
                             </p>
                         </div>
                     {data.tags.map((tag: any) => (
-                        <Link to={`/testQuotes/${tag.body}`} key={tag.id}>
-                        <div key={tag.id} className="items-center flex text-xs text-stone-300 font-thin  px-4 py-2 rounded-xl bg-stone-800 whitespace-nowrap cursor-pointer">
+                        <div key={tag.id} className="items-center flex text-xs text-stone-300 font-thin  px-4 py-2 rounded-xl bg-stone-800 whitespace-nowrap cursor-pointer"
+                            onClick={() => setTags(tag.body)}
+                        >
                             <p  className="">{tag.body}</p>
-                            <p>{tag.id}</p>
                         </div>
-                        </Link>
                     ))}
                 </div>
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-                    <AddQuoteCard />
-                    {data.quotes.map((quote: any) => (
+                    {tags[0] === 'all' ? 
+                        data.quotes.map((quote: any) => (
                             <div key={quote.id}>
-                                {/* <QuoteIndexCard quote={quote} />    */}
-                                <div className="p-4 rounded-lg bg-stone-800">
-                                    {quote.body}
-                                </div>
+                                <QuoteIndexCard quote={quote} />   
                             </div>
-                        ))}
+                        ))
+                        : filteredQuotes.map((quote: any) => (
+                            <div key={quote.id}>
+                                <QuoteIndexCard quote={quote} />
+                            </div>
+                        ))
+                    }
                 </div>
             </div>
         </>
