@@ -106,14 +106,14 @@ export default function AuthorDetail() {
                     }
                 </div>
             </div>
-            <div className="flex flex-col pb-1">
+            <div className="flex flex-col pb-1 mb-28">
                 {data.favoriteQuotes.length > 0 ?
                 <div>
                     <SectionTitle children={'Favorite Quotes'}/>
-                    <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+                    <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 ">
                         {data.favoriteQuotes.map((quote: any) => (
-                            <Link to={`/quotes/${quote.id}`} key={quote.id}>
-                                <div className="p-4 border border-stone-800 bg-stone-800 rounded-md hover:ring-2 ring-blue-400 hover:text-stone-100">
+                            <Link to={`/quotes/${quote.id}`} key={quote.id} className="flex ">
+                                <div className=" flex flex-col justify-center p-4 border border-stone-800 bg-stone-800 rounded-md hover:ring-2 ring-blue-400 hover:text-stone-100">
                                     <p className="text-md text-center italic font-semibold">"{quote.body}"</p>
                                 </div>
                             </Link>
@@ -123,12 +123,12 @@ export default function AuthorDetail() {
                 :
                 <div>
                     <SectionTitle children={'Quotes'}/>
-                    <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 mb-28">
+                    <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
                         {data.quotes.length < 1 ? <AddQuoteCard /> : 
                             data.quotes.map((quote: any) => (
-                                <Link to={`/quotes/${quote.id}`} key={quote.id}>
+                                <Link to={`/quotes/${quote.id}`} key={quote.id} className="">
                                     <div className="p-4 border border-stone-800 bg-stone-800 rounded-md hover:ring-2 ring-blue-400 hover:text-stone-100">
-                                        <p className="text-lg text-center italic font-semibold">"{quote.body}"</p>
+                                        <p className="text-lg text-center italic font-semibold ">"{quote.body}"</p>
                                     </div>
                                 </Link>
                             ))

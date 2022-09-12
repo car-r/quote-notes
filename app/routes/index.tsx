@@ -185,8 +185,8 @@ export default function Index() {
               ))}
             </div>
             :
-            <div className="flex flex-col md:flex md:flex-row gap-4 ">
-              <Link to="/quotes/new">
+            <div className="flex md:flex md:flex-row gap-4 mx-1">
+              <Link to="/quotes/new" className="p-1">
                 <AddQuoteCard />
               </Link>
             </div>
@@ -198,7 +198,7 @@ export default function Index() {
         {data.content.length > 0 ?
           <div className="flex overflow-auto pb-6 snap-x scrollbar-thin scrollbar-track-stone-800 scrollbar-thumb-stone-700 p-1 gap-4 ">
             {data.content.map((content: any) => (
-              <Link to={`/content/${content.id}`} key={content.id}>
+              <Link to={`/content/${content.id}`} key={content.id} className="flex">
                 <ContentHomeCard content={content} />
               </Link>
             ))}

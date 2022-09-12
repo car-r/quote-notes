@@ -17,7 +17,7 @@ export default function QuoteNoteIndex() {
     console.log(data)
     return (
         <>
-            <div className="flex flex-col pt-6 md:pt-10 max-w-4xl">
+            <div className="flex flex-col pt-6 md:pt-10 max-w-5xl">
                 <div className="pb-6">
                     {noteCount > 0 ? 
                         <h3 className="text-2xl tracking-wide font-semibold pb-2 border-stone-800 border-b-2">
