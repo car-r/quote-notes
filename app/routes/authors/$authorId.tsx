@@ -38,7 +38,6 @@ export const action = async ({request, params}: any) => {
     const form = await request.formData()
     const name = form.get('name')
     const imgUrl = form.get('imgUrl')
-    // const userId = 'cl5j0h3ey00090bmf1xn3f4vo'
 
     const fields = { name, imgUrl, userId }
 
