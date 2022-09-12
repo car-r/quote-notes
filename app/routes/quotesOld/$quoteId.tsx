@@ -3,6 +3,7 @@ import { redirect } from "@remix-run/server-runtime";
 import AddNoteCard from "~/components/AddNoteCard";
 import PageTitle from "~/components/PageTitle";
 import QuoteDetailCard from "~/components/QuoteDetailCard";
+import QuoteEditCard from "~/components/QuoteEditCard";
 import QuoteNoteGrid from "~/components/QuoteNoteGrid";
 import QuoteTags from "~/components/QuoteTags";
 import SectionTitle from "~/components/SectionTitle";
@@ -171,6 +172,7 @@ export default function QuoteDetail() {
     const quote = useLoaderData()
     const actionData = useActionData()
     // console.log(quote)
+    
     return (
         <div className="flex flex-col pt-6 md:pt-10 max-w-5xl">
             <PageTitle children={`Quote`}/>
@@ -178,6 +180,7 @@ export default function QuoteDetail() {
                 <QuoteDetailCard quote={quote}/>
                 <div className="flex flex-col gap-6">
                     <AddNoteCard quote={quote} actionData={actionData}/>
+                    {/* <QuoteEditCard quote={quote} actionData={actionData}/> */}
                     <QuoteTags quote={quote} actionData={actionData}/>
                 </div>
             </div>
