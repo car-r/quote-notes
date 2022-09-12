@@ -134,6 +134,7 @@ export default function QuotesIndex() {
                         }>
                             <div key={tag.id} >
                                 <p  className="">{tag.body}</p>
+                                <p>{tag.id}</p>
                             </div>
                         </NavLink>
                     ))}
