@@ -1,5 +1,4 @@
 import { Link, useLoaderData } from "@remix-run/react"
-import AddContentCard from "~/components/AddContentCard"
 import AddContentBtn from "~/components/AddContentBtn"
 import ContentCard from "~/components/ContentCard"
 import PageTitle from "~/components/PageTitle"

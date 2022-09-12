@@ -178,7 +178,7 @@ export default function ContentIdRoute() {
                                     </Form>
                                     <Link to={`/quotes/${quote.id}`} className="flex flex-col flex-1 justify-center mb-6">
                                         <div className=" ">
-                                                <p className="text-lg md:text-xl text-center italic font-semibold">"{quote.body}"</p>
+                                                <p className="text-lg text-center italic font-semibold">"{quote.body}"</p>
                                         </div>
                                     </Link>
                                     <div className="flex mt-auto">
