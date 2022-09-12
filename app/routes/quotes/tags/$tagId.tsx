@@ -33,7 +33,8 @@ export const loader = async ({request, params}: any) => {
                     body: true,
                     author: true,
                     authorId: true,
-                    content: true
+                    content: true,
+                    isFavorited: true,
                 }
             }
         },

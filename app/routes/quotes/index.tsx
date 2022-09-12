@@ -40,13 +40,6 @@ export const loader = async ({request}: any) => {
     })
 
 
-    const groupQuotes = await prisma.quote.groupBy({
-        where: {userId: userId},
-        by: ['authorName'],
-        _count: {_all: true},
-    })
-
-
     const tags = await prisma.tag.groupBy({
         where: {userId: userId},
         by: ['body'],
@@ -67,7 +60,7 @@ export const loader = async ({request}: any) => {
         
     })
 
-    return {quotes, authors, groupQuotes, tags, tagsWithQuotes}
+    return {quotes, authors,  tags, tagsWithQuotes}
 }
 
 export const action = async ({request}: any) => {
@@ -85,14 +78,9 @@ export const action = async ({request}: any) => {
 
 export default function QuotesIndex() {
     const data = useLoaderData()
-    const quotes = data.quotes
     const qouteCount = data.quotes.length
-    const authorList = data.groupQuotes.map((author: any) => (author.authorName))
-    const quoteCountList = data.groupQuotes.map((quote: any) => (quote._count._all))
-    const [tags, setTags] = useState<string[]>(['all'])
 
     console.log(data)
-    console.log(tags)
     return (
         <>
             <div className="flex flex-col pt-6 md:pt-10 max-w-5xl">
@@ -102,9 +90,7 @@ export default function QuotesIndex() {
                     <PageTitle children={`Quotes`} btn={<AddQuoteBtn />}/>
                 }
                 <div className="flex gap-4 pb-6 mb-6 overflow-auto scrollbar-thin scrollbar-track-stone-800 scrollbar-thumb-stone-700">
-                        <div className="items-center flex text-xs text-stone-300 font-thin  px-4 py-2 rounded-xl bg-stone-600 whitespace-nowrap cursor-pointer"
-                            onClick={() => setTags(['all'])}
-                        >
+                        <div className="items-center flex text-xs text-stone-300 font-thin  px-4 py-2 rounded-xl bg-stone-600 whitespace-nowrap cursor-pointer">
                             <p  className="">
                                 all
                             </p>

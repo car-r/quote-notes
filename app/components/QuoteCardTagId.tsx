@@ -1,6 +1,7 @@
 import { Form, Link } from "@remix-run/react";
 
 export default function QuoteCardTagId({quote}: any) {
+    console.log('quoteCardTagId --> ', quote)
     return (
         <div key={quote.id} className="flex">
             <div className="p-4 border border-stone-800 bg-stone-800 rounded-md text-stone-300/60 hover:ring-2 hover:ring-blue-400 hover:text-stone-100">
@@ -8,7 +9,7 @@ export default function QuoteCardTagId({quote}: any) {
                     <Form method="post">
                         <div onClick={() => console.log('clicked')} className="flex justify-end mb-2">   
                             <div className="flex flex-col">
-                            <input type="hidden" name="id" value={quote.quote.id}/>
+                            <input type="hidden" name="id" value={quote.quoteId}/>
 
                             {quote.quote.isFavorited === "isFavorited" ? <input type="hidden" name="isFavorited" value="notFavorited"/> : <input type="hidden" name="isFavorited" value="isFavorited"/>}
                                 <button type="submit" >
