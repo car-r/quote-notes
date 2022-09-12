@@ -1,4 +1,4 @@
-import { Link, Outlet, useLoaderData } from "@remix-run/react";
+import { Link, NavLink, Outlet, useLoaderData } from "@remix-run/react";
 import { redirect } from "@remix-run/server-runtime";
 import AddQuoteCard from "~/components/AddQuoteCard";
 import PageTitle from "~/components/PageTitle";
@@ -129,12 +129,13 @@ export default function QuotesIndex() {
                             </div>
                         </Link>
                     {data.tags.map((tag: any) => (
-                        <Link to={`/quotes/tags/${tag.body}`} key={tag.id}>
-                            <div key={tag.id} className="items-center flex text-xs text-stone-300 font-thin  px-4 py-2 rounded-xl bg-stone-800 whitespace-nowrap cursor-pointer">
+                        <NavLink to={`/quotes/tags/${tag.body}`} key={tag.id} className={({ isActive }) =>
+                        ` ${isActive ? "bg-stone-600 items-center flex text-xs text-stone-300 font-thin  px-4 py-2 rounded-xl  whitespace-nowrap cursor-pointer" : "items-center flex text-xs text-stone-300 font-thin  px-4 py-2 rounded-xl bg-stone-800 whitespace-nowrap cursor-pointer"}`
+                        }>
+                            <div key={tag.id} >
                                 <p  className="">{tag.body}</p>
-                                <p>{tag.id}</p>
                             </div>
-                        </Link>
+                        </NavLink>
                     ))}
                 </div>
                 <div className="">
