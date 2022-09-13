@@ -123,14 +123,14 @@ export default function QuotesIndex() {
                 }
                 <div className="flex gap-4 pb-6 mb-6 overflow-auto scrollbar-thin scrollbar-track-stone-800 scrollbar-thumb-stone-700">
                         <Link to="/quotes">
-                            <div className="items-center flex text-xs text-stone-300 font-thin  px-4 py-2 rounded-xl bg-stone-800 whitespace-nowrap cursor-pointer"
+                            <div className="items-center flex text-xs font-semibold px-4 py-2 rounded-xl bg-stone-800 whitespace-nowrap cursor-pointer"
                             >
                                 all
                             </div>
                         </Link>
                     {data.tags.map((tag: any) => (
                         <NavLink to={`/quotes/tags/${tag.body}`} key={tag.id} className={({ isActive }) =>
-                        ` ${isActive ? "bg-stone-700 items-center flex text-xs text-stone-100 font-thin  px-4 py-2 rounded-xl  whitespace-nowrap cursor-pointer" : "items-center flex text-xs text-stone-300 font-thin  px-4 py-2 rounded-xl bg-stone-800 whitespace-nowrap cursor-pointer"}`
+                        ` items-center flex text-xs font-semibold px-4 py-2 rounded-xl  whitespace-nowrap cursor-pointer bg-stone-800 ${isActive ? "bg-stone-300 text-stone-800 " : ""}`
                         }>
                             <div key={tag.id} >
                                 <p  className="">{tag.body}</p>
