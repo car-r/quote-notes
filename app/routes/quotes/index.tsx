@@ -90,7 +90,7 @@ export default function QuotesIndex() {
                     <PageTitle children={`Quotes`} btn={<AddQuoteBtn />}/>
                 }
                 <div className="flex gap-4 pb-6 mb-6 overflow-auto scrollbar-thin scrollbar-track-stone-800 scrollbar-thumb-stone-700">
-                        <div className="items-center flex text-xs text-stone-300 font-thin  px-4 py-2 rounded-xl bg-stone-600 whitespace-nowrap cursor-pointer">
+                        <div className="items-center flex text-xs text-stone-300 font-thin  px-4 py-2 rounded-xl bg-stone-700 whitespace-nowrap cursor-pointer">
                             <p  className="">
                                 all
                             </p>
