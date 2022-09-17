@@ -1,6 +1,6 @@
 export default function PageTitle({children, btn}: any) {
     return (
-        <div className="mb-6 flex flex-col ">
+        <div className="mb-6 flex flex-col">
             <div className="flex justify-between items-center">
                 <h3 className="text-lg md:text-2xl tracking-wide font-semibold ">
                     {children}

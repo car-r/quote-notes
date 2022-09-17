@@ -1,8 +1,10 @@
 import { useLoaderData, Link, useActionData } from "@remix-run/react"
 import { redirect } from "@remix-run/server-runtime"
+import { useState } from "react"
 import AddContentCard from "~/components/AddContentCard"
 import AddQuoteCard from "~/components/AddQuoteCard"
 import AuthorRouteAuthorCard from "~/components/AuthorRouteAuthorCard"
+import EditAuthorBtn from "~/components/Buttons/EditAuthorBtn"
 import ContentCard from "~/components/ContentCard"
 import PageTitle from "~/components/PageTitle"
 import SectionTitle from "~/components/SectionTitle"
@@ -80,13 +82,13 @@ export const action = async ({request, params}: any) => {
 export default function AuthorDetail() {
     const data = useLoaderData()
     const actionData = useActionData()
-
+    const [edit, setEdit] = useState(false)
     console.log(data)
 
     return (
-        <div className="flex flex-col pt-6 md:pt-10 max-w-5xl">
-            <PageTitle children={data.author.name}/>
-            <AuthorRouteAuthorCard author={data} actionData={actionData}/>
+        <div className="flex flex-col pt-6 md:pt-10 max-w-5xl">            
+            <PageTitle children={data.author.name} btn={<EditAuthorBtn author={data} edit={edit} setEdit={setEdit}/>}/>
+            <AuthorRouteAuthorCard author={data} actionData={actionData} edit={edit} />
             <div className="mb-28">
                 <SectionTitle children={'Content'}/>
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 ">
