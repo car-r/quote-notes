@@ -6,8 +6,6 @@ import QuoteIndexCard from "~/components/QuoteIndexCard";
 import { prisma } from "~/db.server";
 import { requireUserId } from "~/session.server";
 
-
-import { useState } from "react";
 import AddQuoteBtn from "~/components/Buttons/AddQuoteBtn";
 
 export const loader = async ({request}: any) => {
