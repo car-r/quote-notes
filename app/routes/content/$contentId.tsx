@@ -181,12 +181,12 @@ export default function ContentIdRoute() {
                                                 <p className="text-lg text-center italic font-semibold">"{quote.body}"</p>
                                         </div>
                                     </Link>
-                                    <div className="flex mt-auto">
+                                    {/* <div className="flex mt-auto">
                                         <p className="text-sm md:text-base font-light">
                                             <Link to={`/authors/${quote.authorId}`}>{quote.authorName}</Link>, 
                                             <span className="font-thin pl-2"><Link to={`/content/${quote.contentId}`}>{content.title}</Link></span>
                                         </p>
-                                    </div>
+                                    </div> */}
                                 </div>
                             </div> 
                         ))}
