@@ -47,7 +47,6 @@ export default function QuoteTags({quote, actionData}: any) {
                     </button>
                 </Form>
             </div>
-            
         </div>
     )
 }
