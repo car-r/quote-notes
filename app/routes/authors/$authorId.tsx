@@ -106,7 +106,7 @@ export default function AuthorDetail() {
                 </div>
             </div>
             <div className="flex flex-col pb-1 mb-28">
-                {data.author.quote.length > 0 ?
+                {data.author._count.quote > 0 ?
                     <div>
                         <SectionTitle children={'Favorite Quotes'}/>
                         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 ">
@@ -123,7 +123,7 @@ export default function AuthorDetail() {
                 <div>
                     <SectionTitle children={'Quotes'}/>
                     <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-                        {data.quotes.length < 1 ? <AddQuoteCard /> : 
+                        {data.author._count.quote < 1 ? <AddQuoteCard /> : 
                             data.quotes.map((quote: any) => (
                                 <Link to={`/quotes/${quote.id}`} key={quote.id} className="">
                                     <div className="p-4 border border-stone-800 bg-stone-800 rounded-md hover:ring-2 ring-blue-400 hover:text-stone-100">

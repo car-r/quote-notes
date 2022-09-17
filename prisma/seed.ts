@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
-import QuoteDetail from "~/routes/quotes/$quoteId";
+
 
 const prisma = new PrismaClient();
 
