@@ -21,7 +21,7 @@ import { useEffect, useState } from "react";
 import SectionTitle from "~/components/SectionTitle";
 import AuthorCard from "~/components/AuthorCard";
 import QuoteIndexSmallCard from "~/components/QuoteIndexSmallCard";
-import AddQuoteBtn from "~/components/AddQuoteBtn";
+
 ChartJS.register(
     CategoryScale,
     LinearScale,
@@ -146,7 +146,7 @@ export default function QuotesIndex() {
         <>
             <div className="flex flex-col pt-6 md:pt-10 max-w-5xl">
                 {qouteCount > 0 ?
-                    <PageTitle children={`${qouteCount} Quotes`} btn={<AddQuoteBtn />}/>
+                    <PageTitle children={`${qouteCount} Quotes`} />
                     :
                     <PageTitle children={`Quotes`}/>
                 }

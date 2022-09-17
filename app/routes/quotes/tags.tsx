@@ -21,7 +21,8 @@ import { useEffect, useState } from "react";
 import SectionTitle from "~/components/SectionTitle";
 import AuthorCard from "~/components/AuthorCard";
 import QuoteIndexSmallCard from "~/components/QuoteIndexSmallCard";
-import AddQuoteBtn from "~/components/AddQuoteBtn";
+import AddQuoteBtn from "~/components/Buttons/AddQuoteBtn";
+
 ChartJS.register(
     CategoryScale,
     LinearScale,

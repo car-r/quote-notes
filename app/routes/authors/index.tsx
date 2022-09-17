@@ -1,7 +1,7 @@
 
 import { Link, useLoaderData } from "@remix-run/react"
-import AddAuthorBtn from "~/components/AddAuthorBtn"
 import AuthorCard from "~/components/AuthorCard"
+import AddAuthorBtn from "~/components/Buttons/AddAuthorBtn";
 import PageTitle from "~/components/PageTitle"
 import { prisma } from "~/db.server"
 import { requireUserId } from "~/session.server";

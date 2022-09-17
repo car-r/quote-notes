@@ -24,12 +24,14 @@ export default function QuoteCardLarge({quote}: any) {
                         </div>
                     </div>
                 </Form>
-                <p className="text-lg sm:text-xl text-center pb-6 italic font-semibold md:my-10">"{quote.quote.body}"</p>
+                <p className="text-base sm:text-xl text-center pb-6 italic font-semibold my-5 md:my-10">
+                    "{quote.quote.body}"
+                </p>
                 <div className="flex">
                     <img src={quote.quote.author.imgUrl} alt={quote.quote.author.name}
                     onError={(e: any) => e.target.src = 'https://icon-library.com/images/default-user-icon/default-user-icon-8.jpg'}
-                    className="w-20 h-20 object-cover mr-4 rounded-full"/>
-                    <div className="flex flex-col justify-center gap-1">
+                    className=" w-14 h-14 md:w-20 md:h-20 object-cover mr-4 rounded-full"/>
+                    <div className="text-sm sm:text-base flex flex-col justify-center gap-1">
                         <p className=" hover:text-stone-100">
                             <Link to={`/authors/${quote.quote.authorId}`} className="hover:text-stone-100">
                                 {quote.quote.authorName}

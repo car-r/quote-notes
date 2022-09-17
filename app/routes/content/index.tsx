@@ -1,5 +1,5 @@
 import { Link, useLoaderData } from "@remix-run/react"
-import AddContentBtn from "~/components/AddContentBtn"
+import AddContentBtn from "~/components/Buttons/AddContentBtn"
 import ContentCard from "~/components/ContentCard"
 import PageTitle from "~/components/PageTitle"
 import { prisma } from "~/db.server"
