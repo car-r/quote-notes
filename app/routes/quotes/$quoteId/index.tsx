@@ -1,47 +1,23 @@
-import { Outlet, useActionData, useLoaderData } from "@remix-run/react";
-import { redirect } from "@remix-run/server-runtime";
-import { useState } from "react";
-import AddNoteCard from "~/components/AddNoteCard";
-import EditQuoteBtn from "~/components/EditQuoteBtn";
-import EditQuoteCard from "~/components/EditQuoteCard";
-import PageTitle from "~/components/PageTitle";
-import QuoteBackBtn from "~/components/QuoteBackBtn";
-import QuoteCardLarge from "~/components/QuoteCardLarge";
-import QuoteDetailCard from "~/components/QuoteDetailCard";
-import QuoteCard from "~/components/QuoteDetailCard";
-import QuoteNoteGrid from "~/components/QuoteNoteGrid";
-import QuoteTags from "~/components/QuoteTags";
-import SectionTitle from "~/components/SectionTitle";
 import { prisma } from "~/db.server";
-import { requireUserId } from "~/session.server";
+import { requireUserId } from "~/session.server"
+import { redirect } from "@remix-run/server-runtime";
+import { useActionData, useLoaderData } from "@remix-run/react";
+import QuoteCardLarge from "~/components/QuoteCardLarge";
+import AddNoteCard from "~/components/AddNoteCard";
+import QuoteTags from "~/components/QuoteTags";
 
 export const loader = async ({params, request}: any) => {
-    const userId = await requireUserId(request);
+    const userId = await requireUserId(request)
     const quote = await prisma.quote.findUnique({
         where: { id: params.quoteId},
         include: {
             tag: true, // Return all fields
             author: true,
+            content: true,
         }
     })
 
-    const author = await prisma.author.findUnique({
-        where: { id: quote?.authorId}
-    })
-
-    const content = await prisma.content.findUnique({
-        where: { id: quote?.contentId}
-    })
-
-    const notes = await prisma.quoteNote.findMany({
-        orderBy: [
-            {
-                createdAt: 'desc',
-            },
-        ],
-        where: {quoteId: params.quoteId}
-    })
-    return {author, quote, content, notes}
+    return {quote}
 }
 
 export const action = async ({ request, params }: any) => {
@@ -178,23 +154,17 @@ export const action = async ({ request, params }: any) => {
     
 }
 
-export default function QuoteDetail() {
+export default function QuoteIdHome() {
     const quote = useLoaderData()
     const actionData = useActionData()
-    const [edit, setEdit] = useState(false)
-    console.log('quoteId route --> ', quote)
+    console.log('quoteIndex --> ', quote)
     return (
-        <div className="flex flex-col pt-6 md:pt-10 max-w-5xl">
-            {edit ? 
-                <PageTitle children={`Quote`} btn={<QuoteBackBtn  quote={quote} edit={edit} setEdit={setEdit}/>}/>
-                :
-                <PageTitle children={`Quote`} btn={<EditQuoteBtn  quote={quote} edit={edit} setEdit={setEdit}/>}/>
-            }
-            <Outlet />
-            <div className="mt-20 mb-28">
-                <SectionTitle children={"Notes"}/>
-                <QuoteNoteGrid quote={quote}/>
-            </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+            <QuoteCardLarge quote={quote} actionData={actionData}/>
+            <div className="flex flex-col gap-6">
+                    <AddNoteCard quote={quote} actionData={actionData}/>
+                    <QuoteTags quote={quote} actionData={actionData}/>
+                </div>
         </div>
     )
 }

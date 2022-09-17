@@ -4,8 +4,6 @@ import { useState } from "react";
 export default function QuoteTags({quote, actionData}: any) {
     const [settings, setSettings] = useState(false)
 
-    // function to loop through settings array and remove a duplicate?
-
     console.log('quoteTags component -> ', quote.quote.tag)
 
     return (
@@ -75,8 +73,6 @@ export default function QuoteTags({quote, actionData}: any) {
                             className="flex flex-col gap-4 border border-stone-800 bg-stone-800 rounded-md text-stone-300/60 font-light mt-2"
                         >
                             <div className="flex flex-col">
-
-                                
                                 <div className="flex flex-col gap-4">
                                     <div className="flex flex-col gap-1">
                                         <textarea
