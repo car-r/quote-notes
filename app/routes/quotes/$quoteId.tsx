@@ -1,14 +1,11 @@
 import { Outlet, useActionData, useLoaderData } from "@remix-run/react";
-import { redirect } from "@remix-run/server-runtime";
 import { useState } from "react";
-import AddNoteCard from "~/components/AddNoteCard";
 import EditQuoteBtn from "~/components/Buttons/EditQuoteBtn";
-import EditQuoteCard from "~/components/EditQuoteCard";
 import PageTitle from "~/components/PageTitle";
 import QuoteBackBtn from "~/components/Buttons/QuoteBackBtn";
 import QuoteNoteGrid from "~/components/QuoteNoteGrid";
-import QuoteTags from "~/components/QuoteTags";
 import SectionTitle from "~/components/SectionTitle";
+
 import { prisma } from "~/db.server";
 import { requireUserId } from "~/session.server";
 
