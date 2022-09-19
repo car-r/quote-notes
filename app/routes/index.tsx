@@ -17,7 +17,6 @@ import AddAuthorCard from "~/components/AddAuthorCard";
 import AddContentCard from "~/components/AddContentCard";
 import AddQuoteCard from "~/components/AddQuoteCard";
 import PageTitle from "~/components/PageTitle";
-import { NONAME } from "dns";
 import QuoteSmallCard from "~/components/QuoteSmallCard";
 import AuthorHomeCard from "~/components/AuthorHomeCard";
 import ContentHomeCard from "~/components/ContentHomeCard";
@@ -44,12 +43,15 @@ export const loader = async ({request}: any) => {
   })
 
   const content = await prisma.content.findMany({
-    take: 3,
+    take: 4,
     where: {userId: userId},
     orderBy: {
       quote: {
         '_count': 'desc'
       }
+    },
+    include: {
+      author: true
     }
   })
   const authors = await prisma.author.findMany({
@@ -96,7 +98,26 @@ export const loader = async ({request}: any) => {
           content: true,
           quoteNote: true
         }
-      }
+      },
+      quotes: true,
+      authors: {
+        orderBy: {
+          quote: {
+            '_count': 'desc'
+          }
+        }
+      },
+      content: {
+        orderBy: {
+          quote: {
+            '_count': 'desc'
+          }
+        },
+        include: {
+          author: true
+        }
+      },
+      quoteNote: true,
     }
   })
 
@@ -194,10 +215,10 @@ export default function Index() {
         </div>
       </div>
       <div className="pb-28">
-        <SectionTitle children={'Top Content'}/>
-        {data.content.length > 0 ?
+        <SectionTitle children={'Content'}/>
+        {data.userData.content.length > 0 ?
           <div className="flex overflow-auto pb-6 snap-x scrollbar-thin scrollbar-track-stone-800 scrollbar-thumb-stone-700 p-1 gap-4 ">
-            {data.content.map((content: any) => (
+            {data.userData.content.map((content: any) => (
               <Link to={`/content/${content.id}`} key={content.id} className="flex">
                 <ContentHomeCard content={content} />
               </Link>
@@ -213,9 +234,9 @@ export default function Index() {
       </div>
       <div className="pb-28">
         <SectionTitle children={'Top Authors'}/>
-        {data.authors.length > 0 ?
+        {data.userData.authors.length > 0 ?
           <div className="flex gap-4 overflow-auto pb-6 snap-x scrollbar-thin scrollbar-track-stone-800 scrollbar-thumb-stone-700 p-1">
-            {data.authors.map((author: any) => (
+            {data.userData.authors.map((author: any) => (
                 <Link to={`/authors/${author.id}`} key={author.id} className=" snap-start px-1">
                   {/* <AuthorCard author={author}/> */}
                   <AuthorHomeCard author={author}/>

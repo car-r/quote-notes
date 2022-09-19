@@ -45,7 +45,8 @@ export const action = async ({request}: any) => {
     return redirect(`/quotes/${quote.id}`)
 }
 
-export const loader = async () => {
+export const loader = async ({request}: any) => {
+    const userId = await requireUserId(request);
     const authors = await prisma.author.findMany()
     const users = await prisma.user.findMany()
     const content = await prisma.content.findMany()

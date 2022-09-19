@@ -3,22 +3,23 @@ import { useState } from "react";
 
 export default function ContentEditCard({content, authors, actionData}: any) {
     const [showEditContent, setShowEditContent] = useState(false)
-    const [authorName, setAuthorName] = useState(content.authorName)
+    // const [authorName, setAuthorName] = useState(content.authorName)
     // console.log(actionData)
+    console.log('content edit card --> ', authors)
 
-    function onAuthorChange(e: any) {
-        console.log(e.target.value)
-        console.log(authors.length)
-        for (const author of authors) {
-            if (author.id === e.target.value) {
-                console.log('its a match on ' + author.name)
-                setAuthorName(author.name)
-            }
-            else {
-                console.log('no match')
-            }
-        }
-    }
+    // function onAuthorChange(e: any) {
+    //     console.log(e.target.value)
+    //     console.log(authors.length)
+    //     for (const author of authors) {
+    //         if (author.id === e.target.value) {
+    //             console.log('its a match on ' + author.name)
+    //             setAuthorName(author.name)
+    //         }
+    //         else {
+    //             console.log('no match')
+    //         }
+    //     }
+    // }
     return (
         <div className="p-4 border border-stone-800 bg-stone-800 rounded-md">
             {showEditContent ? 
@@ -45,8 +46,8 @@ export default function ContentEditCard({content, authors, actionData}: any) {
                                     <label className="text-sm font-semibold tracking-wider uppercase">
                                         Author
                                     </label>
-                                    <select name="selectAuthorId" className="bg-stone-700 rounded-sm p-1" onChange={onAuthorChange}>
-                                        <option value={content.authorId}>{content.authorName}</option>
+                                    <select name="selectAuthorId" className="bg-stone-700 rounded-sm p-1" >
+                                        <option value={content.authorId}>{content.author.name}</option>
                                         {/* filter author out of map since it is displaed in option value above */}
                                         {authors.filter((author: any) => author.id !== content.authorId).map((author: any) => (
                                             <option key={author.id}  value={author.id}>{author.name}</option>
@@ -63,15 +64,15 @@ export default function ContentEditCard({content, authors, actionData}: any) {
                                         <p className="text-red-400 text-sm">{actionData.errors.imgUrl}</p>
                                     )}
                                 </div>
-                                <div className="hidden">
+                                {/* <div className="hidden">
                                     <input type="hidden" name="selectAuthorName" value={authorName}/>
-                                </div>
+                                </div> */}
                                 <div className="hidden">
                                     <input type="hidden" name="contentId" value={content.id}/>
                                 </div>
                             </div>
                             <div className="flex flex-col mt-6">
-                                <button type="submit" name="_method" value="update" className="px-6 py-2 bg-blue-400 hover:bg-blue-600 text-white rounded">
+                                <button type="submit" name="_method" value="update"  className="px-6 py-2 bg-blue-400 hover:bg-blue-600 text-white rounded">
                                     Update Content
                                 </button> 
                             </div>
@@ -96,7 +97,7 @@ export default function ContentEditCard({content, authors, actionData}: any) {
                     </p>
                     <Link to={`/authors/${content.authorId}`}>     
                         <p className="text-sm font-thin tracking-wider hover:text-stone-100">
-                            {content.authorName}
+                            {content.author.name}
                         </p>  
                     </Link>             
                 </div>

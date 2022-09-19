@@ -1,6 +1,6 @@
 import { Form } from "@remix-run/react";
 
-export default function NewContentCard({data, onAuthorChange, authorName, actionData}: any) {
+export default function NewContentCard({data, onAuthorChange,  actionData}: any) {
     console.log(actionData)
     return (
         <div className="col-span-1">
@@ -31,16 +31,16 @@ export default function NewContentCard({data, onAuthorChange, authorName, action
                     
                     <div className="flex flex-col gap-1">
                         <label className="text-sm font-semibold tracking-wider uppercase">
-                            Image URL
+                            Content Image URL
                         </label>
                         <input type="text" name="imgUrl" className="px-2 border border-stone-800 bg-stone-700 rounded"/>
                         {actionData?.errors.imgUrl && (
                             <p className="text-red-400 text-sm">{actionData.errors.imgUrl}</p>
                         )}
                     </div>
-                    <div className="hidden">
+                    {/* <div className="hidden">
                         <input type="hidden" name="authorName" value={authorName}/>
-                    </div>
+                    </div> */}
                 </div>           
                 <div className="flex flex-col">
                     <button type="submit" className="px-4 py-2 bg-blue-400 text-white rounded hover:bg-blue-600">Add New Content</button>

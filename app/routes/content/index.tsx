@@ -8,7 +8,12 @@ import { requireUserId } from "~/session.server";
 export const loader = async ({request}: any) => {
     const userId = await requireUserId(request);
     const data = await prisma.content.findMany(
-        {where: {userId: userId}}
+        {where: {userId: userId},
+        include: {
+            author: true,
+            quote: true
+        }
+        }
     )
 
     const groupContent = await prisma.quote.groupBy({
@@ -30,7 +35,7 @@ export default function ContentIndex() {
             {contentCount > 0 ?
                 <PageTitle children={`${contentCount} Content`} btn={<AddContentBtn />}/>
                 :
-                <PageTitle children={`Content`}/>
+                <PageTitle children={`Content`} btn={<AddContentBtn />}/>
             }
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 pb-1">
                 {data.data.map((content: any) => (

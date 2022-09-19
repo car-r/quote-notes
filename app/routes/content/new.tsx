@@ -9,14 +9,14 @@ export const loader = async ({request}: any) => {
     const userId = await requireUserId(request);
     const authors = await prisma.author.findMany({where: {userId: userId}})
     const users = await prisma.user.findMany()
-    const content = await prisma.content.findMany()
+    const content = await prisma.content.findMany({where: {userId: userId}})
     return {authors, users, content}
 }
 
 export const action = async ({request}: any) => {
     const userId = await requireUserId(request);
     const form = await request.formData()
-    const authorName = form.get('authorName')
+    // const authorName = form.get('authorName')
     const authorId = form.get('authorId')
     const title = form.get('title')
     const imgUrl = form.get('imgUrl')
@@ -49,7 +49,8 @@ export const action = async ({request}: any) => {
         return { errors, values }
     }
 
-    const fields = { authorName, authorId, title, imgUrl, userId }
+    // const fields = { authorName, authorId, title, imgUrl, userId }
+    const fields = { authorId, title, imgUrl, userId }
 
     const content = await prisma.content.create({ data: fields})
     return redirect(`/content/${content.id}`)
@@ -57,23 +58,23 @@ export const action = async ({request}: any) => {
 
 export default function NewContent(): JSX.Element {
     const data = useLoaderData()
-    const [authorName, setAuthorName] = useState(data.authors[0].name)
+    // const [authorName, setAuthorName] = useState(data.authors[0].name)
     
     const actionData = useActionData()
 
-    function onAuthorChange(e: any) {
-        console.log(e.target.value)
-        console.log(data.authors.length)
-        for (const author of data.authors) {
-            if (author.id === e.target.value) {
-                console.log('its a match on ' + author.name)
-                setAuthorName(author.name)
-            }
-            else {
-                console.log('no match')
-            }
-        }
-    }
+    // function onAuthorChange(e: any) {
+    //     console.log(e.target.value)
+    //     console.log(data.authors.length)
+    //     for (const author of data.authors) {
+    //         if (author.id === e.target.value) {
+    //             console.log('its a match on ' + author.name)
+    //             setAuthorName(author.name)
+    //         }
+    //         else {
+    //             console.log('no match')
+    //         }
+    //     }
+    // }
     console.log(data)
     
     return (
@@ -84,7 +85,7 @@ export default function NewContent(): JSX.Element {
                     New Content
                     </h3>
                 </div>
-                <NewContentCard data={data} onAuthorChange={onAuthorChange} authorName={authorName} actionData={actionData}/>
+                <NewContentCard data={data} actionData={actionData}/>
             </div>
         </div>
     )
