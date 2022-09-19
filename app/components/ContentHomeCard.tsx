@@ -1,4 +1,5 @@
 export default function ContentHomeCard({content}: any) {
+    console.log('content Home Card --> ', content)
     return (
         <div className="p-4 flex flex-col w-56 md:w-72 border border-stone-800 bg-stone-800 rounded-md hover:ring-2 hover:ring-blue-400 hover:text-stone-100">
             <div className="pb-2">
@@ -12,7 +13,7 @@ export default function ContentHomeCard({content}: any) {
                     {content.title}
                 </p>     
                 <p className="text-sm font-thin tracking-wider">
-                    {content.authorName}
+                    {content.author.name}
                 </p>               
             </div>
         </div>

@@ -9,7 +9,10 @@ import { requireUserId } from "~/session.server";
 export const loader = async ({params, request}: any) => {
     const userId = await requireUserId(request);
     const content = await prisma.content.findUnique({
-        where: { id: params.contentId }
+        where: { id: params.contentId },
+        include: {
+            author: true
+        }
     })
     const quotes = await prisma.quote.findMany({
         orderBy: [
@@ -138,7 +141,8 @@ export default function ContentIdRoute() {
     const data = useLoaderData()
     const content = data.content
     const authors = data.authors
-    
+    console.log('contentId --> ', data)
+    console.log('contentId content --> ', content)
     const actionData = useActionData()
 
     return (
@@ -181,12 +185,6 @@ export default function ContentIdRoute() {
                                                 <p className="text-lg text-center italic font-semibold">"{quote.body}"</p>
                                         </div>
                                     </Link>
-                                    {/* <div className="flex mt-auto">
-                                        <p className="text-sm md:text-base font-light">
-                                            <Link to={`/authors/${quote.authorId}`}>{quote.authorName}</Link>, 
-                                            <span className="font-thin pl-2"><Link to={`/content/${quote.contentId}`}>{content.title}</Link></span>
-                                        </p>
-                                    </div> */}
                                 </div>
                             </div> 
                         ))}
@@ -210,9 +208,9 @@ export default function ContentIdRoute() {
                         <div className="hidden">
                             <input type="hidden" name="authorId" value={content.authorId}/>
                         </div>
-                        <div className="hidden">
+                        {/* <div className="hidden">
                             <input type="hidden" name="authorName" value={content.authorName}/>
-                        </div>
+                        </div> */}
                         <div className="hidden">
                             <input type="hidden" name="contentId" value={content.id}/>
                         </div>

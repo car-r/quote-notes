@@ -108,7 +108,7 @@ model Author {
 model Content {
   id    String @id @default(cuid())
   title String
-  authorName String
+  authorName String?
   imgUrl String
 
   author Author @relation(fields: [authorId], references: [id], onDelete: Cascade, onUpdate: Cascade)

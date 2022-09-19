@@ -23,7 +23,7 @@ export default function AuthorsIndex() {
             {authorCount > 0 ? 
                 <PageTitle children={`${authorCount} Authors`} btn={<AddAuthorBtn />}/>
                 :
-                <PageTitle children={`Authors`}/>
+                <PageTitle children={`Authors`} btn={<AddAuthorBtn />}/>
             }
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 pb-1 ">
                 {authors.map((author: any) => (

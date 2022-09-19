@@ -34,7 +34,7 @@ export default function QuoteCardLarge({quote}: any) {
                     <div className="text-sm sm:text-base flex flex-col justify-center gap-1">
                         <p className=" hover:text-stone-100">
                             <Link to={`/authors/${quote.quote.authorId}`} className="hover:text-stone-100">
-                                {quote.quote.authorName}
+                                {quote.quote.author.name}
                             </Link>
                         </p>
                         <p className="font-thin hover:text-stone-100">

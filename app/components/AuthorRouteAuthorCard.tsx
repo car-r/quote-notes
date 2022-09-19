@@ -1,12 +1,12 @@
 import { Form } from "@remix-run/react"
 
-export default function AuthorRouteAuthorCard({author, edit, setEdit, actionData}: any) {
+export default function AuthorRouteAuthorCard({author, edit, actionData}: any) {
     const quotes = {title: 'Quotes', count: author.author._count.quote}
     const contents = {title: 'Content', count: author.author._count.content}
     const notes = {title: 'Notes', count: author.author._count.quoteNote}
     const detailArray = [contents, quotes, notes]
     console.log(actionData)
-    console.log(detailArray)
+    console.log('author route card --> ', author)
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4  rounded-xl py-2 mb-20">
             <div className="flex flex-col p-4 rounded-lg w-full items-center">
@@ -40,7 +40,7 @@ export default function AuthorRouteAuthorCard({author, edit, setEdit, actionData
                             
                             <div className="flex flex-col gap-1 md:gap-2">
                                 <label className="text-sm font-semibold tracking-wider uppercase">
-                                    Image URL
+                                    Author Image URL
                                 </label>
                                 {actionData?.errors.imgUrl ? (
                                     <div className="flex flex-col">

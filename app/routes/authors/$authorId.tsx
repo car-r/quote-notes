@@ -6,6 +6,7 @@ import AddQuoteCard from "~/components/AddQuoteCard"
 import AuthorRouteAuthorCard from "~/components/AuthorRouteAuthorCard"
 import EditAuthorBtn from "~/components/Buttons/EditAuthorBtn"
 import ContentCard from "~/components/ContentCard"
+import ContentHomeCard from "~/components/ContentHomeCard"
 import PageTitle from "~/components/PageTitle"
 import SectionTitle from "~/components/SectionTitle"
 import { prisma } from "~/db.server"
@@ -24,7 +25,11 @@ export const loader = async ({params, request}: any) => {
                 quoteNote: true
               }
             },
-            content: true,
+            content: {
+                include: {
+                    author: true,
+                }
+            },
             quote: {
                 where: {isFavorited: {equals: 'isFavorited'}}
             }
@@ -91,21 +96,21 @@ export default function AuthorDetail() {
             <AuthorRouteAuthorCard author={data} actionData={actionData} edit={edit} />
             <div className="mb-28">
                 <SectionTitle children={'Content'}/>
-                <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 ">
-                    {data.author._count.content < 1 ? 
+                {data.author._count.content < 1 ?
+                    <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 ">
                         <Link to={`/content/new`}>
                             <AddContentCard />
                         </Link> 
-                    : 
-                    <div>
+                    </div>
+                    :
+                    <div className="flex overflow-auto pb-6 snap-x scrollbar-thin scrollbar-track-stone-800 scrollbar-thumb-stone-700 p-1 gap-4">
                         {data.author.content.map((content: any) => (
                             <Link to={`/content/${content.id}`} key={content.id}>
-                                <ContentCard content={content}/>
+                                <ContentHomeCard content={content}/>
                             </Link>
                         ))}
                     </div>
-                    }
-                </div>
+                }
             </div>
             <div className="flex flex-col pb-1 mb-28">
                 {data.author._count.quote > 0 ?
