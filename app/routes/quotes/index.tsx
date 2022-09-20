@@ -7,6 +7,7 @@ import { prisma } from "~/db.server";
 import { requireUserId } from "~/session.server";
 
 import AddQuoteBtn from "~/components/Buttons/AddQuoteBtn";
+import FirstQuoteBtn from "~/components/Buttons/FirstQuoteBtn"
 
 export const loader = async ({request}: any) => {
     const userId = await requireUserId(request);
@@ -86,7 +87,7 @@ export default function QuotesIndex() {
                 {qouteCount > 0 ?
                     <PageTitle children={`${qouteCount} Quotes`} btn={<AddQuoteBtn />}/>
                     :
-                    <PageTitle children={`Quotes`} btn={<AddQuoteBtn />}/>
+                    <PageTitle children={`Quotes`} btn={<FirstQuoteBtn />}/>
                 }
                 <div className="flex gap-4 pb-6 mb-6 overflow-auto scrollbar-thin scrollbar-track-stone-800 scrollbar-thumb-stone-700">
                         <div className="items-center flex text-xs font-semibold px-4 py-2 rounded-xl  whitespace-nowrap cursor-pointer bg-stone-300 text-stone-800">

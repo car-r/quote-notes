@@ -1,5 +1,5 @@
 import { redirect } from "@remix-run/node"
-import { Form, useActionData, useLoaderData } from "@remix-run/react"
+import { Form, Link, useActionData, useLoaderData } from "@remix-run/react"
 import { prisma } from "~/db.server"
 import { useState } from "react"
 import { requireUserId } from "~/session.server";
@@ -47,17 +47,19 @@ export const action = async ({request}: any) => {
 
 export const loader = async ({request}: any) => {
     const userId = await requireUserId(request);
-    const authors = await prisma.author.findMany()
+    const authors = await prisma.author.findMany({where: {userId: userId}})
     const users = await prisma.user.findMany()
-    const content = await prisma.content.findMany()
+    const content = await prisma.content.findMany({where: {userId: userId}})
     return {authors, users, content}
 }
 
 export default function NewQuote() {
     const actionData = useActionData()
     const data = useLoaderData()
-    const [authorName, setAuthorName] = useState(data.authors[0].name)
+    // const [authorName, setAuthorName] = useState(data.authors[0].name)
     const [authorId, setAuthorId] = useState(data.authors[0].id)
+    // const [authorId, setAuthorId] = useState('')
+    
 
     function onAuthorChange(e: any) {
         console.log(e.target.value)
@@ -65,7 +67,7 @@ export default function NewQuote() {
         for (const author of data.authors) {
             if (author.id === e.target.value) {
                 console.log('its a match on ' + author.name)
-                setAuthorName(author.name)
+                // setAuthorName(author.name)
                 setAuthorId(author.id)
             }
             else {
@@ -109,25 +111,36 @@ export default function NewQuote() {
                                 <option key={author.id}  value={author.id}>{author.name}</option>
                             ))}
                         </select>
+                        {/* <select name="authorId" className="bg-stone-700 rounded-sm p-1" >
+                            {data.authors.map((author: any) => (
+                                <option key={author.id}  value={author.id}>{author.name}</option>
+                            ))}
+                        </select> */}
                     </div>
                     <div className="flex flex-col gap-1">
                         <label className="text-sm font-semibold tracking-wider uppercase">
                             Content
                         </label>
                         <select name="contentId" className="bg-stone-700 rounded-sm p-1">
-                            {data.content.filter((content: any) => content.authorId === authorId) < 1 ? 
+                            {/* {data.content.filter((content: any) => content.authorId === authorId) < 1 ? 
                                 <option value='nocontent'></option> 
                                 : 
                                 data.content.filter((content: any) => content.authorId === authorId).map((content: any) => (
                                 <option key={content.id} value={content.id} >{content.title}</option>
+                            ))} */}
+                            {data.content.filter((content: any) => content.authorId === authorId).map((content: any) =>(
+                                <option key={content.id} value={content.id}>{content.title}</option>
                             ))}
+                            {/* {data.content.map((content: any) => (
+                                <option key={content.id} value={content.id}>{content.title}</option>
+                            ))} */}
                         </select>
                         {actionData?.errors.contentId && (
                             <p className="text-red-400 text-sm">{actionData.errors.contentId}</p>
                         )}
                     </div>
                     
-                    <input type="hidden" name="authorName" value={authorName}/>
+                    {/* <input type="hidden" name="authorName" value={authorName}/> */}
                     <div className="flex flex-col">
                         <button type="submit" className="px-4 py-2 bg-blue-400 text-white rounded hover:bg-blue-600">Add Quote</button>
                     </div>
