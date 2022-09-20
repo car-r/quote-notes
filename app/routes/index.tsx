@@ -20,6 +20,7 @@ import PageTitle from "~/components/PageTitle";
 import QuoteSmallCard from "~/components/QuoteSmallCard";
 import AuthorHomeCard from "~/components/AuthorHomeCard";
 import ContentHomeCard from "~/components/ContentHomeCard";
+import AddFirstQuoteCard from "~/components/AddFirstQuoteCard";
 
 ChartJS.register(
   CategoryScale,
@@ -208,7 +209,7 @@ export default function Index() {
             :
             <div className="flex md:flex md:flex-row gap-4 mx-1">
               <Link to="/quotes/new" className="p-1">
-                <AddQuoteCard />
+                <AddFirstQuoteCard />
               </Link>
             </div>
           }
