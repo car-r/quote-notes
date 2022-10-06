@@ -25,7 +25,7 @@ export default function Sidebar({toggle, isOpen}: any) {
                 {links.map((link) => (
                     <NavLink to={`${link.route}`} key={link.title}
                         className={({ isActive }) =>
-                        `flex py-1 px-3 rounded-md hover:border-blue-400 font-semibold ${isActive ? "bg-stone-300  text-stone-800" : "border border-stone-900"}`
+                        `flex py-1 px-3 rounded-md hover:border-blue-400 font-semibold border ${isActive ? "bg-stone-300 border-stone-300 hover:border-stone-300  text-stone-800" : "border border-stone-900"}`
                         }
                     >
                         <div>{link.icon}</div>

@@ -97,7 +97,7 @@ export default function QuotesIndex() {
                         </div>
                     {data.tags.map((tag: any) => (
                         <Link to={`/quotes/tags/${tag.body}`} key={tag.id}>
-                            <div key={tag.id} className="items-center flex text-xs font-semibold px-4 py-2 rounded-xl  whitespace-nowrap cursor-pointer bg-stone-800">
+                            <div key={tag.id} className="items-center flex text-xs font-semibold px-4 py-2 rounded-xl  whitespace-nowrap cursor-pointer bg-stone-800 hover:bg-stone-700">
                                 <p  className="">{tag.body}</p>
                                 <p>{tag.id}</p>
                             </div>
