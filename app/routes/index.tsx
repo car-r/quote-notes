@@ -221,7 +221,7 @@ export default function Index() {
                 ))}
               </div>
             </div>
-            </div>
+          </div>
           : 
           <div>
             <SectionTitle children={'Quotes'}/>
@@ -230,7 +230,7 @@ export default function Index() {
                 <AddFirstQuoteCard />
               </Link>
             </div>
-            </div>
+          </div>
         }
       </div>
       <div className="pb-28">
