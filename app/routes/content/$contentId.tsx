@@ -190,7 +190,7 @@ export default function ContentIdRoute() {
                         ))}
                     </div>
                 }
-                <div className="flex flex-col md:h-screen md:sticky top-10 gap-6 order-first md:order-last">
+                <div className="flex flex-col md:h-screen md:sticky top-10 gap-6 order-first md:order-last md:ml-auto">
                     <Form method="post"
                         className="flex flex-col gap-4 border border-stone-800 bg-stone-800 p-4 rounded-md text-stone-300/60 font-light"
                     >

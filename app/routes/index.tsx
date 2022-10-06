@@ -1,5 +1,4 @@
 import { Link, useLoaderData } from "@remix-run/react";
-import AuthorCard from "~/components/AuthorCard";
 import SectionTitle from "~/components/SectionTitle";
 import { prisma } from "~/db.server";
 import { requireUserId } from "~/session.server";
@@ -15,7 +14,6 @@ import {
 import { Bar } from 'react-chartjs-2';
 import AddAuthorCard from "~/components/AddAuthorCard";
 import AddContentCard from "~/components/AddContentCard";
-import AddQuoteCard from "~/components/AddQuoteCard";
 import PageTitle from "~/components/PageTitle";
 import QuoteSmallCard from "~/components/QuoteSmallCard";
 import AuthorHomeCard from "~/components/AuthorHomeCard";
@@ -196,24 +194,42 @@ export default function Index() {
         </Link>
       </div>
       <div className="pb-28 flex flex-col">
-        <SectionTitle children={'Favorite Quotes'}/>
-        <div className="flex overflow-auto pb-4 snap-x scrollbar-thin scrollbar-track-stone-800 scrollbar-thumb-stone-700">
-          {data.quotes.length > 0 ?
-            <div className="flex md:flex md:flex-row gap-4 mx-1">
-              {data.quotes.map((quote: any) => (
-                <Link to={`/quotes/${quote.id}`} key={quote.id} className="snap-start px-1">
-                  <QuoteSmallCard quote={quote}/>
-                </Link>
-              ))}
+        {data.quotes.length > 0 ? 
+          <div>
+            <SectionTitle children={'Favorite Quotes'}/>
+            <div className="flex overflow-auto pb-4 snap-x scrollbar-thin scrollbar-track-stone-800 scrollbar-thumb-stone-700">
+              <div className="flex md:flex md:flex-row gap-4 mx-1">
+                {data.quotes.map((quote: any) => (
+                  <Link to={`/quotes/${quote.id}`} key={quote.id} className="snap-start px-1">
+                    <QuoteSmallCard quote={quote}/>
+                  </Link>
+                ))}
+              </div>
             </div>
-            :
+          </div>
+          : data.userData.quotes.length > 0 ?
+          <div>
+            <SectionTitle children={'Quotes'}/>
+            <div className="flex overflow-auto pb-4 snap-x scrollbar-thin scrollbar-track-stone-800 scrollbar-thumb-stone-700">
+              <div className="flex md:flex md:flex-row gap-4 mx-1">
+                {data.userData.quotes.map((quote: any) => (
+                  <Link to={`/quotes/${quote.id}`} key={quote.id} className="snap-start px-1">
+                    <QuoteSmallCard quote={quote}/>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
+          : 
+          <div>
+            <SectionTitle children={'Quotes'}/>
             <div className="flex md:flex md:flex-row gap-4 mx-1">
               <Link to="/quotes/new" className="p-1">
                 <AddFirstQuoteCard />
               </Link>
             </div>
-          }
-        </div>
+          </div>
+        }
       </div>
       <div className="pb-28">
         <SectionTitle children={'Content'}/>
