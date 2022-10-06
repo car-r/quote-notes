@@ -196,24 +196,6 @@ export default function Index() {
         </Link>
       </div>
       <div className="pb-28 flex flex-col">
-        {/* <SectionTitle children={'Favorite Quotes'}/>
-        <div className="flex overflow-auto pb-4 snap-x scrollbar-thin scrollbar-track-stone-800 scrollbar-thumb-stone-700">
-          {data.quotes.length > 0 ?
-            <div className="flex md:flex md:flex-row gap-4 mx-1">
-              {data.quotes.map((quote: any) => (
-                <Link to={`/quotes/${quote.id}`} key={quote.id} className="snap-start px-1">
-                  <QuoteSmallCard quote={quote}/>
-                </Link>
-              ))}
-            </div>
-            :
-            <div className="flex md:flex md:flex-row gap-4 mx-1">
-              <Link to="/quotes/new" className="p-1">
-                <AddFirstQuoteCard />
-              </Link>
-            </div>
-          }
-        </div> */}
         {data.quotes.length > 0 ? 
           <div>
             <SectionTitle children={'Favorite Quotes'}/>
