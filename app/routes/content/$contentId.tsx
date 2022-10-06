@@ -158,7 +158,7 @@ export default function ContentIdRoute() {
                     : 
                     <div className="grid grid-cols-1 gap-4 md:gap-6 md:grid-cols-1 md:grid-flow-row md:auto-rows-max lg:grid-cols-2 pb-1">
                         {data.quotes.map((quote: any) => (
-                            <div key={quote.id} className="flex flex-col p-4 border border-stone-800 bg-stone-800 rounded-md text-stone-300/60 hover:ring-2 hover:ring-blue-400 hover:text-stone-100">
+                            <div key={quote.id} className="flex flex-col p-4 border border-stone-800 bg-stone-800 rounded-md text-stone-300/60 hover:ring-2 hover:ring-blue-400 hover:text-stone-100 min-w-[165px]">
                                 <div className="flex flex-col min-h-full">
                                     <Form method="post">
                                         <div onClick={() => console.log('clicked')} className="flex justify-end ">   
@@ -180,9 +180,9 @@ export default function ContentIdRoute() {
                                             </div>
                                         </div>
                                     </Form>
-                                    <Link to={`/quotes/${quote.id}`} className="flex flex-col flex-1 justify-center py-4">
+                                    <Link to={`/quotes/${quote.id}`} className="flex flex-col flex-1 justify-center py-4 px-5">
                                         <div className=" ">
-                                                <p className="text-lg text-center italic font-semibold">"{quote.body}"</p>
+                                            <p className="text-lg text-center italic font-semibold">"{quote.body}"</p>
                                         </div>
                                     </Link>
                                 </div>
