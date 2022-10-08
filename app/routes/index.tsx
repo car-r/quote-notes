@@ -222,7 +222,16 @@ export default function Index() {
               </div>
             </div>
           </div>
-          : 
+          : data.userData.content.length > 0 ?
+          <div>
+            <SectionTitle children={'Quotes'}/>
+            <div className="flex md:flex md:flex-row gap-4 mx-1">
+              <Link to="/quotes/new" className="p-1">
+                <AddQuoteCard />
+              </Link>
+            </div>
+          </div>
+          :
           <div>
             <SectionTitle children={'Quotes'}/>
             <div className="flex md:flex md:flex-row gap-4 mx-1">
