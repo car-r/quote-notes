@@ -1,5 +1,5 @@
 import { Link, useLoaderData } from "@remix-run/react";
-// import AuthorCard from "~/components/AuthorCard";
+import AuthorCard from "~/components/AuthorCard";
 import SectionTitle from "~/components/SectionTitle";
 import { prisma } from "~/db.server";
 import { requireUserId } from "~/session.server";
@@ -15,6 +15,7 @@ import {
 // import { Bar } from 'react-chartjs-2';
 import AddAuthorCard from "~/components/AddAuthorCard";
 import AddQuoteCard from "~/components/AddQuoteCard";
+// import AddContentCard from "~/components/AddContentCard";
 import PageTitle from "~/components/PageTitle";
 import QuoteSmallCard from "~/components/QuoteSmallCard";
 import AuthorHomeCard from "~/components/AuthorHomeCard";
