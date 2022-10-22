@@ -26,7 +26,7 @@ export const loader = async ({request}: any) => {
         include: {
             tag: true, // Return all fields
             author: true,
-            content: true,
+            book: true,
           }
         }
     )

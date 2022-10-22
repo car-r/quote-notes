@@ -1,5 +1,5 @@
 import { Link, useLoaderData } from "@remix-run/react";
-import AuthorCard from "~/components/AuthorCard";
+// import AuthorCard from "~/components/AuthorCard";
 import SectionTitle from "~/components/SectionTitle";
 import { prisma } from "~/db.server";
 import { requireUserId } from "~/session.server";
@@ -12,15 +12,17 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
-import { Bar } from 'react-chartjs-2';
+// import { Bar } from 'react-chartjs-2';
 import AddAuthorCard from "~/components/AddAuthorCard";
-import AddContentCard from "~/components/AddContentCard";
+// import AddContentCard from "~/components/AddBookCard";
 import AddQuoteCard from "~/components/AddQuoteCard";
 import PageTitle from "~/components/PageTitle";
 import QuoteSmallCard from "~/components/QuoteSmallCard";
 import AuthorHomeCard from "~/components/AuthorHomeCard";
-import ContentHomeCard from "~/components/ContentHomeCard";
+// import ContentHomeCard from "~/components/BookHomeCard";
 import AddFirstQuoteCard from "~/components/AddFirstQuoteCard";
+import BookHomeCard from "~/components/BookHomeCard";
+import AddBookCard from "~/components/AddBookCard";
 
 ChartJS.register(
   CategoryScale,
@@ -43,7 +45,7 @@ export const loader = async ({request}: any) => {
     }
   })
 
-  const content = await prisma.content.findMany({
+  const book = await prisma.book.findMany({
     take: 4,
     where: {userId: userId},
     orderBy: {
@@ -96,7 +98,7 @@ export const loader = async ({request}: any) => {
         select: {
           quotes: true,
           authors: true,
-          content: true,
+          book: true,
           quoteNote: true
         }
       },
@@ -108,7 +110,7 @@ export const loader = async ({request}: any) => {
           }
         }
       },
-      content: {
+      book: {
         orderBy: {
           quote: {
             '_count': 'desc'
@@ -122,7 +124,7 @@ export const loader = async ({request}: any) => {
     }
   })
 
-  return {quotes, content, authors, groupQuotes, userData}
+  return {quotes, book, authors, groupQuotes, userData}
 }
 
 
@@ -176,10 +178,10 @@ export default function Index() {
             <p className="text-4xl">{data.userData._count.quotes}</p>
           </div>
         </Link>
-        <Link to="/content">
+        <Link to="/books">
           <div className="border-2 border-stone-800 p-4 rounded-xl hover:ring-2 hover:ring-blue-400 hover:text-stone-100">
-            <p className="uppercase text-sm font-light tracking-wider">Content</p>
-            <p className="text-4xl">{data.userData._count.content}</p>
+            <p className="uppercase text-sm font-light tracking-wider">Books</p>
+            <p className="text-4xl">{data.userData._count.book}</p>
           </div>
         </Link>
         <Link to="/authors">
@@ -222,7 +224,7 @@ export default function Index() {
               </div>
             </div>
           </div>
-          : data.userData.content.length > 0 ?
+          : data.userData.book.length > 0 ?
           <div>
             <SectionTitle children={'Quotes'}/>
             <div className="flex md:flex md:flex-row gap-4 mx-1">
@@ -243,19 +245,19 @@ export default function Index() {
         }
       </div>
       <div className="pb-28">
-        <SectionTitle children={'Content'}/>
-        {data.userData.content.length > 0 ?
+        <SectionTitle children={'Book'}/>
+        {data.userData.book.length > 0 ?
           <div className="flex overflow-auto pb-6 snap-x scrollbar-thin scrollbar-track-stone-800 scrollbar-thumb-stone-700 p-1 gap-4 ">
-            {data.userData.content.map((content: any) => (
-              <Link to={`/content/${content.id}`} key={content.id} className="flex">
-                <ContentHomeCard content={content} />
+            {data.userData.book.map((book: any) => (
+              <Link to={`/books/${book.id}`} key={book.id} className="flex">
+                <BookHomeCard book={book} />
               </Link>
             ))}
           </div>
           :
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 ">
-            <Link to={`/content/new`}>
-              <AddContentCard />
+            <Link to={`/books/new`}>
+              <AddBookCard />
             </Link>
           </div>
         }

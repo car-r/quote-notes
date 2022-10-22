@@ -63,7 +63,7 @@ async function seed() {
   })
 
 
-  const content = await prisma.content.create({
+  const book = await prisma.book.create({
     data: {
       title: "Rich Dad Poor Dad",
       imgUrl: 'https://images-na.ssl-images-amazon.com/images/I/81bsw6fnUiL.jpg',
@@ -73,7 +73,7 @@ async function seed() {
     }
   })
 
-  const content2 = await prisma.content.create({
+  const book2 = await prisma.book.create({
     data: {
       title: "Short-Term Rental, Long Term Wealth",
       imgUrl: 'https://images-na.ssl-images-amazon.com/images/I/71HTaMhO1hL.jpg',
@@ -83,7 +83,7 @@ async function seed() {
     }
   })
 
-  const content3 = await prisma.content.create({
+  const book3 = await prisma.book.create({
     data: {
       title: "The Programmatic Programmer",
       imgUrl: 'https://images-na.ssl-images-amazon.com/images/I/51W1sBPO7tL._SX380_BO1,204,203,200_.jpg',
@@ -99,7 +99,7 @@ async function seed() {
       authorName: 'Robert Kiyosaki',
       userId: user2.id,
       authorId: author.id,
-      contentId: content.id,
+      bookId: book.id,
       // contentTitle: "Rich Dad Poor Dad"
     }
   })
@@ -110,7 +110,7 @@ async function seed() {
       authorName: 'Robert Kiyosaki',
       userId: user2.id,
       authorId: author.id,
-      contentId: content.id,
+      bookId: book.id,
       // contentTitle: "Rich Dad Poor Dad"
     }
   })
@@ -121,7 +121,7 @@ async function seed() {
       authorName: 'Robert Kiyosaki',
       userId: user2.id,
       authorId: author.id,
-      contentId: content.id,
+      bookId: book.id,
       // contentTitle: "Rich Dad Poor Dad"
     }
   })
@@ -132,7 +132,7 @@ async function seed() {
       authorName: 'Robert Kiyosaki',
       userId: user2.id,
       authorId: author.id,
-      contentId: content.id,
+      bookId: book.id,
       // contentTitle: "Rich Dad Poor Dad"
     }
   })
@@ -143,7 +143,7 @@ async function seed() {
       authorName: 'Robert Kiyosaki',
       userId: user2.id,
       authorId: author.id,
-      contentId: content.id,
+      bookId: book.id,
       // contentTitle: "Rich Dad Poor Dad"
     }
   })
@@ -154,7 +154,7 @@ async function seed() {
       authorName: 'Robert Kiyosaki',
       userId: user2.id,
       authorId: author.id,
-      contentId: content.id,
+      bookId: book.id,
       // contentTitle: "Rich Dad Poor Dad"
     }
   })
@@ -165,7 +165,7 @@ async function seed() {
       authorName: 'Avery Carl',
       userId: user2.id,
       authorId: author2.id,
-      contentId: content2.id,
+      bookId: book2.id,
       // contentTitle: "Short-Term Rental, Long Term Wealth"
     }
   })
@@ -176,7 +176,7 @@ async function seed() {
       authorName: 'Avery Carl',
       userId: user2.id,
       authorId: author2.id,
-      contentId: content2.id,
+      bookId: book2.id,
       // contentTitle: "Short-Term Rental, Long Term Wealth"
     }
   })
@@ -187,7 +187,7 @@ async function seed() {
       authorName: 'Avery Carl',
       userId: user2.id,
       authorId: author2.id,
-      contentId: content2.id,
+      bookId: book2.id,
       // contentTitle: "Short-Term Rental, Long Term Wealth"
     }
   })
@@ -198,7 +198,7 @@ async function seed() {
       authorName: 'Avery Carl',
       userId: user2.id,
       authorId: author2.id,
-      contentId: content2.id,
+      bookId: book2.id,
       // contentTitle: "Short-Term Rental, Long Term Wealth"
     }
   })
@@ -209,7 +209,7 @@ async function seed() {
       authorName: 'Avery Carl',
       userId: user2.id,
       authorId: author2.id,
-      contentId: content2.id,
+      bookId: book2.id,
       // contentTitle: "Short-Term Rental, Long Term Wealth"
     }
   })
@@ -220,7 +220,7 @@ async function seed() {
       authorName: 'Avery Carl',
       userId: user2.id,
       authorId: author2.id,
-      contentId: content2.id,
+      bookId: book2.id,
       // contentTitle: "Short-Term Rental, Long Term Wealth"
     }
   })
@@ -231,7 +231,7 @@ async function seed() {
       authorName: 'Andrew Hunt',
       userId: user.id,
       authorId: author3.id,
-      contentId: content3.id,
+      bookId: book3.id,
       // contentTitle: "The Programmatic Programmer"
     }
   })
@@ -242,7 +242,7 @@ async function seed() {
       authorName: 'Andrew Hunt',
       userId: user.id,
       authorId: author3.id,
-      contentId: content3.id,
+      bookId: book3.id,
       // contentTitle: "The Programmatic Programmer"
     }
   })
@@ -253,7 +253,7 @@ async function seed() {
       authorName: 'Andrew Hunt',
       userId: user.id,
       authorId: author3.id,
-      contentId: content3.id,
+      bookId: book3.id,
       // contentTitle: "The Programmatic Programmer"
     }
   })
@@ -264,7 +264,7 @@ async function seed() {
       authorName: 'Andrew Hunt',
       userId: user.id,
       authorId: author3.id,
-      contentId: content3.id,
+      bookId: book3.id,
       // contentTitle: "The Programmatic Programmer"
     }
   })
@@ -275,7 +275,7 @@ async function seed() {
       authorName: 'Andrew Hunt',
       userId: user.id,
       authorId: author3.id,
-      contentId: content3.id,
+      bookId: book3.id,
       // contentTitle: "The Programmatic Programmer"
     }
   })
@@ -286,7 +286,7 @@ async function seed() {
       authorName: 'Andrew Hunt',
       userId: user.id,
       authorId: author3.id,
-      contentId: content3.id,
+      bookId: book3.id,
       // contentTitle: "The Programmatic Programmer"
     }
   })

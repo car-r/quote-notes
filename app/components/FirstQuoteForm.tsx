@@ -30,7 +30,7 @@ export default function FirstQuoteForm({actionData}: any) {
                 </div>
                 <div className="flex flex-col gap-1">
                     <label className="text-sm font-semibold tracking-wider uppercase">
-                        Content Title
+                        Book Title
                     </label>
                     <input type="text" name="title" className="px-2 border border-stone-800 bg-stone-700 rounded"/>
                     {actionData?.errors.title && (

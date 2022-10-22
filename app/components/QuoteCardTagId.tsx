@@ -36,7 +36,7 @@ export default function QuoteCardTagId({quote}: any) {
                             <p className="font-light">
                                 <Link to={`/authors/${quote.quote.authorId}`} className="hover:text-stone-100">
                                     {quote.quote.author.name}
-                                </Link>, <span className="font-thin hover:text-stone-100"><Link to={`/content/${quote.quote.content.id}`}>{quote.quote.content.title}</Link></span>
+                                </Link>, <span className="font-thin hover:text-stone-100"><Link to={`/books/${quote.quote.book.id}`}>{quote.quote.book.title}</Link></span>
                             </p>
                         </div>
                     </div>

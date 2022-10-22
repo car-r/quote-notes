@@ -38,8 +38,8 @@ export default function QuoteCardLarge({quote}: any) {
                             </Link>
                         </p>
                         <p className="font-thin hover:text-stone-100">
-                            <Link to={`/content/${quote.quote.contentId}`}>
-                                {quote.quote.content.title}
+                            <Link to={`/books/${quote.quote.bookId}`}>
+                                {quote.quote.book.title}
                             </Link>
                         </p>
                     </div>

@@ -18,7 +18,7 @@ model User {
   notes    Note[]
   quotes   Quote[]
   authors  Author[]
-  content  Content[]
+  book  Book[]
   quoteNote QuoteNote[]
   tag Tag[]
 }
@@ -58,8 +58,8 @@ model QuoteNote {
   author Author @relation(fields: [authorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   authorId String 
 
-  content Content @relation(fields: [contentId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  contentId String 
+  book Book @relation(fields: [bookId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  bookId String 
 
 }
 
@@ -83,8 +83,8 @@ model Quote {
   author Author @relation(fields: [authorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   authorId String 
 
-  content Content @relation(fields: [contentId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  contentId String
+  book Book @relation(fields: [bookId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  bookId String
 
   tag Tag[]
 }
@@ -95,7 +95,7 @@ model Author {
   imgUrl String? @default("https://icon-library.com/images/default-user-icon/default-user-icon-8.jpg")
 
   quote Quote[]
-  content Content[]
+  book Book[]
   quoteNote QuoteNote[]
 
   createdAt DateTime @default(now())
@@ -105,7 +105,7 @@ model Author {
   userId String
 }
 
-model Content {
+model Book {
   id    String @id @default(cuid())
   title String
   authorName String?

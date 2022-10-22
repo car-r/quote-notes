@@ -2,9 +2,9 @@ import { Form } from "@remix-run/react"
 
 export default function AuthorRouteAuthorCard({author, edit, actionData}: any) {
     const quotes = {title: 'Quotes', count: author.author._count.quote}
-    const contents = {title: 'Content', count: author.author._count.content}
+    const books = {title: 'Book', count: author.author._count.book}
     const notes = {title: 'Notes', count: author.author._count.quoteNote}
-    const detailArray = [contents, quotes, notes]
+    const detailArray = [books, quotes, notes]
     console.log(actionData)
     console.log('author route card --> ', author)
     return (

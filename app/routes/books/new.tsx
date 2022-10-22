@@ -1,7 +1,8 @@
 import { useActionData, useLoaderData } from "@remix-run/react";
 import { redirect } from "@remix-run/server-runtime";
-import { useState } from "react";
-import NewContentCard from "~/components/NewContentCard";
+// import { useState } from "react";
+import NewBookCard from "~/components/NewBookCard";
+// import NewContentCard from "~/components/NewBookCard";
 import { prisma } from "~/db.server";
 import { requireUserId } from "~/session.server";
 
@@ -9,8 +10,8 @@ export const loader = async ({request}: any) => {
     const userId = await requireUserId(request);
     const authors = await prisma.author.findMany({where: {userId: userId}})
     const users = await prisma.user.findMany()
-    const content = await prisma.content.findMany({where: {userId: userId}})
-    return {authors, users, content}
+    const book = await prisma.book.findMany({where: {userId: userId}})
+    return {authors, users, book}
 }
 
 export const action = async ({request}: any) => {
@@ -52,8 +53,8 @@ export const action = async ({request}: any) => {
     // const fields = { authorName, authorId, title, imgUrl, userId }
     const fields = { authorId, title, imgUrl, userId }
 
-    const content = await prisma.content.create({ data: fields})
-    return redirect(`/content/${content.id}`)
+    const book = await prisma.book.create({ data: fields})
+    return redirect(`/books/${book.id}`)
 }
 
 export default function NewContent(): JSX.Element {
@@ -82,10 +83,10 @@ export default function NewContent(): JSX.Element {
             <div className="flex flex-col w-full md:grid md:grid-cols-3">
                 <div className="col-span-4 pb-6">
                     <h3 className="text-2xl tracking-wide font-semibold pb-2 border-stone-800 border-b-2">
-                    New Content
+                    New Book
                     </h3>
                 </div>
-                <NewContentCard data={data} actionData={actionData}/>
+                <NewBookCard data={data} actionData={actionData}/>
             </div>
         </div>
     )
