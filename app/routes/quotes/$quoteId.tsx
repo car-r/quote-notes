@@ -16,7 +16,7 @@ export const loader = async ({params, request}: any) => {
         include: {
             tag: true, // Return all fields
             author: true,
-            content: true,
+            book: true,
         }
     })
 
@@ -24,8 +24,8 @@ export const loader = async ({params, request}: any) => {
         where: { id: quote?.authorId}
     })
 
-    const content = await prisma.content.findUnique({
-        where: { id: quote?.contentId}
+    const book = await prisma.book.findUnique({
+        where: { id: quote?.bookId}
     })
 
     const notes = await prisma.quoteNote.findMany({
@@ -36,7 +36,7 @@ export const loader = async ({params, request}: any) => {
         ],
         where: {quoteId: params.quoteId}
     })
-    return {author, quote, content, notes}
+    return {author, quote, book, notes}
 }
 
 

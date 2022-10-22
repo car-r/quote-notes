@@ -1,16 +1,17 @@
 import { useLoaderData, Link, useActionData } from "@remix-run/react"
 import { redirect } from "@remix-run/server-runtime"
 import { useState } from "react"
-import AddContentCard from "~/components/AddContentCard"
+// import AddContentCard from "~/components/AddBookCard"
 import AddQuoteCard from "~/components/AddQuoteCard"
 import AuthorRouteAuthorCard from "~/components/AuthorRouteAuthorCard"
 import EditAuthorBtn from "~/components/Buttons/EditAuthorBtn"
-import ContentCard from "~/components/ContentCard"
-import ContentHomeCard from "~/components/ContentHomeCard"
+// import BookCard from "~/components/BookCard"
+import BookHomeCard from "~/components/BookHomeCard"
 import PageTitle from "~/components/PageTitle"
 import SectionTitle from "~/components/SectionTitle"
 import { prisma } from "~/db.server"
 import { requireUserId } from "~/session.server";
+import AddBookCard from "~/components/AddBookCard"
 
 export const loader = async ({params, request}: any) => {
     const userId = await requireUserId(request);
@@ -21,11 +22,11 @@ export const loader = async ({params, request}: any) => {
             _count: {
               select: {
                 quote: true,
-                content: true,
+                book: true,
                 quoteNote: true
               }
             },
-            content: {
+            book: {
                 include: {
                     author: true,
                 }
@@ -95,18 +96,18 @@ export default function AuthorDetail() {
             <PageTitle children={data.author.name} btn={<EditAuthorBtn author={data} edit={edit} setEdit={setEdit}/>}/>
             <AuthorRouteAuthorCard author={data} actionData={actionData} edit={edit} />
             <div className="mb-28">
-                <SectionTitle children={'Content'}/>
-                {data.author._count.content < 1 ?
+                <SectionTitle children={'Books'}/>
+                {data.author._count.book < 1 ?
                     <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 ">
-                        <Link to={`/content/new`}>
-                            <AddContentCard />
+                        <Link to={`/books/new`}>
+                            <AddBookCard />
                         </Link> 
                     </div>
                     :
                     <div className="flex overflow-auto pb-6 snap-x scrollbar-thin scrollbar-track-stone-800 scrollbar-thumb-stone-700 p-1 gap-4">
-                        {data.author.content.map((content: any) => (
-                            <Link to={`/content/${content.id}`} key={content.id}>
-                                <ContentHomeCard content={content}/>
+                        {data.author.book.map((book: any) => (
+                            <Link to={`/books/${book.id}`} key={book.id}>
+                                <BookHomeCard book={book}/>
                             </Link>
                         ))}
                     </div>

@@ -22,8 +22,8 @@ export const loader = async ({params, request}: any) => {
         where: { id: quote?.authorId}
     })
 
-    const content = await prisma.content.findUnique({
-        where: { id: quote?.contentId}
+    const book = await prisma.book.findUnique({
+        where: { id: quote?.bookId}
     })
 
     const notes = await prisma.quoteNote.findMany({
@@ -34,7 +34,7 @@ export const loader = async ({params, request}: any) => {
         ],
         where: {quoteId: params.quoteId}
     })
-    return {author, quote, content, notes}
+    return {author, quote, book, notes}
 }
 
 export const action = async ({ request, params }: any) => {
@@ -43,7 +43,7 @@ export const action = async ({ request, params }: any) => {
     const formBody = form.get('body')
     const quoteBody = form.get('quoteBody')
     const authorId = form.get('authorId')
-    const contentId = form.get('contentId')
+    const bookId = form.get('bookId')
     const id = params.quoteId
     const isFavorited = form.get('isFavorited')
     const tagBody = form.get('tagBody')
@@ -107,7 +107,7 @@ export const action = async ({ request, params }: any) => {
             return { errors, values }
         }
 
-        const fields = { body, quoteId, userId, authorId, contentId}
+        const fields = { body, quoteId, userId, authorId, bookId}
         await prisma.quoteNote.create({ data: fields })
 
         // update the createdAt date when a new note is added to a quote

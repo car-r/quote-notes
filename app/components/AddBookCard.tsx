@@ -1,4 +1,4 @@
-export default function AddContentCard() {
+export default function AddBookCard() {
     return (
         <div className="flex flex-col justify-center min-h-full bg-stone-800 p-4 border border-stone-800 outline-dashed rounded-md text-stone-300/60 hover:outline-blue-400 hover:text-stone-100">
             <div className="pb-2 flex flex-col align-middle">

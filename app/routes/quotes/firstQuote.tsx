@@ -1,6 +1,6 @@
 import { useActionData } from "@remix-run/react";
 import { redirect } from "@remix-run/server-runtime";
-import ContentCard from "~/components/ContentCard";
+// import BookCard from "~/components/BookCard";
 import FirstQuoteForm from "~/components/FirstQuoteForm";
 import PageTitle from "~/components/PageTitle";
 import { prisma } from "~/db.server";
@@ -59,7 +59,7 @@ export const action = async ({request}: any) => {
         
     })
 
-    const content = await prisma.content.create({
+    const book = await prisma.book.create({
         data: {
             title: title,
             userId: userId,
@@ -71,7 +71,7 @@ export const action = async ({request}: any) => {
         data: {
             body: body,
             userId: userId,
-            contentId: content.id,
+            bookId: book.id,
             authorId: author.id
         }
     })

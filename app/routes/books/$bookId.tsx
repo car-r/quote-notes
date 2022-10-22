@@ -1,15 +1,16 @@
 import { Form, useActionData, useLoaderData } from "@remix-run/react"
 import { Link } from "@remix-run/react"
 import { redirect } from "@remix-run/server-runtime"
-import ContentEditCard from "~/components/ContentEditCard"
+import BookEditCard from "~/components/BookEditCard"
+// import ContentEditCard from "~/components/BookEditCard"
 import PageTitle from "~/components/PageTitle"
 import { prisma } from "~/db.server"
 import { requireUserId } from "~/session.server";
 
 export const loader = async ({params, request}: any) => {
     const userId = await requireUserId(request);
-    const content = await prisma.content.findUnique({
-        where: { id: params.contentId },
+    const book = await prisma.book.findUnique({
+        where: { id: params.bookId },
         include: {
             author: true
         }
@@ -20,7 +21,7 @@ export const loader = async ({params, request}: any) => {
                 createdAt: 'desc',
             },
         ],
-        where: { userId: userId, contentId: params.contentId}
+        where: { userId: userId, bookId: params.bookId}
     })
     const authors = await prisma.author.findMany({
         orderBy: [
@@ -30,7 +31,7 @@ export const loader = async ({params, request}: any) => {
         ],
         where: { userId: userId}
     })
-    return {content, quotes, authors}
+    return {book, quotes, authors}
 }
 
 export const action = async ({request}: any) => {
@@ -39,7 +40,7 @@ export const action = async ({request}: any) => {
     const authorId = form.get('authorId')
     const selectAuthorId = form.get('selectAuthorId')
     const body = form.get('body')
-    const contentId = form.get('contentId')
+    const bookId = form.get('bookId')
     const authorName = form.get('authorName')
     const id = form.get('id')
     const isFavorited = form.get('isFavorited')
@@ -48,7 +49,7 @@ export const action = async ({request}: any) => {
     const selectAuthorName = form.get('selectAuthorName')
     console.log(Object.fromEntries(form))
 
-    // Action to update Content
+    // Action to update Book
     if (form.get('_method') === 'update') {
         const authorId = selectAuthorId
         const authorName = selectAuthorName
@@ -83,17 +84,17 @@ export const action = async ({request}: any) => {
             return { errors, values }
         }
 
-        await prisma.content.update({
-            where: { id: contentId },
+        await prisma.book.update({
+            where: { id: bookId },
             data: { title: title, authorId: authorId, imgUrl: imgUrl, authorName: authorName }
         })
 
         await prisma.quote.updateMany({ 
-            where: { contentId: contentId },
+            where: { bookId: bookId },
             data: { authorId: authorId, authorName: authorName }
         })
 
-        return redirect(`/content/${contentId}`)
+        return redirect(`/books/${bookId}`)
 
     }
 
@@ -116,15 +117,15 @@ export const action = async ({request}: any) => {
             return { errors, values }
         }
 
-        const fields = { authorId, body, userId, contentId, authorName }
+        const fields = { authorId, body, userId, bookId, authorName }
         await prisma.quote.create({ data: fields})
-        return redirect(`/content/${contentId}`)
+        return redirect(`/books/${bookId}`)
     }
 
-    // Action to delete Content
-    if(form.get('_method') === 'deleteContent') {
-        await prisma.content.delete({where: {id: contentId}})
-        return redirect(`/content`)
+    // Action to delete Book
+    if(form.get('_method') === 'deleteBook') {
+        await prisma.book.delete({where: {id: bookId}})
+        return redirect(`/books`)
     }
 
     // Action to update if Quote is favorited
@@ -133,21 +134,21 @@ export const action = async ({request}: any) => {
             where: { id: id },
             data: { isFavorited: isFavorited }
         })
-            return redirect(`/content/${contentId}`)
+            return redirect(`/books/${bookId}`)
     }
 }
 
-export default function ContentIdRoute() {
+export default function BookIdRoute() {
     const data = useLoaderData()
-    const content = data.content
+    const book = data.book
     const authors = data.authors
-    console.log('contentId --> ', data)
-    console.log('contentId content --> ', content)
+    console.log('bookId --> ', data)
+    console.log('bookId book --> ', book)
     const actionData = useActionData()
 
     return (
         <div className="flex flex-col pt-6 md:pt-10 max-w-6xl">
-            <PageTitle children={`${data.content.title} Quotes`}/>
+            <PageTitle children={`${data.book.title} Quotes`}/>
             <div className="grid grid-cols-1 md:flex gap-6 ">
                 {data.quotes.length < 1 ? 
                     <div className="grid grid-cols-1 gap-4 md:gap-6 md:grid-cols-1 lg:grid-cols-2 pb-1">
@@ -164,7 +165,7 @@ export default function ContentIdRoute() {
                                         <div onClick={() => console.log('clicked')} className="flex justify-end ">   
                                             <div className="flex flex-col">
                                             <input type="hidden" name="id" value={quote.id}/>
-                                            <input type="hidden" name="contentId" value={content.id}/>
+                                            <input type="hidden" name="bookId" value={book.id}/>
                                             {quote.isFavorited === "isFavorited" ? <input type="hidden" name="isFavorited" value="notFavorited"/> : <input type="hidden" name="isFavorited" value="isFavorited"/>}
                                                 <button type="submit">
                                                     {quote.isFavorited === "isFavorited" ? 
@@ -206,13 +207,13 @@ export default function ContentIdRoute() {
                             )}
                         </div>
                         <div className="hidden">
-                            <input type="hidden" name="authorId" value={content.authorId}/>
+                            <input type="hidden" name="authorId" value={book.authorId}/>
                         </div>
                         {/* <div className="hidden">
                             <input type="hidden" name="authorName" value={content.authorName}/>
                         </div> */}
                         <div className="hidden">
-                            <input type="hidden" name="contentId" value={content.id}/>
+                            <input type="hidden" name="bookId" value={book.id}/>
                         </div>
 
                         <div className="flex flex-col">
@@ -225,7 +226,7 @@ export default function ContentIdRoute() {
                         </div>
                     </Form>
                     <div>
-                        <ContentEditCard content={content} authors={authors} actionData={actionData}/>
+                        <BookEditCard book={book} authors={authors} actionData={actionData}/>
                     </div>
                 </div>
             </div>

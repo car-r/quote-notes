@@ -34,7 +34,7 @@ export default function QuoteIndexCard({quote}: any) {
                         <p className="font-light">
                             <Link to={`/authors/${quote.author.id}`} className="hover:text-stone-100">
                                 {quote.author.name}
-                            </Link>, <span className="font-thin hover:text-stone-100"><Link to={`/content/${quote.content.id}`}>{quote.content.title}</Link></span>
+                            </Link>, <span className="font-thin hover:text-stone-100"><Link to={`/books/${quote.book.id}`}>{quote.book.title}</Link></span>
                         </p>
                     </div>
                 </div>
