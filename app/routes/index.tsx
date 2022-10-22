@@ -14,6 +14,7 @@ import {
 import { Bar } from 'react-chartjs-2';
 import AddAuthorCard from "~/components/AddAuthorCard";
 import AddContentCard from "~/components/AddContentCard";
+import AddQuoteCard from "~/components/AddQuoteCard";
 import PageTitle from "~/components/PageTitle";
 import QuoteSmallCard from "~/components/QuoteSmallCard";
 import AuthorHomeCard from "~/components/AuthorHomeCard";
