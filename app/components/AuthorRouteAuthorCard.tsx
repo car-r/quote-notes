@@ -2,20 +2,22 @@ import { Form } from "@remix-run/react"
 
 export default function AuthorRouteAuthorCard({author, edit, actionData}: any) {
     const quotes = {title: 'Quotes', count: author.author._count.quote}
-    const books = {title: 'Book', count: author.author._count.book}
+    const books = {title: 'Books', count: author.author._count.book}
     const notes = {title: 'Notes', count: author.author._count.quoteNote}
     const detailArray = [books, quotes, notes]
     console.log(actionData)
     console.log('author route card --> ', author)
     return (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4  rounded-xl py-2 mb-20">
-            <div className="flex flex-col p-4 rounded-lg w-full items-center">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4  rounded-xl py-2 mb-20">
+            <div className="flex flex-col rounded-lg w-full items-center border-2 border-stone-800 h-72">
+                <div className="bg-stone-800 h-28 w-full rounded-t-md"></div>
                 <img 
                     src={author.author.imgUrl} 
-                    className=" w-56 h-56 sm:w-72 sm:h-72 object-cover max-w-72 rounded-full" 
+                    className=" w-48 h-48 sm:w-48 sm:h-48 object-cover max-w-72 rounded-full absolute mt-5" 
                     alt={author.name}
                     onError={(e: any) => e.target.src = 'https://icon-library.com/images/default-user-icon/default-user-icon-8.jpg'}
                 />
+                <p className="mt-auto text-base pb-6">{author.author.name}</p>
             </div>
             <div className="flex flex-col p-4 rounded-lg max-w-3xl">
                 {edit ? 
