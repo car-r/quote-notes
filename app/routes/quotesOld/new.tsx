@@ -9,15 +9,15 @@ export const action = async ({request}: any) => {
     const userId = await requireUserId(request);
     const authorId = form.get('authorId')
     const body = form.get('body')
-    const contentId = form.get('contentId')
+    const bookId = form.get('bookId')
     const authorName = form.get('authorName')
     console.log(Object.fromEntries(form))
 
-    const fields = { authorId, body, userId, contentId, authorName }
+    const fields = { authorId, body, userId, bookId, authorName }
 
     const errors = {
         body: '',
-        contentId: ''
+        bookId: ''
     }
 
     function checkBody(body: any) {
@@ -28,15 +28,15 @@ export const action = async ({request}: any) => {
 
     checkBody(body)
 
-    function checkContentId(contentId: any) {
-        if(contentId === 'nocontent') {
-            return errors.contentId = `Please create content first`
+    function checkBookId(bookId: any) {
+        if(bookId === 'nobook') {
+            return errors.bookId = `Please create book first`
         }
     }
 
-    checkContentId(contentId)
+    checkBookId(bookId)
 
-    if (errors.body || errors.contentId) {
+    if (errors.body || errors.bookId) {
         const values = Object.fromEntries(form)
         return { errors, values }
     }
@@ -48,8 +48,8 @@ export const action = async ({request}: any) => {
 export const loader = async () => {
     const authors = await prisma.author.findMany()
     const users = await prisma.user.findMany()
-    const content = await prisma.content.findMany()
-    return {authors, users, content}
+    const book = await prisma.book.findMany()
+    return {authors, users, book}
 }
 
 export default function NewQuote() {
@@ -111,18 +111,18 @@ export default function NewQuote() {
                     </div>
                     <div className="flex flex-col gap-1">
                         <label className="text-sm font-semibold tracking-wider uppercase">
-                            Content
+                            Book
                         </label>
-                        <select name="contentId" className="bg-stone-700 rounded-sm p-1">
-                            {data.content.filter((content: any) => content.authorId === authorId) < 1 ? 
-                                <option value='nocontent'></option> 
+                        <select name="bookId" className="bg-stone-700 rounded-sm p-1">
+                            {data.book.filter((book: any) => book.authorId === authorId) < 1 ? 
+                                <option value='nobook'></option> 
                                 : 
-                                data.content.filter((content: any) => content.authorId === authorId).map((content: any) => (
-                                <option key={content.id} value={content.id} >{content.title}</option>
+                                data.book.filter((book: any) => book.authorId === authorId).map((book: any) => (
+                                <option key={book.id} value={book.id} >{book.title}</option>
                             ))}
                         </select>
-                        {actionData?.errors.contentId && (
-                            <p className="text-red-400 text-sm">{actionData.errors.contentId}</p>
+                        {actionData?.errors.bookId && (
+                            <p className="text-red-400 text-sm">{actionData.errors.bookId}</p>
                         )}
                     </div>
                     
