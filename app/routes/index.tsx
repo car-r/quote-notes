@@ -244,7 +244,7 @@ export default function Index() {
         }
       </div>
       <div className="pb-28">
-        <SectionTitle children={'Book'}/>
+        <SectionTitle children={'Books'}/>
         {data.userData.book.length > 0 ?
           <div className="flex overflow-auto pb-6 snap-x scrollbar-thin scrollbar-track-stone-800 scrollbar-thumb-stone-700 p-1 gap-4 ">
             {data.userData.book.map((book: any) => (
