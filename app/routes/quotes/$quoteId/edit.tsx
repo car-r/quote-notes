@@ -1,6 +1,6 @@
 import EditQuoteCard from "~/components/EditQuoteCard";
 
-import { useLoaderData } from "@remix-run/react"
+import { useActionData, useLoaderData } from "@remix-run/react"
 import { prisma } from "~/db.server"
 import { requireUserId } from "~/session.server";
 import { redirect } from "@remix-run/node";
@@ -22,7 +22,7 @@ export const action = async ({ request, params }: any) => {
     const formBody = form.get('body')
     const quoteBody = form.get('quoteBody')
     const authorId = form.get('authorId')
-    const contentId = form.get('contentId')
+    const bookId = form.get('bookId')
     const id = params.quoteId
     const isFavorited = form.get('isFavorited')
     const tagBody = form.get('tagBody')
@@ -66,9 +66,10 @@ export const action = async ({ request, params }: any) => {
 
 export default function EditQuote() {
     const quote = useLoaderData()
+    const actionData = useActionData()
     return (
-        <div>
-            <EditQuoteCard quote={quote}/>
+        <div className="md:col-span-2">
+            <EditQuoteCard quote={quote} actionData={actionData} />
         </div>
     )
 }

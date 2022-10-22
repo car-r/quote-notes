@@ -2,7 +2,7 @@ import { Form } from "@remix-run/react";
 
 export default function EditQuoteCard({quote, actionData}: any) {
     return (
-        <div className="flex flex-col gap-4 bg-stone-800 px-4 pb-4 rounded-xl md:w-2/3">
+        <div className="flex flex-col gap-4 bg-stone-800 px-4 pb-4 rounded-xl md:w-full">
                 <div className="flex flex-col py-3 w-full">
                         <Form method="post"
                             className="flex flex-col gap-4 border border-stone-800 bg-stone-800 rounded-md text-stone-300/60 font-light "

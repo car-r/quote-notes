@@ -35,37 +35,37 @@ export const action = async ({ request, params }: any) => {
     console.log(Object.fromEntries(form))
 
     // Action to delete quote
-    if(form.get('_method') === 'delete') {
-        await prisma.quote.delete({ where: { id: params.quoteId}})
-        return redirect('/quotes')
-    }
+    // if(form.get('_method') === 'delete') {
+    //     await prisma.quote.delete({ where: { id: params.quoteId}})
+    //     return redirect('/quotes')
+    // }
 
     // Action to update quote
-    if(form.get('_method') === 'update') {
-        const body = quoteBody
+    // if(form.get('_method') === 'update') {
+    //     const body = quoteBody
 
-        const errors = {
-            body: ''
-        }
+    //     const errors = {
+    //         body: ''
+    //     }
     
-        // validation check to make sure body isn't less than 4 characters
-        function checkBody(body: any) {
-            if(!body || body.length < 4) {
-                return errors.body = `Quote too short`
-            }
-        }
+    //     // validation check to make sure body isn't less than 4 characters
+    //     function checkBody(body: any) {
+    //         if(!body || body.length < 4) {
+    //             return errors.body = `Quote too short`
+    //         }
+    //     }
     
-        checkBody(body)
+    //     checkBody(body)
     
-        if (errors.body) {
-            const values = Object.fromEntries(form)
-            return { errors, values }
-        }
+    //     if (errors.body) {
+    //         const values = Object.fromEntries(form)
+    //         return { errors, values }
+    //     }
 
-        const fields = {body}
-        await prisma.quote.update({where: {id: params.quoteId}, data: fields})
-        return redirect('/quotes')
-    }
+    //     const fields = {body}
+    //     await prisma.quote.update({where: {id: params.quoteId}, data: fields})
+    //     return redirect('/quotes')
+    // }
 
 
     // Action to create a quoteNote
@@ -159,12 +159,15 @@ export default function QuoteIdHome() {
     const actionData = useActionData()
     console.log('quoteIndex --> ', quote)
     return (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+        // <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+        //     <QuoteCardLarge quote={quote} actionData={actionData}/>
+        //     <div className="flex flex-col gap-6">
+        //             <AddNoteCard quote={quote} actionData={actionData}/>
+        //             <QuoteTags quote={quote} actionData={actionData}/>
+        //         </div>
+        // </div>
+        <div className="md:col-span-2">
             <QuoteCardLarge quote={quote} actionData={actionData}/>
-            <div className="flex flex-col gap-6">
-                    <AddNoteCard quote={quote} actionData={actionData}/>
-                    <QuoteTags quote={quote} actionData={actionData}/>
-                </div>
         </div>
     )
 }
