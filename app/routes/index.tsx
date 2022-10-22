@@ -14,12 +14,10 @@ import {
 } from 'chart.js';
 // import { Bar } from 'react-chartjs-2';
 import AddAuthorCard from "~/components/AddAuthorCard";
-// import AddContentCard from "~/components/AddBookCard";
 import AddQuoteCard from "~/components/AddQuoteCard";
 import PageTitle from "~/components/PageTitle";
 import QuoteSmallCard from "~/components/QuoteSmallCard";
 import AuthorHomeCard from "~/components/AuthorHomeCard";
-// import ContentHomeCard from "~/components/BookHomeCard";
 import AddFirstQuoteCard from "~/components/AddFirstQuoteCard";
 import BookHomeCard from "~/components/BookHomeCard";
 import AddBookCard from "~/components/AddBookCard";
