@@ -1,4 +1,4 @@
-import { Outlet, useActionData, useLoaderData } from "@remix-run/react";
+import { Outlet, useActionData, useCatch, useLoaderData, useParams } from "@remix-run/react";
 import { useState } from "react";
 import EditQuoteBtn from "~/components/Buttons/EditQuoteBtn";
 import PageTitle from "~/components/PageTitle";
@@ -12,6 +12,7 @@ import QuoteCardLarge from "~/components/QuoteCardLarge";
 import AddNoteCard from "~/components/AddNoteCard";
 import QuoteTags from "~/components/QuoteTags";
 import { redirect } from "@remix-run/server-runtime";
+import QuoteErrorBackBtn from "~/components/Buttons/QuoteErrorBackBtn";
 
 export const loader = async ({params, request}: any) => {
     const userId = await requireUserId(request);
@@ -21,26 +22,43 @@ export const loader = async ({params, request}: any) => {
             tag: true, // Return all fields
             author: true,
             book: true,
+            note: {
+                orderBy: [
+                    {
+                        createdAt: 'desc'
+                    }
+                ],
+                
+            }
         }
     })
 
-    const author = await prisma.author.findUnique({
-        where: { id: quote?.authorId}
-    })
+    if (!quote) {
+        throw new Response("Can't find quote.", {
+            status: 404,
+        })
+    }
+    
+    return {quote}
 
-    const book = await prisma.book.findUnique({
-        where: { id: quote?.bookId}
-    })
+    // const author = await prisma.author.findUnique({
+    //     where: { id: quote?.authorId}
+    // })
 
-    const notes = await prisma.quoteNote.findMany({
-        orderBy: [
-            {
-                createdAt: 'desc',
-            },
-        ],
-        where: {quoteId: params.quoteId}
-    })
-    return {author, quote, book, notes}
+    // const book = await prisma.book.findUnique({
+    //     where: { id: quote?.bookId}
+    // })
+
+    // const notes = await prisma.quoteNote.findMany({
+    //     orderBy: [
+    //         {
+    //             createdAt: 'desc',
+    //         },
+    //     ],
+    //     where: {quoteId: params.quoteId}
+    // })
+    // return {author, quote, book, notes}
+    return {quote}
 }
 
 export const action = async ({ request, params }: any) => {
@@ -190,7 +208,7 @@ export default function QuoteDetail() {
             {edit ? 
                 <PageTitle children={`Quote`} btn={<QuoteBackBtn  quote={quote} edit={edit} setEdit={setEdit}/>}/>
                 :
-                <PageTitle children={`Quote`} btn={<EditQuoteBtn  quote={quote} edit={edit} setEdit={setEdit}/>}/>
+                <PageTitle children={`Quote`} btn={<EditQuoteBtn  data={quote} edit={edit} setEdit={setEdit}/>}/>
             }
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
                 <Outlet context={ [edit, setEdit] }/>
@@ -206,4 +224,26 @@ export default function QuoteDetail() {
             </div>
         </div>
     )
+}
+
+export function CatchBoundary() {
+    const caught = useCatch();
+    const params = useParams();
+    if (caught.status === 404) {
+      return (
+        <div className="flex flex-col pt-6 md:pt-10 max-w-5xl">
+            <PageTitle children={`Quote`} btn={<QuoteErrorBackBtn />}/>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                <div className="md:col-span-2">
+                    <div className="p-4  border border-red-500 text-red-500 bg-stone-800 rounded-md ">
+                        <p className="text-base sm:text-xl text-center  italic font-semibold my-5 md:my-10">
+                            {`Can't find quote ${params.quoteId}`}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+      );
+    }
+    throw new Error(`Unhandled error: ${caught.status}`);
 }
