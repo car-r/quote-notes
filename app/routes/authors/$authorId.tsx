@@ -1,4 +1,4 @@
-import { useLoaderData, Link, useActionData } from "@remix-run/react"
+import { useLoaderData, Link, useActionData, Outlet } from "@remix-run/react"
 import { redirect } from "@remix-run/server-runtime"
 import { useState } from "react"
 // import AddContentCard from "~/components/AddBookCard"
@@ -12,6 +12,8 @@ import SectionTitle from "~/components/SectionTitle"
 import { prisma } from "~/db.server"
 import { requireUserId } from "~/session.server";
 import AddBookCard from "~/components/AddBookCard"
+import AuthorRouteCard from "~/components/AuthorRouteCard"
+import AuthorBackBtn from "~/components/Buttons/AuthorBackBtn"
 
 export const loader = async ({params, request}: any) => {
     const userId = await requireUserId(request);
@@ -92,9 +94,18 @@ export default function AuthorDetail() {
     console.log(data)
 
     return (
-        <div className="flex flex-col pt-6 md:pt-10 max-w-5xl">            
-            <PageTitle children={data.author.name} btn={<EditAuthorBtn author={data} edit={edit} setEdit={setEdit}/>}/>
-            <AuthorRouteAuthorCard author={data} actionData={actionData} edit={edit} />
+        <div className="flex flex-col pt-6 md:pt-10 max-w-5xl">
+            {edit ? 
+                <PageTitle children={data.author.name} btn={<AuthorBackBtn  data={data} edit={edit} setEdit={setEdit}/>}/>
+                :
+                <PageTitle children={data.author.name} btn={<EditAuthorBtn  data={data} edit={edit} setEdit={setEdit}/>}/>
+            }            
+            {/* <PageTitle children={data.author.name} btn={<EditAuthorBtn author={data} edit={edit} setEdit={setEdit}/>}/> */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 rounded-xl py-2 mb-20">
+                <AuthorRouteCard author={data}/>
+                <Outlet />
+            </div>
+            {/* <AuthorRouteAuthorCard author={data} actionData={actionData} edit={edit} /> */}
             <div className="mb-28">
                 <SectionTitle children={'Books'}/>
                 {data.author._count.book < 1 ?
