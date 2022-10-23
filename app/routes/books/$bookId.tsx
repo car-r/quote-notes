@@ -1,7 +1,10 @@
-import { Form, useActionData, useLoaderData } from "@remix-run/react"
+import { Form, Outlet, useActionData, useLoaderData, useTransition } from "@remix-run/react"
 import { Link } from "@remix-run/react"
 import { redirect } from "@remix-run/server-runtime"
+import { useEffect, useRef, useState } from "react"
 import BookEditCard from "~/components/BookEditCard"
+import BookBackBtn from "~/components/Buttons/BookBackBtn"
+import EditBookBtn from "~/components/Buttons/EditBookBtn"
 // import ContentEditCard from "~/components/BookEditCard"
 import PageTitle from "~/components/PageTitle"
 import { prisma } from "~/db.server"
@@ -49,54 +52,6 @@ export const action = async ({request}: any) => {
     const selectAuthorName = form.get('selectAuthorName')
     console.log(Object.fromEntries(form))
 
-    // Action to update Book
-    if (form.get('_method') === 'update') {
-        const authorId = selectAuthorId
-        const authorName = selectAuthorName
-
-        const errors = {
-            title: '',
-            imgUrl: ''
-        }
-
-        function checkTitleName(title: any) {
-            if(!title || title.length < 3) {
-                return errors.title = `Title too short`
-            }
-        }
-
-        checkTitleName(title)
-
-
-        const isValidImageUrl = new RegExp('(jpe?g|png|gif|bmp)$')
-
-        const validateImageUrl = (value: string) => {
-            if (!isValidImageUrl.test(value)) {
-                return errors.imgUrl = `Not a valid Image URL`
-            }
-        
-        }
-
-        validateImageUrl(imgUrl)
-
-        if (errors.title || errors.imgUrl) {
-            const values = Object.fromEntries(form)
-            return { errors, values }
-        }
-
-        await prisma.book.update({
-            where: { id: bookId },
-            data: { title: title, authorId: authorId, imgUrl: imgUrl, authorName: authorName }
-        })
-
-        await prisma.quote.updateMany({ 
-            where: { bookId: bookId },
-            data: { authorId: authorId, authorName: authorName }
-        })
-
-        return redirect(`/books/${bookId}`)
-
-    }
 
     // Action to create Quote
     if(form.get('_method') === 'create') {
@@ -122,11 +77,7 @@ export const action = async ({request}: any) => {
         return redirect(`/books/${bookId}`)
     }
 
-    // Action to delete Book
-    if(form.get('_method') === 'deleteBook') {
-        await prisma.book.delete({where: {id: bookId}})
-        return redirect(`/books`)
-    }
+
 
     // Action to update if Quote is favorited
     if (form.get('_method') !== 'create') {
@@ -138,17 +89,47 @@ export const action = async ({request}: any) => {
     }
 }
 
+// export type Edit = {
+//     edit: boolean
+//     setEdit: boolean
+// }
+
+// type ContextType = { edit: Edit | false }
+// declare function useOutletContext< Context = unknown >(): Context
+
 export default function BookIdRoute() {
+    const [edit, setEdit] = useState(false)
+    // const [edit, setEdit] = useState<Edit | false> (false)
     const data = useLoaderData()
+    let transition = useTransition()
+    let isAdding = 
+        transition.state === "submitting" &&
+        transition.submission.formData.get("_method") === "create"
+
+    // let formRef = useRef()
+    const formRef = useRef<HTMLFormElement>(null)
     const book = data.book
     const authors = data.authors
     console.log('bookId --> ', data)
     console.log('bookId book --> ', book)
+    console.log('bookId edit state --> ', edit)
     const actionData = useActionData()
+
+    useEffect(() => {
+        if (!isAdding) {
+            formRef.current?.reset();
+            setEdit(false)
+        }
+    },[isAdding])
 
     return (
         <div className="flex flex-col pt-6 md:pt-10 max-w-6xl">
-            <PageTitle children={`${data.book.title} Quotes`}/>
+            {edit ? 
+                <PageTitle children={data.book.title} btn={<BookBackBtn  data={data} edit={edit} setEdit={setEdit}/>}/>
+                :
+                <PageTitle children={data.book.title} btn={<EditBookBtn  data={data} edit={edit} setEdit={setEdit}/>}/>
+            } 
+            {/* <PageTitle children={`${data.book.title}`}/> */}
             <div className="grid grid-cols-1 md:flex gap-6 ">
                 {data.quotes.length < 1 ? 
                     <div className="grid grid-cols-1 gap-4 md:gap-6 md:grid-cols-1 lg:grid-cols-2 pb-1">
@@ -192,7 +173,7 @@ export default function BookIdRoute() {
                     </div>
                 }
                 <div className="flex flex-col md:h-screen md:sticky top-10 gap-6 order-first md:order-last md:ml-auto">
-                    <Form method="post"
+                    <Form method="post" ref={formRef}
                         className="flex flex-col gap-4 border border-stone-800 bg-stone-800 p-4 rounded-md text-stone-300/60 font-light"
                     >
                         <div className="flex flex-col">
@@ -217,8 +198,10 @@ export default function BookIdRoute() {
                         </div>
 
                         <div className="flex flex-col">
-                            <button type="submit" name="_method" value="create" className="px-4 py-2 bg-blue-400 text-white rounded flex justify-center hover:bg-blue-600">
-                                Add Quote
+                            <button type="submit" name="_method" value="create" disabled={isAdding}
+                                className={`px-4 py-2 bg-blue-400 text-white rounded flex justify-center hover:bg-blue-600`} 
+                                >
+                                {isAdding ? "Adding..." : "Add Quote"}
                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
                                 </svg>
@@ -226,7 +209,7 @@ export default function BookIdRoute() {
                         </div>
                     </Form>
                     <div>
-                        <BookEditCard book={book} authors={authors} actionData={actionData}/>
+                        <Outlet context={ [edit, setEdit] }/>
                     </div>
                 </div>
             </div>

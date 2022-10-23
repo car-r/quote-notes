@@ -1,10 +1,27 @@
-import { Form } from "@remix-run/react";
+import { Form, useTransition } from "@remix-run/react";
+import { useEffect, useRef } from "react";
 
-export default function AddNoteCard({quote, actionData}: any) {
+export default function AddNoteCard({quote, actionData, setEdit}: any) {
     // console.log(actionData)
+    let transition = useTransition()
+    let isAddingNote = 
+        transition.state === "submitting" &&
+        transition.submission.formData.get("_method") === "note"
+
+    // let formRef = useRef()
+    const formRef = useRef<HTMLFormElement>(null)
+
+    useEffect(() => {
+        if (!isAddingNote) {
+            formRef.current?.reset();
+        } else if (isAddingNote) {
+            setEdit(false)
+        }
+    },[isAddingNote, setEdit])
+    
     return (
         <div className="p-4 bg-stone-800 rounded-lg">
-            <Form className="flex flex-col " method="post" name="_method">
+            <Form className="flex flex-col " method="post" name="_method" ref={formRef}>
                 <label>
                 <textarea
                     name="body"
@@ -19,7 +36,7 @@ export default function AddNoteCard({quote, actionData}: any) {
                 <input type="hidden" name="bookId" value={quote.quote.bookId}/>
                 <button name="_method" value="note"
                     className="px-4 py-2 mt-2 bg-blue-400 rounded text-white hover:bg-blue-600">
-                    Add Note
+                    {isAddingNote ? "Adding..." : "Add Note"}
                 </button>
             </Form>
         </div>

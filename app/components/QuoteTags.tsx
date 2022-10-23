@@ -1,6 +1,24 @@
-import { Form } from "@remix-run/react";
+import { Form, useTransition } from "@remix-run/react";
+import { useEffect, useRef } from "react";
 
-export default function QuoteTags({quote, actionData}: any) {
+export default function QuoteTags({quote, actionData, setEdit}: any) {
+
+    let transition = useTransition()
+    let isAddingTag = 
+        transition.state === "submitting" &&
+        transition.submission.formData.get("_method") === "tag"
+
+    // let formRef = useRef()
+    const formRef = useRef<HTMLFormElement>(null)
+
+    useEffect(() => {
+        if (!isAddingTag) {
+            formRef.current?.reset();
+
+        } else if (isAddingTag) {
+            setEdit(false)
+        }
+    },[isAddingTag, setEdit])
 
     console.log('quoteTags component -> ', quote.quote.tag)
 
@@ -33,7 +51,7 @@ export default function QuoteTags({quote, actionData}: any) {
                     ))}
                     </div>
                 </div>
-                <Form className="flex flex-col " method="post" name="_method">
+                <Form className="flex flex-col " method="post" name="_method" ref={formRef}>
                         <label className="text-sm font-semibold tracking-wider uppercase">
                     
                         </label>
@@ -43,7 +61,7 @@ export default function QuoteTags({quote, actionData}: any) {
                         )}
                     <button name="_method" value="tag"
                         className="px-4 py-2 mt-4 border-2 border-blue-400 hover:bg-blue-400 text-white rounded text-center cursor-pointer">
-                        Add Tag
+                        {isAddingTag ? "Adding..." : "Add Tag"}
                     </button>
                 </Form>
             </div>

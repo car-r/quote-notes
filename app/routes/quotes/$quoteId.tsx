@@ -182,6 +182,8 @@ export default function QuoteDetail() {
     const quote = useLoaderData()
     const actionData = useActionData()
     const [edit, setEdit] = useState(false)
+
+    
     console.log('quoteId route --> ', quote)
     return (
         <div className="flex flex-col pt-6 md:pt-10 max-w-5xl">
@@ -191,10 +193,10 @@ export default function QuoteDetail() {
                 <PageTitle children={`Quote`} btn={<EditQuoteBtn  quote={quote} edit={edit} setEdit={setEdit}/>}/>
             }
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-                <Outlet />
+                <Outlet context={ [edit, setEdit] }/>
                 <div className="flex flex-col gap-6">
-                    <AddNoteCard quote={quote} actionData={actionData}/>
-                    <QuoteTags quote={quote} actionData={actionData}/>
+                    <AddNoteCard quote={quote} actionData={actionData} setEdit={setEdit}/>
+                    <QuoteTags quote={quote} actionData={actionData} setEdit={setEdit}/>
                 </div>
             </div>
             {/* <Outlet /> */}
