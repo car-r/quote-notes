@@ -1,4 +1,4 @@
-import { useLoaderData, Link, useActionData, Outlet } from "@remix-run/react"
+import { useLoaderData, Link, useActionData, Outlet, useCatch, useParams } from "@remix-run/react"
 import { redirect } from "@remix-run/server-runtime"
 import { useState } from "react"
 // import AddContentCard from "~/components/AddBookCard"
@@ -14,6 +14,7 @@ import { requireUserId } from "~/session.server";
 import AddBookCard from "~/components/AddBookCard"
 import AuthorRouteCard from "~/components/AuthorRouteCard"
 import AuthorBackBtn from "~/components/Buttons/AuthorBackBtn"
+import AuthorErrorBackBtn from "~/components/Buttons/AuthorErrorBackBtn"
 
 export const loader = async ({params, request}: any) => {
     const userId = await requireUserId(request);
@@ -39,7 +40,15 @@ export const loader = async ({params, request}: any) => {
           }
     })
 
+    if (!author) {
+        throw new Response("Can't find author.", {
+            status: 404,
+        })
+    }
+    
     return {author}
+
+    // return {author}
 }
 
 export const action = async ({request, params}: any) => {
@@ -157,4 +166,55 @@ export default function AuthorDetail() {
             </div> 
         </div>
     )
+}
+
+export function CatchBoundary() {
+    const caught = useCatch();
+    const params = useParams();
+    const quotes = {title: 'Quotes', count: '0'}
+    const books = {title: 'Books', count: '0'}
+    const notes = {title: 'Notes', count: '0'}
+    const detailArray = [books, quotes, notes]
+    if (caught.status === 404) {
+      return (
+        <div className="flex flex-col pt-6 md:pt-10 max-w-5xl">
+            <PageTitle children={`Author`} btn={<AuthorErrorBackBtn />}/>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 rounded-xl py-2 mb-20">
+                <div className="flex flex-col justify-center p-4 border border-red-500 text-red-500 bg-stone-800 rounded-md ">
+                    <p className="text-xs sm:text-sm md:text-base text-center italic font-semibold py-6">
+                        {`Can't find author ${params.authorId}`}
+                    </p>
+                </div>
+                <div className="flex flex-col sm:h-full sm:justify-center border-2 border-stone-800 p-4 rounded-lg">
+                    <div className="mb-3">
+                        {detailArray.map((detail) => (
+                            <div key={detail.title} className="flex flex-col py-3 border-b border-stone-700 w-full last:border-0 ">
+                                <p className="text-sm font-semibold tracking-wider uppercase">{detail.title}</p>
+                                <p><span className="font-thin text-2xl">{detail.count}</span></p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+                {/* <AuthorRouteCard author={data}/>
+                <Outlet context={[edit, setEdit]}/> */}
+            </div>
+            {/* <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                <div className="md:col-span-2">
+                    <div className="p-4  border border-red-500 text-red-500 bg-stone-800 rounded-md ">
+                        <p className="text-base sm:text-xl text-center  italic font-semibold my-5 md:my-10">
+                            {`Can't find author ${params.authorId}`}
+                        </p>
+                    </div>
+                </div>
+            </div> */}
+            <div className="mb-28">
+                <SectionTitle children={'Books'}/>
+            </div>
+            <div className="mb-28">
+                <SectionTitle children={'Quotes'}/>
+            </div>
+        </div>
+      );
+    }
+    throw new Error(`Unhandled error: ${caught.status}`);
 }
