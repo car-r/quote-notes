@@ -1,9 +1,10 @@
-import { Form, Outlet, useActionData, useLoaderData, useTransition } from "@remix-run/react"
+import { Form, Outlet, useActionData, useCatch, useLoaderData, useParams, useTransition } from "@remix-run/react"
 import { Link } from "@remix-run/react"
 import { redirect } from "@remix-run/server-runtime"
 import { useEffect, useRef, useState } from "react"
 import BookEditCard from "~/components/BookEditCard"
 import BookBackBtn from "~/components/Buttons/BookBackBtn"
+import BookErrorBackBtn from "~/components/Buttons/BookErrorBackBtn"
 import EditBookBtn from "~/components/Buttons/EditBookBtn"
 // import ContentEditCard from "~/components/BookEditCard"
 import PageTitle from "~/components/PageTitle"
@@ -34,6 +35,13 @@ export const loader = async ({params, request}: any) => {
         ],
         where: { userId: userId}
     })
+
+    if (!book) {
+        throw new Response("Can't find book.", {
+            status: 404,
+        })
+    }
+
     return {book, quotes, authors}
 }
 
@@ -215,4 +223,26 @@ export default function BookIdRoute() {
             </div>
         </div>
     )
+}
+
+
+export function CatchBoundary() {
+    const caught = useCatch();
+    const params = useParams();
+    if (caught.status === 404) {
+      return (
+        <div className="flex flex-col pt-6 md:pt-10 md:max-w-5xl pb-6">
+            <PageTitle children={`Book`} btn={<BookErrorBackBtn />}/>
+            <div className="flex flex-col w-full md:grid md:grid-cols-3">
+                <div className="flex flex-col col-span-2 ">
+                    <div className='flex flex-col justify-center py-10 border border-red-500 text-red-500 rounded-lg text-center w-full'>
+                        <p className="text-sm font-semibold tracking-wide">{`Can't find book ${params.bookId}`}</p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+      );
+    }
+    throw new Error(`Unhandled error: ${caught.status}`);
 }
