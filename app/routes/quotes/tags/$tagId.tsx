@@ -1,4 +1,4 @@
-import { useLoaderData } from "@remix-run/react";
+import { useCatch, useLoaderData, useParams } from "@remix-run/react";
 import { redirect } from "@remix-run/server-runtime";
 import QuoteCardTagId from "~/components/QuoteCardTagId";
 
@@ -7,23 +7,6 @@ import { requireUserId } from "~/session.server";
 
 export const loader = async ({request, params}: any) => {
     const userId = await requireUserId(request);
-    const quotes = await prisma.quote.findMany(
-        {orderBy: [
-            {
-                note: {
-                    _count: 'desc'
-                }
-            },
-            {
-                createdAt: 'desc',
-            },
-        ],
-        where: {userId: userId},
-        include: {
-            tag: true, // Return all fields
-          }
-        }
-    )
 
     const taggedQuotes = await prisma.tag.findMany({
         where: {body: params.tagId},
@@ -40,34 +23,14 @@ export const loader = async ({request, params}: any) => {
         },
     })
 
-    const groupQuotes = await prisma.quote.groupBy({
-        where: {userId: userId},
-        by: ['authorName'],
-        _count: {_all: true},
-    })
+    // throw error if there are no quotes with the tag in params
+    if (taggedQuotes.length < 1) {
+        throw new Response("Can't find tag.", {
+            status: 404,
+        })
+    }
 
-
-    const tags = await prisma.tag.groupBy({
-        where: {userId: userId},
-        by: ['body'],
-        _count: true,
-        orderBy: [{
-            _count: {
-                quoteId: 'desc'
-            }
-        }]
-    })
-
-
-    const tagsWithQuotes = await prisma.tag.findMany({
-        where: {userId: userId},
-        include: {
-            quote: true, // Return all fields
-        }
-        
-    })
-
-    return {quotes, groupQuotes, tags, tagsWithQuotes, taggedQuotes}
+    return {taggedQuotes}
     
 }
 
@@ -99,4 +62,23 @@ export default function QuotesIndex() {
             </div>
         </>
     )
+}
+
+export function CatchBoundary() {
+    const caught = useCatch();
+    const params = useParams();
+    if (caught.status === 404) {
+      return (
+        <div className="flex flex-col  md:max-w-5xl pb-6">
+            <div className="flex flex-col w-full md:grid md:grid-cols-3">
+                <div className="flex flex-col col-span-2 pb-4 md:pr-4">
+                    <div className='flex flex-col justify-center p-10 border border-red-500 text-red-500 rounded-sm text-center w-full'>
+                        <p className="font-semibold tracking-wide">{`Can't find tag '${params.tagId}'`}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+      );
+    }
+    throw new Error(`Unhandled error: ${caught.status}`)
 }
