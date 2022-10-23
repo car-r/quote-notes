@@ -40,7 +40,7 @@ export default function QuoteNoteId() {
                 <div className="flex flex-col col-span-2 pb-4 md:pr-4">
                     <QuoteNote note={data.data}/>
                 </div>
-                <div className="flex flex-col gap-4 col-end-4 col-span-1">
+                <div className="flex flex-col gap-6 col-end-4 col-span-1">
                     <QuoteNoteQuoteCard quote={data}/>
                     <QuoteNoteDeleteCard quoteNote={data}/>
                 </div>

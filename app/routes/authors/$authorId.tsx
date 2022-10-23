@@ -103,7 +103,7 @@ export default function AuthorDetail() {
             {/* <PageTitle children={data.author.name} btn={<EditAuthorBtn author={data} edit={edit} setEdit={setEdit}/>}/> */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 rounded-xl py-2 mb-20">
                 <AuthorRouteCard author={data}/>
-                <Outlet />
+                <Outlet context={[edit, setEdit]}/>
             </div>
             {/* <AuthorRouteAuthorCard author={data} actionData={actionData} edit={edit} /> */}
             <div className="mb-28">

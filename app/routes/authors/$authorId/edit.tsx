@@ -1,4 +1,4 @@
-import { useActionData, useLoaderData } from "@remix-run/react"
+import { useActionData, useLoaderData, useOutletContext } from "@remix-run/react"
 import { prisma } from "~/db.server"
 import { requireUserId } from "~/session.server";
 import { redirect } from "@remix-run/node";
@@ -61,9 +61,10 @@ export const action = async ({request, params}: any) => {
 export default function EditAuthor() {
     const data = useLoaderData()
     const actionData = useActionData()
+    const [edit, setEdit]: any = useOutletContext()
     return (
         <div className="">
-            <EditAuthorCard data={data} actionData={actionData} />
+            <EditAuthorCard data={data} actionData={actionData} setEdit={setEdit}/>
         </div>
     )
 }

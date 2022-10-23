@@ -6,7 +6,6 @@ export default function PageTitle({children, btn}: any) {
                     {children}
                 </h3>
                 <div>{btn}</div>
-                
             </div>
             <hr className="my-4 border-stone-800 border-b-2" />
         </div>

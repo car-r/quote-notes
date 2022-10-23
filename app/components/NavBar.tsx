@@ -31,9 +31,9 @@ export default function NavBar({toggle, isOpen}: any) {
                                 Quotes
                             </p>
                         </Link>
-                        <Link to='/content'>
+                        <Link to='/books'>
                             <p className='text-xl p-2 rounded-md hover:ring-2 hover:ring-blue-400 hover:ease-in-out hover:duration-300 hover:text-slate-100 cursor-pointer'>
-                                Content
+                                Books
                             </p>
                         </Link>
                         <Link to='/authors'>

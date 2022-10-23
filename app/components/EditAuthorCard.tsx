@@ -1,10 +1,28 @@
-import { Form } from "@remix-run/react";
+import { Form, useTransition } from "@remix-run/react";
+import { useEffect, useRef } from "react";
 
-export default function EditAuthorCard({data, actionData}: any) {
+export default function EditAuthorCard({data, actionData, setEdit}: any) {
+    let transition = useTransition()
+    let isUpdating = 
+        transition.state === "submitting" &&
+        transition.submission.formData.get("_method") === "update"
+
+    // let formRef = useRef()
+    const formRef = useRef<HTMLFormElement>(null)
+
+    useEffect(() => {
+        if (!isUpdating) {
+            formRef.current?.reset();
+        } else if (isUpdating) {
+            setEdit(false)
+        }
+    },[isUpdating, setEdit])
+    console.log('edit author card props --> ', setEdit)
     console.log('edit author card --> ', data)
     return (
         <div className="flex flex-col p-4 min-h-full justify-center border-2 border-stone-800 rounded-lg">
             <Form method="post"
+                ref={formRef}
                 className="flex flex-col gap-6 rounded-md text-stone-300/60 font-light"
             >
                 <div className="flex flex-col gap-4">
@@ -42,7 +60,9 @@ export default function EditAuthorCard({data, actionData}: any) {
                     </div>
                 </div>           
                 <div className="flex flex-col">
-                    <button type="submit" className="px-4 py-2 border-2 border-blue-400 hover:bg-blue-400/30 text-white rounded text-center cursor-pointer">Update</button> 
+                    <button type="submit" name="_method" value="update"  className="px-4 py-2 border-2 border-blue-400 hover:bg-blue-400/30 text-white rounded text-center cursor-pointer">
+                        {isUpdating ? "Updating..." : "Update Author"}    
+                    </button> 
                     {/* <button type="submit" name="_method" value="delete" className="px-6 py-2 border border-red-500 text-white rounded hover:bg-red-700">Delete</button> */}
                 </div>
             </Form>

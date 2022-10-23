@@ -1,9 +1,10 @@
 import EditQuoteCard from "~/components/EditQuoteCard";
 
-import { useActionData, useLoaderData } from "@remix-run/react"
+import { Form, useActionData, useLoaderData, useOutletContext, useTransition } from "@remix-run/react"
 import { prisma } from "~/db.server"
 import { requireUserId } from "~/session.server";
 import { redirect } from "@remix-run/node";
+import { useEffect, useRef } from "react";
 
 export const loader = async ({params}: any) => {
     const quote = await prisma.quote.findUnique({
@@ -60,16 +61,20 @@ export const action = async ({ request, params }: any) => {
 
         const fields = {body}
         await prisma.quote.update({where: {id: params.quoteId}, data: fields})
-        return redirect('/quotes')
+        return redirect(`/quotes/${params.quoteId}`)
     }
 }
 
 export default function EditQuote() {
     const quote = useLoaderData()
     const actionData = useActionData()
+    const [edit, setEdit]: any = useOutletContext()
+
+    
     return (
         <div className="md:col-span-2">
-            <EditQuoteCard quote={quote} actionData={actionData} />
+            {/* <EditQuoteCard quote={quote} actionData={actionData} context={[edit, setEdit]} /> */}
+            <EditQuoteCard quote={quote} actionData={actionData} setEdit={setEdit} />
         </div>
     )
 }
