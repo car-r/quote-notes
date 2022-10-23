@@ -236,11 +236,14 @@ export function CatchBoundary() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
                 <div className="md:col-span-2">
                     <div className="p-4  border border-red-500 text-red-500 bg-stone-800 rounded-md ">
-                        <p className="text-base sm:text-xl text-center  italic font-semibold my-5 md:my-10">
+                        <p className="text-sm sm:text-xl text-center  italic font-semibold my-5 md:my-10">
                             {`Can't find quote ${params.quoteId}`}
                         </p>
                     </div>
                 </div>
+            </div>
+            <div className="mt-20 mb-28">
+                <SectionTitle children={"Notes"}/>
             </div>
         </div>
       );
