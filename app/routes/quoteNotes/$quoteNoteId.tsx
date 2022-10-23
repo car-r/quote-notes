@@ -12,6 +12,7 @@ export const loader = async ({params}: any) => {
     const quote = await prisma.quote.findUnique({
         where: {id: data?.quoteId}
     })
+    
     return {data, quote}
 }
 
