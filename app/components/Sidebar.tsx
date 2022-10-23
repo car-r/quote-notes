@@ -25,7 +25,7 @@ export default function Sidebar({toggle, isOpen}: any) {
                 {links.map((link) => (
                     <NavLink to={`${link.route}`} key={link.title}
                         className={({ isActive }) =>
-                        `flex py-1 px-3 rounded-md hover:border-blue-400 font-semibold border ${isActive ? "bg-stone-300 border-stone-300 hover:border-stone-300  text-stone-800" : "border border-stone-900"}`
+                        `flex py-1 px-3 rounded-md hover:border-blue-400 hover:text-stone-100 font-semibold border ${isActive ? "bg-stone-300 border-stone-300 hover:border-stone-300 hover:text-stone-800 text-stone-800" : "border border-stone-900"}`
                         }
                     >
                         <div>{link.icon}</div>
@@ -33,9 +33,9 @@ export default function Sidebar({toggle, isOpen}: any) {
                     </NavLink>
                 ))}
                 <Form action="/logout" method="post">
-                    <div className="flex py-1 px-3 border border-stone-900 rounded-md hover:border-blue-400 hover:text-stone-100">
+                    <div className="flex py-1 px-3 border border-stone-900 rounded-md hover:border-blue-400 hover:text-stone-100 ">
                         <button
-                            className="flex"
+                            className="flex font-semibold"
                             type="submit"
                         >
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
