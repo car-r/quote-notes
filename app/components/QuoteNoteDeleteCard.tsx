@@ -12,7 +12,7 @@ export default function QuoteNoteDeleteCard({quoteNote}: any) {
                 <p className="text-sm font-semibold tracking-wider uppercase">Note created</p>
                 <p><span className="font-thin text-lg">{moment(quoteNote.data.createdAt).format('MMM DD, YYYY')}</span></p>
             </div>
-            <div className="mt-6 flex flex-col">
+            {/* <div className="mt-6 flex flex-col">
                 <Form method="post">
                     <button
                         name="_method"
@@ -25,7 +25,7 @@ export default function QuoteNoteDeleteCard({quoteNote}: any) {
                         </svg>
                     </button>
                 </Form>
-            </div>
+            </div> */}
         </div>
     )
 }
