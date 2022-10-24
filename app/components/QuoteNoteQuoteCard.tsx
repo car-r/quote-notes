@@ -16,7 +16,6 @@ export default function QuoteNoteQuoteCard({data}: any) {
                         {data.data.book.title}
                     </p>
                 </div>
-                
             </Link>
         </div>
     )

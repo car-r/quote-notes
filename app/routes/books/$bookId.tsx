@@ -238,7 +238,6 @@ export function CatchBoundary() {
                     <div className='flex flex-col justify-center py-10 border border-red-500 text-red-500 rounded-lg text-center w-full'>
                         <p className="text-sm font-semibold tracking-wide">{`Can't find book ${params.bookId}`}</p>
                     </div>
-
                 </div>
             </div>
         </div>
