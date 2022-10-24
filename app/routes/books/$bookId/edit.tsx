@@ -102,9 +102,15 @@ export default function EditBook() {
     const data = useLoaderData()
     const actionData = useActionData()
     let transition = useTransition()
+
+    let isDeleting = 
+        transition.state === "submitting" &&
+        transition.submission.formData.get("_method") === "deleteBook"
+
     let isUpdating = 
         transition.state === "submitting" &&
         transition.submission.formData.get("_method") === "update"
+
 
     // let formRef = useRef()
     const formRef = useRef<HTMLFormElement>(null)
@@ -127,7 +133,7 @@ export default function EditBook() {
             <div className="flex flex-col gap-4 md:w-80">
             <Form method="post" ref={formRef}>
                 <div className="flex flex-col">
-                    <button type="submit" name="_method" value="deleteBook" className="flex justify-end relative hover:text-stone-100">
+                    <button type="submit" name="_method" value="deleteBook" className="flex justify-end relative hover:text-stone-100 active:text-red-600">
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                         </svg>
@@ -171,8 +177,8 @@ export default function EditBook() {
                         </div>
                     </div>
                     <div className="flex flex-col mt-6">
-                        <button type="submit" name="_method" value="update"  className="px-6 py-2 bg-blue-400 hover:bg-blue-600 text-white rounded">
-                            {isUpdating ? "Updating..." : "Update Book"}
+                        <button type="submit" name="_method" value="update" disabled={isUpdating || isDeleting}  className="px-6 py-2 bg-blue-400 hover:bg-blue-600 text-white rounded">
+                            {isDeleting ? "Deleting..." : isUpdating ? "Updating..." : "Update Book"}
                         </button> 
                     </div>
                 </div>

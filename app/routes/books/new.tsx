@@ -2,6 +2,7 @@ import { useActionData, useLoaderData } from "@remix-run/react";
 import { redirect } from "@remix-run/server-runtime";
 // import { useState } from "react";
 import NewBookCard from "~/components/NewBookCard";
+import PageTitle from "~/components/PageTitle";
 // import NewContentCard from "~/components/NewBookCard";
 import { prisma } from "~/db.server";
 import { requireUserId } from "~/session.server";
@@ -80,12 +81,8 @@ export default function NewContent(): JSX.Element {
     
     return (
         <div className="flex flex-col pt-6 md:pt-10 md:max-w-5xl pb-6">
+            <PageTitle children={`New Book`}/>
             <div className="flex flex-col w-full md:grid md:grid-cols-3">
-                <div className="col-span-4 pb-6">
-                    <h3 className="text-2xl tracking-wide font-semibold pb-2 border-stone-800 border-b-2">
-                    New Book
-                    </h3>
-                </div>
                 <NewBookCard data={data} actionData={actionData}/>
             </div>
         </div>

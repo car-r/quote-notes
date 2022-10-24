@@ -15,6 +15,7 @@ import AddBookCard from "~/components/AddBookCard"
 import AuthorRouteCard from "~/components/AuthorRouteCard"
 import AuthorBackBtn from "~/components/Buttons/AuthorBackBtn"
 import AuthorErrorBackBtn from "~/components/Buttons/AuthorErrorBackBtn"
+import AddBookBtn from "~/components/Buttons/AddBookBtn"
 
 export const loader = async ({params, request}: any) => {
     const userId = await requireUserId(request);
@@ -116,7 +117,7 @@ export default function AuthorDetail() {
             </div>
             {/* <AuthorRouteAuthorCard author={data} actionData={actionData} edit={edit} /> */}
             <div className="mb-28">
-                <SectionTitle children={'Books'}/>
+                <SectionTitle children={'Books'} btn={<AddBookBtn />}/>
                 {data.author._count.book < 1 ?
                     <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 ">
                         <Link to={`/books/new`}>
