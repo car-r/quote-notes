@@ -1,8 +1,9 @@
 import { redirect } from "@remix-run/node"
-import { Form, Link, useActionData, useLoaderData } from "@remix-run/react"
+import { Form, Link, useActionData, useLoaderData, useTransition } from "@remix-run/react"
 import { prisma } from "~/db.server"
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { requireUserId } from "~/session.server";
+import PageTitle from "~/components/PageTitle";
 
 export const action = async ({request}: any) => {
     const form = await request.formData()
@@ -47,24 +48,45 @@ export const action = async ({request}: any) => {
 
 export const loader = async ({request}: any) => {
     const userId = await requireUserId(request);
-    const authors = await prisma.author.findMany({where: {userId: userId}})
-    const users = await prisma.user.findMany()
-    const book = await prisma.book.findMany({where: {userId: userId}})
-    return {authors, users, book}
+    const data = await prisma.user.findUnique({
+        where: { id: userId},
+        include: {
+            authors: true, // Return all fields
+            book: true,
+        }
+    })
+    // const authors = await prisma.author.findMany({where: {userId: userId}})
+    // const users = await prisma.user.findMany()
+    // const book = await prisma.book.findMany({where: {userId: userId}})
+    // return {authors, users, book, data}
+    return {data}
 }
 
 export default function NewQuote() {
     const actionData = useActionData()
     const data = useLoaderData()
     // const [authorName, setAuthorName] = useState(data.authors[0].name)
-    const [authorId, setAuthorId] = useState(data.authors[0].id)
+    const [authorId, setAuthorId] = useState(data.data.authors[0].id)
     // const [authorId, setAuthorId] = useState('')
-    
+    let transition = useTransition()
+    let isAdding = 
+        transition.state === "submitting" &&
+        transition.submission.formData.get("_method") === "create"
+
+    // let formRef = useRef()
+    const formRef = useRef<HTMLFormElement>(null)
+
+    useEffect(() => {
+        if (!isAdding) {
+            formRef.current?.reset();
+        } 
+    },[isAdding])
+
 
     function onAuthorChange(e: any) {
         console.log(e.target.value)
         console.log(data.authors.length)
-        for (const author of data.authors) {
+        for (const author of data.data.authors) {
             if (author.id === e.target.value) {
                 console.log('its a match on ' + author.name)
                 // setAuthorName(author.name)
@@ -76,17 +98,14 @@ export default function NewQuote() {
         }
     }
 
-    console.log(data)
+    console.log('new quote --> ',data)
     
     return (
         <div className="flex flex-col pt-6 md:pt-10 md:max-w-5xl pb-6">
+            <PageTitle children={`New Quote`}/>
             <div className="flex flex-col w-full md:grid md:grid-cols-3">
-                <div className="col-span-3 pb-6">
-                    <h3 className="text-2xl tracking-wide font-semibold pb-2 border-stone-800 border-b-2">
-                    New Quote
-                    </h3>
-                </div>
                 <Form method="post"
+                    ref={formRef}
                     className="flex flex-col gap-6 border border-stone-800 bg-stone-800 p-4 rounded-md text-stone-300/60 font-light md:w-72"
                 >
                     <div className="flex flex-col gap-1">
@@ -107,42 +126,30 @@ export default function NewQuote() {
                             Author
                         </label>
                         <select name="authorId" className="bg-stone-700 rounded-sm p-1" onChange={onAuthorChange}>
-                            {data.authors.map((author: any) => (
+                            {data.data.authors.map((author: any) => (
                                 <option key={author.id}  value={author.id}>{author.name}</option>
                             ))}
                         </select>
-                        {/* <select name="authorId" className="bg-stone-700 rounded-sm p-1" >
-                            {data.authors.map((author: any) => (
-                                <option key={author.id}  value={author.id}>{author.name}</option>
-                            ))}
-                        </select> */}
                     </div>
                     <div className="flex flex-col gap-1">
                         <label className="text-sm font-semibold tracking-wider uppercase">
                             Book
                         </label>
                         <select name="bookId" className="bg-stone-700 rounded-sm p-1">
-                            {/* {data.content.filter((content: any) => content.authorId === authorId) < 1 ? 
-                                <option value='nocontent'></option> 
-                                : 
-                                data.content.filter((content: any) => content.authorId === authorId).map((content: any) => (
-                                <option key={content.id} value={content.id} >{content.title}</option>
-                            ))} */}
-                            {data.book.filter((book: any) => book.authorId === authorId).map((book: any) =>(
+                            {data.data.book.filter((book: any) => book.authorId === authorId).map((book: any) =>(
                                 <option key={book.id} value={book.id}>{book.title}</option>
                             ))}
-                            {/* {data.content.map((content: any) => (
-                                <option key={content.id} value={content.id}>{content.title}</option>
-                            ))} */}
                         </select>
                         {actionData?.errors.bookId && (
                             <p className="text-red-400 text-sm">{actionData.errors.bookId}</p>
                         )}
                     </div>
                     
-                    {/* <input type="hidden" name="authorName" value={authorName}/> */}
                     <div className="flex flex-col">
-                        <button type="submit" className="px-4 py-2 bg-blue-400 text-white rounded hover:bg-blue-600">Add Quote</button>
+                        <button type="submit" name="_method" value="create" disabled={isAdding} 
+                            className="px-4 py-2 bg-blue-400 text-white rounded hover:bg-blue-600">
+                            {isAdding ? "Adding..." : "Add Quote"}
+                        </button>
                     </div>
                 </Form>
             </div>
