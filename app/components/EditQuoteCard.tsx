@@ -4,6 +4,11 @@ import { useEffect, useRef } from "react";
 export default function EditQuoteCard({quote, actionData, setEdit}: any) {
     
     let transition = useTransition()
+
+    let isDeleting = 
+        transition.state === "submitting" &&
+        transition.submission.formData.get("_method") === "delete"
+
     let isUpdating = 
         transition.state === "submitting" &&
         transition.submission.formData.get("_method") === "update"
@@ -49,8 +54,9 @@ export default function EditQuoteCard({quote, actionData, setEdit}: any) {
                     </div>
                     <div className="flex flex-col md:flex-row">
                         <div className="flex flex-col">
-                            <button type="submit" name="_method" value="update" className="px-6 py-2 bg-blue-400 hover:bg-blue-600 text-white rounded">
-                                {isUpdating ? "Updating..." : "Update Quote"}
+                            <button type="submit" name="_method" value="update" disabled={isUpdating || isDeleting}
+                                className="px-6 py-2 bg-blue-400 hover:bg-blue-600 text-white rounded">
+                                {isDeleting ? "Deleting..." : isUpdating ? "Updating..." : "Update Quote"}
                             </button> 
                         </div>
                     </div>           

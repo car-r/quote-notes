@@ -88,7 +88,6 @@ export function CatchBoundary() {
                     <div className='flex flex-col justify-center p-10 border border-red-500 text-red-500 rounded-sm text-center w-full'>
                         <p className="font-semibold tracking-wide">{`Can't find note ${params.quoteNoteId}`}</p>
                     </div>
-
                 </div>
             </div>
         </div>
