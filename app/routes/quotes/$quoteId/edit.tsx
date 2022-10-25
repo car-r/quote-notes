@@ -70,33 +70,33 @@ export default function EditQuote() {
     const actionData = useActionData()
     const [edit, setEdit]: any = useOutletContext()
 
-    let transition = useTransition()
+    // let transition = useTransition()
 
-    let isDeleting = 
-        transition.state === "submitting" &&
-        transition.submission.formData.get("_method") === "delete"
+    // let isDeleting = 
+    //     transition.state === "submitting" &&
+    //     transition.submission.formData.get("_method") === "delete"
 
-    let isUpdating = 
-        transition.state === "submitting" &&
-        transition.submission.formData.get("_method") === "update"
+    // let isUpdating = 
+    //     transition.state === "submitting" &&
+    //     transition.submission.formData.get("_method") === "update"
 
-    // let formRef = useRef()
-    const formRef = useRef<HTMLFormElement>(null)
+    // // let formRef = useRef()
+    // const formRef = useRef<HTMLFormElement>(null)
 
-    useEffect(() => {
-        if (!isUpdating) {
-            formRef.current?.reset();
-        } else if (isUpdating) {
-            setEdit(false)
-        }
-    },[isUpdating, setEdit])
+    // useEffect(() => {
+    //     if (!isUpdating) {
+    //         formRef.current?.reset();
+    //     } else if (isUpdating) {
+    //         setEdit(false)
+    //     }
+    // },[isUpdating, setEdit])
 
     
     return (
         <div className="md:col-span-2">
-            {/* <EditQuoteCard quote={quote} actionData={actionData} context={[edit, setEdit]} /> */}
+            <EditQuoteCard quote={quote} actionData={actionData} setEdit={setEdit} />
             {/* <EditQuoteCard quote={quote} actionData={actionData} setEdit={setEdit} /> */}
-            <div className="flex flex-col gap-4 bg-stone-800 px-4 pb-4 rounded-xl md:w-full">
+            {/* <div className="flex flex-col gap-4 bg-stone-800 px-4 pb-4 rounded-xl md:w-full">
                 <div className="flex flex-col py-3 w-full">
                     <Form method="post"
                         ref={formRef}
@@ -132,7 +132,7 @@ export default function EditQuote() {
                         </div>           
                     </Form>
                 </div> 
-            </div>
+            </div> */}
         </div>
     )
 }
