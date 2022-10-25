@@ -1,6 +1,9 @@
 export default function TopBtn({children}: any) {
     return (
-        <div className="text-sm md:text-base px-3 py-1 border-2 border-stone-600 bg-stone-600 hover:bg-stone-400 hover:text-stone-800 hover:border-stone-400 text-white rounded text-center cursor-pointer">
+        <div 
+            className="text-sm md:text-base px-3 py-2 text-white rounded text-center cursor-pointer 
+            border-2 border-stone-600 bg-transparent hover:bg-stone-400/40 hover:border-stone-600"
+        >
             {children}
         </div>
     )

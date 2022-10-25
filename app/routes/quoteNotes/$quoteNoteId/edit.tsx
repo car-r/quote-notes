@@ -69,6 +69,10 @@ export default function EditNote() {
     const [edit, setEdit]: any = useOutletContext()
 
     let transition = useTransition()
+    let isDeleting = 
+        transition.state === "submitting" &&
+        transition.submission.formData.get("_method") === "delete"
+
     let isUpdating = 
         transition.state === "submitting" &&
         transition.submission.formData.get("_method") === "update"
@@ -117,7 +121,7 @@ export default function EditNote() {
                         <div className="flex flex-col md:flex-row">
                             <div className="flex flex-col">
                                 <button type="submit" name="_method" value="update" disabled={isUpdating} className="px-6 py-2 bg-blue-400 hover:bg-blue-600 text-white rounded">
-                                    {isUpdating ? "Updating..." : "Update Quote"}
+                                    {isDeleting ? "Deleting..." : isUpdating ? "Updating..." : "Update Note"}
                                 </button> 
                             </div>
                         </div>           

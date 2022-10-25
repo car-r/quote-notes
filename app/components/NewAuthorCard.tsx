@@ -1,10 +1,26 @@
-import { Form } from "@remix-run/react";
+import { Form, useTransition } from "@remix-run/react";
+import { useEffect, useRef } from "react";
 
 export default function NewAuthorCard({actionData}: any) {
+    let transition = useTransition()
+    let isAdding = 
+        transition.state === "submitting" &&
+        transition.submission.formData.get("_method") === "create"
+
+    // let formRef = useRef()
+    const formRef = useRef<HTMLFormElement>(null)
+
+    useEffect(() => {
+        if (!isAdding) {
+            formRef.current?.reset();
+        } 
+    },[isAdding])
+    
     console.log(actionData)
     return (
         <div>
             <Form method="post"
+                ref={formRef}
                 className="flex flex-col sm:w-96 gap-6 border border-stone-800 bg-stone-800 p-4 rounded-md text-stone-300/60 font-light"
             >
                 <div className="flex flex-col gap-6">
@@ -29,7 +45,12 @@ export default function NewAuthorCard({actionData}: any) {
                     </div>
                 </div>           
                 <div className="flex flex-col">
-                    <button type="submit" className="px-4 py-2 bg-blue-400 text-white rounded hover:bg-blue-600">Create Author</button>
+                    <button 
+                        type="submit" name="_method" value="create" disabled={isAdding} 
+                        className="px-4 py-2 bg-blue-400 text-white rounded hover:bg-blue-600"
+                    >
+                        {isAdding ? "Adding..." : "Add Author"}
+                    </button>
                 </div>
             </Form>
         </div>
