@@ -3,6 +3,10 @@ import { useEffect, useRef } from "react";
 
 export default function EditAuthorCard({data, actionData}: any) {
     let transition = useTransition()
+
+    let isDeleting = 
+        transition.state === "submitting" &&
+        transition.submission.formData.get("_method") === "delete"
     
     let isUpdating = 
         transition.state === "submitting" &&
@@ -63,11 +67,11 @@ export default function EditAuthorCard({data, actionData}: any) {
                 </div>           
                 <div className="flex flex-col">
                     <button 
-                        type="submit" name="_method" value="update" disabled={isUpdating} 
+                        type="submit" name="_method" value="update" disabled={isUpdating || isDeleting} 
                         className="px-4 py-2 font-semibold text-stone-900 border-2 border-blue-400 bg-blue-400 
                         hover:border-blue-500/95 hover:bg-blue-500/95 rounded text-center cursor-pointer"
                     >
-                        {isUpdating ? "Updating..." : "Update Author"}
+                        {isDeleting ? "Deleting..." : isUpdating ? "Updating..." : "Update Author"}
                     </button> 
                     {/* <button type="submit" className="px-4 py-2 border-2 border-blue-400 hover:bg-blue-400/30 text-white rounded text-center cursor-pointer">Update</button>  */}
                     {/* <button type="submit" name="_method" value="delete" className="px-6 py-2 border border-red-500 text-white rounded hover:bg-red-700">Delete</button> */}
