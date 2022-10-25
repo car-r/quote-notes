@@ -1,14 +1,16 @@
-import { Form, useTransition } from "@remix-run/react";
+import { Form, useOutletContext, useTransition } from "@remix-run/react";
 import { useEffect, useRef } from "react";
 
-export default function EditAuthorCard({data, actionData, setEdit}: any) {
+export default function EditAuthorCard({data, actionData}: any) {
     let transition = useTransition()
+    
     let isUpdating = 
         transition.state === "submitting" &&
         transition.submission.formData.get("_method") === "update"
 
     // let formRef = useRef()
     const formRef = useRef<HTMLFormElement>(null)
+    const [edit, setEdit]: any = useOutletContext()
 
     useEffect(() => {
         if (!isUpdating) {
@@ -17,7 +19,7 @@ export default function EditAuthorCard({data, actionData, setEdit}: any) {
             setEdit(false)
         }
     },[isUpdating, setEdit])
-    console.log('edit author card props --> ', setEdit)
+
     console.log('edit author card --> ', data)
     return (
         <div className="flex flex-col p-4 min-h-full justify-center border-2 border-stone-800 rounded-lg">
@@ -60,9 +62,14 @@ export default function EditAuthorCard({data, actionData, setEdit}: any) {
                     </div>
                 </div>           
                 <div className="flex flex-col">
-                    <button type="submit" name="_method" value="update"  className="px-4 py-2 border-2 border-blue-400 hover:bg-blue-400/30 text-white rounded text-center cursor-pointer">
-                        {isUpdating ? "Updating..." : "Update Author"}    
+                    <button 
+                        type="submit" name="_method" value="update" disabled={isUpdating} 
+                        className="px-4 py-2 font-semibold text-stone-900 border-2 border-blue-400 bg-blue-400 
+                        hover:border-blue-500/95 hover:bg-blue-500/95 rounded text-center cursor-pointer"
+                    >
+                        {isUpdating ? "Updating..." : "Update Author"}
                     </button> 
+                    {/* <button type="submit" className="px-4 py-2 border-2 border-blue-400 hover:bg-blue-400/30 text-white rounded text-center cursor-pointer">Update</button>  */}
                     {/* <button type="submit" name="_method" value="delete" className="px-6 py-2 border border-red-500 text-white rounded hover:bg-red-700">Delete</button> */}
                 </div>
             </Form>
