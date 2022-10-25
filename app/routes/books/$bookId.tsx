@@ -6,6 +6,7 @@ import BookEditCard from "~/components/BookEditCard"
 import BookBackBtn from "~/components/Buttons/BookBackBtn"
 import BookErrorBackBtn from "~/components/Buttons/BookErrorBackBtn"
 import EditBookBtn from "~/components/Buttons/EditBookBtn"
+import SuccessBtn from "~/components/Buttons/SuccessBtn"
 // import ContentEditCard from "~/components/BookEditCard"
 import PageTitle from "~/components/PageTitle"
 import { prisma } from "~/db.server"
@@ -206,14 +207,18 @@ export default function BookIdRoute() {
                         </div>
 
                         <div className="flex flex-col">
-                            <button type="submit" name="_method" value="create" disabled={isAdding}
+                            {/* <button type="submit" name="_method" value="create" disabled={isAdding}
                                 className={`px-4 py-2 bg-blue-400 text-white rounded flex justify-center hover:bg-blue-600`} 
                                 >
                                 {isAdding ? "Adding..." : "Add Quote"}
                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
                                 </svg>
+                            </button> */}
+                            <button type="submit" name="_method" value="create" disabled={isAdding}>
+                                <SuccessBtn children={isAdding ? "Adding..." : "Add Quote"}/>
                             </button>
+                            
                         </div>
                     </Form>
                     <div>

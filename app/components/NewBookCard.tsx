@@ -1,5 +1,6 @@
 import { Form, useTransition } from "@remix-run/react";
 import { useEffect, useRef } from "react";
+import PrimaryActionBtn from "./Buttons/PrimaryActionBtn";
 
 export default function NewBookCard({data, onAuthorChange,  actionData}: any) {
     let transition = useTransition()
@@ -21,7 +22,7 @@ export default function NewBookCard({data, onAuthorChange,  actionData}: any) {
         <div className="col-span-1">
             <Form method="post"
                 ref={formRef}
-                className="flex flex-col sm:w-96 gap-4 border border-stone-800 bg-stone-800 p-4 rounded-md text-stone-300/60 font-light"
+                className="flex flex-col sm:w-96 gap-6 border border-stone-800 bg-stone-800 p-4 rounded-md text-stone-300/60 font-light"
             >
                 <div className="flex flex-col gap-6">
                     <div className="flex flex-col gap-1">
@@ -59,11 +60,16 @@ export default function NewBookCard({data, onAuthorChange,  actionData}: any) {
                     </div> */}
                 </div>           
                 <div className="flex flex-col">
-                    <button 
+                    {/* <button 
                         type="submit" name="_method" value="create" disabled={isAdding} 
                         className="px-4 py-2 bg-blue-400 text-white rounded hover:bg-blue-600"
                     >
+                        
                         {isAdding ? "Adding..." : "Add Book"}
+                    </button> */}
+                    <button 
+                        type="submit" name="_method" value="create" disabled={isAdding}>
+                        <PrimaryActionBtn children={isAdding ? "Adding..." : "Add Book"}/>
                     </button>
                 </div>
             </Form>

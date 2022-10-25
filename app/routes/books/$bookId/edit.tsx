@@ -177,7 +177,7 @@ export default function EditBook() {
                         </div>
                     </div>
                     <div className="flex flex-col mt-6">
-                        <button type="submit" name="_method" value="update" disabled={isUpdating || isDeleting}  className="px-6 py-2 bg-blue-400 hover:bg-blue-600 text-white rounded">
+                        <button type="submit" name="_method" value="update" disabled={isUpdating || isDeleting}  className="px-6 py-2 border-2 border-blue-400 bg-transparent hover:bg-blue-600 hover:border-blue-600 text-white rounded">
                             {isDeleting ? "Deleting..." : isUpdating ? "Updating..." : "Update Book"}
                         </button> 
                     </div>

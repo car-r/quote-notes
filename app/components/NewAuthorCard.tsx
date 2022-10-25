@@ -1,5 +1,6 @@
 import { Form, useTransition } from "@remix-run/react";
 import { useEffect, useRef } from "react";
+import PrimaryActionBtn from "./Buttons/PrimaryActionBtn";
 
 export default function NewAuthorCard({actionData}: any) {
     let transition = useTransition()
@@ -45,11 +46,15 @@ export default function NewAuthorCard({actionData}: any) {
                     </div>
                 </div>           
                 <div className="flex flex-col">
-                    <button 
+                    {/* <button 
                         type="submit" name="_method" value="create" disabled={isAdding} 
                         className="px-4 py-2 bg-blue-400 text-white rounded hover:bg-blue-600"
                     >
                         {isAdding ? "Adding..." : "Add Author"}
+                    </button> */}
+                    <button 
+                        type="submit" name="_method" value="create" disabled={isAdding}>
+                        <PrimaryActionBtn children={isAdding ? "Adding..." : "Add Author"}/>
                     </button>
                 </div>
             </Form>
