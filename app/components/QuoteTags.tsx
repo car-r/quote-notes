@@ -51,18 +51,24 @@ export default function QuoteTags({quote, actionData, setEdit}: any) {
                     ))}
                     </div>
                 </div>
-                <Form className="flex flex-col " method="post" name="_method" ref={formRef}>
-                        <label className="text-sm font-semibold tracking-wider uppercase">
-                    
-                        </label>
-                        <input type="text" name="tagBody" className="px-2 py-1 border border-stone-800 bg-stone-700 rounded" placeholder="enter a tag"/>
-                        {actionData?.errors.tagBody && (
-                            <p className="text-red-400 text-sm mb-2">{actionData.errors.tagBody}</p>
+                <Form className="flex flex-col gap-4 " method="post" name="_method" ref={formRef}>
+                        <label className="text-sm flex flex-col font-semibold tracking-wider uppercase">
+                            <input type="text" name="tagBody" className="px-2 py-1 border border-stone-800 bg-stone-700 rounded" placeholder="enter a tag"/>
+                            {actionData?.errors.tagBody && (
+                                <p className="text-red-400 text-sm mb-2">{actionData.errors.tagBody}</p>
                         )}
-                    <button name="_method" value="tag"
+                        </label>
+                        
+                    {/* <button name="_method" value="tag"
                         className="px-4 py-2 mt-4 border-2 border-blue-400 hover:bg-blue-400 text-white rounded text-center cursor-pointer">
                         {isAddingTag ? "Adding..." : "Add Tag"}
+                    </button> */}
+                    <div className="flex justify-end">
+                    <button name="_method" value="tag"
+                        className="rounded text-sm text-center cursor-pointer px-3 py-1 font-base text-white   bg-blue-400/80 hover:bg-blue-600 ">
+                        {isAddingTag ? "Adding..." : "Add Tag +"}
                     </button>
+                    </div>
                 </Form>
             </div>
         </div>
