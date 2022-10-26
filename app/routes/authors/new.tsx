@@ -3,6 +3,7 @@ import { redirect } from "@remix-run/server-runtime";
 import { prisma } from "~/db.server"
 import NewAuthorCard from "~/components/NewAuthorCard";
 import { requireUserId } from "~/session.server";
+import PageTitle from "~/components/PageTitle";
 
 export const action = async ({request}: any) => {
     const form = await request.formData()
@@ -49,12 +50,9 @@ export default function NewAuthor() {
     console.log(actionData)
     return (
         <div className="flex flex-col pt-6 md:pt-10 md:max-w-5xl pb-6">
+            <PageTitle children={`New Author`}/>
             <div className="flex flex-col w-full md:grid md:grid-cols-4">
-                <div className="col-span-4 pb-6">
-                    <h3 className="text-2xl tracking-wide font-semibold pb-2 border-stone-800 border-b-2">
-                    New Author
-                    </h3>
-                </div>
+                
                 <div className="col-span-1">
                     <NewAuthorCard actionData={actionData}/>
                 </div>

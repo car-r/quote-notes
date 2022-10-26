@@ -15,36 +15,78 @@ import { requireUserId } from "~/session.server";
 
 export const loader = async ({params, request}: any) => {
     const userId = await requireUserId(request);
+    // const data = await prisma.user.findUnique({
+    //     where: { id: userId},
+    //     include: {
+    //         book: {
+    //             where: {id: params.bookId},
+    //             include: {
+    //                 author: true,
+    //                 quote: {
+    //                     orderBy: [
+    //                         {
+    //                             createdAt: 'desc'
+    //                         }
+    //                     ]
+    //                 }
+    //             }
+    //         },
+    //         authors: true
+    //     }
+    // })
+
+    const data = await prisma.book.findUnique({
+        where: { id: params.bookId },
+        include: {
+            author: true,
+            quote: {
+                orderBy: [
+                    {
+                        createdAt: 'desc'
+                    }
+                ]
+            }
+        }
+    })
+    if (!data) {
+        throw new Response("Can't find book.", {
+            status: 404,
+        })
+    }
+
     const book = await prisma.book.findUnique({
         where: { id: params.bookId },
         include: {
             author: true
         }
     })
-    const quotes = await prisma.quote.findMany({
-        orderBy: [
-            {
-                createdAt: 'desc',
-            },
-        ],
-        where: { userId: userId, bookId: params.bookId}
-    })
-    const authors = await prisma.author.findMany({
-        orderBy: [
-            {
-                createdAt: 'desc',
-            },
-        ],
-        where: { userId: userId}
-    })
 
-    if (!book) {
-        throw new Response("Can't find book.", {
-            status: 404,
-        })
-    }
+    // const quotes = await prisma.quote.findMany({
+    //     orderBy: [
+    //         {
+    //             createdAt: 'desc',
+    //         },
+    //     ],
+    //     where: { userId: userId, bookId: params.bookId}
+    // })
 
-    return {book, quotes, authors}
+    // const authors = await prisma.author.findMany({
+    //     orderBy: [
+    //         {
+    //             createdAt: 'desc',
+    //         },
+    //     ],
+    //     where: { userId: userId}
+    // })
+
+    // if (!book) {
+    //     throw new Response("Can't find book.", {
+    //         status: 404,
+    //     })
+    // }
+
+    // return {book, quotes, authors, data}
+    return {data}
 }
 
 export const action = async ({request}: any) => {
@@ -57,7 +99,7 @@ export const action = async ({request}: any) => {
     const authorName = form.get('authorName')
     const id = form.get('id')
     const isFavorited = form.get('isFavorited')
-    const title = form.get('title')
+    // const title = form.get('title')
     const imgUrl = form.get('imgUrl')
     const selectAuthorName = form.get('selectAuthorName')
     console.log(Object.fromEntries(form))
@@ -118,8 +160,9 @@ export default function BookIdRoute() {
 
     // let formRef = useRef()
     const formRef = useRef<HTMLFormElement>(null)
-    const book = data.book
-    const authors = data.authors
+    const book = data.data
+    // const book = data.book
+    // const authors = data.authors
     console.log('bookId --> ', data)
     console.log('bookId book --> ', book)
     console.log('bookId edit state --> ', edit)
@@ -132,16 +175,17 @@ export default function BookIdRoute() {
         }
     },[isAdding])
 
+    console.log('bookId route --> ', data)
     return (
         <div className="flex flex-col pt-6 md:pt-10 max-w-6xl">
             {edit ? 
-                <PageTitle children={data.book.title} btn={<BookBackBtn  data={data} edit={edit} setEdit={setEdit}/>}/>
+                <PageTitle children={book.title} btn={<BookBackBtn  data={data} edit={edit} setEdit={setEdit}/>}/>
                 :
-                <PageTitle children={data.book.title} btn={<EditBookBtn  data={data} edit={edit} setEdit={setEdit}/>}/>
+                <PageTitle children={book.title} btn={<EditBookBtn  data={data} edit={edit} setEdit={setEdit}/>}/>
             } 
             {/* <PageTitle children={`${data.book.title}`}/> */}
             <div className="grid grid-cols-1 md:flex gap-6 ">
-                {data.quotes.length < 1 ? 
+                {book.quote.length < 1 ? 
                     <div className="grid grid-cols-1 gap-4 md:gap-6 md:grid-cols-1 lg:grid-cols-2 pb-1">
                         <div className="flex flex-col h-32 justify-center p-4 outline-dashed border border-stone-800 bg-stone-800 rounded-md lg:w-96 ">
                             <p className="text-center">Add your first quote</p>
@@ -149,7 +193,7 @@ export default function BookIdRoute() {
                     </div> 
                     : 
                     <div className="grid grid-cols-1 gap-4 md:gap-6 md:grid-cols-1 md:grid-flow-row md:auto-rows-max lg:grid-cols-2 pb-1">
-                        {data.quotes.map((quote: any) => (
+                        {book.quote.map((quote: any) => (
                             <div key={quote.id} className="flex flex-col p-4 border border-stone-800 bg-stone-800 rounded-md text-stone-300/60 hover:ring-2 hover:ring-blue-400 hover:text-stone-100 min-w-[165px]">
                                 <div className="flex flex-col min-h-full">
                                     <Form method="post">
@@ -231,6 +275,22 @@ export default function BookIdRoute() {
     )
 }
 
+export function ErrorBoundary({ error }: { error: Error }) {
+    console.error(error);
+  
+    return (
+        <div className="flex flex-col pt-6 md:pt-10 md:max-w-5xl pb-6">
+            <PageTitle children={`Book`} btn={<BookErrorBackBtn />}/>
+            <div className="flex flex-col w-full md:grid md:grid-cols-3">
+                <div className="flex flex-col col-span-2 ">
+                    <div className='flex flex-col justify-center py-10 border border-red-500 text-red-500 rounded-lg text-center w-full'>
+                        <p className="text-sm font-semibold tracking-wide">{`Looks like an error: ${error}`}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+      );
+  }
 
 export function CatchBoundary() {
     const caught = useCatch();
