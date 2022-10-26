@@ -4,6 +4,8 @@ import { prisma } from "~/db.server"
 import { useEffect, useRef, useState } from "react"
 import { requireUserId } from "~/session.server";
 import PageTitle from "~/components/PageTitle";
+import PrimaryActionBtn from "~/components/Buttons/PrimaryActionBtn";
+import ActionDataError from "~/components/ActionDataError";
 
 export const action = async ({request}: any) => {
     const form = await request.formData()
@@ -118,7 +120,7 @@ export default function NewQuote() {
                         className="min-w-xl mb-1 text-stone-800 rounded-md border-2 border-stone-800 py-2 px-3 text-lg"
                         />
                         {actionData?.errors.body && (
-                            <p className="text-red-400 text-sm">{actionData.errors.body}</p>
+                            <ActionDataError children={actionData.errors.body} />
                         )}
                     </div>
                     <div className="flex flex-col gap-1">
@@ -141,14 +143,19 @@ export default function NewQuote() {
                             ))}
                         </select>
                         {actionData?.errors.bookId && (
-                            <p className="text-red-400 text-sm">{actionData.errors.bookId}</p>
+                            <ActionDataError children={actionData.errors.bookId}/>
                         )}
                     </div>
                     
-                    <div className="flex flex-col">
+                    {/* <div className="flex flex-col">
                         <button type="submit" name="_method" value="create" disabled={isAdding} 
-                            className="px-4 py-2 bg-blue-400 text-white rounded hover:bg-blue-600">
+                            className="px-4 py-2 text-white rounded bg-blue-400 hover:bg-blue-600 ">
                             {isAdding ? "Adding..." : "Add Quote"}
+                        </button>
+                    </div> */}
+                    <div className="flex flex-col">
+                        <button type="submit" name="_method" value="create" disabled={isAdding} >
+                            <PrimaryActionBtn children={isAdding ? "Adding..." : "Add Quote"} />
                         </button>
                     </div>
                 </Form>

@@ -1,5 +1,6 @@
 import { Form, useTransition } from "@remix-run/react";
 import { useEffect, useRef } from "react";
+import ActionDataError from "./ActionDataError";
 import PrimaryActionBtn from "./Buttons/PrimaryActionBtn";
 
 export default function NewAuthorCard({actionData}: any) {
@@ -31,7 +32,7 @@ export default function NewAuthorCard({actionData}: any) {
                         </label>
                         <input type="text" name="name" className="px-2 border border-stone-800 bg-stone-700 rounded"/>
                         {actionData?.errors.name && (
-                            <p className="text-red-400 text-sm">{actionData.errors.name}</p>
+                            <ActionDataError children={actionData.errors.name} />
                         )}
                     </div>
                     
@@ -41,7 +42,7 @@ export default function NewAuthorCard({actionData}: any) {
                         </label>
                         <input type="text" name="imgUrl" className="px-2 border border-stone-800 bg-stone-700 rounded"/>
                         {actionData?.errors.imgUrl && (
-                            <p className="text-red-400 text-sm">{actionData.errors.imgUrl}</p>
+                            <ActionDataError children={actionData.errors.imgUrl} />
                         )}
                     </div>
                 </div>           

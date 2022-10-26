@@ -1,5 +1,6 @@
 import { Form, useTransition } from "@remix-run/react";
 import { useEffect, useRef } from "react";
+import ActionDataError from "./ActionDataError";
 import UpdateBtn from "./Buttons/UpdateBtn";
 
 export default function EditNoteCard({data, setEdit, actionData}: any) {
@@ -46,7 +47,7 @@ export default function EditNoteCard({data, setEdit, actionData}: any) {
                                         defaultValue={data.data.body}
                                     />
                                     {actionData?.errors.body && (
-                                        <p className="text-red-400 text-sm">{actionData.errors.body}</p>
+                                        <ActionDataError children={actionData.errors.body}/>
                                     )}
                                 </div>
                             </div>
