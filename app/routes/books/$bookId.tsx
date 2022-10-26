@@ -2,12 +2,12 @@ import { Form, Outlet, useActionData, useCatch, useLoaderData, useParams, useTra
 import { Link } from "@remix-run/react"
 import { redirect } from "@remix-run/server-runtime"
 import { useEffect, useRef, useState } from "react"
-import BookEditCard from "~/components/BookEditCard"
+// import BookEditCard from "~/components/BookEditCard"
 import BookBackBtn from "~/components/Buttons/BookBackBtn"
 import BookErrorBackBtn from "~/components/Buttons/BookErrorBackBtn"
 import EditBookBtn from "~/components/Buttons/EditBookBtn"
 import PrimaryActionBtn from "~/components/Buttons/PrimaryActionBtn"
-import SuccessBtn from "~/components/Buttons/SuccessBtn"
+// import SuccessBtn from "~/components/Buttons/SuccessBtn"
 // import ContentEditCard from "~/components/BookEditCard"
 import PageTitle from "~/components/PageTitle"
 import { prisma } from "~/db.server"
@@ -40,6 +40,7 @@ export const loader = async ({params, request}: any) => {
         include: {
             author: true,
             quote: {
+                where: {userId: userId},
                 orderBy: [
                     {
                         createdAt: 'desc'
@@ -54,12 +55,12 @@ export const loader = async ({params, request}: any) => {
         })
     }
 
-    const book = await prisma.book.findUnique({
-        where: { id: params.bookId },
-        include: {
-            author: true
-        }
-    })
+    // const book = await prisma.book.findUnique({
+    //     where: { id: params.bookId },
+    //     include: {
+    //         author: true
+    //     }
+    // })
 
     // const quotes = await prisma.quote.findMany({
     //     orderBy: [
@@ -93,15 +94,15 @@ export const action = async ({request}: any) => {
     const userId = await requireUserId(request);
     const form = await request.formData()
     const authorId = form.get('authorId')
-    const selectAuthorId = form.get('selectAuthorId')
+    // const selectAuthorId = form.get('selectAuthorId')
     const body = form.get('body')
     const bookId = form.get('bookId')
     const authorName = form.get('authorName')
     const id = form.get('id')
     const isFavorited = form.get('isFavorited')
     // const title = form.get('title')
-    const imgUrl = form.get('imgUrl')
-    const selectAuthorName = form.get('selectAuthorName')
+    // const imgUrl = form.get('imgUrl')
+    // const selectAuthorName = form.get('selectAuthorName')
     console.log(Object.fromEntries(form))
 
 
@@ -289,8 +290,8 @@ export function ErrorBoundary({ error }: { error: Error }) {
                 </div>
             </div>
         </div>
-      );
-  }
+    );
+}
 
 export function CatchBoundary() {
     const caught = useCatch();

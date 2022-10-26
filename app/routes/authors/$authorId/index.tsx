@@ -17,6 +17,7 @@ export const loader = async ({params, request}: any) => {
               }
             },
             book: {
+                where: {userId: userId},
                 include: {
                     author: true,
                 }

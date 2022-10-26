@@ -61,7 +61,7 @@ export const action = async ({request, params}: any) => {
 export default function EditAuthor() {
     const data = useLoaderData()
     const actionData = useActionData()
-    const [edit, setEdit]: any = useOutletContext()
+    const [setEdit]: any = useOutletContext()
     return (
         <div className="">
             <EditAuthorCard data={data} actionData={actionData} setEdit={setEdit}/>

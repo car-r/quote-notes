@@ -5,6 +5,7 @@ import { redirect } from "@remix-run/node";
 import { Form } from "@remix-run/react";
 import { useEffect, useRef } from "react";
 import UpdateBtn from "~/components/Buttons/UpdateBtn";
+import ActionDataError from "~/components/ActionDataError";
 
 export const loader = async ({params, request}: any) => {
     const userId = await requireUserId(request);
@@ -26,15 +27,9 @@ export const loader = async ({params, request}: any) => {
 }
 
 export const action = async ({request}: any) => {
-    const userId = await requireUserId(request);
     const form = await request.formData()
-    const authorId = form.get('authorId')
     const selectAuthorId = form.get('selectAuthorId')
-    const body = form.get('body')
     const bookId = form.get('bookId')
-    const authorName = form.get('authorName')
-    const id = form.get('id')
-    const isFavorited = form.get('isFavorited')
     const title = form.get('title')
     const imgUrl = form.get('imgUrl')
     const selectAuthorName = form.get('selectAuthorName')
@@ -125,7 +120,7 @@ export default function EditBook() {
         else if (isUpdating) {
             setEdit(false)
         }
-    },[isUpdating, setEdit])
+    },[isUpdating, setEdit, edit])
     
 
     console.log('bookId Edit data --> ', data)
@@ -146,7 +141,7 @@ export default function EditBook() {
                             </label>
                             <input type="text" name="title" className="px-2 border border-stone-800 bg-stone-700 rounded" defaultValue={data.data.book[0].title}/>
                             {actionData?.errors.title && (
-                                <p className="text-red-400 text-sm">{actionData.errors.title}</p>
+                                <ActionDataError children={actionData.errors.title} />
                             )}
                         </div>
 
@@ -169,7 +164,7 @@ export default function EditBook() {
                             </label>
                             <input type="text" name="imgUrl" className="px-2 border border-stone-800 bg-stone-700 rounded" defaultValue={data.data.book[0].imgUrl}/>
                             {actionData?.errors.imgUrl && (
-                                <p className="text-red-400 text-sm">{actionData.errors.imgUrl}</p>
+                                <ActionDataError children={actionData.errors.imgUrl} />
                             )}
                         </div>
 
