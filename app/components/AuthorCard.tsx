@@ -15,7 +15,7 @@ export default function AuthorCard({author}: any) {
                 <div className="">
                     <img src={author.imgUrl} alt={author.name}
                     onError={(e: any) => e.target.src = 'https://icon-library.com/images/default-user-icon/default-user-icon-8.jpg'}
-                    className="w-32 h-32 object-cover mr-4 rounded-full"/>
+                    className="w-20 h-20 xs:w-28 xs:h-28 object-cover mr-4 rounded-full"/>
                 </div>
                 <div className="py-2">
                     <p>{author.name}</p>

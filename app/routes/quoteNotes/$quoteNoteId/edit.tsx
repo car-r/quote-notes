@@ -17,15 +17,15 @@ export const loader = async ({params}: any) => {
 }
 
 export const action = async ({ request, params }: any) => {
-    const userId = await requireUserId(request);
+    // const userId = await requireUserId(request);
     const form = await request.formData()
-    const formBody = form.get('body')
+    // const formBody = form.get('body')
     const noteBody = form.get('noteBody')
-    const authorId = form.get('authorId')
-    const bookId = form.get('bookId')
-    const id = params.quoteId
-    const isFavorited = form.get('isFavorited')
-    const tagBody = form.get('tagBody')
+    // const authorId = form.get('authorId')
+    // const bookId = form.get('bookId')
+    // const id = params.quoteId
+    // const isFavorited = form.get('isFavorited')
+    // const tagBody = form.get('tagBody')
     const date: any = new Date
     const updatedAt = date.toISOString()
     console.log(Object.fromEntries(form))
@@ -67,7 +67,7 @@ export const action = async ({ request, params }: any) => {
 export default function EditNote() {
     const data = useLoaderData()
     const actionData = useActionData()
-    const [edit, setEdit]: any = useOutletContext()
+    const [setEdit]: any = useOutletContext()
 
     console.log('NoteId edit data --> ', data)
     

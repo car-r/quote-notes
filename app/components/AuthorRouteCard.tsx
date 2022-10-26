@@ -4,7 +4,7 @@ export default function AuthorRouteCard({author}: any) {
             <div className="bg-stone-800 h-28 w-full rounded-t-md"></div>
             <img 
                 src={author.author.imgUrl} 
-                className=" w-40 h-40 sm:w-48 sm:h-48 object-cover max-w-72 rounded-full absolute mt-8 sm:mt-5" 
+                className="w-32 h-32 xs:w-40 xs:h-40 object-cover max-w-72 rounded-full absolute mt-12 xs:mt-8 " 
                 alt={author.name}
                 onError={(e: any) => e.target.src = 'https://icon-library.com/images/default-user-icon/default-user-icon-8.jpg'}
             />
