@@ -6,6 +6,7 @@ import BookEditCard from "~/components/BookEditCard"
 import BookBackBtn from "~/components/Buttons/BookBackBtn"
 import BookErrorBackBtn from "~/components/Buttons/BookErrorBackBtn"
 import EditBookBtn from "~/components/Buttons/EditBookBtn"
+import PrimaryActionBtn from "~/components/Buttons/PrimaryActionBtn"
 import SuccessBtn from "~/components/Buttons/SuccessBtn"
 // import ContentEditCard from "~/components/BookEditCard"
 import PageTitle from "~/components/PageTitle"
@@ -216,7 +217,7 @@ export default function BookIdRoute() {
                                 </svg>
                             </button> */}
                             <button type="submit" name="_method" value="create" disabled={isAdding}>
-                                <SuccessBtn children={isAdding ? "Adding..." : "Add Quote"}/>
+                                <PrimaryActionBtn children={isAdding ? "Adding..." : "Add Quote"}/>
                             </button>
                             
                         </div>

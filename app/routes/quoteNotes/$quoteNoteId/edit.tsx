@@ -4,6 +4,7 @@ import { prisma } from "~/db.server"
 import { requireUserId } from "~/session.server";
 import { redirect } from "@remix-run/node";
 import { useEffect, useRef } from "react";
+import UpdateBtn from "~/components/Buttons/UpdateBtn";
 
 export const loader = async ({params}: any) => {
     const data = await prisma.quoteNote.findUnique({
@@ -119,9 +120,14 @@ export default function EditNote() {
                             </div>
                         </div>
                         <div className="flex flex-col md:flex-row">
-                            <div className="flex flex-col">
+                            {/* <div className="flex flex-col">
                                 <button type="submit" name="_method" value="update" disabled={isUpdating} className="px-6 py-2 bg-blue-400 hover:bg-blue-600 text-white rounded">
                                     {isDeleting ? "Deleting..." : isUpdating ? "Updating..." : "Update Note"}
+                                </button> 
+                            </div> */}
+                            <div className="flex flex-col">
+                                <button type="submit" name="_method" value="update" disabled={isUpdating} className="">
+                                    <UpdateBtn children={isDeleting ? "Deleting..." : isUpdating ? "Updating..." : "Update Note"} />
                                 </button> 
                             </div>
                         </div>           

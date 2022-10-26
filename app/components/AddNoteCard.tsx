@@ -41,8 +41,8 @@ export default function AddNoteCard({quote, actionData, setEdit}: any) {
                     {isAddingNote ? "Adding..." : "Add Note"}
                 </button> */}
                 <button name="_method" value="note">
-                    {/* <PrimaryActionBtn children={isAddingNote ? "Adding..." : "Add Note"}/> */}
-                    <SuccessBtn children={isAddingNote ? "Adding..." : "Add Note"}/>
+                    <PrimaryActionBtn children={isAddingNote ? "Adding..." : "Add Note +"}/>
+                    {/* <SuccessBtn children={isAddingNote ? "Adding..." : "Add Note +"}/> */}
                 </button>
             </Form>
         </div>

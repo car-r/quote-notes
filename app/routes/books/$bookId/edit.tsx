@@ -4,6 +4,7 @@ import { requireUserId } from "~/session.server";
 import { redirect } from "@remix-run/node";
 import { Form } from "@remix-run/react";
 import { useEffect, useRef } from "react";
+import UpdateBtn from "~/components/Buttons/UpdateBtn";
 
 export const loader = async ({params, request}: any) => {
     const userId = await requireUserId(request);
@@ -176,9 +177,14 @@ export default function EditBook() {
                             <input type="hidden" name="bookId" value={data.data.book[0].id}/>
                         </div>
                     </div>
-                    <div className="flex flex-col mt-6">
+                    {/* <div className="flex flex-col mt-6">
                         <button type="submit" name="_method" value="update" disabled={isUpdating || isDeleting}  className="px-6 py-2 border-2 border-blue-400 bg-transparent hover:bg-blue-600 hover:border-blue-600 text-white rounded">
                             {isDeleting ? "Deleting..." : isUpdating ? "Updating..." : "Update Book"}
+                        </button> 
+                    </div> */}
+                    <div className="flex flex-col mt-6">
+                        <button type="submit" name="_method" value="update" disabled={isUpdating || isDeleting} className="flex justify-end" >
+                            <UpdateBtn children={isDeleting ? "Deleting..." : isUpdating ? "Updating..." : "Update Book"} />
                         </button> 
                     </div>
                 </div>
