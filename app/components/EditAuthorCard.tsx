@@ -1,5 +1,6 @@
 import { Form, useOutletContext, useTransition } from "@remix-run/react";
 import { useEffect, useRef } from "react";
+import ActionDataError from "./ActionDataError";
 
 export default function EditAuthorCard({data, actionData}: any) {
     let transition = useTransition()
@@ -44,7 +45,8 @@ export default function EditAuthorCard({data, actionData}: any) {
                         {actionData?.errors.name ? (
                             <div className="flex flex-col">
                                 <input type="text" name="name" className="px-2 py-1 border border-red-400 bg-stone-700 rounded" defaultValue={data.data.name}/>
-                                <p className="text-red-400 text-sm">{actionData.errors.name}</p>
+                                {/* <p className="text-red-400 text-sm">{actionData.errors.name}</p> */}
+                                <ActionDataError children={actionData.errors.name}/>
                             </div>
                         ) : 
                             <input type="text" name="name" className="px-2 py-1 border border-stone-800 bg-stone-700 rounded w-full" defaultValue={data.data.name}/>
@@ -58,7 +60,8 @@ export default function EditAuthorCard({data, actionData}: any) {
                         {actionData?.errors.imgUrl ? (
                             <div className="flex flex-col">
                                 <input type="text" name="imgUrl" className="px-2 py-1 border border-red-400 bg-stone-700 rounded" defaultValue={data.data.imgUrl}/>
-                                <p className="text-red-400 text-sm">{actionData.errors.imgUrl}</p>
+                                {/* <p className="text-red-400 text-sm">{actionData.errors.imgUrl}</p> */}
+                                <ActionDataError children={actionData.errors.imgUrl}/>
                             </div>
                         ) :
                             <input type="text" name="imgUrl" className="px-2 py-1 border border-stone-800 bg-stone-700 rounded" defaultValue={data.data.imgUrl}/>

@@ -1,5 +1,6 @@
 import { Form, useTransition } from "@remix-run/react";
 import { useEffect, useRef } from "react";
+import ActionDataError from "./ActionDataError";
 import UpdateBtn from "./Buttons/UpdateBtn";
 
 export default function EditQuoteCard({quote, actionData, setEdit}: any) {
@@ -48,7 +49,7 @@ export default function EditQuoteCard({quote, actionData, setEdit}: any) {
                                     defaultValue={quote.quote.body}
                                 />
                                 {actionData?.errors.body && (
-                                    <p className="text-red-400 text-sm">{actionData.errors.body}</p>
+                                    <ActionDataError children={actionData.errors.body} />
                                 )}
                             </div>
                         </div>

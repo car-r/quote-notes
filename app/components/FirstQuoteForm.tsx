@@ -1,4 +1,5 @@
 import { Form } from "@remix-run/react";
+import ActionDataError from "./ActionDataError";
 
 export default function FirstQuoteForm({actionData}: any) {
     return (
@@ -16,7 +17,7 @@ export default function FirstQuoteForm({actionData}: any) {
                     className="min-w-xl mb-1 text-stone-800 rounded-md border-2 border-stone-800 py-2 px-3 text-lg"
                     />
                     {actionData?.errors.body && (
-                        <p className="text-red-400 text-sm">{actionData.errors.body}</p>
+                        <ActionDataError children={actionData.errors.body} />
                     )}
                 </div>
                 <div className="flex flex-col gap-1">
@@ -25,7 +26,7 @@ export default function FirstQuoteForm({actionData}: any) {
                     </label>
                     <input type="text" name="name" className="px-2 border border-stone-800 bg-stone-700 rounded"/>
                     {actionData?.errors.name && (
-                        <p className="text-red-400 text-sm">{actionData.errors.name}</p>
+                        <ActionDataError children={actionData.errors.name} />
                     )}
                 </div>
                 <div className="flex flex-col gap-1">
@@ -34,11 +35,13 @@ export default function FirstQuoteForm({actionData}: any) {
                     </label>
                     <input type="text" name="title" className="px-2 border border-stone-800 bg-stone-700 rounded"/>
                     {actionData?.errors.title && (
-                        <p className="text-red-400 text-sm">{actionData.errors.title}</p>
+                        <ActionDataError children={actionData.errors.title} />
                     )}
                 </div>
                 <div className="flex flex-col">
-                    <button type="submit" className="px-4 py-2 bg-blue-400 text-white rounded hover:bg-blue-600">Add Quote</button>
+                    <button type="submit" className="px-4 py-2 bg-blue-400 text-white rounded hover:bg-blue-600">
+                        Add Quote
+                    </button>
                 </div>
             </Form>
         </div>
