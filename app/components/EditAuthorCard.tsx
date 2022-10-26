@@ -23,7 +23,7 @@ export default function EditAuthorCard({data, actionData}: any) {
         } else if (isUpdating) {
             setEdit(false)
         }
-    },[isUpdating, setEdit])
+    },[isUpdating, setEdit, edit])
 
     console.log('edit author card --> ', data)
     return (

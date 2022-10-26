@@ -1,5 +1,6 @@
 import { Form, useTransition } from "@remix-run/react";
 import { useEffect, useRef } from "react";
+import ActionDataError from "./ActionDataError";
 import PrimaryActionBtn from "./Buttons/PrimaryActionBtn";
 
 export default function NewBookCard({data, onAuthorChange,  actionData}: any) {
@@ -31,7 +32,7 @@ export default function NewBookCard({data, onAuthorChange,  actionData}: any) {
                         </label>
                         <input type="text" name="title" className="px-2 border border-stone-800 bg-stone-700 rounded"/>
                         {actionData?.errors.title && (
-                            <p className="text-red-400 text-sm">{actionData.errors.title}</p>
+                            <ActionDataError children={actionData.errors.title} />
                         )}
                     </div>
 
@@ -52,21 +53,11 @@ export default function NewBookCard({data, onAuthorChange,  actionData}: any) {
                         </label>
                         <input type="text" name="imgUrl" className="px-2 border border-stone-800 bg-stone-700 rounded"/>
                         {actionData?.errors.imgUrl && (
-                            <p className="text-red-400 text-sm">{actionData.errors.imgUrl}</p>
+                            <ActionDataError children={actionData.errors.imgUrl} />
                         )}
                     </div>
-                    {/* <div className="hidden">
-                        <input type="hidden" name="authorName" value={authorName}/>
-                    </div> */}
                 </div>           
                 <div className="flex flex-col">
-                    {/* <button 
-                        type="submit" name="_method" value="create" disabled={isAdding} 
-                        className="px-4 py-2 bg-blue-400 text-white rounded hover:bg-blue-600"
-                    >
-                        
-                        {isAdding ? "Adding..." : "Add Book"}
-                    </button> */}
                     <button 
                         type="submit" name="_method" value="create" disabled={isAdding}>
                         <PrimaryActionBtn children={isAdding ? "Adding..." : "Add Book"}/>

@@ -1,9 +1,8 @@
-import { useLoaderData, Link, useActionData, Outlet, useCatch, useParams } from "@remix-run/react"
-import { redirect } from "@remix-run/server-runtime"
+import { useLoaderData, Link, Outlet, useCatch, useParams } from "@remix-run/react"
 import { useState } from "react"
 // import AddContentCard from "~/components/AddBookCard"
 import AddQuoteCard from "~/components/AddQuoteCard"
-import AuthorRouteAuthorCard from "~/components/AuthorRouteAuthorCard"
+// import AuthorRouteAuthorCard from "~/components/AuthorRouteAuthorCard"
 import EditAuthorBtn from "~/components/Buttons/EditAuthorBtn"
 // import BookCard from "~/components/BookCard"
 import BookHomeCard from "~/components/BookHomeCard"
@@ -16,6 +15,7 @@ import AuthorRouteCard from "~/components/AuthorRouteCard"
 import AuthorBackBtn from "~/components/Buttons/AuthorBackBtn"
 import AuthorErrorBackBtn from "~/components/Buttons/AuthorErrorBackBtn"
 import AddBookBtn from "~/components/Buttons/AddBookBtn"
+import AddQuoteBtn from "~/components/Buttons/AddQuoteBtn"
 
 export const loader = async ({params, request}: any) => {
     const userId = await requireUserId(request);
@@ -31,6 +31,7 @@ export const loader = async ({params, request}: any) => {
               }
             },
             book: {
+                where: {userId: userId},
                 include: {
                     author: true,
                 }
@@ -48,58 +49,11 @@ export const loader = async ({params, request}: any) => {
     }
     
     return {author}
-
-    // return {author}
 }
 
-export const action = async ({request, params}: any) => {
-    const userId = await requireUserId(request);
-    const form = await request.formData()
-    const name = form.get('name')
-    const imgUrl = form.get('imgUrl')
-
-    const fields = { name, imgUrl, userId }
-
-    if(form.get('_method') === 'delete') {
-        await prisma.author.delete({ where: { id: params.authorId}})
-        return redirect('/authors')
-    }
-
-    const errors = {
-        name: '',
-        imgUrl: ''
-    }
-
-    function checkAuthorName(name: any) {
-        if(!name || name.length < 3) {
-            return errors.name = `Author name too short`
-        }
-    }
-
-    checkAuthorName(name)
-
-    const isValidImageUrl = new RegExp('(jpe?g|png|gif|bmp)$')
-
-    const validateImageUrl = (value: string) => {
-        if (!isValidImageUrl.test(value)) {
-            return errors.imgUrl = `Not a valid Image URL`
-        }
-    }
-
-    validateImageUrl(imgUrl)
-
-    if (errors.name || errors.imgUrl) {
-        const values = Object.fromEntries(form)
-        return { errors, values }
-    }
-
-    const author = await prisma.author.update({where: {id: params.authorId}, data: fields})
-    return redirect(`/authors/${author.id}`)
-}
 
 export default function AuthorDetail() {
     const data = useLoaderData()
-    const actionData = useActionData()
     const [edit, setEdit] = useState(false)
     console.log(data)
 
@@ -150,7 +104,7 @@ export default function AuthorDetail() {
                     </div>
                 :
                 <div>
-                    <SectionTitle children={'Quotes'}/>
+                    <SectionTitle children={'Quotes'} btn={<AddQuoteBtn />}/>
                     <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
                         {data.author._count.quote < 1 ? <AddQuoteCard /> : 
                             data.quotes.map((quote: any) => (
@@ -167,6 +121,43 @@ export default function AuthorDetail() {
             </div> 
         </div>
     )
+}
+
+export function ErrorBoundary({ error }: { error: Error }) {
+    console.error(error);
+    const quotes = {title: 'Quotes', count: '0'}
+    const books = {title: 'Books', count: '0'}
+    const notes = {title: 'Notes', count: '0'}
+    const detailArray = [books, quotes, notes]
+  
+    return (
+        <div className="flex flex-col pt-6 md:pt-10 max-w-5xl">
+            <PageTitle children={`Author`} btn={<AuthorErrorBackBtn />}/>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 rounded-xl py-2 mb-20">
+                <div className="flex flex-col justify-center p-4 border border-red-500 text-red-500 bg-stone-800 rounded-md ">
+                    <p className="text-xs sm:text-sm md:text-base text-center italic font-semibold py-6">
+                        {`Looks like an error ${error}`}
+                    </p>
+                </div>
+                <div className="flex flex-col sm:h-full sm:justify-center border-2 border-stone-800 p-4 rounded-lg">
+                    <div className="mb-3">
+                        {detailArray.map((detail) => (
+                            <div key={detail.title} className="flex flex-col py-3 border-b border-stone-700 w-full last:border-0 ">
+                                <p className="text-sm font-semibold tracking-wider uppercase">{detail.title}</p>
+                                <p><span className="font-thin text-2xl">{detail.count}</span></p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
+            <div className="mb-28">
+                <SectionTitle children={'Books'}/>
+            </div>
+            <div className="mb-28">
+                <SectionTitle children={'Quotes'}/>
+            </div>
+        </div>
+    );
 }
 
 export function CatchBoundary() {
@@ -196,18 +187,7 @@ export function CatchBoundary() {
                         ))}
                     </div>
                 </div>
-                {/* <AuthorRouteCard author={data}/>
-                <Outlet context={[edit, setEdit]}/> */}
             </div>
-            {/* <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-                <div className="md:col-span-2">
-                    <div className="p-4  border border-red-500 text-red-500 bg-stone-800 rounded-md ">
-                        <p className="text-base sm:text-xl text-center  italic font-semibold my-5 md:my-10">
-                            {`Can't find author ${params.authorId}`}
-                        </p>
-                    </div>
-                </div>
-            </div> */}
             <div className="mb-28">
                 <SectionTitle children={'Books'}/>
             </div>

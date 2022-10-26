@@ -1,24 +1,22 @@
 import { useActionData, useLoaderData } from "@remix-run/react";
 import { redirect } from "@remix-run/server-runtime";
-// import { useState } from "react";
+import BookErrorBackBtn from "~/components/Buttons/BookErrorBackBtn";
+import TopBackBtn from "~/components/Buttons/TopBackBtn";
 import NewBookCard from "~/components/NewBookCard";
 import PageTitle from "~/components/PageTitle";
-// import NewContentCard from "~/components/NewBookCard";
 import { prisma } from "~/db.server";
 import { requireUserId } from "~/session.server";
 
 export const loader = async ({request}: any) => {
     const userId = await requireUserId(request);
     const authors = await prisma.author.findMany({where: {userId: userId}})
-    const users = await prisma.user.findMany()
-    const book = await prisma.book.findMany({where: {userId: userId}})
-    return {authors, users, book}
+    
+    return {authors}
 }
 
 export const action = async ({request}: any) => {
     const userId = await requireUserId(request);
     const form = await request.formData()
-    // const authorName = form.get('authorName')
     const authorId = form.get('authorId')
     const title = form.get('title')
     const imgUrl = form.get('imgUrl')
@@ -51,7 +49,6 @@ export const action = async ({request}: any) => {
         return { errors, values }
     }
 
-    // const fields = { authorName, authorId, title, imgUrl, userId }
     const fields = { authorId, title, imgUrl, userId }
 
     const book = await prisma.book.create({ data: fields})
@@ -60,31 +57,33 @@ export const action = async ({request}: any) => {
 
 export default function NewContent(): JSX.Element {
     const data = useLoaderData()
-    // const [authorName, setAuthorName] = useState(data.authors[0].name)
-    
     const actionData = useActionData()
 
-    // function onAuthorChange(e: any) {
-    //     console.log(e.target.value)
-    //     console.log(data.authors.length)
-    //     for (const author of data.authors) {
-    //         if (author.id === e.target.value) {
-    //             console.log('its a match on ' + author.name)
-    //             setAuthorName(author.name)
-    //         }
-    //         else {
-    //             console.log('no match')
-    //         }
-    //     }
-    // }
-    console.log(data)
+    // console.log('new book route --> ', data)
     
     return (
         <div className="flex flex-col pt-6 md:pt-10 md:max-w-5xl pb-6">
-            <PageTitle children={`New Book`}/>
+            <PageTitle children={`New Book`} btn={<BookErrorBackBtn />}/>
             <div className="flex flex-col w-full md:grid md:grid-cols-3">
                 <NewBookCard data={data} actionData={actionData}/>
             </div>
         </div>
     )
+}
+
+export function ErrorBoundary({ error }: { error: Error }) {
+    console.error(error);
+  
+    return (
+        <div className="flex flex-col pt-6 md:pt-10 md:max-w-5xl pb-6">
+            <PageTitle children={`New Book`} btn={<BookErrorBackBtn />}/>
+            <div className="flex flex-col w-full md:grid md:grid-cols-3">
+                <div className="flex flex-col col-span-2 ">
+                    <div className='flex flex-col justify-center py-10 border border-red-500 text-red-500 rounded-lg text-center w-full'>
+                        <p className="text-sm font-semibold tracking-wide">{`Looks like an error: ${error}`}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
 }
