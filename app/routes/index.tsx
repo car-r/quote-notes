@@ -101,7 +101,14 @@ export const loader = async ({request}: any) => {
           quoteNote: true
         }
       },
-      quotes: true,
+      quotes: {
+        take: 10,
+        orderBy: {
+          note: {
+            '_count': 'desc'
+          }
+        }
+      },
       authors: {
         orderBy: {
           quote: {

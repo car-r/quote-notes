@@ -1,4 +1,3 @@
-import { Form } from "@remix-run/react";
 import moment from "moment";
 
 export default function QuoteNoteDeleteCard({quoteNote}: any) {

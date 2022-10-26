@@ -4,6 +4,10 @@ import { useEffect, useRef } from "react";
 export default function QuoteTags({quote, actionData, setEdit}: any) {
 
     let transition = useTransition()
+    let isDeleting = 
+        transition.state === "submitting" &&
+        transition.submission.formData.get("_method") === "deleteTag"
+
     let isAddingTag = 
         transition.state === "submitting" &&
         transition.submission.formData.get("_method") === "tag"
@@ -66,7 +70,7 @@ export default function QuoteTags({quote, actionData, setEdit}: any) {
                     <div className="flex justify-end">
                     <button name="_method" value="tag"
                         className="rounded text-sm text-center cursor-pointer px-3 py-1 font-base text-white   bg-blue-400/80 hover:bg-blue-600 ">
-                        {isAddingTag ? "Adding..." : "Add Tag +"}
+                        {isDeleting ? "Deleting..." : isAddingTag ? "Adding..." : "Add Tag +"}
                     </button>
                     </div>
                 </Form>
