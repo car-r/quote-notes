@@ -1,5 +1,4 @@
 import { Link } from "@remix-run/react";
-import SecondaryAddBtn from "./SecondaryAddBtn";
 import TopAddBtn from "./TopAddBtn";
 
 export default function AddQuoteBtn() {

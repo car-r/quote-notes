@@ -3,7 +3,14 @@ import { useEffect, useRef } from "react";
 import ActionDataError from "./ActionDataError";
 import UpdateBtn from "./Buttons/UpdateBtn";
 
-export default function EditNoteCard({data, setEdit, actionData}: any) {
+type EditNote = {
+    data: any,
+    actionData: any,
+    setEdit: React.Dispatch<React.SetStateAction<boolean>>,
+    edit: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+export default function EditNoteCard({data, setEdit, actionData, edit}: EditNote) {
     let transition = useTransition()
     let isDeleting = 
         transition.state === "submitting" &&
@@ -22,7 +29,7 @@ export default function EditNoteCard({data, setEdit, actionData}: any) {
         } else if (isUpdating) {
             setEdit(false)
         }
-    },[isUpdating, setEdit])
+    },[isUpdating, setEdit, edit])
     
     return (
         <div className="md:col-span-2">
@@ -58,7 +65,7 @@ export default function EditNoteCard({data, setEdit, actionData}: any) {
                                     {isDeleting ? "Deleting..." : isUpdating ? "Updating..." : "Update Note"}
                                 </button> 
                             </div> */}
-                            <div className="flex flex-col">
+                            <div className="flex flex-row">
                                 <button type="submit" name="_method" value="update" disabled={isUpdating} className="">
                                     <UpdateBtn children={isDeleting ? "Deleting..." : isUpdating ? "Updating..." : "Update Note"} />
                                 </button> 

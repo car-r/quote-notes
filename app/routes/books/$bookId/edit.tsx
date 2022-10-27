@@ -6,6 +6,8 @@ import { Form } from "@remix-run/react";
 import { useEffect, useRef } from "react";
 import UpdateBtn from "~/components/Buttons/UpdateBtn";
 import ActionDataError from "~/components/ActionDataError";
+import ActionDataInput from "~/components/ActionDataInput";
+import FormInput from "~/components/FormInput";
 
 export const loader = async ({params, request}: any) => {
     const userId = await requireUserId(request);
@@ -125,7 +127,7 @@ export default function EditBook() {
 
     console.log('bookId Edit data --> ', data)
     return (
-        <div className="p-4 border border-stone-800 bg-stone-800 rounded-md">
+        <div className="p-4 border-2 border-stone-800  rounded-md">
             <div className="flex flex-col gap-4 md:w-80">
             <Form method="post" ref={formRef}>
                 <div className="flex flex-col">
@@ -139,17 +141,25 @@ export default function EditBook() {
                             <label className="text-sm font-semibold tracking-wider uppercase">
                                 Title
                             </label>
-                            <input type="text" name="title" className="px-2 border border-stone-800 bg-stone-700 rounded" defaultValue={data.data.book[0].title}/>
+                            {actionData?.errors.title ? (
+                                <div className="flex flex-col">
+                                    <ActionDataInput type="text" name="title" defaultValue={data.data.book[0].title}/>
+                                    <ActionDataError children={actionData.errors.title} />
+                                </div>
+                            ) : 
+                                <FormInput type="text" name="title" defaultValue={data.data.book[0].title}/>
+                            }
+                            {/* <input type="text" name="title" className="px-2 border border-stone-800 bg-stone-700 rounded" defaultValue={data.data.book[0].title}/>
                             {actionData?.errors.title && (
                                 <ActionDataError children={actionData.errors.title} />
-                            )}
+                            )} */}
                         </div>
 
                         <div className="flex flex-col gap-1">
                             <label className="text-sm font-semibold tracking-wider uppercase">
                                 Author
                             </label>
-                            <select name="selectAuthorId" className="bg-stone-700 rounded-sm p-1" >
+                            <select name="selectAuthorId" className="bg-stone-800 rounded-sm p-1" >
                                 <option value={data.data.book[0].authorId}>{data.data.book[0].author.name}</option>
 
                                 {data.data.authors.filter((author: any) => author.id !== data.data.book[0].authorId).map((author: any) => (
@@ -162,10 +172,18 @@ export default function EditBook() {
                             <label className="text-sm font-semibold tracking-wider uppercase">
                                 Image URL
                             </label>
-                            <input type="text" name="imgUrl" className="px-2 border border-stone-800 bg-stone-700 rounded" defaultValue={data.data.book[0].imgUrl}/>
+                            {actionData?.errors.imgUrl ? (
+                                <div className="flex flex-col">
+                                    <ActionDataInput type="text" name="imgUrl" defaultValue={data.data.book[0].imgUrl}/>
+                                    <ActionDataError children={actionData.errors.imgUrl} />
+                                </div>
+                            ) : 
+                                <FormInput type="text" name="title" defaultValue={data.data.book[0].imgUrl}/>
+                            }
+                            {/* <input type="text" name="imgUrl" className="px-2 border border-stone-800 bg-stone-700 rounded" defaultValue={data.data.book[0].imgUrl}/>
                             {actionData?.errors.imgUrl && (
                                 <ActionDataError children={actionData.errors.imgUrl} />
-                            )}
+                            )} */}
                         </div>
 
                         <div className="hidden">

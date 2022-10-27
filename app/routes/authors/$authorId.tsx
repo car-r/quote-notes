@@ -1,4 +1,4 @@
-import { useLoaderData, Link, Outlet, useCatch, useParams } from "@remix-run/react"
+import { useLoaderData, Link, Outlet, useCatch, useParams, useOutletContext } from "@remix-run/react"
 import { useState } from "react"
 // import AddContentCard from "~/components/AddBookCard"
 import AddQuoteCard from "~/components/AddQuoteCard"
@@ -16,6 +16,7 @@ import AuthorBackBtn from "~/components/Buttons/AuthorBackBtn"
 import AuthorErrorBackBtn from "~/components/Buttons/AuthorErrorBackBtn"
 import AddBookBtn from "~/components/Buttons/AddBookBtn"
 import AddQuoteBtn from "~/components/Buttons/AddQuoteBtn"
+import React from "react"
 
 export const loader = async ({params, request}: any) => {
     const userId = await requireUserId(request);
@@ -51,10 +52,33 @@ export const loader = async ({params, request}: any) => {
     return {author}
 }
 
+type Edit = {
+    edit: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+type SetEdit = {
+    setEdit: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+type ContextEditType = { edit: Edit}
+type ContextSetEditType = { setEdit: SetEdit}
+
+interface Props {
+    edit: boolean;
+    setEdit: (edit: boolean) => void
+}
+
+export function useEdit() {
+    return useOutletContext<ContextEditType>()
+}
+export function useSetEdit() {
+    return useOutletContext<ContextSetEditType>()
+}
 
 export default function AuthorDetail() {
     const data = useLoaderData()
-    const [edit, setEdit] = useState(false)
+    const [edit, setEdit] = React.useState<ContextEditType | ContextSetEditType>()
+    // const [edit, setEdit] = useState(false)
     console.log(data)
 
     return (

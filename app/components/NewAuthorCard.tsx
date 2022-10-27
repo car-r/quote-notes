@@ -1,7 +1,9 @@
 import { Form, useTransition } from "@remix-run/react";
 import { useEffect, useRef } from "react";
 import ActionDataError from "./ActionDataError";
+import ActionDataInput from "./ActionDataInput";
 import PrimaryActionBtn from "./Buttons/PrimaryActionBtn";
+import FormInput from "./FormInput";
 
 export default function NewAuthorCard({actionData}: any) {
     let transition = useTransition()
@@ -30,20 +32,36 @@ export default function NewAuthorCard({actionData}: any) {
                         <label className="text-sm font-semibold tracking-wider uppercase">
                             Author Name
                         </label>
-                        <input type="text" name="name" className="px-2 border border-stone-800 bg-stone-700 rounded"/>
+                        {actionData?.errors.name ? (
+                            <div className="flex flex-col">
+                                <ActionDataInput type="text" name="name" defaultValue={""}/>
+                                <ActionDataError children={actionData.errors.name} />
+                            </div>
+                        ) : 
+                            <FormInput type="text" name="name" defaultValue={""}/>
+                        }
+                        {/* <input type="text" name="name" className="px-2 border border-stone-800 bg-stone-700 rounded"/>
                         {actionData?.errors.name && (
                             <ActionDataError children={actionData.errors.name} />
-                        )}
+                        )} */}
                     </div>
                     
                     <div className="flex flex-col gap-1">
                         <label className="text-sm font-semibold tracking-wider uppercase">
                             Image URL
                         </label>
-                        <input type="text" name="imgUrl" className="px-2 border border-stone-800 bg-stone-700 rounded"/>
+                        {actionData?.errors.imgUrl ? (
+                            <div className="flex flex-col">
+                                <ActionDataInput type="text" name="imgUrl" defaultValue={""}/>
+                                <ActionDataError children={actionData.errors.imgUrl} />
+                            </div>
+                        ) : 
+                            <FormInput type="text" name="imgUrl" defaultValue={""}/>
+                        }
+                        {/* <input type="text" name="imgUrl" className="px-2 border border-stone-800 bg-stone-700 rounded"/>
                         {actionData?.errors.imgUrl && (
                             <ActionDataError children={actionData.errors.imgUrl} />
-                        )}
+                        )} */}
                     </div>
                 </div>           
                 <div className="flex flex-col">

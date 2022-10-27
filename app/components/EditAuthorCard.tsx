@@ -1,8 +1,25 @@
 import { Form, useOutletContext, useTransition } from "@remix-run/react";
-import { useEffect, useRef } from "react";
+import { createContext, useEffect, useRef } from "react";
 import ActionDataError from "./ActionDataError";
+import ActionDataInput from "./ActionDataInput";
+import FormInput from "./FormInput";
+import UpdateBtn from "./Buttons/UpdateBtn";
+import { useEdit, useSetEdit } from "~/routes/authors/$authorId";
 
-export default function EditAuthorCard({data, actionData}: any) {
+
+type EditAuthor = {
+    data: any,
+    actionData: any
+    setEdit: React.Dispatch<React.SetStateAction<boolean>>,
+    edit: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+type Props = {
+    edit: boolean;
+    setEdit: (edit: boolean) => void
+}
+
+export default function EditAuthorCard({data, actionData, setEdit, edit}: EditAuthor) {
     let transition = useTransition()
 
     let isDeleting = 
@@ -15,7 +32,12 @@ export default function EditAuthorCard({data, actionData}: any) {
 
     // let formRef = useRef()
     const formRef = useRef<HTMLFormElement>(null)
-    const [edit, setEdit]: any = useOutletContext()
+
+    // const [edit, setEdit]: any = useOutletContext()
+    // const {setEdit} = useOutletContext<{ setEdit: SetEdit }>()
+    // let { setEdit } = useSetEdit()
+    // const { edit } = useEdit()
+
 
     useEffect(() => {
         if (!isUpdating) {
@@ -27,7 +49,7 @@ export default function EditAuthorCard({data, actionData}: any) {
 
     console.log('edit author card --> ', data)
     return (
-        <div className="flex flex-col p-4 min-h-full justify-center border-2 border-stone-800 rounded-lg">
+        <div className="flex flex-col p-4 min-h-full justify-center border-2 border-stone-800 bg-stone-800 rounded-lg">
             <Form method="post"
                 ref={formRef}
                 className="flex flex-col gap-6 rounded-md text-stone-300/60 font-light"
@@ -38,18 +60,20 @@ export default function EditAuthorCard({data, actionData}: any) {
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                             </svg>
                         </button>
-                    <div className="flex flex-col gap-1 md:gap-2">
+                    <div className="flex flex-col gap-1 md:gap-1">
                         <label className="text-sm font-semibold tracking-wider uppercase">
                             Author Name
                         </label>
                         {actionData?.errors.name ? (
                             <div className="flex flex-col">
-                                <input type="text" name="name" className="px-2 py-1 border border-red-400 bg-stone-700 rounded" defaultValue={data.data.name}/>
+                                <ActionDataInput type="text" name="name" defaultValue={data.data.name} />
+                                {/* <input type="text" name="name" className="px-2 py-1 border border-red-400 bg-stone-800 rounded" defaultValue={data.data.name}/> */}
                                 {/* <p className="text-red-400 text-sm">{actionData.errors.name}</p> */}
                                 <ActionDataError children={actionData.errors.name}/>
                             </div>
                         ) : 
-                            <input type="text" name="name" className="px-2 py-1 border border-stone-800 bg-stone-700 rounded w-full" defaultValue={data.data.name}/>
+                            <FormInput type="text" name="name" defaultValue={data.data.name}/>
+                            // <input type="text" name="name" className="px-2 py-1 border border-stone-800 bg-stone-800 rounded w-full" defaultValue={data.data.name}/>
                         }
                     </div>
                     
@@ -59,23 +83,29 @@ export default function EditAuthorCard({data, actionData}: any) {
                         </label>
                         {actionData?.errors.imgUrl ? (
                             <div className="flex flex-col">
-                                <input type="text" name="imgUrl" className="px-2 py-1 border border-red-400 bg-stone-700 rounded" defaultValue={data.data.imgUrl}/>
+                                <ActionDataInput type="text" name="imgUrl" defaultValue={data.data.imgUrl}/>
+                                {/* <input type="text" name="imgUrl" className="px-2 py-1 border border-red-400 bg-stone-700 rounded" defaultValue={data.data.imgUrl}/> */}
                                 {/* <p className="text-red-400 text-sm">{actionData.errors.imgUrl}</p> */}
                                 <ActionDataError children={actionData.errors.imgUrl}/>
                             </div>
                         ) :
-                            <input type="text" name="imgUrl" className="px-2 py-1 border border-stone-800 bg-stone-700 rounded" defaultValue={data.data.imgUrl}/>
+                            <FormInput type="text" name="imgUrl" defaultValue={data.data.imgUrl}/>
+                            // <input type="text" name="imgUrl" className="px-2 py-1 border border-stone-800 bg-stone-800 rounded" defaultValue={data.data.imgUrl}/>
                         }
                     </div>
                 </div>           
-                <div className="flex flex-col">
+                <div className="flex flex-row">
                     <button 
+                        type="submit" name="_method" value="update" disabled={isUpdating || isDeleting} >
+                        <UpdateBtn children={isDeleting ? "Deleting..." : isUpdating ? "Updating..." : "Update Author"} />
+                    </button> 
+                    {/* <button 
                         type="submit" name="_method" value="update" disabled={isUpdating || isDeleting} 
                         className="px-4 py-2 font-semibold text-stone-900 border-2 border-blue-400 bg-blue-400 
                         hover:border-blue-500/95 hover:bg-blue-500/95 rounded text-center cursor-pointer"
                     >
                         {isDeleting ? "Deleting..." : isUpdating ? "Updating..." : "Update Author"}
-                    </button> 
+                    </button>  */}
                     {/* <button type="submit" className="px-4 py-2 border-2 border-blue-400 hover:bg-blue-400/30 text-white rounded text-center cursor-pointer">Update</button>  */}
                     {/* <button type="submit" name="_method" value="delete" className="px-6 py-2 border border-red-500 text-white rounded hover:bg-red-700">Delete</button> */}
                 </div>
