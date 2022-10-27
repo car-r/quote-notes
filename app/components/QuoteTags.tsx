@@ -68,10 +68,10 @@ export default function QuoteTags({quote, actionData, setEdit}: any) {
                         {isAddingTag ? "Adding..." : "Add Tag"}
                     </button> */}
                     <div className="flex justify-end">
-                    <button name="_method" value="tag"
-                        className="rounded text-sm text-center cursor-pointer px-3 py-1 font-base text-white   bg-blue-400/80 hover:bg-blue-600 ">
-                        {isDeleting ? "Deleting..." : isAddingTag ? "Adding..." : "Add Tag +"}
-                    </button>
+                        <button name="_method" value="tag"
+                            className="rounded text-sm text-center cursor-pointer px-3 py-1 font-base text-white   bg-blue-400/80 hover:bg-blue-600 ">
+                            {isDeleting ? "Deleting..." : isAddingTag ? "Adding..." : "Add Tag +"}
+                        </button>
                     </div>
                 </Form>
             </div>

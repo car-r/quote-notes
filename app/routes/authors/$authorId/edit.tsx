@@ -3,7 +3,10 @@ import { prisma } from "~/db.server"
 import { requireUserId } from "~/session.server";
 import { redirect } from "@remix-run/node";
 
+import { useEdit, useSetEdit } from "../$authorId";
+
 import EditAuthorCard from "~/components/EditAuthorCard"
+
 
 export const loader = async ({params}: any) => {
     const data = await prisma.author.findUnique({
@@ -58,13 +61,20 @@ export const action = async ({request, params}: any) => {
     return redirect(`/authors/${author.id}`)
 }
 
+type Props = {
+    edit: boolean;
+    setEdit: (edit: boolean) => void
+}
+
 export default function EditAuthor() {
     const data = useLoaderData()
     const actionData = useActionData()
-    const [setEdit]: any = useOutletContext()
+    const [edit, setEdit]: any = useOutletContext()
+    // const { edit } = useEdit()
+    // const { setEdit } = useSetEdit()
     return (
         <div className="">
-            <EditAuthorCard data={data} actionData={actionData} setEdit={setEdit}/>
+            <EditAuthorCard data={data} actionData={actionData} setEdit={setEdit} edit={edit}/>
         </div>
     )
 }

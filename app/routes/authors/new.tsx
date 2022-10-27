@@ -52,7 +52,6 @@ export default function NewAuthor() {
         <div className="flex flex-col pt-6 md:pt-10 md:max-w-5xl pb-6">
             <PageTitle children={`New Author`}/>
             <div className="flex flex-col w-full md:grid md:grid-cols-4">
-                
                 <div className="col-span-1">
                     <NewAuthorCard actionData={actionData}/>
                 </div>

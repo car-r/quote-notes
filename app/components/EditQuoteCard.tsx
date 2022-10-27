@@ -1,9 +1,16 @@
 import { Form, useTransition } from "@remix-run/react";
-import { useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import ActionDataError from "./ActionDataError";
 import UpdateBtn from "./Buttons/UpdateBtn";
 
-export default function EditQuoteCard({quote, actionData, setEdit}: any) {
+type EditQuote = {
+    quote: any,
+    actionData: any,
+    setEdit: React.Dispatch<React.SetStateAction<boolean>>,
+    edit: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+export default function EditQuoteCard({quote, actionData, setEdit, edit}: EditQuote) {
     
     let transition = useTransition()
 
@@ -24,7 +31,7 @@ export default function EditQuoteCard({quote, actionData, setEdit}: any) {
         } else if (isUpdating) {
             setEdit(false)
         }
-    },[isUpdating, setEdit])
+    },[isUpdating, setEdit, edit])
     console.log('edit quote card props --> ', setEdit)
 
     return (
