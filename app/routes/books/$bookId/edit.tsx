@@ -1,4 +1,4 @@
-import { useActionData, useLoaderData, useOutletContext, useTransition } from "@remix-run/react"
+import { Link, useActionData, useLoaderData, useOutletContext, useTransition } from "@remix-run/react"
 import { prisma } from "~/db.server"
 import { requireUserId } from "~/session.server";
 import { redirect } from "@remix-run/node";
@@ -112,18 +112,25 @@ export default function EditBook() {
 
     // let formRef = useRef()
     const formRef = useRef<HTMLFormElement>(null)
-    const [edit, setEdit]: any = useOutletContext()
+    // const [edit, setEdit]: any = useOutletContext()
     const [willDelete, setWillDelete] = useState(false)
+
+    // useEffect(() => {
+    //     if (!isUpdating) {
+    //         formRef.current?.reset();
+    //         setEdit(false)
+    //     }
+    //     else if (isUpdating) {
+    //         setEdit(false)
+    //     }
+    // },[isUpdating, setEdit, edit])
 
     useEffect(() => {
         if (!isUpdating) {
             formRef.current?.reset();
-            // setEdit(false)
         }
-        else if (isUpdating) {
-            setEdit(false)
-        }
-    },[isUpdating, setEdit, edit])
+
+    },[isUpdating])
     
 
     console.log('bookId Edit data --> ', data)
@@ -132,7 +139,7 @@ export default function EditBook() {
             <div className="flex flex-col gap-4 md:w-80">
             <Form method="post" ref={formRef}>
                 <div className="flex flex-col">
-                    <div onClick={() => setWillDelete(!willDelete)} className="flex justify-end relative hover:cursor-pointer hover:text-stone-100">
+                    {/* <div onClick={() => setWillDelete(!willDelete)} className="flex justify-end relative hover:cursor-pointer hover:text-stone-100">
                         {!willDelete ? 
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -142,7 +149,15 @@ export default function EditBook() {
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
                             </svg>
                         }
+                    </div> */}
+                    <div className="flex w-full justify-end">
+                        <Link to={`/books/${data.data.book[0].id}`} className=" hover:text-white">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </Link>
                     </div>
+                    
                     {/* <button type="submit" name="_method" value="deleteBook" className="flex justify-end relative hover:text-stone-100 active:text-red-600">
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -209,15 +224,21 @@ export default function EditBook() {
                         </button> 
                     </div> */}
                     <div className="flex mt-6">
-                        {!willDelete ? 
-                        <button 
-                            type="submit" name="_method" value="update" disabled={isUpdating || isDeleting} >
-                            <UpdateBtn children={isUpdating ? "Updating..." : "Update Book"} />
-                        </button> 
+                        {!willDelete ?
+                        <div className="grid grid-cols-2 w-full gap-4 justify-between">
+                            <button 
+                                type="submit" name="_method" value="update" disabled={isUpdating || isDeleting} >
+                                <UpdateBtn children={isUpdating ? "Updating..." : "Update Book"} />
+                            </button> 
+                            <div onClick={() => setWillDelete(!willDelete)} 
+                                className="text-sm flex items-center rounded border-2 border-red-400 hover:cursor-pointer hover:border-red-600 hover:text-stone-200">
+                                <p className="mx-auto  ">Delete</p>
+                            </div>
+                        </div> 
                         :
                         <button 
                             type="submit" name="_method" value="deleteBook" disabled={isUpdating || isDeleting}
-                            className="py-2 px-2 flex gap-2 text-white rounded bg-red-400 border-2 border-red-400 hover:bg-red-600 hover:border-red-600"
+                            className="py-2 px-2 flex w-full justify-center gap-2 text-white rounded bg-red-400 border-2 border-red-400 hover:bg-red-600 hover:border-red-600"
                             >
                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />

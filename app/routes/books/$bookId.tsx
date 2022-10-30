@@ -56,9 +56,14 @@ export const loader = async ({params, request}: any) => {
         })
     }
 
-    const response = await fetch(`https://openlibrary.org/isbn/${data.ISBN}.json`)
-        .then((response) => response.json())
-        .then((openLibrary) => console.log(openLibrary))
+    // const response = await fetch(`https://openlibrary.org/isbn/${data.ISBN}.json`)
+    //     .then((response) => response.json())
+    //     .then((openLibrary) => console.log('OL loader --> ',openLibrary))
+
+
+    // const response = await fetch(`https://openlibrary.org/isbn/${data.ISBN}.json`)
+    // const responseString = await response
+    
 
     // const book = await prisma.book.findUnique({
     //     where: { id: params.bookId },
@@ -156,7 +161,7 @@ export const action = async ({request}: any) => {
 // declare function useOutletContext< Context = unknown >(): Context
 
 export default function BookIdRoute() {
-    const [edit, setEdit] = useState(false)
+    // const [edit, setEdit] = useState(false)
     // const [edit, setEdit] = useState<Edit | false> (false)
     const data = useLoaderData()
     let transition = useTransition()
@@ -171,24 +176,25 @@ export default function BookIdRoute() {
     // const authors = data.authors
     console.log('bookId --> ', data)
     console.log('bookId book --> ', book)
-    console.log('bookId edit state --> ', edit)
+    // console.log('bookId edit state --> ', edit)
     const actionData = useActionData()
 
     useEffect(() => {
         if (!isAdding) {
             formRef.current?.reset();
-            setEdit(false)
+            // setEdit(false)
         }
     },[isAdding])
 
     console.log('bookId route --> ', data)
     return (
         <div className="flex flex-col pt-6 md:pt-10 max-w-6xl">
-            {edit ? 
+            <PageTitle children={book.title} btn={<BookBackBtn  data={data} />}/>
+            {/* {edit ? 
                 <PageTitle children={book.title} btn={<BookBackBtn  data={data} edit={edit} setEdit={setEdit}/>}/>
                 :
                 <PageTitle children={book.title} btn={<EditBookBtn  data={data} edit={edit} setEdit={setEdit}/>}/>
-            } 
+            }  */}
             {/* <PageTitle children={`${data.book.title}`}/> */}
             <div className="grid grid-cols-1 md:flex gap-6 ">
                 {book.quote.length < 1 ? 
@@ -273,7 +279,8 @@ export default function BookIdRoute() {
                         </div>
                     </Form>
                     <div>
-                        <Outlet context={ [edit, setEdit] }/>
+                        {/* <Outlet context={ [edit, setEdit] }/> */}
+                        <Outlet />
                     </div>
                 </div>
             </div>
