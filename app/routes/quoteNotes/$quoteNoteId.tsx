@@ -1,6 +1,6 @@
-import { Outlet, useCatch, useLoaderData, useParams } from "@remix-run/react"
+import { Outlet, useCatch, useLoaderData, useOutletContext, useParams } from "@remix-run/react"
 import { redirect } from "@remix-run/server-runtime"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import EditNoteBtn from "~/components/Buttons/EditNoteBtn"
 import NoteBackBtn from "~/components/Buttons/NoteBackBtn"
 import PageTitle from "~/components/PageTitle"
@@ -42,9 +42,35 @@ export const action = async ({ request, params }: any) => {
     }
 }
 
+type Edit = {
+    edit: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+type SetEdit = {
+    setEdit: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+type ContextEditType = { edit: Edit}
+type ContextSetEditType = { setEdit: SetEdit}
+
+interface Props {
+    edit: boolean;
+    setEdit: (edit: boolean) => void
+}
+
+export function useEdit() {
+    return useOutletContext<ContextEditType>()
+}
+export function useSetEdit() {
+    return useOutletContext<ContextSetEditType>()
+}
+
 export default function QuoteNoteId() {
     const data = useLoaderData()
     const [edit, setEdit] = useState(false)
+    useEffect(() => {
+        setEdit(false)
+    },[])
     // console.log(data)
     return (
         <div className="flex flex-col pt-6 md:pt-10 md:max-w-5xl pb-6">
