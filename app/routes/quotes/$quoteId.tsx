@@ -1,5 +1,5 @@
 import { Outlet, useActionData, useCatch, useLoaderData, useParams } from "@remix-run/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import EditQuoteBtn from "~/components/Buttons/EditQuoteBtn";
 import PageTitle from "~/components/PageTitle";
 import QuoteBackBtn from "~/components/Buttons/QuoteBackBtn";
@@ -201,7 +201,6 @@ export default function QuoteDetail() {
     const actionData = useActionData()
     const [edit, setEdit] = useState(false)
 
-    
     console.log('quoteId route --> ', quote)
     return (
         <div className="flex flex-col pt-6 md:pt-10 max-w-5xl">

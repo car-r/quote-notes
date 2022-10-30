@@ -53,7 +53,7 @@ export const action = async ({ request, params }: any) => {
 
         const fields = {body}
         await prisma.quote.update({where: {id: params.quoteId}, data: fields})
-        return redirect(`/quotes/${params.quoteId}`)
+        return redirect(`/quotes/${params.quoteId}/edit`)
     }
 }
 

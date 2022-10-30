@@ -83,11 +83,12 @@ export default function AuthorDetail() {
 
     return (
         <div className="flex flex-col pt-6 md:pt-10 max-w-5xl">
-            {edit ? 
+            <PageTitle children={data.author.name} btn={<AuthorBackBtn  data={data} edit={edit} setEdit={setEdit}/>}/>
+            {/* {edit ? 
                 <PageTitle children={data.author.name} btn={<AuthorBackBtn  data={data} edit={edit} setEdit={setEdit}/>}/>
                 :
                 <PageTitle children={data.author.name} btn={<EditAuthorBtn  data={data} edit={edit} setEdit={setEdit}/>}/>
-            }            
+            }             */}
             {/* <PageTitle children={data.author.name} btn={<EditAuthorBtn author={data} edit={edit} setEdit={setEdit}/>}/> */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 rounded-xl py-2 mb-20">
                 <AuthorRouteCard author={data}/>

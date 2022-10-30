@@ -56,7 +56,7 @@ export const action = async ({request}: any) => {
         checkTitleName(title)
 
 
-        const isValidImageUrl = new RegExp('(jpe?g|png|gif|bmp)$')
+        const isValidImageUrl = new RegExp('(jpe?g|png|gif|bmp|jpg)$')
 
         const validateImageUrl = (value: string) => {
             if (!isValidImageUrl.test(value)) {

@@ -1,5 +1,5 @@
 import { Form, useOutletContext, useTransition } from "@remix-run/react";
-import { createContext, useEffect, useRef } from "react";
+import { createContext, useEffect, useRef, useState } from "react";
 import ActionDataError from "./ActionDataError";
 import ActionDataInput from "./ActionDataInput";
 import FormInput from "./FormInput";
@@ -20,6 +20,7 @@ type Props = {
 }
 
 export default function EditAuthorCard({data, actionData, setEdit, edit}: EditAuthor) {
+    const [willDelete, setWillDelete] = useState(false)
     let transition = useTransition()
 
     let isDeleting = 
@@ -55,11 +56,22 @@ export default function EditAuthorCard({data, actionData, setEdit, edit}: EditAu
                 className="flex flex-col gap-6 rounded-md text-stone-300/60 font-light"
             >
                 <div className="flex flex-col gap-4">
-                        <button type="submit" name="_method" value="delete" className="flex justify-end relative hover:text-stone-100">
+                        {/* <button type="submit" name="_method" value="delete" className="flex justify-end relative hover:text-stone-100">
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                             </svg>
-                        </button>
+                        </button> */}
+                        <div onClick={() => setWillDelete(!willDelete)} className="flex justify-end relative hover:cursor-pointer hover:text-stone-100">
+                            {!willDelete ? 
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                </svg>
+                                :
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-4 h-4 sm:w-6 sm:h-6">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+                                </svg>
+                            }
+                        </div>
                     <div className="flex flex-col gap-1 md:gap-1">
                         <label className="text-sm font-semibold tracking-wider uppercase">
                             Author Name
@@ -95,10 +107,22 @@ export default function EditAuthorCard({data, actionData, setEdit, edit}: EditAu
                     </div>
                 </div>           
                 <div className="flex flex-row">
+                    {!willDelete ? 
                     <button 
                         type="submit" name="_method" value="update" disabled={isUpdating || isDeleting} >
                         <UpdateBtn children={isDeleting ? "Deleting..." : isUpdating ? "Updating..." : "Update Author"} />
                     </button> 
+                    :
+                    <button 
+                        type="submit" name="_method" value="delete" disabled={isUpdating || isDeleting}
+                        className="py-2 px-2 flex gap-2 text-white rounded bg-red-400 border-2 border-red-400 hover:bg-red-600 hover:border-red-600"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                            </svg>
+                        {isDeleting ? "Deleting..." : "Delete Author"}
+                    </button> 
+                    }
                     {/* <button 
                         type="submit" name="_method" value="update" disabled={isUpdating || isDeleting} 
                         className="px-4 py-2 font-semibold text-stone-900 border-2 border-blue-400 bg-blue-400 

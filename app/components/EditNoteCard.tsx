@@ -1,16 +1,29 @@
 import { Form, useTransition } from "@remix-run/react";
+import React from "react";
 import { useEffect, useRef } from "react";
+import { useEdit, useSetEdit } from "~/routes/quoteNotes/$quoteNoteId";
 import ActionDataError from "./ActionDataError";
 import UpdateBtn from "./Buttons/UpdateBtn";
 
+type ActionData = {
+    errors?: {
+      body?: string;
+    };
+};
+
 type EditNote = {
     data: any,
-    actionData: any,
+    actionData: ActionData,
     setEdit: React.Dispatch<React.SetStateAction<boolean>>,
     edit: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export default function EditNoteCard({data, setEdit, actionData, edit}: EditNote) {
+interface Props {
+    edit: boolean;
+    setEdit: (edit: boolean) => void
+}
+
+export default function EditNoteCard({data,  actionData, setEdit, edit}: EditNote) {
     let transition = useTransition()
     let isDeleting = 
         transition.state === "submitting" &&
@@ -22,12 +35,14 @@ export default function EditNoteCard({data, setEdit, actionData, edit}: EditNote
 
     // let formRef = useRef()
     const formRef = useRef<HTMLFormElement>(null)
+    // let { setEdit } = useSetEdit()
+    // let { edit } = useEdit()
 
     useEffect(() => {
         if (!isUpdating) {
             formRef.current?.reset();
         } else if (isUpdating) {
-            setEdit(false)
+            // setEdit(false)
         }
     },[isUpdating, setEdit, edit])
     
@@ -53,12 +68,13 @@ export default function EditNoteCard({data, setEdit, actionData, edit}: EditNote
                                         className="w-full mb-0 text-stone-800 rounded-md border-2 border-stone-800 py-2 px-3 text-sm md:text-base" 
                                         defaultValue={data.data.body}
                                     />
-                                    {actionData?.errors.body && (
+                                    {actionData?.errors?.body && (
                                         <ActionDataError children={actionData.errors.body}/>
                                     )}
                                 </div>
                             </div>
                         </div>
+                        <input hidden name="quoteId" value={data.data.quote.id}/>
                         <div className="flex flex-col md:flex-row">
                             {/* <div className="flex flex-col">
                                 <button type="submit" name="_method" value="update" disabled={isUpdating} className="px-6 py-2 bg-blue-400 hover:bg-blue-600 text-white rounded">
