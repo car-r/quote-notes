@@ -1,8 +1,20 @@
 import { Link } from "@remix-run/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function BookIdCard({data}: any) {
     const [edit, setEdit] = useState(false)
+    // const [openLibData, setOpenLibData] = useState([])
+
+
+    // useEffect(() => {
+    //     fetch(`https://openlibrary.org/isbn/${data.data.ISBN}.json`)
+    //     .then(response => response.json())
+    //     .then(response => setOpenLibData(response))
+
+
+    // }, [data.data.ISBN])
+
+    // console.log('openlib data -> ', openLibData)
     return (
         <div className="p-4 bg-stone-800 rounded-lg">
             <div className="pb-2">
@@ -12,11 +24,11 @@ export default function BookIdCard({data}: any) {
                     className="object-fit md:max-w-xs" />
             </div>
              <div>
-                <div className="flex justify-between">
+                <div className="flex justify-between ">
                     <p className="font-bold">
                         {data.data.title}
                     </p>
-                    <div className="flex text-xs justify-end " onClick={() => setEdit(!edit)}>
+                    <div className="flex text-xs justify-end" onClick={() => setEdit(!edit)}>
                         {!edit ? 
                         <Link to={`/books/${data.data.id}/edit`}>
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6 hover:text-white">
@@ -32,11 +44,21 @@ export default function BookIdCard({data}: any) {
                         }
                     </div>
                 </div>
-                <Link to={`/authors/${data.data.authorId}`}>
-                    <p className="text-sm font-thin tracking-wider hover:text-stone-100">
-                        {data.data.author.name}
-                    </p>
-                </Link>
+                <div className="flex">
+                    <Link to={`/authors/${data.data.authorId}`}>
+                        <p className="text-sm font-thin tracking-wider hover:text-stone-100">
+                            {data.data.author.name}
+                        </p>
+                    </Link>
+                </div>
+                {/* {openLibData ?
+                    <div>
+                        <p>Pages</p>
+                        <p>{openLibData.number_of_pages}</p>
+                    </div>
+                : null
+                } */}
+                
             </div>
         </div>
     )
