@@ -110,6 +110,7 @@ model Book {
   title String
   authorName String?
   imgUrl String? @default("https://neelkanthpublishers.com/assets/bookcover_thumb.png")
+  ISBN String?
 
   author Author @relation(fields: [authorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   authorId String
