@@ -1,6 +1,7 @@
 import { Form, Outlet, useActionData, useCatch, useLoaderData, useParams, useTransition } from "@remix-run/react"
 import { Link } from "@remix-run/react"
 import { redirect } from "@remix-run/server-runtime"
+import { Response } from "@remix-run/web-fetch"
 import { useEffect, useRef, useState } from "react"
 // import BookEditCard from "~/components/BookEditCard"
 import BookBackBtn from "~/components/Buttons/BookBackBtn"
@@ -54,6 +55,10 @@ export const loader = async ({params, request}: any) => {
             status: 404,
         })
     }
+
+    const response = await fetch(`https://openlibrary.org/isbn/${data.ISBN}.json`)
+        .then((response) => response.json())
+        .then((openLibrary) => console.log(openLibrary))
 
     // const book = await prisma.book.findUnique({
     //     where: { id: params.bookId },
