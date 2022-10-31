@@ -1,4 +1,4 @@
-import { Link, useLoaderData } from "@remix-run/react";
+import { Link, useCatch, useLoaderData, useParams } from "@remix-run/react";
 import { redirect } from "@remix-run/server-runtime";
 import PageTitle from "~/components/PageTitle";
 import QuoteIndexCard from "~/components/QuoteIndexCard";
@@ -8,6 +8,7 @@ import { requireUserId } from "~/session.server";
 
 import AddQuoteBtn from "~/components/Buttons/AddQuoteBtn";
 import FirstQuoteBtn from "~/components/Buttons/FirstQuoteBtn"
+import QuoteErrorBackBtn from "~/components/Buttons/QuoteErrorBackBtn";
 
 export const loader = async ({request}: any) => {
     const userId = await requireUserId(request);
@@ -32,12 +33,12 @@ export const loader = async ({request}: any) => {
     )
 
 
-    const authors = await prisma.author.findMany({
-        where: {userId: userId},
-        include: {
-            quote: true, // Return all fields
-        }
-    })
+    // const authors = await prisma.author.findMany({
+    //     where: {userId: userId},
+    //     include: {
+    //         quote: true, // Return all fields
+    //     }
+    // })
 
 
     const tags = await prisma.tag.groupBy({
@@ -64,7 +65,7 @@ export const loader = async ({request}: any) => {
         
     })
 
-    return {quotes, authors,  tags, tagsWithQuotes}
+    return {quotes, tags, tagsWithQuotes}
 }
 
 export const action = async ({request}: any) => {
@@ -101,7 +102,7 @@ export default function QuotesIndex() {
                         </div>
                     {data.tags.map((tag: any) => (
                         <Link to={`/quotes/tags/${tag.body}`} key={tag.id}>
-                            <div key={tag.id} className="items-center flex text-xs font-semibold px-4 py-2 rounded-xl  whitespace-nowrap cursor-pointer bg-stone-800 hover:bg-stone-700">
+                            <div className="items-center flex text-xs font-semibold px-4 py-2 rounded-xl  whitespace-nowrap cursor-pointer bg-stone-800 hover:bg-stone-700">
                                 <p  className="">{tag.body}</p>
                                 {/* <p>{tag.id}</p> */}
                             </div>
@@ -116,4 +117,41 @@ export default function QuotesIndex() {
             </div>
         </>
     )
+}
+
+export function ErrorBoundary({ error }: { error: Error }) {
+    console.error(error);
+  
+    return (
+        <div className="flex flex-col pt-6 md:pt-10 md:max-w-5xl pb-6">
+            <PageTitle children={`Book`} btn={<QuoteErrorBackBtn />}/>
+            <div className="flex flex-col w-full md:grid md:grid-cols-3">
+                <div className="flex flex-col col-span-2 ">
+                    <div className='flex flex-col justify-center py-10 border border-red-500 text-red-500 rounded-lg text-center w-full'>
+                        <p className="text-sm font-semibold tracking-wide">{`Looks like an error: ${error}`}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+}
+
+export function CatchBoundary() {
+    const caught = useCatch();
+    const params = useParams();
+    if (caught.status === 404) {
+      return (
+        <div className="flex flex-col pt-6 md:pt-10 md:max-w-5xl pb-6">
+            <PageTitle children={`Book`} btn={<QuoteErrorBackBtn />}/>
+            <div className="flex flex-col w-full md:grid md:grid-cols-3">
+                <div className="flex flex-col col-span-2 ">
+                    <div className='flex flex-col justify-center py-10 border border-red-500 text-red-500 rounded-lg text-center w-full'>
+                        <p className="text-sm font-semibold tracking-wide">{`Can't find book ${params.bookId}`}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+      );
+    }
+    throw new Error(`Unhandled error: ${caught.status}`);
 }

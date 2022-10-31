@@ -1,4 +1,4 @@
-import { Link, useLoaderData } from "@remix-run/react";
+import { Link, useCatch, useLoaderData, useParams } from "@remix-run/react";
 import AuthorCard from "~/components/AuthorCard";
 import SectionTitle from "~/components/SectionTitle";
 import { prisma } from "~/db.server";
@@ -22,6 +22,7 @@ import AuthorHomeCard from "~/components/AuthorHomeCard";
 import AddFirstQuoteCard from "~/components/AddFirstQuoteCard";
 import BookHomeCard from "~/components/BookHomeCard";
 import AddBookCard from "~/components/AddBookCard";
+import QuoteErrorBackBtn from "~/components/Buttons/QuoteErrorBackBtn";
 
 ChartJS.register(
   CategoryScale,
@@ -289,4 +290,24 @@ export default function Index() {
       </div>
    </div>
   );
+}
+
+export function CatchBoundary() {
+  const caught = useCatch();
+  const params = useParams();
+  if (caught.status === 404) {
+    return (
+      <div className="flex flex-col pt-6 md:pt-10 md:max-w-5xl pb-6">
+          <PageTitle children={`Book`} btn={<QuoteErrorBackBtn />}/>
+          <div className="flex flex-col w-full md:grid md:grid-cols-3">
+              <div className="flex flex-col col-span-2 ">
+                  <div className='flex flex-col justify-center py-10 border border-red-500 text-red-500 rounded-lg text-center w-full'>
+                      <p className="text-sm font-semibold tracking-wide">{`Can't find page`}</p>
+                  </div>
+              </div>
+          </div>
+      </div>
+    );
+  }
+  throw new Error(`Unhandled error: ${caught.status}`);
 }
