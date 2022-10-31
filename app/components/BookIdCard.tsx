@@ -17,15 +17,14 @@ export default function BookIdCard({data}: any) {
     // console.log('openlib data -> ', openLibData)
     return (
         <div className="p-4 bg-stone-800 rounded-lg">
-            <div className="pb-2">
-            
+            <div className="flex flex-col pb-3">
                 <img src={data.data.imgUrl} alt={data.data.title}
                     onError={(e: any) => e.target.src = 'https://neelkanthpublishers.com/assets/bookcover_thumb.png'}
-                    className="object-fit md:max-w-xs" />
+                    className="object-fit md:max-w-xs relative" />
             </div>
              <div>
                 <div className="flex justify-between ">
-                    <p className="font-bold">
+                    <p className="font-bold w-10/12">
                         {data.data.title}
                     </p>
                     <div className="flex text-xs justify-end" onClick={() => setEdit(!edit)}>

@@ -104,7 +104,7 @@ export default function QuotesIndex() {
                         </Link>
                     ))}
                 </div>
-                <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 mb-1">
+                <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 mb-1">
                     {data.quotes.map((quote: any) => (
                         <QuoteIndexCard quote={quote} key={quote.id}/>
                     ))}
