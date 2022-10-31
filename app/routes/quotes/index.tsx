@@ -51,6 +51,10 @@ export const loader = async ({request}: any) => {
         }]
     })
 
+    // const tags = await prisma.tag.findMany({
+    //     where: {userId: userId}
+    // })
+
 
     const tagsWithQuotes = await prisma.tag.findMany({
         where: {userId: userId},
@@ -99,7 +103,7 @@ export default function QuotesIndex() {
                         <Link to={`/quotes/tags/${tag.body}`} key={tag.id}>
                             <div key={tag.id} className="items-center flex text-xs font-semibold px-4 py-2 rounded-xl  whitespace-nowrap cursor-pointer bg-stone-800 hover:bg-stone-700">
                                 <p  className="">{tag.body}</p>
-                                <p>{tag.id}</p>
+                                {/* <p>{tag.id}</p> */}
                             </div>
                         </Link>
                     ))}
