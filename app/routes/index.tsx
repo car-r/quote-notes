@@ -1,4 +1,4 @@
-import { Link, useLoaderData, } from "@remix-run/react";
+import { Link, useLoaderData } from "@remix-run/react";
 import SectionTitle from "~/components/SectionTitle";
 import { prisma } from "~/db.server";
 import { requireUserId } from "~/session.server";
