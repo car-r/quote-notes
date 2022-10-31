@@ -1,4 +1,4 @@
-import { Form, Link, useLoaderData } from "@remix-run/react";
+import { Form, Link, useCatch, useLoaderData, useParams } from "@remix-run/react";
 import { redirect } from "@remix-run/server-runtime";
 import { prisma } from "~/db.server";
 import { requireUserId } from "~/session.server";
@@ -6,7 +6,6 @@ import { requireUserId } from "~/session.server";
 export const loader = async ({request, params}: any) => {
     const userId = await requireUserId(request);
     
-
     const taggedQuotes = await prisma.tag.findMany({
         where: {body: params.tagId, bookId: params.bookId },
         include: {
@@ -123,4 +122,27 @@ export default function BookTagId() {
             ))}
         </div>
     )
+}
+
+export function CatchBoundary() {
+    const caught = useCatch();
+    const params = useParams();
+    if (caught.status === 404) {
+      return (
+        <div className='flex flex-col w-64 justify-center py-10 px-6 border border-red-500 text-red-500 rounded-lg text-center'>
+            <p className="text-sm font-semibold tracking-wide truncate">{`Can't find tag ${params.tagId}`}</p>
+        </div>
+      );
+    }
+    throw new Error(`Unhandled error: ${caught.status}`);
+}
+
+export function ErrorBoundary({ error }: { error: Error }) {
+    console.error(error);
+  
+    return (
+        <div className='flex flex-col w-64 justify-center py-10 px-6  border border-red-500 text-red-500 rounded-lg text-center'>
+            <p className="text-sm font-semibold tracking-wide">{`Looks like an error: ${error}`}</p>
+        </div>
+    );
 }

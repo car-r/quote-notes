@@ -21,6 +21,7 @@ import AuthorHomeCard from "~/components/AuthorHomeCard";
 import AddFirstQuoteCard from "~/components/AddFirstQuoteCard";
 import BookHomeCard from "~/components/BookHomeCard";
 import AddBookCard from "~/components/AddBookCard";
+import QuoteErrorBackBtn from "~/components/Buttons/QuoteErrorBackBtn";
 
 ChartJS.register(
   CategoryScale,
@@ -289,3 +290,4 @@ export default function Index() {
    </div>
   );
 }
+
