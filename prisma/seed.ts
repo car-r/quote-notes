@@ -310,9 +310,10 @@ async function seed() {
 
   await prisma.tag.create({
     data: {
-      body: "Hello, world!",
-      userId: user.id,
+      body: "investing",
+      userId: user2.id,
       quoteId: quote1.id,
+      bookId: book.id,
     }
   })
 

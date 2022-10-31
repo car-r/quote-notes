@@ -135,7 +135,7 @@ export default function EditBook() {
 
     console.log('bookId Edit data --> ', data)
     return (
-        <div className="p-4 border-2 border-stone-800 bg-stone-800 rounded-md">
+        <div className="flex flex-col py-6 px-4 border-2 border-stone-800 bg-stone-800 rounded-md max-h-96">
             <div className="flex flex-col gap-4 md:w-80">
             <Form method="post" ref={formRef}>
                 <div className="flex flex-col">
@@ -150,7 +150,7 @@ export default function EditBook() {
                             </svg>
                         }
                     </div> */}
-                    <div className="flex w-full justify-between pb-3">
+                    <div className="flex w-full justify-between pb-4">
                         <Link to={`/books/${data.data.book[0].id}`} className=" hover:text-white">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />

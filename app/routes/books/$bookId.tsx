@@ -1,8 +1,9 @@
-import { Form, Outlet, useActionData, useCatch, useLoaderData, useParams, useTransition } from "@remix-run/react"
+import { Form, NavLink, Outlet, useActionData, useCatch, useLoaderData, useParams, useSearchParams, useTransition } from "@remix-run/react"
 import { Link } from "@remix-run/react"
 import { redirect } from "@remix-run/server-runtime"
 import { Response } from "@remix-run/web-fetch"
 import { useEffect, useRef, useState } from "react"
+import BookIdCard from "~/components/BookIdCard"
 // import BookEditCard from "~/components/BookEditCard"
 import BookBackBtn from "~/components/Buttons/BookBackBtn"
 import BookErrorBackBtn from "~/components/Buttons/BookErrorBackBtn"
@@ -40,6 +41,7 @@ export const loader = async ({params, request}: any) => {
         where: { id: params.bookId },
         include: {
             author: true,
+            tag: true,
             quote: {
                 where: {userId: userId},
                 orderBy: [
@@ -55,6 +57,17 @@ export const loader = async ({params, request}: any) => {
             status: 404,
         })
     }
+
+    const tags = await prisma.tag.groupBy({
+        where: {bookId: params.bookId},
+        by: ['body'],
+        _count: true,
+        orderBy: [{
+            _count: {
+                quoteId: 'desc'
+            }
+        }]
+    })
 
     // const response = await fetch(`https://openlibrary.org/isbn/${data.ISBN}.json`)
     //     .then((response) => response.json())
@@ -97,7 +110,7 @@ export const loader = async ({params, request}: any) => {
     // }
 
     // return {book, quotes, authors, data}
-    return {data}
+    return {data, tags}
 }
 
 export const action = async ({request}: any) => {
@@ -163,6 +176,8 @@ export const action = async ({request}: any) => {
 export default function BookIdRoute() {
     // const [edit, setEdit] = useState(false)
     // const [edit, setEdit] = useState<Edit | false> (false)
+    const params = useParams()
+    console.log('useParams ->', params)
     const data = useLoaderData()
     let transition = useTransition()
     let isAdding = 
@@ -196,8 +211,25 @@ export default function BookIdRoute() {
                 <PageTitle children={book.title} btn={<EditBookBtn  data={data} edit={edit} setEdit={setEdit}/>}/>
             }  */}
             {/* <PageTitle children={`${data.book.title}`}/> */}
+            <div className="flex gap-4 pb-6 mb-6 overflow-auto scrollbar-thin scrollbar-track-stone-800 scrollbar-thumb-stone-700">
+                <Link to={`/books/${data.data.id}`} className={`items-center flex text-xs font-semibold px-4 py-2 rounded-xl  whitespace-nowrap cursor-pointer  ${params.tagId ? 'bg-stone-800 text-stone-400' : 'bg-stone-300 text-stone-800'}`}>
+                    <p  className="">
+                        all
+                    </p>
+                </Link>
+                {data.tags?.map((tag: any) => (
+                    <NavLink to={`/books/${data.data.id}/tags/${tag.body}`} key={tag.id} className={({ isActive }) =>
+                    ` items-center flex text-xs font-semibold px-4 py-2 rounded-xl  whitespace-nowrap cursor-pointer bg-stone-800 hover:bg-stone-700 ${isActive ? "bg-stone-300 text-stone-800 hover:bg-stone-300 " : ""}`
+                    }>
+                        <div key={tag.id} >
+                            <p  className="">{tag.body}</p>
+                        </div>
+                    </NavLink>
+                ))}
+            </div>
             <div className="grid grid-cols-1 md:flex gap-6 ">
-                {book.quote.length < 1 ? 
+                <Outlet />
+                {/* {book.quote.length < 1 ? 
                     <div className="grid grid-cols-1 gap-4 md:gap-6 md:grid-cols-1 lg:grid-cols-2 pb-1">
                         <div className="flex flex-col h-32 justify-center p-4 outline-dashed border border-stone-800 bg-stone-800 rounded-md lg:w-96 ">
                             <p className="text-center">Add your first quote</p>
@@ -237,8 +269,8 @@ export default function BookIdRoute() {
                             </div> 
                         ))}
                     </div>
-                }
-                <div className="flex flex-col md:h-screen md:sticky top-10 gap-6 order-first md:order-last md:ml-auto">
+                } */}
+                <div className="flex flex-col gap-6 order-first md:order-last md:ml-auto">
                     <Form method="post" ref={formRef}
                         className="flex flex-col gap-4 border border-stone-800 bg-stone-800 p-4 rounded-md text-stone-300/60 font-light"
                     >
@@ -280,7 +312,8 @@ export default function BookIdRoute() {
                     </Form>
                     <div>
                         {/* <Outlet context={ [edit, setEdit] }/> */}
-                        <Outlet />
+                        {/* <Outlet /> */}
+                        <BookIdCard data={data}/>
                     </div>
                 </div>
             </div>
