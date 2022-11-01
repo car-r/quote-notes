@@ -5,6 +5,7 @@ import NewAuthorCard from "~/components/NewAuthorCard";
 import { requireUserId } from "~/session.server";
 import PageTitle from "~/components/PageTitle";
 import AuthorBackBtn from "~/components/Buttons/AuthorBackBtn";
+import AuthorErrorBackBtn from "~/components/Buttons/AuthorErrorBackBtn";
 
 export const action = async ({request}: any) => {
     const form = await request.formData()
@@ -59,4 +60,21 @@ export default function NewAuthor() {
             </div>
         </div>
     )
+}
+
+export function ErrorBoundary({ error }: { error: Error }) {
+    console.error(error);
+  
+    return (
+        <div className="flex flex-col pt-6 md:pt-10 md:max-w-5xl pb-6">
+            <PageTitle children={`New Author`} btn={<AuthorErrorBackBtn />}/>
+            <div className="flex flex-col w-full md:grid md:grid-cols-3">
+                <div className="flex flex-col col-span-2 ">
+                    <div className='flex flex-col justify-center py-10 border border-red-500 text-red-500 rounded-lg text-center w-full'>
+                        <p className="text-sm font-semibold tracking-wide">{`Looks like an error: ${error}`}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
 }

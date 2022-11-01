@@ -78,3 +78,15 @@ export default function EditAuthor() {
         </div>
     )
 }
+
+export function ErrorBoundary({ error }: { error: Error }) {
+    console.error(error);
+  
+    return (
+        <div className="flex flex-col pt-6 md:pt-10 md:max-w-5xl pb-6">
+            <div className='flex flex-col justify-center py-10 border border-red-500 text-red-500 rounded-lg text-center w-full'>
+                <p className="text-sm font-semibold tracking-wide">{`Looks like an error: ${error}`}</p>
+            </div>
+        </div>
+    );
+}
