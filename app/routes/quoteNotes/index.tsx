@@ -9,7 +9,7 @@ export const loader = async ({request}: any) => {
     const data = await prisma.quoteNote.findMany({
         where: {userId: userId}
     })
-    // return data
+    return data
 }
 
 export default function QuoteNoteIndex() {
