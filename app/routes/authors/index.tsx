@@ -2,6 +2,7 @@
 import { Link, useLoaderData } from "@remix-run/react"
 import AuthorCard from "~/components/AuthorCard"
 import AddAuthorBtn from "~/components/Buttons/AddAuthorBtn";
+import AuthorErrorBackBtn from "~/components/Buttons/AuthorErrorBackBtn";
 import PageTitle from "~/components/PageTitle"
 import { prisma } from "~/db.server"
 import { requireUserId } from "~/session.server";
@@ -34,4 +35,21 @@ export default function AuthorsIndex() {
             </div>
         </div>
     )
+}
+
+export function ErrorBoundary({ error }: { error: Error }) {
+    console.error(error);
+  
+    return (
+        <div className="flex flex-col pt-6 md:pt-10 md:max-w-5xl pb-6">
+            <PageTitle children={`Author`} btn={<AuthorErrorBackBtn />}/>
+            <div className="flex flex-col w-full md:grid md:grid-cols-3">
+                <div className="flex flex-col col-span-2 ">
+                    <div className='flex flex-col justify-center py-10 border border-red-500 text-red-500 rounded-lg text-center w-full'>
+                        <p className="text-sm font-semibold tracking-wide">{`Looks like an error: ${error}`}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
 }
