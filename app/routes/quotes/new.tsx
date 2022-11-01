@@ -6,6 +6,7 @@ import { requireUserId } from "~/session.server";
 import PageTitle from "~/components/PageTitle";
 import PrimaryActionBtn from "~/components/Buttons/PrimaryActionBtn";
 import ActionDataError from "~/components/ActionDataError";
+import QuoteBackBtn from "~/components/Buttons/QuoteBackBtn";
 
 export const action = async ({request}: any) => {
     const form = await request.formData()
@@ -104,7 +105,7 @@ export default function NewQuote() {
     
     return (
         <div className="flex flex-col pt-6 md:pt-10 md:max-w-5xl pb-6">
-            <PageTitle children={`New Quote`}/>
+            <PageTitle children={`New Quote`} btn={<QuoteBackBtn />}/>
             <div className="flex flex-col w-full md:grid md:grid-cols-3">
                 <Form method="post"
                     ref={formRef}
