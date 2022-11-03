@@ -82,7 +82,7 @@ export const action = async ({request}: any) => {
             data: { authorId: authorId, authorName: authorName }
         })
 
-        return redirect(`/books/${bookId}`)
+        return redirect(`/books`)
 
     }
 

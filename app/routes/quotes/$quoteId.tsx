@@ -204,7 +204,7 @@ export default function QuoteDetail() {
     console.log('quoteId route --> ', quote)
     return (
         <div className="flex flex-col pt-6 md:pt-10 max-w-5xl">
-            <PageTitle children={`Quote`} btn={<QuoteBackBtn  quote={quote} edit={edit} setEdit={setEdit}/>}/>
+            <PageTitle children={`Quote`} btn={<EditQuoteBtn  data={quote} edit={edit} setEdit={setEdit}/>}/>
             {/* {edit ? 
                 <PageTitle children={`Quote`} btn={<QuoteBackBtn  quote={quote} edit={edit} setEdit={setEdit}/>}/>
                 :

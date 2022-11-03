@@ -28,7 +28,7 @@ export const loader = async ({params, request}: any) => {
           }
     })
 
-    // return {author}
+    return {author}
 }
 
 export default function AuthorIdHome() {

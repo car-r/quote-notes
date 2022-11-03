@@ -174,7 +174,7 @@ export const action = async ({request}: any) => {
 // declare function useOutletContext< Context = unknown >(): Context
 
 export default function BookIdRoute() {
-    // const [edit, setEdit] = useState(false)
+    const [edit, setEdit] = useState(false)
     // const [edit, setEdit] = useState<Edit | false> (false)
     const params = useParams()
     console.log('useParams ->', params)
@@ -204,7 +204,7 @@ export default function BookIdRoute() {
     console.log('bookId route --> ', data)
     return (
         <div className="flex flex-col pt-6 md:pt-10 max-w-6xl">
-            <PageTitle children={book.title} btn={<BookBackBtn  data={data} />}/>
+            <PageTitle children={book.title} btn={<EditBookBtn  data={data} />}/>
             {/* {edit ? 
                 <PageTitle children={book.title} btn={<BookBackBtn  data={data} edit={edit} setEdit={setEdit}/>}/>
                 :

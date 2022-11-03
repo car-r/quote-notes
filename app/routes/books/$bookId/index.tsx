@@ -46,9 +46,9 @@ export const loader = async ({params, request}: any) => {
 
 
     // const response = await fetch(`https://openlibrary.org/isbn/${data.ISBN}.json`)
-    // const res = response.json()
-        // .then((response) => response.json())
-        // .then((openLibrary) => console.log(openLibrary))
+    //     .then((response) => response.json())
+    //     .then((response) => console.log('loader response -> ', response))
+
 
     
 

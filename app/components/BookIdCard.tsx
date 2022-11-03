@@ -3,18 +3,18 @@ import { useEffect, useState } from "react";
 
 export default function BookIdCard({data}: any) {
     const [edit, setEdit] = useState(false)
-    // const [openLibData, setOpenLibData] = useState([])
+    const [openLibData, setOpenLibData] = useState([])
+
+    useEffect(() => {
+        
+        fetch(`https://openlibrary.org/isbn/${data.data.ISBN}.json`)
+            .then(response => response.json())
+            .then(response => setOpenLibData(response))
 
 
-    // useEffect(() => {
-    //     fetch(`https://openlibrary.org/isbn/${data.data.ISBN}.json`)
-    //     .then(response => response.json())
-    //     .then(response => setOpenLibData(response))
+    }, [data.data.ISBN])
 
-
-    // }, [data.data.ISBN])
-
-    // console.log('openlib data -> ', openLibData)
+    console.log('openlib data -> ', openLibData)
     return (
         <div className="flex flex-col p-4 bg-stone-800 rounded-lg">
             <div className="flex flex-col pb-3">
