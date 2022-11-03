@@ -83,7 +83,7 @@ export default function AuthorDetail() {
 
     return (
         <div className="flex flex-col pt-6 md:pt-10 max-w-5xl">
-            <PageTitle children={data.author.name} btn={<AuthorBackBtn  data={data} edit={edit} setEdit={setEdit}/>}/>
+            <PageTitle children={data.author.name} btn={<EditAuthorBtn  data={data} />}/>
             {/* {edit ? 
                 <PageTitle children={data.author.name} btn={<AuthorBackBtn  data={data} edit={edit} setEdit={setEdit}/>}/>
                 :

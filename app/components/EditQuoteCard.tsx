@@ -29,7 +29,7 @@ export default function EditQuoteCard({quote, actionData, setEdit, edit}: EditQu
         if (!isUpdating) {
             formRef.current?.reset();
         } else if (isUpdating) {
-            // setEdit(false)
+            setEdit(false)
         }
     },[isUpdating, setEdit, edit])
     console.log('edit quote card props --> ', quote)

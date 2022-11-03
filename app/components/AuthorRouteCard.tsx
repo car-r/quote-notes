@@ -6,7 +6,7 @@ export default function AuthorRouteCard({author}: any) {
     return (
         <div className="flex flex-col rounded-lg w-full items-center border-2 border-stone-800 h-72">
             <div className="bg-stone-800 h-28 w-full p-4 rounded-t-md">
-                <div className="flex text-xs justify-end " onClick={() => setEdit(!edit)}>
+                {/* <div className="flex text-xs justify-end " onClick={() => setEdit(!edit)}>
                     {!edit ? 
                     <Link to={`/authors/${author.author.id}/edit`}>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6 hover:text-white">
@@ -20,7 +20,7 @@ export default function AuthorRouteCard({author}: any) {
                         </svg>
                     </Link>
                     }
-                </div>
+                </div> */}
             </div>
             <img 
                 src={author.author.imgUrl} 
