@@ -1,4 +1,4 @@
-import { Link } from "@remix-run/react";
+import { Link, NavLink } from "@remix-run/react";
 import TopBtn from "./TopBtn";
 
 export default function EditQuoteBtn({data}: any) {
@@ -6,12 +6,19 @@ export default function EditQuoteBtn({data}: any) {
 
     return (
         <>
-            <Link to={`/quotes/${data.quote.id}/edit`} >
-                {/* <div className="text-sm md:text-base px-3 py-1 border-2 border-blue-400 bg-blue-400 hover:bg-blue-500 hover:border-blue-500 text-white rounded text-center cursor-pointer">
-                    Edit Quote
-                </div> */}
+            <NavLink to={`/quotes/${data.quote.id}/edit`} 
+            className={({ isActive }) =>
+            `text-xs xs:text-sm md:text-base px-3 py-2 text-white rounded text-center cursor-pointer border-2 border-stone-600 bg-transparent hover:bg-stone-400/40 hover:border-stone-600 ${isActive ? "bg-stone-400/40 border-stone-600 " : ""}`
+            }
+            >
+
+
+                    
+                    {'Edit Quote'}
+            </NavLink>
+            {/* <Link to={`/quotes/${data.quote.id}/edit`}>
                 <TopBtn children={`Edit Quote`}/>
-            </Link>
+            </Link> */}
         </>
     )
 }
