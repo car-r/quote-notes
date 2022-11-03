@@ -23,7 +23,7 @@ interface Props {
     setEdit: (edit: boolean) => void
 }
 
-export default function EditNoteCard({data,  actionData, setEdit, edit}: EditNote) {
+export default function EditNoteCard({data,  actionData, edit, setEdit}: EditNote) {
     let transition = useTransition()
     let isDeleting = 
         transition.state === "submitting" &&
@@ -42,7 +42,7 @@ export default function EditNoteCard({data,  actionData, setEdit, edit}: EditNot
         if (!isUpdating) {
             formRef.current?.reset();
         } else if (isUpdating) {
-            // setEdit(false)
+            setEdit(false)
         }
     },[isUpdating, setEdit, edit])
     

@@ -16,9 +16,10 @@ export const loader = async ({params}: any) => {
     return {quote}
 }
 
-export const action = async ({ request, params }: any) => {
+export const action = async ({ request, params, quote }: any) => {
     const form = await request.formData()
     const quoteBody = form.get('quoteBody')
+    const bookId = form.get('bookId')
     const date: any = new Date
     const updatedAt = date.toISOString()
     console.log(Object.fromEntries(form))
@@ -53,7 +54,8 @@ export const action = async ({ request, params }: any) => {
 
         const fields = {body}
         await prisma.quote.update({where: {id: params.quoteId}, data: fields})
-        return redirect(`/quotes/${params.quoteId}/edit`)
+        // return redirect(`/quotes/${params.quoteId}`)
+        return redirect(`/books/${bookId}`)
     }
 }
 

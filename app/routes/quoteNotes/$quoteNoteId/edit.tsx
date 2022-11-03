@@ -79,6 +79,7 @@ export default function EditNote() {
     return (
         <div>
             <EditNoteCard data={data} setEdit={setEdit} edit={edit} actionData={actionData}/>
+            {/* <EditNoteCard data={data}  actionData={actionData}/> */}
         </div>
     )
 }

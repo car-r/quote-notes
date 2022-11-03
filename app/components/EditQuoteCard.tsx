@@ -32,7 +32,7 @@ export default function EditQuoteCard({quote, actionData, setEdit, edit}: EditQu
             // setEdit(false)
         }
     },[isUpdating, setEdit, edit])
-    console.log('edit quote card props --> ', setEdit)
+    console.log('edit quote card props --> ', quote)
 
     return (
         <div className="flex flex-col gap-4 bg-stone-800 px-4 pb-4 md:px-10 md:py-6 rounded-xl md:w-full">
@@ -73,6 +73,7 @@ export default function EditQuoteCard({quote, actionData, setEdit, edit}: EditQu
                                 )}
                             </div>
                         </div>
+                        <input hidden name="bookId" defaultValue={quote.quote.bookId}/>
                     </div>
                     <div className="flex flex-col md:flex-row">
                         <div className="flex flex-col">
