@@ -224,7 +224,9 @@ export default function BookIdRoute() {
                 ))}
             </div>
             <div className="grid grid-cols-1 md:flex gap-6 ">
-                <Outlet />
+                <div>
+                    <Outlet />
+                </div>
                 {/* {book.quote.length < 1 ? 
                     <div className="grid grid-cols-1 gap-4 md:gap-6 md:grid-cols-1 lg:grid-cols-2 pb-1">
                         <div className="flex flex-col h-32 justify-center p-4 outline-dashed border border-stone-800 bg-stone-800 rounded-md lg:w-96 ">
