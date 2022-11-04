@@ -2,7 +2,7 @@ import { prisma } from "~/db.server"
 import { requireUserId } from "~/session.server";
 import { Form, Link, useLoaderData } from "@remix-run/react";
 import BookIdCard from "~/components/BookIdCard";
-import { redirect } from "@remix-run/server-runtime";
+import { json, redirect } from "@remix-run/server-runtime";
 
 
 
@@ -44,10 +44,10 @@ export const loader = async ({params, request}: any) => {
     }
 
 
-
     // const response = await fetch(`https://openlibrary.org/isbn/${data.ISBN}.json`)
-    //     .then((response) => response.json())
-    //     .then((response) => console.log('loader response -> ', response))
+    // const res = await response.json()
+        // .then((response) => response.json())
+        // .then((response) => console.log('loader response -> ', response))
 
 
     
@@ -166,7 +166,7 @@ export default function BookIdHome() {
                                     </Form>
                                     <Link to={`/quotes/${quote.id}`} className="flex flex-col flex-1 justify-center py-4 px-5">
                                         <div className=" ">
-                                            <p className="text-lg text-center italic font-semibold">"{quote.body}"</p>
+                                            <p className="text-base text-center italic font-semibold">"{quote.body}"</p>
                                         </div>
                                     </Link>
                                 </div>

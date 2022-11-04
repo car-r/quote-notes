@@ -69,14 +69,10 @@ export const loader = async ({params, request}: any) => {
         }]
     })
 
-    // const response = await fetch(`https://openlibrary.org/isbn/${data.ISBN}.json`)
-    //     .then((response) => response.json())
-    //     .then((openLibrary) => console.log('OL loader --> ',openLibrary))
 
+    const response = await fetch(`https://openlibrary.org/isbn/${data.ISBN}.json`)
+    const res = await response.json()
 
-    // const response = await fetch(`https://openlibrary.org/isbn/${data.ISBN}.json`)
-    // const responseString = await response
-    
 
     // const book = await prisma.book.findUnique({
     //     where: { id: params.bookId },
@@ -110,7 +106,7 @@ export const loader = async ({params, request}: any) => {
     // }
 
     // return {book, quotes, authors, data}
-    return {data, tags}
+    return {data, tags, res}
 }
 
 export const action = async ({request}: any) => {

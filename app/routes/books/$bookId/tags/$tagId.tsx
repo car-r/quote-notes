@@ -114,7 +114,7 @@ export default function BookTagId() {
                         </Form>
                         <Link to={`/quotes/${quote.quoteId}`} className="flex flex-col flex-1 justify-center py-4 px-5">
                             <div className=" ">
-                                <p className="text-lg text-center italic font-semibold">"{quote.quote.body}"</p>
+                                <p className="text-base text-center italic font-semibold">"{quote.quote.body}"</p>
                             </div>
                         </Link>
                     </div>
