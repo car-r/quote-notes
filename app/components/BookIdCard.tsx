@@ -1,26 +1,35 @@
-import { Link } from "@remix-run/react";
+import { Link, useLoaderData } from "@remix-run/react";
+import { json } from "@remix-run/server-runtime";
 import { useEffect, useState } from "react";
 
+// export const loader = async () => {
+//     const res = await fetch(`https://openlibrary.org/isbn/0964385619}.json`)
+//     return json(await res.json());
+// }
+
 export default function BookIdCard({data}: any) {
-    const [edit, setEdit] = useState(false)
-    const [openLibData, setOpenLibData] = useState([])
+    // const [edit, setEdit] = useState(false)
+    // const [openLibData, setOpenLibData] = useState([])
+    // const loader = useLoaderData()
+    // console.log('bookIdCard loader -> ',loader)
 
-    useEffect(() => {
+
+    // useEffect(() => {
         
-        fetch(`https://openlibrary.org/isbn/${data.data.ISBN}.json`)
-            .then(response => response.json())
-            .then(response => setOpenLibData(response))
+    //     fetch(`https://openlibrary.org/isbn/${data.data.ISBN}.json`)
+    //         .then(response => response.json())
+    //         .then(response => setOpenLibData(response))
 
 
-    }, [data.data.ISBN])
+    // }, [data.data.ISBN])
 
-    console.log('openlib data -> ', openLibData)
+    console.log('BookIdCard -> ', data)
     return (
         <div className="flex flex-col p-4 bg-stone-800 rounded-lg">
             <div className="flex flex-col pb-3">
                 <img src={data.data.imgUrl} alt={data.data.title}
                     onError={(e: any) => e.target.src = 'https://neelkanthpublishers.com/assets/bookcover_thumb.png'}
-                    className="object-fit md:max-w-xs relative" />
+                    className="object-fit md:max-w-xs " />
             </div>
              <div>
                 <div className="flex ">
@@ -42,13 +51,27 @@ export default function BookIdCard({data}: any) {
                         </p>
                     </Link>
                 </div>
-                {/* {openLibData ?
-                    <div>
-                        <p>Pages</p>
-                        <p>{openLibData.number_of_pages}</p>
+                {data.res.number_of_pages > 0
+                 ?
+                    <div className="text-sm  mt-3 pt-3">
+                        <div className="grid grid-cols-3 gap-2 px-2 ">
+                            <div className="flex flex-col items-center justify-center border-r border-r-stone-600">
+                                <p className="text-sm font-thin">Pages</p>
+                                <p className="text-xs">{data.res.number_of_pages}</p>
+                            </div>
+                            <div className="flex flex-col items-center justify-center border-r border-r-stone-600">
+                                <p className="text-sm font-thin">Year</p>
+                                <p className="text-xs">{data.res.publish_date}</p>
+                            </div>
+                            <div className="flex flex-col items-center justify-center">
+                                <p className="text-sm font-thin">Publisher</p>
+                                <p className="text-xs">{data.res.publishers[0]}</p>
+                            </div>
+                        </div>
+                        
                     </div>
                 : null
-                } */}
+                }
                 
             </div>
         </div>
