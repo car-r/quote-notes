@@ -34,6 +34,7 @@ export const action = async ({request}: any) => {
     const bookId = form.get('bookId')
     const title = form.get('title')
     const imgUrl = form.get('imgUrl')
+    const ISBN = form.get('ISBN')
     const selectAuthorName = form.get('selectAuthorName')
     console.log(Object.fromEntries(form))
 
@@ -44,7 +45,8 @@ export const action = async ({request}: any) => {
 
         const errors = {
             title: '',
-            imgUrl: ''
+            imgUrl: '',
+            ISBN: ''
         }
 
         function checkTitleName(title: any) {
@@ -67,14 +69,24 @@ export const action = async ({request}: any) => {
 
         validateImageUrl(imgUrl)
 
-        if (errors.title || errors.imgUrl) {
+        const isValidISBN = new RegExp('(ISBN[-]*(1[03])*[ ]*(: ){0,1})*(([0-9Xx][- ]*){13}|([0-9Xx][- ]*){10})')
+
+        const validateISBN = (value: any) => {
+            if (!isValidISBN.test(value)) {
+                return errors.ISBN = `Not a valid ISBN`
+            }
+        }
+
+        if (errors.title || errors.imgUrl || errors.ISBN) {
             const values = Object.fromEntries(form)
             return { errors, values }
         }
 
+        validateISBN(ISBN)
+
         await prisma.book.update({
             where: { id: bookId },
-            data: { title: title, authorId: authorId, imgUrl: imgUrl, authorName: authorName }
+            data: { title: title, authorId: authorId, imgUrl: imgUrl, authorName: authorName, ISBN: ISBN }
         })
 
         await prisma.quote.updateMany({ 
@@ -135,7 +147,8 @@ export default function EditBook() {
 
     console.log('bookId Edit data --> ', data)
     return (
-        <div className="flex flex-col py-6 px-4 border-2 border-stone-800 bg-stone-800 rounded-md max-h-96">
+        <div className="grid grid-cols-1">
+        <div className="flex flex-col py-6 px-4 border-2 border-stone-800 bg-stone-800 rounded-md ">
             <div className="flex flex-col gap-4 md:w-80">
             <Form method="post" ref={formRef}>
                 <div className="flex flex-col">
@@ -176,7 +189,7 @@ export default function EditBook() {
                             <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                         </svg>
                     </button> */}
-                    <div className="flex flex-col gap-6">
+                    <div className="flex flex-col gap-4">
                         <div className="flex flex-col gap-1">
                             <label className="text-sm font-semibold tracking-wider uppercase">
                                 Title
@@ -227,6 +240,25 @@ export default function EditBook() {
                             )} */}
                         </div>
 
+                        <div className="flex flex-col gap-1">
+                            <label className="text-sm font-semibold tracking-wider uppercase">
+                                ISBN
+                            </label>
+                            {actionData?.errors.ISBN ? (
+                                <div className="flex flex-col">
+                                    <ActionDataInput type="text" name="ISBN" defaultValue={data.data.book[0].ISBN}/>
+                                    <ActionDataError children={actionData.errors.ISBN} />
+                                </div>
+                            ) : 
+                                <FormInput type="text" name="ISBN" defaultValue={data.data.book[0].ISBN}/>
+                                
+                            }
+                            {/* <input type="text" name="imgUrl" className="px-2 border border-stone-800 bg-stone-700 rounded" defaultValue={data.data.book[0].imgUrl}/>
+                            {actionData?.errors.imgUrl && (
+                                <ActionDataError children={actionData.errors.imgUrl} />
+                            )} */}
+                        </div>
+
                         <div className="hidden">
                             <input type="hidden" name="bookId" value={data.data.book[0].id}/>
                         </div>
@@ -266,6 +298,7 @@ export default function EditBook() {
                 </div>
             </Form>
             </div>
+        </div>
         </div>
     )
 }

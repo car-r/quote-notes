@@ -51,9 +51,9 @@ export default function BookIdCard({data}: any) {
                         </p>
                     </Link>
                 </div>
-                {data.res.number_of_pages > 0
+                {/* {data.res.number_of_pages > 0
                  ?
-                    <div className="text-sm  mt-3 pt-3">
+                    <div className="text-sm  mt-2 pt-2">
                         <div className="grid grid-cols-3 gap-2 px-2 ">
                             <div className="flex flex-col items-center justify-center border-r border-r-stone-600">
                                 <p className="text-sm font-thin">Pages</p>
@@ -71,7 +71,7 @@ export default function BookIdCard({data}: any) {
                         
                     </div>
                 : null
-                }
+                } */}
                 
             </div>
         </div>
