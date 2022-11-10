@@ -68,11 +68,9 @@ export default function BookIdCard({data}: any) {
                                 <p className="text-xs">{data.res.publishers[0]}</p>
                             </div>
                         </div>
-                        
                     </div>
                 : null
                 } */}
-                
             </div>
         </div>
     )
