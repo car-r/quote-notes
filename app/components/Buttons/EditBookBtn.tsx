@@ -8,7 +8,7 @@ export default function EditBookBtn({data}: any) {
         <>
             <NavLink to={`/books/${data.data.id}/edit`} 
                 className={({ isActive }) =>
-                `text-xs xs:text-sm md:text-base px-3 py-2 text-white rounded text-center cursor-pointer border-2 border-stone-600 bg-transparent hover:bg-stone-400/40 hover:border-stone-600 ${isActive ? "bg-stone-400/40 border-stone-600 " : ""}`
+                `text-xs xs:text-sm md:text-base px-3 py-2 text-stone-300 rounded text-center cursor-pointer border-2 border-stone-600 bg-transparent transition-all hover:ease-in-out hover:bg-stone-300/10 hover:border-stone-400 ${isActive ? "bg-stone-300/10 border-stone-400 " : ""}`
                 }
                 >                    
                 {'Edit Book'}
