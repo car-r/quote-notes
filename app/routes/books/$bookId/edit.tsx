@@ -57,7 +57,6 @@ export const action = async ({request}: any) => {
 
         checkTitleName(title)
 
-
         const isValidImageUrl = new RegExp('(jpe?g|png|gif|bmp|jpg)$')
 
         const validateImageUrl = (value: string) => {
@@ -69,20 +68,22 @@ export const action = async ({request}: any) => {
 
         validateImageUrl(imgUrl)
 
-        const isValidISBN = new RegExp('(ISBN[-]*(1[03])*[ ]*(: ){0,1})*(([0-9Xx][- ]*){13}|([0-9Xx][- ]*){10})')
+        const isValidISBN = new RegExp('(^(97(8|9))?\\d{9}(\\d|X)$)|^$')
 
-        const validateISBN = (value: any) => {
+        const validateISBN = (value: string) => {
             if (!isValidISBN.test(value)) {
                 return errors.ISBN = `Not a valid ISBN`
             }
         }
+
+        validateISBN(ISBN)
 
         if (errors.title || errors.imgUrl || errors.ISBN) {
             const values = Object.fromEntries(form)
             return { errors, values }
         }
 
-        validateISBN(ISBN)
+        
 
         await prisma.book.update({
             where: { id: bookId },
@@ -94,7 +95,7 @@ export const action = async ({request}: any) => {
             data: { authorId: authorId, authorName: authorName }
         })
 
-        return redirect(`/books`)
+        return redirect(`/books/${bookId}`)
 
     }
 
