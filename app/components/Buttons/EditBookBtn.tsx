@@ -1,8 +1,6 @@
-import { Link, NavLink } from "@remix-run/react";
-import TopBtn from "./TopBtn";
+import { NavLink } from "@remix-run/react";
 
 export default function EditBookBtn({data}: any) {
-    console.log('edit Book btn -->', data)
 
     return (
         <>
@@ -13,9 +11,6 @@ export default function EditBookBtn({data}: any) {
                 >                    
                 {'Edit Book'}
             </NavLink>
-            {/* <Link to={`/books/${data.data.id}/edit`} >
-                <TopBtn children={`Edit Book`}/>
-            </Link> */}
         </>
     )
 }

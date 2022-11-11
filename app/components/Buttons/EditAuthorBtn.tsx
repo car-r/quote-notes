@@ -1,8 +1,6 @@
-import { Link, NavLink } from "@remix-run/react"
-import TopBtn from "./TopBtn"
+import { NavLink } from "@remix-run/react"
 
 export default function EditAuthorBtn({data, edit, setEdit}: any) {
-    console.log('edit author btn -->', data, edit)
     return (
         <>
             <NavLink to={`/authors/${data.author.id}/edit`} 
@@ -12,9 +10,6 @@ export default function EditAuthorBtn({data, edit, setEdit}: any) {
                 >                    
                 {'Edit Author'}
             </NavLink>
-            {/* <Link to={`/authors/${data.author.id}/edit`} onClick={() => setEdit(!edit)}>
-                <TopBtn children={`Edit Author`}/>
-            </Link> */}
         </>
     )
 }

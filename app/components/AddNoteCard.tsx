@@ -1,7 +1,10 @@
 import { Form, useTransition } from "@remix-run/react";
 import { useEffect, useRef } from "react";
+import ActionDataError from "./ActionDataError";
+import ActionDataInput from "./ActionDataInput";
 import PrimaryActionBtn from "./Buttons/PrimaryActionBtn";
 import SuccessBtn from "./Buttons/SuccessBtn";
+import FormInput from "./FormInput";
 
 export default function AddNoteCard({quote, actionData, setEdit}: any) {
     // console.log(actionData)
@@ -25,15 +28,15 @@ export default function AddNoteCard({quote, actionData, setEdit}: any) {
         <div className="p-4 bg-stone-800 rounded-lg">
             <Form className="flex flex-col gap-4 " method="post" name="_method" ref={formRef}>
                 <label>
-                <textarea
-                    name="body"
-                    rows={4}
-                    className="w-full text-stone-800 rounded-md border-2 border-stone-800 py-2 px-3 text-md"
-                />
+                    <textarea
+                        name="body"
+                        rows={4}
+                        className="w-full text-stone-800 rounded-md border-2 border-stone-800 py-2 px-3 text-md"
+                    />
+                    {actionData?.errors.noteBody && (
+                    <ActionDataError children={actionData.errors.noteBody}/>
+                    )}
                 </label>
-                {actionData?.errors.noteBody && (
-                    <p className="text-red-400 text-sm mb-2">{actionData.errors.noteBody}</p>
-                )}
                 <input type="hidden" name="authorId" value={quote.quote.authorId}/>
                 <input type="hidden" name="bookId" value={quote.quote.bookId}/>
                 {/* <button name="_method" value="note"
