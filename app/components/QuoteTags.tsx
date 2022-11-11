@@ -1,5 +1,8 @@
 import { Form, useTransition } from "@remix-run/react";
 import { useEffect, useRef } from "react";
+import ActionDataError from "./ActionDataError";
+import ActionDataInput from "./ActionDataInput";
+import FormInput from "./FormInput";
 
 export default function QuoteTags({quote, actionData, setEdit}: any) {
 
@@ -56,11 +59,20 @@ export default function QuoteTags({quote, actionData, setEdit}: any) {
                     </div>
                 </div>
                 <Form className="flex flex-col gap-4 " method="post" name="_method" ref={formRef}>
-                    <label className="text-sm flex flex-col font-semibold tracking-wider uppercase">
-                        <input type="text" name="tagBody" className="px-2 py-1 border border-stone-800 bg-stone-700 rounded" placeholder="enter a tag"/>
-                        {actionData?.errors.tagBody && (
+                    <label className="text-sm flex flex-col font-semibold tracking-wider">
+                        {/* <input type="text" name="tagBody" className="px-2 py-1 border border-stone-800 bg-stone-700 rounded" placeholder="enter a tag"/> */}
+                        {actionData?.errors.tagBody ? (
+                                <div className="flex flex-col">
+                                    <ActionDataInput type="text" name="tagBody" defaultValue={""}/>
+                                    <ActionDataError children={actionData.errors.tagBody} />
+                                </div>
+                            ) : 
+                                <FormInput type="text" name="tagBody" defaultValue={""}/>
+                                
+                            }
+                        {/* {actionData?.errors.tagBody && (
                             <p className="text-red-400 text-sm mb-2">{actionData.errors.tagBody}</p>
-                        )}
+                        )} */}
                     </label>
                     <input hidden name="bookId" value={quote.quote.bookId} />
                     {/* <button name="_method" value="tag"
@@ -69,7 +81,7 @@ export default function QuoteTags({quote, actionData, setEdit}: any) {
                     </button> */}
                     <div className="flex justify-end">
                         <button name="_method" value="tag"
-                            className="rounded text-sm text-center cursor-pointer px-3 py-1 font-base text-white   bg-blue-400/80 hover:bg-blue-600 ">
+                            className="rounded text-sm text-center cursor-pointer px-3 py-1 font-base text-white   bg-blue-400/80 transition-all hover:ease-in-out hover:bg-blue-600 ">
                             {isDeleting ? "Deleting..." : isAddingTag ? "Adding..." : "Add Tag +"}
                         </button>
                     </div>

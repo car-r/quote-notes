@@ -1,5 +1,4 @@
 import { Form, Link } from "@remix-run/react";
-import { useState } from "react";
 
 export default function QuoteCardLarge({quote}: any) {
 

@@ -19,10 +19,12 @@ export const action = async ({request}: any) => {
     const authorId = form.get('authorId')
     const title = form.get('title')
     const imgUrl = form.get('imgUrl')
+    const ISBN = form.get('ISBN')
 
     const errors = {
         title: '',
-        imgUrl: ''
+        imgUrl: '',
+        ISBN: ''
     }
 
     function checkTitleName(title: any) {
@@ -48,7 +50,22 @@ export const action = async ({request}: any) => {
         return { errors, values }
     }
 
-    const fields = { authorId, title, imgUrl, userId }
+    const isValidISBN = new RegExp('(^(97(8|9))?\\d{9}(\\d|X)$)|^$')
+
+    const validateISBN = (value: string) => {
+        if (!isValidISBN.test(value)) {
+            return errors.ISBN = `Not a valid ISBN`
+        }
+    }
+
+    validateISBN(ISBN)
+
+    if (errors.title || errors.imgUrl || errors.ISBN) {
+        const values = Object.fromEntries(form)
+        return { errors, values }
+    }
+
+    const fields = { authorId, title, imgUrl, userId, ISBN }
 
     const book = await prisma.book.create({ data: fields})
     return redirect(`/books/${book.id}`)

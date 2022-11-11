@@ -74,6 +74,24 @@ export default function NewBookCard({data, onAuthorChange,  actionData}: any) {
                             <ActionDataError children={actionData.errors.imgUrl} />
                         )} */}
                     </div>
+                    <div className="flex flex-col gap-1">
+                            <label className="text-sm font-semibold tracking-wider uppercase">
+                                ISBN
+                            </label>
+                            {actionData?.errors.ISBN ? (
+                                <div className="flex flex-col">
+                                    <ActionDataInput type="text" name="ISBN" defaultValue={""}/>
+                                    <ActionDataError children={actionData.errors.ISBN} />
+                                </div>
+                            ) : 
+                                <FormInput type="text" name="ISBN" defaultValue={""}/>
+                                
+                            }
+                            {/* <input type="text" name="imgUrl" className="px-2 border border-stone-800 bg-stone-700 rounded" defaultValue={data.data.book[0].imgUrl}/>
+                            {actionData?.errors.imgUrl && (
+                                <ActionDataError children={actionData.errors.imgUrl} />
+                            )} */}
+                        </div>
                 </div>           
                 <div className="flex flex-col">
                     <button 
