@@ -40,23 +40,34 @@ export default function QuoteCardLarge({quote}: any) {
                 <p className="text-base sm:text-xl text-center pb-6 italic font-semibold my-5 md:my-10">
                     "{quote.quote.body}"
                 </p>
-                <div className="flex">
-                    <img src={quote.quote.author.imgUrl} alt={quote.quote.author.name}
-                    onError={(e: any) => e.target.src = 'https://icon-library.com/images/default-user-icon/default-user-icon-8.jpg'}
-                    className=" w-14 h-14 md:w-20 md:h-20 object-cover mr-4 rounded-full"/>
-                    <div className="text-sm sm:text-base flex flex-col justify-center gap-1">
-                        <p className=" hover:text-stone-100">
-                            <Link to={`/authors/${quote.quote.authorId}`} className="hover:text-stone-100">
-                                {quote.quote.author.name}
-                            </Link>
-                        </p>
-                        <p className="font-thin hover:text-stone-100">
-                            <Link to={`/books/${quote.quote.bookId}`}>
-                                {quote.quote.book.title}
-                            </Link>
-                        </p>
+                <div className="flex justify-between">
+                    <div className="flex">
+                        <img src={quote.quote.author.imgUrl} alt={quote.quote.author.name}
+                        onError={(e: any) => e.target.src = 'https://icon-library.com/images/default-user-icon/default-user-icon-8.jpg'}
+                        className=" w-14 h-14 md:w-20 md:h-20 object-cover mr-4 rounded-full"/>
+                        <div className="text-sm sm:text-base flex flex-col justify-center gap-1">
+                            <p className=" hover:text-stone-100">
+                                <Link to={`/authors/${quote.quote.authorId}`} className="hover:text-stone-100">
+                                    {quote.quote.author.name}
+                                </Link>
+                            </p>
+                            <p className="font-thin hover:text-stone-100">
+                                <Link to={`/books/${quote.quote.bookId}`}>
+                                    {quote.quote.book.title}
+                                </Link>
+                            </p>
+                        </div>
+                    </div>
+                    <div className="flex h-6 mt-auto">
+                        <a href={`https://twitter.com/share?text="${quote.quote.body}" - ${quote.quote.author.name}`}
+                            target="_blank" rel="noreferrer" className="flex gap-1 items-center justify-center px-2 rounded-xl transition-all hover:ease-in-out bg-blue-400 hover:bg-blue-600"
+                        >
+                            <svg className="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" id="IconChangeColor" height="200" width="200"><rect width="256" height="256" fill="none"></rect><path d="M128,88c0-22,18.5-40.3,40.5-40a40,40,0,0,1,36.2,24H240l-32.3,32.3A127.9,127.9,0,0,1,80,224c-32,0-40-12-40-12s32-12,48-36c0,0-64-32-48-120,0,0,40,40,88,48Z" fill="#ffffff" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-width="8" id="mainIconPathAttribute"></path></svg>
+                            <p className="text-xs font-semibold text-white">Tweet</p>
+                        </a>
                     </div>
                 </div>
+                
             </div>
         </div>
     )
