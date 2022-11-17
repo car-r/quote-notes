@@ -1,4 +1,4 @@
-import { Link, useCatch, useLoaderData, useParams } from "@remix-run/react";
+import { Link, useLoaderData } from "@remix-run/react";
 import { redirect } from "@remix-run/server-runtime";
 import PageTitle from "~/components/PageTitle";
 import QuoteIndexCard from "~/components/QuoteIndexCard";
@@ -9,6 +9,7 @@ import { requireUserId } from "~/session.server";
 import AddQuoteBtn from "~/components/Buttons/AddQuoteBtn";
 import FirstQuoteBtn from "~/components/Buttons/FirstQuoteBtn"
 import QuoteErrorBackBtn from "~/components/Buttons/QuoteErrorBackBtn";
+import { useState } from "react";
 
 export const loader = async ({request}: any) => {
     const userId = await requireUserId(request);
@@ -84,6 +85,27 @@ export const action = async ({request}: any) => {
 export default function QuotesIndex() {
     const data = useLoaderData()
     const qouteCount = data.quotes.length
+    const [search, setSearch] = useState('')
+
+    // useEffect(() => {
+    //     console.log('useEffect ran')
+    // }, [search])
+
+    console.log('search state ->', search)
+    const filteredSearch = data.quotes.filter((quote: any) =>
+        quote.body.toLowerCase().includes(search.toLowerCase())
+    )
+
+    // function filterSearch(e) {
+    //     data.quotes.filter((quote) => {
+    //         quote.body.toLowerCase().includes(e.toLowerCase())
+    //     })
+    // }
+
+    const handleChange = (e: any) => {
+        setSearch(e.target.value)
+    }
+    console.log('search state 2->', search)
 
     console.log(data)
     return (
@@ -94,23 +116,40 @@ export default function QuotesIndex() {
                     :
                     <PageTitle children={`Quotes`} btn={<FirstQuoteBtn />}/>
                 }
-                <div className="flex gap-4 pb-6 mb-6 overflow-auto scrollbar-thin scrollbar-track-stone-800 scrollbar-thumb-stone-700">
+                <div className="flex flex-col gap-6  md:flex-row">
+                    <div className="flex gap-2 ">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6 mt-1">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+                        </svg>
+                        <input 
+                            type="text" 
+                            onChange={(e) => handleChange(e)}
+                            placeholder="search quotes"
+                            className="px-2 py-1 w-full md:w-52  border border-stone-700 bg-stone-700 rounded-xl h-8"
+                        />
+                    </div>
+                    <div className="flex gap-4 pb-6 mb-6 overflow-auto scrollbar-thin scrollbar-track-stone-800 scrollbar-thumb-stone-700">
                         <div className="items-center flex text-xs font-semibold px-4 py-2 rounded-xl  whitespace-nowrap cursor-pointer bg-stone-300 text-stone-800">
                             <p  className="">
                                 all
                             </p>
                         </div>
-                    {data.tags.map((tag: any) => (
-                        <Link to={`/quotes/tags/${tag.body}`} key={tag.id}>
-                            <div className="items-center flex text-xs font-semibold px-4 py-2 rounded-xl  whitespace-nowrap cursor-pointer bg-stone-800 hover:bg-stone-700">
-                                <p  className="">{tag.body}</p>
-                                {/* <p>{tag.id}</p> */}
-                            </div>
-                        </Link>
-                    ))}
+                        {data.tags.map((tag: any) => (
+                            <Link to={`/quotes/tags/${tag.body}`} key={tag.id}>
+                                <div className="items-center flex text-xs font-semibold px-4 py-2 rounded-xl  whitespace-nowrap cursor-pointer bg-stone-800 hover:bg-stone-700">
+                                    <p  className="">{tag.body}</p>
+                                    {/* <p>{tag.id}</p> */}
+                                </div>
+                            </Link>
+                        ))}
+                    </div>
                 </div>
+                
                 <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 mb-1">
-                    {data.quotes.map((quote: any) => (
+                    {/* {data.quotes.map((quote: any) => (
+                        <QuoteIndexCard quote={quote} key={quote.id}/>
+                    ))} */}
+                    {filteredSearch.map((quote: any) => (
                         <QuoteIndexCard quote={quote} key={quote.id}/>
                     ))}
                 </div>

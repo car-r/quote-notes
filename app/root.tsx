@@ -11,6 +11,7 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useParams,
 } from "@remix-run/react";
 
 import tailwindStylesheetUrl from "./styles/tailwind.css";
@@ -38,6 +39,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 };
 
 export default function App() {
+
   return (
     <html lang="en" className="h-full">
       <head>
