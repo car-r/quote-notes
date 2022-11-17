@@ -11,7 +11,6 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
-  useParams,
 } from "@remix-run/react";
 
 import tailwindStylesheetUrl from "./styles/tailwind.css";
