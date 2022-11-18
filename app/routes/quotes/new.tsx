@@ -1,5 +1,7 @@
 import { redirect } from "@remix-run/node"
-import { Form, Link, useActionData, useLoaderData, useTransition } from "@remix-run/react"
+import type { ActionFunction, LoaderFunction } from "@remix-run/node";
+import type { Author, Book } from "@prisma/client";
+import { Form, useActionData, useLoaderData, useTransition } from "@remix-run/react"
 import { prisma } from "~/db.server"
 import { useEffect, useRef, useState } from "react"
 import { requireUserId } from "~/session.server";
@@ -7,24 +9,26 @@ import PageTitle from "~/components/PageTitle";
 import PrimaryActionBtn from "~/components/Buttons/PrimaryActionBtn";
 import ActionDataError from "~/components/ActionDataError";
 import QuoteBackBtn from "~/components/Buttons/QuoteBackBtn";
+import { createQuote } from "~/models/quote.server";
 
-export const action = async ({request}: any) => {
+export const action: ActionFunction = async ({request}) => {
     const form = await request.formData()
     const userId = await requireUserId(request);
-    const authorId = form.get('authorId')
-    const body = form.get('body')
-    const bookId = form.get('bookId')
-    const authorName = form.get('authorName')
+    const authorId = form.get('authorId') as string
+    const body = form.get('body') as string
+    const bookId = form.get('bookId') as string
+    // const authorName = form.get('authorName') as string
     console.log(Object.fromEntries(form))
 
-    const fields = { authorId, body, userId, bookId, authorName }
+    // const fields = { authorId, body, userId, bookId, authorName }
+    // const fields = { authorId, body, userId, bookId }
 
     const errors = {
         body: '',
         bookId: ''
     }
 
-    function checkBody(body: any) {
+    function checkBody(body: string) {
         if(!body || body.length < 4) {
             return errors.body = `Quote too short`
         }
@@ -32,7 +36,7 @@ export const action = async ({request}: any) => {
 
     checkBody(body)
 
-    function checkBookId(bookId: any) {
+    function checkBookId(bookId: string) {
         if(bookId === 'nobook') {
             return errors.bookId = `Please create book first`
         }
@@ -45,11 +49,13 @@ export const action = async ({request}: any) => {
         return { errors, values }
     }
 
-    const quote = await prisma.quote.create({ data: fields})
+    // const quote = await prisma.quote.create({ data: fields})
+
+    const quote = await createQuote({ userId, body, authorId, bookId })
     return redirect(`/quotes/${quote.id}`)
 }
 
-export const loader = async ({request}: any) => {
+export const loader: LoaderFunction = async ({request}) => {
     const userId = await requireUserId(request);
     const data = await prisma.user.findUnique({
         where: { id: userId},
@@ -86,11 +92,11 @@ export default function NewQuote() {
     },[isAdding])
 
 
-    function onAuthorChange(e: any) {
-        console.log(e.target.value)
+    function onAuthorChange(e: React.FormEvent<HTMLInputElement>) {
+        console.log(e.currentTarget.value)
         console.log(data.data.authors.length)
         for (const author of data.data.authors) {
-            if (author.id === e.target.value) {
+            if (author.id === e.currentTarget.value) {
                 console.log('its a match on ' + author.name)
                 // setAuthorName(author.name)
                 setAuthorId(author.id)
@@ -128,8 +134,8 @@ export default function NewQuote() {
                         <label className="text-sm font-semibold tracking-wider uppercase">
                             Author
                         </label>
-                        <select name="authorId" className="bg-stone-700 rounded-sm p-1" onChange={onAuthorChange}>
-                            {data.data.authors.map((author: any) => (
+                        <select name="authorId" className="bg-stone-700 rounded-sm p-1" onChange={(e) => onAuthorChange}>
+                            {data.data.authors.map((author: Author) => (
                                 <option key={author.id}  value={author.id}>{author.name}</option>
                             ))}
                         </select>
@@ -139,7 +145,7 @@ export default function NewQuote() {
                             Book
                         </label>
                         <select name="bookId" className="bg-stone-700 rounded-sm p-1">
-                            {data.data.book.filter((book: any) => book.authorId === authorId).map((book: any) =>(
+                            {data.data.book.filter((book: Book) => book.authorId === authorId).map((book: any) =>(
                                 <option key={book.id} value={book.id}>{book.title}</option>
                             ))}
                         </select>
