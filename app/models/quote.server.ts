@@ -80,6 +80,38 @@ export function getSortedQuotes({ userId }: { userId: User["id"] }) {
     });
 }
 
+export function createQuote({
+    body,
+    userId,
+    authorId,
+    bookId
+}: Pick<Quote, "body"> & {
+    userId: User["id"],
+    authorId: Author["id"],
+    bookId: Book["id"],
+}) {
+    return prisma.quote.create({
+        data: {
+            body,
+            user: {
+                connect: {
+                    id: userId,
+                },
+            },
+            book: {
+                connect: {
+                  id: bookId,
+                },
+            },
+            author: {
+                connect: {
+                  id: authorId,
+                },
+            },
+        }
+    })
+}
+
 export function createQuoteNote({
     body,
     userId,
