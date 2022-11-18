@@ -1,4 +1,5 @@
 import { Outlet, useActionData, useCatch, useLoaderData, useParams } from "@remix-run/react";
+import type { ActionFunction, LoaderFunction } from "@remix-run/node";
 import { useEffect, useState } from "react";
 import EditQuoteBtn from "~/components/Buttons/EditQuoteBtn";
 import PageTitle from "~/components/PageTitle";
@@ -13,25 +14,39 @@ import AddNoteCard from "~/components/AddNoteCard";
 import QuoteTags from "~/components/QuoteTags";
 import { redirect } from "@remix-run/server-runtime";
 import QuoteErrorBackBtn from "~/components/Buttons/QuoteErrorBackBtn";
+import { createQuoteNote, deleteQuote, updateQuote } from "~/models/quote.server";
+import { getQuote } from "~/models/quote.server";
+import invariant from "tiny-invariant";
+import { createTag, deleteTag } from "~/models/tag.server";
+import type { Quote } from "~/models/quote.server"
 
-export const loader = async ({params, request}: any) => {
+type LoaderData = {
+    quote: Quote;
+};
+
+
+
+export const loader: LoaderFunction = async ({params, request}) => {
     const userId = await requireUserId(request);
-    const quote = await prisma.quote.findUnique({
-        where: { id: params.quoteId},
-        include: {
-            tag: true, // Return all fields
-            author: true,
-            book: true,
-            note: {
-                orderBy: [
-                    {
-                        createdAt: 'desc'
-                    }
-                ],
+    invariant(params.quoteId, "quoteId not found");
+    // const quote = await prisma.quote.findFirst({
+    //     where: { userId: userId, id: params.quoteId},
+    //     include: {
+    //         tag: true, // Return all fields
+    //         author: true,
+    //         book: true,
+    //         note: {
+    //             orderBy: [
+    //                 {
+    //                     createdAt: 'desc'
+    //                 }
+    //             ],
                 
-            }
-        }
-    })
+    //         }
+    //     }
+    // })
+
+    const quote = await getQuote({ userId, id: params.quoteId })
 
     if (!quote) {
         throw new Response("Can't find quote.", {
@@ -58,26 +73,35 @@ export const loader = async ({params, request}: any) => {
     //     where: {quoteId: params.quoteId}
     // })
     // return {author, quote, book, notes}
-    return {quote}
+    // return {quote}
 }
 
-export const action = async ({ request, params }: any) => {
+type ActionData = {
+    errors?: {
+      body?: string;
+    };
+};
+
+export const action: ActionFunction = async ({ request, params }) => {
     const userId = await requireUserId(request);
+    invariant(params.quoteId, "quoteId not found");
+    
     const form = await request.formData()
-    const formBody = form.get('body')
-    const quoteBody = form.get('quoteBody')
-    const authorId = form.get('authorId')
-    const bookId = form.get('bookId')
-    const id = params.quoteId
-    const isFavorited = form.get('isFavorited')
-    const tagBody = form.get('tagBody')
+    const formBody = form.get('body') as string
+    const quoteBody = form.get('quoteBody') as string
+    const authorId = form.get('authorId') as string
+    const bookId = form.get('bookId') as string
+    const id = params.quoteId as string
+    const isFavorited = form.get('isFavorited') as string
+    const tagBody = form.get('tagBody') as string
     const date: any = new Date
     const updatedAt = date.toISOString()
     console.log(Object.fromEntries(form))
 
     // Action to delete quote
     if(form.get('_method') === 'delete') {
-        await prisma.quote.delete({ where: { id: params.quoteId}})
+        await deleteQuote({ userId, id: params.quoteId });
+        // await prisma.quote.delete({ where: { id: params.quoteId}})
         return redirect('/quotes')
     }
 
@@ -89,7 +113,7 @@ export const action = async ({ request, params }: any) => {
             body: ''
         }
     
-        // validation check to make sure body isn't less than 4 characters
+        // validation check that the body isn't less than 4 characters
         function checkBody(body: any) {
             if(!body || body.length < 4) {
                 return errors.body = `Quote too short`
@@ -103,8 +127,10 @@ export const action = async ({ request, params }: any) => {
             return { errors, values }
         }
 
-        const fields = {body}
-        await prisma.quote.update({where: {id: params.quoteId}, data: fields})
+        // const fields = {body}
+        // await prisma.quote.update({where: {id: params.quoteId}, data: fields})
+        await updateQuote({ userId, id: params.quoteId, body})
+
         return redirect('/quotes')
     }
 
@@ -118,7 +144,7 @@ export const action = async ({ request, params }: any) => {
             noteBody: ''
         }
     
-        function checkBody(body: any) {
+        function checkBody(body: string) {
             if(!body || body.length < 4) {
                 return errors.noteBody = `Note too short`
             }
@@ -131,8 +157,9 @@ export const action = async ({ request, params }: any) => {
             return { errors, values }
         }
 
-        const fields = { body, quoteId, userId, authorId, bookId}
-        await prisma.quoteNote.create({ data: fields })
+        // const fields = { body, quoteId, userId, authorId, bookId}
+        // await prisma.quoteNote.create({ data: fields })
+        await createQuoteNote({body, quoteId, userId, authorId, bookId})
 
         // update the createdAt date when a new note is added to a quote
         await prisma.quote.update({
@@ -154,7 +181,7 @@ export const action = async ({ request, params }: any) => {
 
         const body = oldBody.replace(/\s+/g, '-').toLowerCase()
 
-        function checkBody(body: any) {
+        function checkBody(body: string) {
             if(!body || body.length < 3) {
                 return errors.tagBody = `Tag too short`
             }
@@ -168,18 +195,20 @@ export const action = async ({ request, params }: any) => {
             return { errors, values }
         }
 
-        const fields = {body, quoteId, userId, bookId}
-        await prisma.tag.create({ 
-            data: fields
-        })
+        // const fields = {body, quoteId, userId, bookId}
+        // await prisma.tag.create({ 
+        //     data: fields
+        // })
+        await createTag({body, quoteId, userId, bookId})
         return redirect(`/quotes/${id}`)
     }
     
     // Action to delete tag
     if(form.get('_method') === 'deleteTag') {
-        const values = Object.fromEntries(form)
-        const tagId = form.get('tagId')  
-        await prisma.tag.delete({ where: { id: tagId }})
+        // const values = Object.fromEntries(form)
+        const tagId = form.get('tagId') as string
+        // await prisma.tag.delete({ where: { id: tagId }})
+        await deleteTag({ id: tagId, userId })
         return redirect(`/quotes/${id}`)
     }
 
@@ -197,8 +226,8 @@ export const action = async ({ request, params }: any) => {
 
 
 export default function QuoteDetail() {
-    const quote = useLoaderData()
-    const actionData = useActionData()
+    const quote = useLoaderData() as LoaderData
+    const actionData = useActionData() as ActionData
     const [edit, setEdit] = useState(false)
 
     console.log('quoteId route --> ', quote)
