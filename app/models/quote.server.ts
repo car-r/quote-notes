@@ -48,6 +48,38 @@ export function updateQuote({
     });
 }
 
+export function updateQuoteFavorite({
+    id,
+    userId,
+    isFavorited,
+}: Pick<Quote, "id"> & { userId: User["id"], isFavorited: Quote["isFavorited"] }) {
+    return prisma.quote.updateMany({
+      where: { id, userId },
+      data: {isFavorited}
+    });
+}
+
+export function getSortedQuotes({ userId }: { userId: User["id"] }) {
+    return prisma.quote.findMany({
+        where: { userId },
+        orderBy: [
+            {
+                note: {
+                    _count: 'desc'
+                }
+            },
+            {
+                createdAt: 'desc',
+            },
+        ],
+        include: {
+            tag: true, // Return all fields
+            author: true,
+            book: true,
+        }
+    });
+}
+
 export function createQuoteNote({
     body,
     userId,
