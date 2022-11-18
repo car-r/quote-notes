@@ -88,7 +88,7 @@ export default function NewQuote() {
 
     function onAuthorChange(e: any) {
         console.log(e.target.value)
-        console.log(data.authors.length)
+        console.log(data.data.authors.length)
         for (const author of data.data.authors) {
             if (author.id === e.target.value) {
                 console.log('its a match on ' + author.name)

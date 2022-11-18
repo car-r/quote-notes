@@ -1,37 +1,42 @@
 import { Link, useLoaderData } from "@remix-run/react";
+import type { LoaderFunction, ActionFunction } from "@remix-run/node";
 import { redirect } from "@remix-run/server-runtime";
 import PageTitle from "~/components/PageTitle";
 import QuoteIndexCard from "~/components/QuoteIndexCard";
-
-import { prisma } from "~/db.server";
+import type { Quote, Tag } from "@prisma/client";
+// import { prisma } from "~/db.server";
 import { requireUserId } from "~/session.server";
 
 import AddQuoteBtn from "~/components/Buttons/AddQuoteBtn";
 import FirstQuoteBtn from "~/components/Buttons/FirstQuoteBtn"
 import QuoteErrorBackBtn from "~/components/Buttons/QuoteErrorBackBtn";
 import { useState } from "react";
+import { getSortedQuotes, updateQuoteFavorite } from "~/models/quote.server";
+import { getTagsByGroup, getTagsWithQuotes } from "~/models/tag.server";
 
-export const loader = async ({request}: any) => {
+export const loader: LoaderFunction = async ({request}) => {
     const userId = await requireUserId(request);
-    const quotes = await prisma.quote.findMany(
-        {orderBy: [
-            {
-                note: {
-                    _count: 'desc'
-                }
-            },
-            {
-                createdAt: 'desc',
-            },
-        ],
-        where: {userId: userId},
-        include: {
-            tag: true, // Return all fields
-            author: true,
-            book: true,
-          }
-        }
-    )
+    // const quotes = await prisma.quote.findMany(
+    //     {orderBy: [
+    //         {
+    //             note: {
+    //                 _count: 'desc'
+    //             }
+    //         },
+    //         {
+    //             createdAt: 'desc',
+    //         },
+    //     ],
+    //     where: {userId: userId},
+    //     include: {
+    //         tag: true, // Return all fields
+    //         author: true,
+    //         book: true,
+    //       }
+    //     }
+    // )
+
+    const quotes = await getSortedQuotes({userId})
 
 
     // const authors = await prisma.author.findMany({
@@ -42,43 +47,50 @@ export const loader = async ({request}: any) => {
     // })
 
 
-    const tags = await prisma.tag.groupBy({
-        where: {userId: userId},
-        by: ['body'],
-        _count: true,
-        orderBy: [{
-            _count: {
-                quoteId: 'desc'
-            }
-        }]
-    })
+    // const tags = await prisma.tag.groupBy({
+    //     where: {userId: userId},
+    //     by: ['body'],
+    //     _count: true,
+    //     orderBy: [{
+    //         _count: {
+    //             quoteId: 'desc'
+    //         }
+    //     }]
+    // })
+
+    const tags = await getTagsByGroup({userId})
 
     // const tags = await prisma.tag.findMany({
     //     where: {userId: userId}
     // })
 
 
-    const tagsWithQuotes = await prisma.tag.findMany({
-        where: {userId: userId},
-        include: {
-            quote: true, // Return all fields
-        }
+    // const tagsWithQuotes = await prisma.tag.findMany({
+    //     where: {userId: userId},
+    //     include: {
+    //         quote: true, // Return all fields
+    //     }
         
-    })
+    // })
+
+    const tagsWithQuotes = await getTagsWithQuotes({ userId })
 
     return {quotes, tags, tagsWithQuotes}
 }
 
-export const action = async ({request}: any) => {
+export const action: ActionFunction = async ({request}) => {
+    const userId = await requireUserId(request);
     const form = await request.formData()
-    const id = form.get('id')
-    const isFavorited = form.get('isFavorited')
-    console.log(id + isFavorited)
+    const id = form.get('id') as string
+    const isFavorited = form.get('isFavorited') as string
+    // console.log(id + isFavorited)
 
-    await prisma.quote.update({
-        where: { id: id },
-        data: { isFavorited: isFavorited }
-    })
+    // await prisma.quote.update({
+    //     where: { id: id },
+    //     data: { isFavorited: isFavorited }
+    // })
+
+    await updateQuoteFavorite({ userId, id, isFavorited})
     return redirect('/quotes')
 }
 
@@ -87,12 +99,8 @@ export default function QuotesIndex() {
     const qouteCount = data.quotes.length
     const [search, setSearch] = useState('')
 
-    // useEffect(() => {
-    //     console.log('useEffect ran')
-    // }, [search])
-
-    console.log('search state ->', search)
-    const filteredSearch = data.quotes.filter((quote: any) =>
+    // console.log('search state ->', search)
+    const filteredSearch = data.quotes.filter((quote: Quote) =>
         quote.body.toLowerCase().includes(search.toLowerCase())
     )
 
@@ -102,8 +110,8 @@ export default function QuotesIndex() {
     //     })
     // }
 
-    const handleChange = (e: any) => {
-        setSearch(e.target.value)
+    const handleChange = (e: React.FormEvent<HTMLInputElement>) => {
+        setSearch(e.currentTarget.value)
     }
     console.log('search state 2->', search)
 
@@ -134,7 +142,7 @@ export default function QuotesIndex() {
                                 all
                             </p>
                         </div>
-                        {data.tags.map((tag: any) => (
+                        {data.tags.map((tag: Tag) => (
                             <Link to={`/quotes/tags/${tag.body}`} key={tag.id}>
                                 <div className="items-center flex text-xs font-semibold px-4 py-2 rounded-xl  whitespace-nowrap cursor-pointer bg-stone-800 hover:bg-stone-700">
                                     <p  className="">{tag.body}</p>
@@ -149,7 +157,7 @@ export default function QuotesIndex() {
                     {/* {data.quotes.map((quote: any) => (
                         <QuoteIndexCard quote={quote} key={quote.id}/>
                     ))} */}
-                    {filteredSearch.map((quote: any) => (
+                    {filteredSearch.map((quote: Quote) => (
                         <QuoteIndexCard quote={quote} key={quote.id}/>
                     ))}
                 </div>

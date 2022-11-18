@@ -52,3 +52,25 @@ export function createTag({
         },
     });
 }
+
+export function getTagsByGroup({ userId }: { userId: User["id"] }) {
+    return prisma.tag.groupBy({
+        where: { userId },
+        by: ['body'],
+        _count: true,
+        orderBy: [{
+            _count: {
+                quoteId: 'desc'
+            }
+        }]
+    });
+}
+
+export function getTagsWithQuotes({ userId }: { userId: User["id"]}) {
+    return prisma.tag.findMany({
+        where: { userId },
+        include: {
+            quote: true, // Return all fields
+        }
+    })
+}
