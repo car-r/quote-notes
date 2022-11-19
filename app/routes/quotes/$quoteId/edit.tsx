@@ -25,8 +25,8 @@ export const action: ActionFunction = async ({ request, params }) => {
     const form = await request.formData()
     const quoteBody = form.get('quoteBody') as string
     // const bookId = form.get('bookId') as string
-    const date: any = new Date
-    const updatedAt = date.toISOString()
+    // const date: any = new Date
+    // const updatedAt = date.toISOString()
     console.log(Object.fromEntries(form))
 
     // Action to delete quote
