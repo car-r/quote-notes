@@ -1,8 +1,10 @@
+
 import { Form, Link } from "@remix-run/react";
 
 export default function QuoteCardLarge({quote}: any) {
 
-    console.log('quotecardlarge -->', quote)
+    // console.log('quotecardlarge -->', quote)
+
     return (
         <div className="md:col-span-2">
             <div className="p-4 md:p-10  border border-stone-800 bg-stone-800 rounded-md text-stone-300/60">
@@ -21,7 +23,7 @@ export default function QuoteCardLarge({quote}: any) {
                             </Link>
                         </div> */}
                         <div className="flex flex-col mb-1">
-                        <input type="hidden" name="id" value={quote.id}/>
+                        <input type="hidden" name="id" value={quote.quote.id}/>
                         {quote.quote.isFavorited === "isFavorited" ? <input type="hidden" name="isFavorited" value="notFavorited"/> : <input type="hidden" name="isFavorited" value="isFavorited"/>}
                             <button type="submit" name="_method" value="updateFavorite" className="hover:text-white">
                                 {quote.quote.isFavorited === "isFavorited" ? 
@@ -47,12 +49,12 @@ export default function QuoteCardLarge({quote}: any) {
                         className=" w-14 h-14 md:w-20 md:h-20 object-cover mr-4 rounded-full"/>
                         <div className="text-sm sm:text-base flex flex-col justify-center gap-1">
                             <p className=" hover:text-stone-100">
-                                <Link to={`/authors/${quote.quote.authorId}`} className="hover:text-stone-100">
+                                <Link to={`/authors/${quote.quote.author.id}`} className="hover:text-stone-100">
                                     {quote.quote.author.name}
                                 </Link>
                             </p>
                             <p className="font-thin hover:text-stone-100">
-                                <Link to={`/books/${quote.quote.bookId}`}>
+                                <Link to={`/books/${quote.quote.book.id}`}>
                                     {quote.quote.book.title}
                                 </Link>
                             </p>

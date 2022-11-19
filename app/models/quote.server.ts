@@ -28,6 +28,21 @@ export function getQuote({
     });
 }
 
+export function getQuoteWithAuthorAndBook({
+    id,
+    userId,
+    }: Pick<Quote, "id"> & {
+    userId: User["id"];
+    }) {
+    return prisma.quote.findFirst({
+        where: { id, userId },
+        include: {
+            author: true,
+            book: true,
+        }
+    });
+}
+
 export function deleteQuote({
     id,
     userId,
