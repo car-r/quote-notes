@@ -2,7 +2,7 @@ import { redirect } from "@remix-run/node"
 import type { ActionFunction, LoaderFunction } from "@remix-run/node";
 import type { Author, Book } from "@prisma/client";
 import { Form, useActionData, useLoaderData, useTransition } from "@remix-run/react"
-import { prisma } from "~/db.server"
+// import { prisma } from "~/db.server"
 import { useEffect, useRef, useState } from "react"
 import { requireUserId } from "~/session.server";
 import PageTitle from "~/components/PageTitle";
@@ -10,6 +10,7 @@ import PrimaryActionBtn from "~/components/Buttons/PrimaryActionBtn";
 import ActionDataError from "~/components/ActionDataError";
 import QuoteBackBtn from "~/components/Buttons/QuoteBackBtn";
 import { createQuote } from "~/models/quote.server";
+import { getUserWithBookAndAuthor } from "~/models/user.server";
 
 export const action: ActionFunction = async ({request}) => {
     const form = await request.formData()
@@ -57,13 +58,15 @@ export const action: ActionFunction = async ({request}) => {
 
 export const loader: LoaderFunction = async ({request}) => {
     const userId = await requireUserId(request);
-    const data = await prisma.user.findUnique({
-        where: { id: userId},
-        include: {
-            authors: true, // Return all fields
-            book: true,
-        }
-    })
+    // const data = await prisma.user.findUnique({
+    //     where: { id: userId},
+    //     include: {
+    //         authors: true, // Return all fields
+    //         book: true,
+    //     }
+    // })
+
+    const data = await getUserWithBookAndAuthor( userId )
     // const authors = await prisma.author.findMany({where: {userId: userId}})
     // const users = await prisma.user.findMany()
     // const book = await prisma.book.findMany({where: {userId: userId}})
@@ -145,7 +148,7 @@ export default function NewQuote() {
                             Book
                         </label>
                         <select name="bookId" className="bg-stone-700 rounded-sm p-1">
-                            {data.data.book.filter((book: Book) => book.authorId === authorId).map((book: any) =>(
+                            {data.data.book.filter((book: Book) => book.authorId === authorId).map((book: Book) =>(
                                 <option key={book.id} value={book.id}>{book.title}</option>
                             ))}
                         </select>
