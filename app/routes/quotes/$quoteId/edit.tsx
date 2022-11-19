@@ -1,11 +1,14 @@
 import EditQuoteCard from "~/components/EditQuoteCard";
+import type { LoaderFunction, ActionFunction } from "@remix-run/node";
 
 import { useActionData, useLoaderData, useOutletContext } from "@remix-run/react"
 import { prisma } from "~/db.server"
 import { requireUserId } from "~/session.server";
 import { redirect } from "@remix-run/node";
+import { updateQuote } from "~/models/quote.server";
+import invariant from "tiny-invariant";
 
-export const loader = async ({params}: any) => {
+export const loader: LoaderFunction = async ({params}) => {
     const quote = await prisma.quote.findUnique({
         where: { id: params.quoteId},
         include: {
@@ -16,10 +19,12 @@ export const loader = async ({params}: any) => {
     return {quote}
 }
 
-export const action = async ({ request, params, quote }: any) => {
+export const action: ActionFunction = async ({ request, params }) => {
+    const userId = await requireUserId(request);
+    invariant(params.quoteId, "quoteId not found");
     const form = await request.formData()
-    const quoteBody = form.get('quoteBody')
-    const bookId = form.get('bookId')
+    const quoteBody = form.get('quoteBody') as string
+    // const bookId = form.get('bookId') as string
     const date: any = new Date
     const updatedAt = date.toISOString()
     console.log(Object.fromEntries(form))
@@ -32,14 +37,14 @@ export const action = async ({ request, params, quote }: any) => {
 
     // Action to update quote
     if(form.get('_method') === 'update') {
-        const body = quoteBody
+        const body = quoteBody.trim()
 
         const errors = {
             body: ''
         }
     
         // validation check to make sure body isn't less than 4 characters
-        function checkBody(body: any) {
+        function checkBody(body: string) {
             if(!body || body.length < 4) {
                 return errors.body = `Quote too short`
             }
@@ -52,8 +57,9 @@ export const action = async ({ request, params, quote }: any) => {
             return { errors, values }
         }
 
-        const fields = {body}
-        await prisma.quote.update({where: {id: params.quoteId}, data: fields})
+        // const fields = {body}
+        // await prisma.quote.update({where: {id: params.quoteId}, data: fields})
+        await updateQuote({ userId, id: params.quoteId, body})
         // return redirect(`/quotes/${params.quoteId}`)
         return redirect(`/quotes/${params.quoteId}`)
     }

@@ -3,19 +3,30 @@ import { requireUserId } from "~/session.server"
 import { redirect } from "@remix-run/server-runtime";
 import { useActionData, useLoaderData } from "@remix-run/react";
 import QuoteCardLarge from "~/components/QuoteCardLarge";
+import { getQuoteWithAuthorAndBook } from "~/models/quote.server";
+import invariant from "tiny-invariant";
 // import AddNoteCard from "~/components/AddNoteCard";
 // import QuoteTags from "~/components/QuoteTags";
 
 export const loader = async ({params, request}: any) => {
     const userId = await requireUserId(request)
-    const quote = await prisma.quote.findUnique({
-        where: { id: params.quoteId},
-        include: {
-            tag: true, // Return all fields
-            author: true,
-            book: true,
-        }
-    })
+    invariant(params.quoteId, "quoteId not found");
+    // const quote = await prisma.quote.findUnique({
+    //     where: { id: params.quoteId},
+    //     include: {
+    //         tag: true, // Return all fields
+    //         author: true,
+    //         book: true,
+    //     }
+    // })
+
+    const quote = await getQuoteWithAuthorAndBook({ userId, id: params.quoteId })
+
+    if (!quote) {
+        throw new Response("Can't find quote.", {
+            status: 404,
+        })
+    }
 
     return {quote}
 }
