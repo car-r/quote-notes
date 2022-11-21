@@ -1,14 +1,18 @@
+import type { LoaderFunction, ActionFunction } from "@remix-run/node";
 import { prisma } from "~/db.server"
 import { requireUserId } from "~/session.server";
-import { Form, Link, useLoaderData } from "@remix-run/react";
+import { Form, Link, useLoaderData, useOutletContext } from "@remix-run/react";
 import BookIdCard from "~/components/BookIdCard";
 import { json, redirect } from "@remix-run/server-runtime";
+import { getBook } from "~/models/book.sever";
+import invariant from "tiny-invariant";
+import { updateQuoteFavorite } from "~/models/quote.server";
+import type { Quote } from "@prisma/client";
 
 
-
-export const loader = async ({params, request}: any) => {
+export const loader: LoaderFunction = async ({params, request}) => {
     const userId = await requireUserId(request);
-
+    invariant(params.bookId, "bookId not found");
     // const data = await prisma.book.findUnique({
     //     where: {id: params.bookId},
     //     include: {
@@ -22,21 +26,24 @@ export const loader = async ({params, request}: any) => {
     //     })
     // }
 
-    const data = await prisma.book.findUnique({
-        where: { id: params.bookId },
-        include: {
-            author: true,
-            tag: true,
-            quote: {
-                where: {userId: userId},
-                orderBy: [
-                    {
-                        createdAt: 'desc'
-                    }
-                ]
-            }
-        }
-    })
+    // const data = await prisma.book.findUnique({
+    //     where: { id: params.bookId },
+    //     include: {
+    //         author: true,
+    //         tag: true,
+    //         quote: {
+    //             where: {userId: userId},
+    //             orderBy: [
+    //                 {
+    //                     createdAt: 'desc'
+    //                 }
+    //             ]
+    //         }
+    //     }
+    // })
+
+    const data = await getBook({ userId, id: params.bookId })
+
     if (!data) {
         throw new Response("Can't find book.", {
             status: 404,
@@ -74,16 +81,17 @@ export const loader = async ({params, request}: any) => {
     return {data}
 }
 
-export const action = async ({request}: any) => {
+export const action: ActionFunction = async ({request, params}) => {
     const userId = await requireUserId(request);
+    // invariant(params.bookId, "bookId not found");
     const form = await request.formData()
-    const authorId = form.get('authorId')
+    const authorId = form.get('authorId') as string
     // const selectAuthorId = form.get('selectAuthorId')
-    const body = form.get('body')
-    const bookId = form.get('bookId')
-    const authorName = form.get('authorName')
-    const id = form.get('id')
-    const isFavorited = form.get('isFavorited')
+    const oldyBody = form.get('body') as string
+    const bookId = params.bookId as string
+    const authorName = form.get('authorName') as string
+    const id = form.get('id') as string
+    const isFavorited = form.get('isFavorited') as string
     // const title = form.get('title')
     // const imgUrl = form.get('imgUrl')
     // const selectAuthorName = form.get('selectAuthorName')
@@ -92,17 +100,19 @@ export const action = async ({request}: any) => {
 
     // Action to create Quote
     if(form.get('_method') === 'create') {
+        const body = oldyBody.trim()
         const errors = {
             body: '',
         }
 
-        function checkBody(body: any) {
+        function checkBody(body: string) {
             if(!body || body.length < 4) {
                 return errors.body = `Quote too short`
             }
         }
     
         checkBody(body)
+
 
         if (errors.body) {
             const values = Object.fromEntries(form)
@@ -118,11 +128,13 @@ export const action = async ({request}: any) => {
 
     // Action to update if Quote is favorited
     if (form.get('_method') !== 'create') {
-        await prisma.quote.update({
-            where: { id: id },
-            data: { isFavorited: isFavorited }
-        })
-            return redirect(`/books/${bookId}`)
+        // await prisma.quote.update({
+        //     where: { id: id },
+        //     data: { isFavorited: isFavorited }
+        // })
+
+        await updateQuoteFavorite({ userId, id, isFavorited})
+        return redirect(`/books/${bookId}`)
     }
 }
 
@@ -130,6 +142,10 @@ export default function BookIdHome() {
     const data = useLoaderData()
     const book = data.data
     console.log('bookId index --> ', data)
+    const [search]: string = useOutletContext()
+    const filteredSearch = book.quote.filter((quote: Quote) =>
+        quote.body.toLowerCase().includes(search.toLowerCase())
+    )
     return (
         <div>
             {/* <BookIdCard data={data}/> */}
@@ -141,7 +157,7 @@ export default function BookIdHome() {
                     </div> 
                     : 
                     <div className="grid grid-cols-1 gap-4 md:gap-6 md:grid-cols-1 md:grid-flow-row md:auto-rows-max lg:grid-cols-2 pb-1">
-                        {book.quote.map((quote: any) => (
+                        {filteredSearch.map((quote: Quote) => (
                             <div key={quote.id} className="flex flex-col p-4 border border-stone-800 bg-stone-800 rounded-md text-stone-300/60 hover:ring-2 hover:ring-blue-400 hover:text-stone-100 min-w-[165px]">
                                 <div className="flex flex-col min-h-full">
                                     <Form method="post">

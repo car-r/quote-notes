@@ -1,9 +1,11 @@
-import { Outlet } from "@remix-run/react";
+import { Outlet, useOutletContext } from "@remix-run/react";
 
 export default function BookTagIndex() {
+    const [search]: string = useOutletContext()
+    // console.log('booktagindex seach ->', search)
     return (
         <div>
-            <Outlet />
+            <Outlet context={[search]}/>
         </div>
     )
 }
