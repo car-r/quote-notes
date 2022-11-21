@@ -5,7 +5,7 @@ import { getSortedQuotes, updateQuoteFavorite } from "~/models/quote.server";
 import { requireUserId } from "~/session.server";
 import type { Quote } from "@prisma/client";
 import QuoteIndexCard from "~/components/QuoteIndexCard";
-import { useContext, useState } from "react";
+// import { useContext, useState } from "react";
 
 export const loader: LoaderFunction = async ({request}) => {
     const userId = await requireUserId(request);

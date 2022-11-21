@@ -14,6 +14,7 @@ import PrimaryActionBtn from "~/components/Buttons/PrimaryActionBtn"
 import PageTitle from "~/components/PageTitle"
 import { prisma } from "~/db.server"
 import { requireUserId } from "~/session.server";
+import type { Quote } from "@prisma/client";
 
 export const loader = async ({params, request}: any) => {
     const userId = await requireUserId(request);
@@ -114,7 +115,7 @@ export const action = async ({request}: any) => {
     const form = await request.formData()
     const authorId = form.get('authorId')
     // const selectAuthorId = form.get('selectAuthorId')
-    const body = form.get('body')
+    const quoteBody = form.get('body')
     const bookId = form.get('bookId')
     const authorName = form.get('authorName')
     const id = form.get('id')
@@ -127,6 +128,7 @@ export const action = async ({request}: any) => {
 
     // Action to create Quote
     if(form.get('_method') === 'create') {
+        const body = quoteBody.trim()
         const errors = {
             body: '',
         }
@@ -197,6 +199,23 @@ export default function BookIdRoute() {
         }
     },[isAdding])
 
+    const [search, setSearch] = useState('')
+
+    // console.log('search state ->', search)
+    // const filteredSearch = data.data.quote.filter((quote: Quote) =>
+    //     quote.body.toLowerCase().includes(search.toLowerCase())
+    // )
+
+    // function filterSearch(e) {
+    //     data.quotes.filter((quote) => {
+    //         quote.body.toLowerCase().includes(e.toLowerCase())
+    //     })
+    // }
+
+    const handleChange = (e: React.FormEvent<HTMLInputElement>) => {
+        setSearch(e.currentTarget.value)
+    }
+
     console.log('bookId route --> ', data)
     return (
         <div className="flex flex-col pt-6 md:pt-10 max-w-6xl">
@@ -207,25 +226,41 @@ export default function BookIdRoute() {
                 <PageTitle children={book.title} btn={<EditBookBtn  data={data} edit={edit} setEdit={setEdit}/>}/>
             }  */}
             {/* <PageTitle children={`${data.book.title}`}/> */}
-            <div className="flex gap-4 pb-6 mb-6 overflow-auto scrollbar-thin scrollbar-track-stone-800 scrollbar-thumb-stone-700">
-                <Link to={`/books/${data.data.id}`} className={`items-center flex text-xs font-semibold px-4 py-2 rounded-xl  whitespace-nowrap cursor-pointer  ${params.tagId ? 'bg-stone-800 text-stone-400' : 'bg-stone-300 text-stone-800'}`}>
-                    <p  className="">
-                        all
-                    </p>
-                </Link>
-                {data.tags?.map((tag: any) => (
-                    <NavLink to={`/books/${data.data.id}/tags/${tag.body}`} key={tag.id} className={({ isActive }) =>
-                    ` items-center flex text-xs font-semibold px-4 py-2 rounded-xl  whitespace-nowrap cursor-pointer bg-stone-800 hover:bg-stone-700 ${isActive ? "bg-stone-300 text-stone-800 hover:bg-stone-300 " : ""}`
-                    }>
-                        <div key={tag.id} >
-                            <p  className="">{tag.body}</p>
-                        </div>
-                    </NavLink>
-                ))}
+            <div className="flex flex-col gap-6  md:flex-row">
+                <div className="flex gap-2 h-8 ">
+                    <label htmlFor="search" className="flex bg-stone-700 rounded-xl pl-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6 mt-1 ">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+                        </svg>
+                        <input 
+                            type="text" 
+                            onChange={(e) => handleChange(e)}
+                            placeholder="search quotes"
+                            className="px-2 py-1 ml-1 w-full md:w-52  border border-stone-700 bg-stone-700 rounded-xl "
+                            
+                        />
+                    </label>
+                </div>
+                <div className="flex gap-4 pb-6 mb-6 overflow-auto scrollbar-thin scrollbar-track-stone-800 scrollbar-thumb-stone-700">
+                    <Link to={`/books/${data.data.id}`} className={`items-center flex text-xs font-semibold px-4 py-2 rounded-xl  whitespace-nowrap cursor-pointer  ${params.tagId ? 'bg-stone-800 text-stone-400' : 'bg-stone-300 text-stone-800'}`}>
+                        <p  className="">
+                            all
+                        </p>
+                    </Link>
+                    {data.tags?.map((tag: any) => (
+                        <NavLink to={`/books/${data.data.id}/tags/${tag.body}`} key={tag.id} className={({ isActive }) =>
+                        ` items-center flex text-xs font-semibold px-4 py-2 rounded-xl  whitespace-nowrap cursor-pointer bg-stone-800 hover:bg-stone-700 ${isActive ? "bg-stone-300 text-stone-800 hover:bg-stone-300 " : ""}`
+                        }>
+                            <div key={tag.id} >
+                                <p  className="">{tag.body}</p>
+                            </div>
+                        </NavLink>
+                    ))}
+                </div>
             </div>
             <div className="grid grid-cols-1 md:flex gap-6 ">
                 <div>
-                    <Outlet />
+                    <Outlet context={[search]}/>
                 </div>
                 {/* {book.quote.length < 1 ? 
                     <div className="grid grid-cols-1 gap-4 md:gap-6 md:grid-cols-1 lg:grid-cols-2 pb-1">
