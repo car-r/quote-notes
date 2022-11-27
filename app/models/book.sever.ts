@@ -26,3 +26,12 @@ export function getBook({
         }
     });
 }
+
+export function deleteBook({
+    id,
+    userId,
+    }: Pick<Book, "id"> & { userId: User["id"] }) {
+    return prisma.book.deleteMany({
+        where: { id, userId },
+    });
+}
