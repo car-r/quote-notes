@@ -1,4 +1,4 @@
-import { Link, useActionData, useLoaderData, useOutletContext, useTransition } from "@remix-run/react"
+import { Link, useActionData, useLoaderData, useTransition } from "@remix-run/react"
 import { prisma } from "~/db.server"
 import { requireUserId } from "~/session.server";
 import { redirect } from "@remix-run/node";
@@ -8,8 +8,11 @@ import UpdateBtn from "~/components/Buttons/UpdateBtn";
 import ActionDataError from "~/components/ActionDataError";
 import ActionDataInput from "~/components/ActionDataInput";
 import FormInput from "~/components/FormInput";
+import type { LoaderFunction, ActionFunction } from "@remix-run/node";
+import { deleteBook } from "~/models/book.sever";
+import invariant from "tiny-invariant";
 
-export const loader = async ({params, request}: any) => {
+export const loader: LoaderFunction = async ({params, request}) => {
     const userId = await requireUserId(request);
     const data = await prisma.user.findUnique({
         where: { id: userId },
@@ -28,14 +31,16 @@ export const loader = async ({params, request}: any) => {
     return {data}
 }
 
-export const action = async ({request}: any) => {
+export const action: ActionFunction = async ({request, params}) => {
+    const userId = await requireUserId(request);
+    invariant(params.bookId, "bookId not found");
     const form = await request.formData()
-    const selectAuthorId = form.get('selectAuthorId')
-    const bookId = form.get('bookId')
-    const title = form.get('title')
-    const imgUrl = form.get('imgUrl')
-    const ISBN = form.get('ISBN')
-    const selectAuthorName = form.get('selectAuthorName')
+    const selectAuthorId = form.get('selectAuthorId') as string
+    const bookId = form.get('bookId') as string
+    const title = form.get('title') as string
+    const imgUrl = form.get('imgUrl') as string
+    const ISBN = form.get('ISBN') as string
+    const selectAuthorName = form.get('selectAuthorName') as string
     console.log(Object.fromEntries(form))
 
     // Action to update Book
@@ -57,6 +62,7 @@ export const action = async ({request}: any) => {
 
         checkTitleName(title)
 
+
         const isValidImageUrl = new RegExp('(jpe?g|png|gif|bmp|jpg)$')
 
         const validateImageUrl = (value: string) => {
@@ -68,22 +74,20 @@ export const action = async ({request}: any) => {
 
         validateImageUrl(imgUrl)
 
-        const isValidISBN = new RegExp('(^(97(8|9))?\\d{9}(\\d|X)$)|^$')
+        const isValidISBN = new RegExp('(ISBN[-]*(1[03])*[ ]*(: ){0,1})*(([0-9Xx][- ]*){13}|([0-9Xx][- ]*){10})')
 
-        const validateISBN = (value: string) => {
+        const validateISBN = (value: any) => {
             if (!isValidISBN.test(value)) {
                 return errors.ISBN = `Not a valid ISBN`
             }
         }
-
-        validateISBN(ISBN)
 
         if (errors.title || errors.imgUrl || errors.ISBN) {
             const values = Object.fromEntries(form)
             return { errors, values }
         }
 
-        
+        validateISBN(ISBN)
 
         await prisma.book.update({
             where: { id: bookId },
@@ -95,13 +99,14 @@ export const action = async ({request}: any) => {
             data: { authorId: authorId, authorName: authorName }
         })
 
-        return redirect(`/books/${bookId}`)
+        return redirect(`/books`)
 
     }
 
     // Action to delete Book
     if(form.get('_method') === 'deleteBook') {
-        await prisma.book.delete({where: {id: bookId}})
+        // await prisma.book.delete({where: {id: bookId}})
+        await deleteBook({ userId, id: params.bookId })
         return redirect(`/books`)
     }
 
@@ -289,7 +294,7 @@ export default function EditBook() {
                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                                 </svg>
-                            {isDeleting ? "Deleting..." : "Delete Author"}
+                            {isDeleting ? "Deleting..." : "Delete Book"}
                         </button> 
                         }
                         {/* <button type="submit" name="_method" value="update" disabled={isUpdating || isDeleting} className="flex " >
