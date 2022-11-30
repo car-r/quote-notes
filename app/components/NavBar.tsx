@@ -3,14 +3,14 @@ import { requireUserId } from "~/session.server";
 
 export const loader = async ( {request}: any ) => {
     const userId = await requireUserId(request);
-
     return {userId}
 
 }
 
 export default function NavBar({toggle, isOpen}: any) {
     const data = useLoaderData()
-    console.log('sidebar data ->', data)
+    console.log('navbar data ->', data)
+    console.log((data.user === null ? 'true' : 'false'))
 
     const links = [
         {title: 'Quotes', route: '/quotes', icon: <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
@@ -25,11 +25,12 @@ export default function NavBar({toggle, isOpen}: any) {
         {title: 'Notes', route: '/quoteNotes', icon: <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
         <path strokeLinecap="round" strokeLinejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
     </svg>},
-        {title: data.user.email, route: '/quotes', icon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="w-6 h-6">
+        {title: data.user.email , route: '/quotes', icon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="w-6 h-6">
         <path strokeLinecap="round" strokeLinejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" />
       </svg>
       },
     ]
+
     
     return (
         <div className="block sticky top-0 bg-stone-900/90 w-full lg:hidden">

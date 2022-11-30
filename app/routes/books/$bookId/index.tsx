@@ -2,8 +2,8 @@ import type { LoaderFunction, ActionFunction } from "@remix-run/node";
 import { prisma } from "~/db.server"
 import { requireUserId } from "~/session.server";
 import { Form, Link, useLoaderData, useOutletContext } from "@remix-run/react";
-import BookIdCard from "~/components/BookIdCard";
-import { json, redirect } from "@remix-run/server-runtime";
+// import BookIdCard from "~/components/BookIdCard";
+import { redirect } from "@remix-run/server-runtime";
 import { getBook } from "~/models/book.sever";
 import invariant from "tiny-invariant";
 import { updateQuoteFavorite } from "~/models/quote.server";
