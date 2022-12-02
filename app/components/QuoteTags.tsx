@@ -62,14 +62,13 @@ export default function QuoteTags({quote, actionData, setEdit}: any) {
                     <label className="text-sm flex flex-col font-semibold tracking-wider">
                         {/* <input type="text" name="tagBody" className="px-2 py-1 border border-stone-800 bg-stone-700 rounded" placeholder="enter a tag"/> */}
                         {actionData?.errors.tagBody ? (
-                                <div className="flex flex-col">
-                                    <ActionDataInput type="text" name="tagBody" defaultValue={""}/>
-                                    <ActionDataError children={actionData.errors.tagBody} />
-                                </div>
-                            ) : 
-                                <FormInput type="text" name="tagBody" defaultValue={""}/>
-                                
-                            }
+                            <div className="flex flex-col">
+                                <ActionDataInput type="text" name="tagBody" defaultValue={""}/>
+                                <ActionDataError children={actionData.errors.tagBody} />
+                            </div>
+                        )   : 
+                            <FormInput type="text" name="tagBody" defaultValue={""}/>         
+                        }
                         {/* {actionData?.errors.tagBody && (
                             <p className="text-red-400 text-sm mb-2">{actionData.errors.tagBody}</p>
                         )} */}
