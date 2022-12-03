@@ -3,13 +3,13 @@ import { Link } from "@remix-run/react";
 export default function Pricing() {
     return (
         <>
-            <div className="flex w-full py-28">
+            <div className="flex w-full py-36">
                 <div className="px-4 mx-auto max-w-7xl">
                     <h2 className="text-4xl text-stone-200 font-thin text-center pb-10">Pricing Plans</h2>
                     <div className="grid grid-cols 1 gap-10 md:grid-cols-3">
                         <div className="flex flex-col gap-8 p-6 border border-stone-700 rounded-xl max-w-md">
                             <h4 className="text-xl font-semibold text-blue-400">Free</h4>
-                            <p className="text-5xl font-bold text-stone-50">$0<span className="ml-1 font-semibold text-2xl text-stone-500">/mo</span></p>
+                            <p className="text-5xl font-bold text-stone-50">$0<span className="ml-1 font-semibold text-2xl text-stone-500">/month</span></p>
                             <p className="text-stone-500">Free forever. Keep 5 books in your library with the free plan. Upgrade at any time.</p>
                             <div className="">
                                 <ul className="flex flex-col gap-4">
@@ -33,13 +33,13 @@ export default function Pricing() {
                                     </li>
                                 </ul>
                             </div>
-                            <Link to="/join" className="mt-auto bg-blue-400 text-stone-900 w-full rounded flex flex-col py-2 transition-all ease-in-out hover:bg-blue-600">
+                            <Link to="/join" className="mt-auto border border-stone-200 bg-transparent text-stone-200 w-full rounded flex flex-col py-2 transition-all ease-in-out hover:bg-blue-600">
                                 <button className="font-bold">Join Now</button>
                             </Link>
                         </div>
                         <div className="flex flex-col gap-8 p-6  md:scale-105 border border-stone-700 rounded-xl max-w-md bg-white">
                             <h4 className="text-xl font-semibold text-blue-400">Pro</h4>
-                            <p className="text-5xl font-bold text-stone-900">$5<span className="ml-1 font-semibold text-2xl text-stone-900">/mo</span></p>
+                            <p className="text-5xl font-bold text-stone-900">$5<span className="ml-1 font-semibold text-2xl text-stone-900">/month</span></p>
                             <p className="text-stone-800">For the never ending learner. Keep 50 books in your library with 100 quotes for each book.</p>
                             <div className="">
                                 <ul className="flex flex-col gap-4">
@@ -76,7 +76,7 @@ export default function Pricing() {
                         </div>
                         <div className="flex flex-col gap-8 p-6 border border-stone-700 rounded-xl max-w-md">
                             <h4 className="text-xl font-semibold text-blue-400">Elite</h4>
-                            <p className="text-5xl font-bold text-stone-50">$9<span className="ml-1 font-semibold text-2xl text-stone-500">/mo</span></p>
+                            <p className="text-5xl font-bold text-stone-50">$9<span className="ml-1 font-semibold text-2xl text-stone-500">/month</span></p>
                             <p className="text-stone-500">For the ultimate bookworm. Keep unlimited books in your library with unlimited quotes.</p>
                             <div className="">
                                 <ul className="flex flex-col gap-4">
@@ -107,7 +107,7 @@ export default function Pricing() {
                                 </ul>
                             </div>
                             
-                            <Link to="/join" className="mt-auto bg-blue-400 text-stone-900 w-full rounded flex flex-col py-2 transition-all ease-in-out hover:bg-blue-600">
+                            <Link to="/join" className="mt-auto border border-stone-200 bg-transparent text-stone-200 w-full rounded flex flex-col py-2 transition-all ease-in-out hover:bg-blue-600">
                                 <button className="font-bold">Join Now</button>
                             </Link>
                         </div>
