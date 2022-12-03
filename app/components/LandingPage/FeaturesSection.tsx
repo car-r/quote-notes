@@ -1,9 +1,9 @@
 export default function FeaturesSection() {
     return (
         <>
-            <div className="py-28 bg-stone-800">
+            <div className="py-40 bg-stone-800">
                 <div className="px-4 mx-auto max-w-7xl">
-                    <h2 className="text-4xl text-stone-200 font-thin text-center pb-10">Stunning Features</h2>
+                    <h2 className="text-4xl text-stone-200 font-thin text-center pb-10">Features</h2>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
                         <div className="flex flex-col border border-stone-700 rounded-xl p-6">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1" stroke="currentColor" className="text-blue-400 w-12 h-12 mb-1">
