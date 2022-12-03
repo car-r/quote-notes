@@ -1,7 +1,9 @@
+import Blog from "~/components/LandingPage/Blog";
 import FeaturesSection from "~/components/LandingPage/FeaturesSection";
 import HeroSection from "~/components/LandingPage/HeroSection";
 import NavBar from "~/components/LandingPage/NavBar";
 import Pricing from "~/components/LandingPage/Pricing";
+import Reviews from "~/components/LandingPage/Reviews";
 
 export default function Home() {
     return (
@@ -11,6 +13,8 @@ export default function Home() {
                 <HeroSection />
                 <FeaturesSection />
                 <Pricing />
+                <Reviews />
+                <Blog />
             </div>
         </>
     )
