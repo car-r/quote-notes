@@ -11,6 +11,7 @@ import { getUserId, createUserSession } from "~/session.server";
 
 import { createUser, getUserByEmail } from "~/models/user.server";
 import { safeRedirect, validateEmail } from "~/utils";
+import NavBar from "~/components/LandingPage/NavBar";
 
 export const loader: LoaderFunction = async ({ request }) => {
   const userId = await getUserId(request);
@@ -92,9 +93,11 @@ export default function Join() {
   }, [actionData]);
 
   return (
+    <>
+    <NavBar />
     <div className="flex min-h-screen flex-col justify-center">
       <div className="mx-auto w-full max-w-md px-8">
-        <Form method="post" className="space-y-6">
+        <Form method="post" className="space-y-6 -mt-40">
           <div>
             <label
               htmlFor="email"
@@ -173,5 +176,6 @@ export default function Join() {
         </Form>
       </div>
     </div>
+    </>
   );
 }

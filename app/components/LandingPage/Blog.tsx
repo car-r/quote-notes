@@ -2,7 +2,7 @@ export default function Blog() {
     return (
         <>
             <div className="flex flex-col w-full py-36 bg-stone-900">
-                <div className="mx-auto max-w-5xl ">
+                <div className="mx-auto max-w-5xl px-4">
                     <h2 className="text-4xl text-stone-200 font-thin text-center pb-10">The Blog</h2>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                         <div className="flex flex-col rounded-lg">
