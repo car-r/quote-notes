@@ -48,6 +48,17 @@ export const action = async ({ request, params }: any) => {
         }
     
         checkEmail(email)
+
+        const isValidEmail = new RegExp('^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$')
+
+        const validateEmail = (value: string) => {
+            if (!isValidEmail.test(value)) {
+                return errors.email = `Not a valid email`
+            }
+        
+        }
+
+        validateEmail(email)
     
         if (errors.email) {
             const values = Object.fromEntries(form)
