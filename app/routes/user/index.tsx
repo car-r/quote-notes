@@ -1,8 +1,6 @@
-import type { LoaderFunction, ActionFunction } from "@remix-run/node";
-import { Outlet, useLoaderData } from "@remix-run/react";
+import type { LoaderFunction } from "@remix-run/node";
+import { useLoaderData } from "@remix-run/react";
 import moment from "moment";
-import EditUserBtn from "~/components/Buttons/EditUserBtn";
-import PageTitle from "~/components/PageTitle";
 import { getUserById } from "~/models/user.server";
 import { requireUserId } from "~/session.server";
 

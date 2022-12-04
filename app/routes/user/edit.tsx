@@ -1,7 +1,8 @@
 
 import ActionDataInput from "~/components/ActionDataInput";
-import { LoaderFunction, ActionFunction, redirect } from "@remix-run/node";
-import { Form, Link, Outlet, useActionData, useLoaderData, useTransition } from "@remix-run/react";
+import { json, redirect } from "@remix-run/node";
+import type { LoaderFunction } from "@remix-run/node";
+import { Form, Link, useActionData, useLoaderData, useTransition } from "@remix-run/react";
 
 import { getUserById } from "~/models/user.server";
 import { requireUserId } from "~/session.server";
@@ -9,8 +10,8 @@ import ActionDataError from "~/components/ActionDataError";
 import FormInput from "~/components/FormInput";
 import { prisma } from "~/db.server"
 import { useEffect, useRef } from "react";
-import UpdateBtn from "~/components/Buttons/UpdateBtn";
 import PrimaryActionBtn from "~/components/Buttons/PrimaryActionBtn";
+import { validateEmail } from "~/utils";
 
 export const loader: LoaderFunction = async ({request}) => {
     const userId = await requireUserId(request);
@@ -18,18 +19,18 @@ export const loader: LoaderFunction = async ({request}) => {
     return {user}
 }
 
-type ActionData = {
-    errors?: {
-      email?: string;
-    };
-};
+// type ActionData = {
+//     errors?: {
+//       email?: string;
+//     };
+// };
 
 export const action = async ({ request, params }: any) => {
     const userId = await requireUserId(request);
     const form = await request.formData()
     const email = form.get('email')
-    const date: any = new Date
-    const updatedAt = date.toISOString()
+    // const date: any = new Date
+    // const updatedAt = date.toISOString()
     console.log(Object.fromEntries(form))
 
 
@@ -49,16 +50,24 @@ export const action = async ({ request, params }: any) => {
     
         checkEmail(email)
 
-        const isValidEmail = new RegExp('^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$')
 
-        const validateEmail = (value: string) => {
-            if (!isValidEmail.test(value)) {
-                return errors.email = `Not a valid email`
-            }
+        // const isValidEmail = new RegExp('[\w-]+@([\w-]+\.)+[\w-]+')
+
+        // const validateEmail = (value: string) => {
+        //     if (!isValidEmail.test(value)) {
+        //         return errors.email = `Not a valid email`
+        //     }
         
-        }
+        // }
 
-        validateEmail(email)
+        // validateEmail(email)
+
+        if (!validateEmail(email)) {
+            return json(
+              { errors: { email: "Email is invalid" } },
+              { status: 400 }
+            );
+          }
     
         if (errors.email) {
             const values = Object.fromEntries(form)
@@ -67,7 +76,6 @@ export const action = async ({ request, params }: any) => {
 
         const fields = {email}
         await prisma.user.update({where: {id: userId}, data: fields})
-        // return redirect(`/quoteNotes/${params.quoteNoteId}`)
         return redirect(`/user`)
     }
 }
@@ -87,7 +95,7 @@ export default function EditUser() {
         if (!isUpdating) {
             formRef.current?.reset();
         }
-    }, [])
+    }, [isUpdating])
 
     return (
         <div className="flex flex-col gap-1 bg-stone-800 p-4 rounded-lg max-w-2xl">
@@ -105,13 +113,10 @@ export default function EditUser() {
                 {actionData?.errors.email ? (
                     <div className="flex flex-col">
                         <ActionDataInput type="text" name="email" defaultValue={user.user.email} />
-                        {/* <input type="text" name="name" className="px-2 py-1 border border-red-400 bg-stone-800 rounded" defaultValue={data.data.name}/> */}
-                        {/* <p className="text-red-400 text-sm">{actionData.errors.name}</p> */}
                         <ActionDataError children={actionData.errors.email}/>
                     </div>
                 ) : 
                     <FormInput type="text" name="email" defaultValue={user.user.email}/>
-                    // <input type="text" name="name" className="px-2 py-1 border border-stone-800 bg-stone-800 rounded w-full" defaultValue={data.data.name}/>
                 }
                 <button type="submit" name="_method" value="update" disabled={isUpdating} className="pt-6">
                     <PrimaryActionBtn children={isUpdating ? "Updating..." : "Update User"}/>                                

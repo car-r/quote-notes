@@ -70,7 +70,7 @@ export default function Pricing() {
                                 </ul>
                             </div>
                             
-                            <Link to="/join" className="mt-auto bg-blue-400 text-stone-900 w-full rounded flex flex-col py-2 transition-all ease-in-out hover:bg-blue-600">
+                            <Link to="/join" className="mt-auto bg-blue-400 text-stone-900 w-full rounded flex flex-col py-2 transition-all ease-in-out hover:bg-blue-600 hover:text-white">
                                 <button className="font-bold">Join Now</button>
                             </Link>
                         </div>

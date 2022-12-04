@@ -1,4 +1,4 @@
-import type { LoaderFunction, ActionFunction } from "@remix-run/node";
+import type { LoaderFunction } from "@remix-run/node";
 import { Outlet, useLoaderData } from "@remix-run/react";
 import EditUserBtn from "~/components/Buttons/EditUserBtn";
 import PageTitle from "~/components/PageTitle";
