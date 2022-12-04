@@ -14,14 +14,14 @@ import {
 // import { Bar } from 'react-chartjs-2';
 import AddAuthorCard from "~/components/AddAuthorCard";
 import AddQuoteCard from "~/components/AddQuoteCard";
-import AddContentCard from "~/components/AddContentCard";
+// import AddContentCard from "~/components/AddContentCard";
 import PageTitle from "~/components/PageTitle";
 import QuoteSmallCard from "~/components/QuoteSmallCard";
 import AuthorHomeCard from "~/components/AuthorHomeCard";
 import AddFirstQuoteCard from "~/components/AddFirstQuoteCard";
 import BookHomeCard from "~/components/BookHomeCard";
 import AddBookCard from "~/components/AddBookCard";
-import QuoteErrorBackBtn from "~/components/Buttons/QuoteErrorBackBtn";
+// import QuoteErrorBackBtn from "~/components/Buttons/QuoteErrorBackBtn";
 
 ChartJS.register(
   CategoryScale,
@@ -144,37 +144,37 @@ export default function Index() {
   const authorList = data.groupQuotes.map((author: any) => (author.name))
   const quoteCountList = data.groupQuotes.map((quote: any) => (quote._count.quote))
   console.log('main index route -> ', data, authorList, quoteCountList)
-  const options = {
-    responsive: true,
-    plugins: {
-      legend: {
-        display: false,
-        position: 'top' as const,
-        labels: {
-          // This more specific font property overrides the global property
-          font: {
-              size: 12
-          }
-        }
-      },
-      title: {
-        display: true,
-        text: 'Quotes By Author',
-        font: {
-          size: 16
-      }
-      }
-    }
-  }
-  const barData = {
-    labels: authorList,
-    datasets: [{label: '# of Quotes',
-      data: quoteCountList,
-      backgroundColor: 'rgba(255, 99, 132, 0.5)',
-      borderWidth: 1,
-      maxBarThickness: 75
-    }]
-  }
+  // const options = {
+  //   responsive: true,
+  //   plugins: {
+  //     legend: {
+  //       display: false,
+  //       position: 'top' as const,
+  //       labels: {
+  //         // This more specific font property overrides the global property
+  //         font: {
+  //             size: 12
+  //         }
+  //       }
+  //     },
+  //     title: {
+  //       display: true,
+  //       text: 'Quotes By Author',
+  //       font: {
+  //         size: 16
+  //     }
+  //     }
+  //   }
+  // }
+  // const barData = {
+  //   labels: authorList,
+  //   datasets: [{label: '# of Quotes',
+  //     data: quoteCountList,
+  //     backgroundColor: 'rgba(255, 99, 132, 0.5)',
+  //     borderWidth: 1,
+  //     maxBarThickness: 75
+  //   }]
+  // }
   return (
     <>
       {!data.userData ? <div>Home Page</div> : 

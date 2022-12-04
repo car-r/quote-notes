@@ -1,6 +1,4 @@
 import { Link, NavLink } from "@remix-run/react";
-import LoginBtn from "../Buttons/LoginBtn";
-import PrimaryActionBtn from "../Buttons/PrimaryActionBtn";
 
 export default function NavBar() {
     return (
@@ -10,13 +8,20 @@ export default function NavBar() {
                     <p className="text-xl md:text-2xl font-extrabold hover:text-stone-100">QuoteNotes</p>
                 </Link>
                 <ul className="flex gap-4 md:gap-10 items-center text-sm md:text-base">
-                    <NavLink to="/blog">
+                    <NavLink to="/blog"
+                        className={({ isActive }) =>
+                        ` hover:text-blue-400 ${isActive ? "text-blue-400" : ""}`
+                        }
+                    >
                         Blog
                     </NavLink>
-                    <Link to="/login">
-                        {/* <LoginBtn children="Login"/> */}
+                    <NavLink to="/login"
+                        className={({ isActive }) =>
+                        ` hover:text-blue-400 ${isActive ? "text-blue-400" : ""}`
+                        }
+                    >
                         Login
-                    </Link>
+                    </NavLink>
                     <Link to="/join" className="">
                         <button className="px-3 py-1 md:px-5 md:py-2 font-bold text-stone-900 rounded-sm border border-blue-400 bg-blue-400 transition-all ease-in-out hover:bg-blue-600 hover:border-blue-600 hover:text-white">
                             Join

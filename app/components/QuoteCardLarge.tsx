@@ -10,18 +10,6 @@ export default function QuoteCardLarge({quote}: any) {
             <div className="p-4 md:p-10  border border-stone-800 bg-stone-800 rounded-md text-stone-300/60">
                 <Form method="post">
                     <div onClick={() => console.log('clicked')} className="flex justify-end mb-1">
-                        {/* <div className="flex text-xs justify-end " >
-                            <Link to={`/quotes/${quote.quote.id}/edit`}>
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6 hover:text-white">
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125" />
-                                </svg>
-                            </Link>
-                            <Link to={`/quotes/${quote.quote.id}/edit`}>
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
-                                </svg>
-                            </Link>
-                        </div> */}
                         <div className="flex flex-col mb-1">
                         <input type="hidden" name="id" value={quote.quote.id}/>
                         {quote.quote.isFavorited === "isFavorited" ? <input type="hidden" name="isFavorited" value="notFavorited"/> : <input type="hidden" name="isFavorited" value="isFavorited"/>}
@@ -64,7 +52,7 @@ export default function QuoteCardLarge({quote}: any) {
                         <a href={`https://twitter.com/share?text="${quote.quote.body}" - ${quote.quote.author.name}`}
                             target="_blank" rel="noreferrer" className="flex gap-1 items-center justify-center px-2 rounded-xl transition-all hover:ease-in-out bg-blue-400 hover:bg-blue-600"
                         >
-                            <svg className="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" id="IconChangeColor" height="200" width="200"><rect width="256" height="256" fill="none"></rect><path d="M128,88c0-22,18.5-40.3,40.5-40a40,40,0,0,1,36.2,24H240l-32.3,32.3A127.9,127.9,0,0,1,80,224c-32,0-40-12-40-12s32-12,48-36c0,0-64-32-48-120,0,0,40,40,88,48Z" fill="#ffffff" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-width="8" id="mainIconPathAttribute"></path></svg>
+                            <svg className="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" id="IconChangeColor" height="200" width="200"><rect width="256" height="256" fill="none"></rect><path d="M128,88c0-22,18.5-40.3,40.5-40a40,40,0,0,1,36.2,24H240l-32.3,32.3A127.9,127.9,0,0,1,80,224c-32,0-40-12-40-12s32-12,48-36c0,0-64-32-48-120,0,0,40,40,88,48Z" fill="#ffffff" stroke="#ffffff" strokeLinecap="round" strokeLinejoin="round" strokeWidth="8" id="mainIconPathAttribute"></path></svg>
                             <p className="text-xs font-semibold text-white">Tweet</p>
                         </a>
                     </div>

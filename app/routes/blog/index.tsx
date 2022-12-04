@@ -1,5 +1,5 @@
 import { json } from "@remix-run/node";
-import { Link, Outlet, useLoaderData } from "@remix-run/react";
+import { Link, useLoaderData } from "@remix-run/react";
 import * as postA from "./5-tips-to-remember-what-you-read.mdx"
 
 function postFromModule(mod: any) {

@@ -3,8 +3,8 @@ import { Link } from "@remix-run/react";
 export default function HeroSection() {
     return (
         <>
-            <div className="flex flex-col w-full py-32 text-stone-200">
-                <div className="flex flex-col lg:flex-row gap-4 mx-auto px-4 max-w-6xl">
+            <div className="flex flex-col w-full py-32 text-stone-100">
+                <div className="flex flex-col lg:flex-row gap-10 mx-auto px-4 max-w-6xl">
                     <div className="">
                         <h1 className="text-5xl md:text-7xl font-bold max-w-xl mb-4">Remember everything you read.</h1>
                         <p className="text-xl md:text-2xl font-light max-w-2xl mb-6 text-transparent bg-clip-text bg-gradient-to-r from-cyan-600 to-blue-500">
@@ -37,7 +37,7 @@ export default function HeroSection() {
                         <div className="hidden lg:inline-block bg-stone-700/70 mt-1 w-32 h-10 skew-y-12 rotate-2 rounded"></div>
                         <div className="hidden lg:inline-block bg-stone-700/70 mt-1 w-48 h-2 skew-y-12 rotate-2 rounded"></div>
                     </div>
-                    <div className="flex flex-col mx-auto items-center mt-20">
+                    <div className="flex flex-col mx-auto items-center mt-10">
                         <img
                             className="lg:hidden p-3 rounded-2xl bg-stone-700/70 border border-stone-700 max-w-md skew-y-12 rotate-2 max-h-96 md:max-h-[32rem]" 
                             src="herosection-mobile-image.jpg" alt="display of the quotenotes application"

@@ -1,5 +1,4 @@
-import { Link, NavLink } from "@remix-run/react";
-import TopBtn from "./TopBtn";
+import { NavLink } from "@remix-run/react";
 
 export default function EditQuoteBtn() {
     // console.log('edit quote btn -->', data)
