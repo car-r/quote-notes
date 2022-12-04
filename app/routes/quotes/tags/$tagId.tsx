@@ -1,15 +1,27 @@
-import { useCatch, useLoaderData, useParams } from "@remix-run/react";
+import { useCatch, useLoaderData, useOutletContext, useParams } from "@remix-run/react";
 import { redirect } from "@remix-run/server-runtime";
 import QuoteCardTagId from "~/components/QuoteCardTagId";
 
 import { prisma } from "~/db.server";
 import { requireUserId } from "~/session.server";
+import type { Quote } from "@prisma/client";
+
+export type Tag = {
+    body: string;
+    bookId: string;
+    id: string;
+    quote: {
+        body: string
+        isFavorited: string
+    }
+
+}
 
 export const loader = async ({request, params}: any) => {
     const userId = await requireUserId(request);
 
     const taggedQuotes = await prisma.tag.findMany({
-        where: {body: params.tagId},
+        where: {body: params.tagId, userId: userId},
         include: {
             quote: {
                 select: {
@@ -50,13 +62,22 @@ export const action = async ({request, params}: any) => {
 
 export default function QuotesIndex() {
     const data = useLoaderData()
+    const [search]: string = useOutletContext()
+    console.log('taggedQuotes data',data)
+    console.log('search outlet-> ', search)
 
+    const filteredSearch = data.taggedQuotes.filter((quote: Tag) =>
+        quote.quote.body.toLowerCase().includes(search.toLowerCase())
+    )
     console.log('$tagId route --> ', data)
 
     return (
         <>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-                {data.taggedQuotes.map((quote: any) => (
+                {/* {data.taggedQuotes.map((quote: any) => (
+                    <QuoteCardTagId quote={quote} key={quote.id}/>
+                ))} */}
+                {filteredSearch.map((quote: Quote) => (
                     <QuoteCardTagId quote={quote} key={quote.id}/>
                 ))}
             </div>
