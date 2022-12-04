@@ -1,3 +1,4 @@
+import Footer from "~/components/Footer";
 import Blog from "~/components/LandingPage/Blog";
 import FeaturesSection from "~/components/LandingPage/FeaturesSection";
 import HeroSection from "~/components/LandingPage/HeroSection";
@@ -15,6 +16,7 @@ export default function Home() {
                 <Pricing />
                 <Reviews />
                 <Blog />
+                <Footer />
             </div>
         </>
     )

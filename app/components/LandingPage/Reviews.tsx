@@ -2,7 +2,7 @@ export default function Reviews() {
 
     return (
         <>
-            <div className="flex flex-col w-full py-32 bg-stone-100 text-stone-900">
+            <div className="flex flex-col w-full py-32 bg-stone-800 text-stone-900">
                 <div className="px-4 flex gap-6 max-w-[90rem] mx-auto">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <div className="flex flex-col p-6 gap-4 border border-white bg-white rounded-xl shadow-md">
