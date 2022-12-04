@@ -1,0 +1,111 @@
+
+import ActionDataInput from "~/components/ActionDataInput";
+import { LoaderFunction, ActionFunction, redirect } from "@remix-run/node";
+import { Form, Link, Outlet, useActionData, useLoaderData, useTransition } from "@remix-run/react";
+
+import { getUserById } from "~/models/user.server";
+import { requireUserId } from "~/session.server";
+import ActionDataError from "~/components/ActionDataError";
+import FormInput from "~/components/FormInput";
+import { prisma } from "~/db.server"
+import { useEffect, useRef } from "react";
+import UpdateBtn from "~/components/Buttons/UpdateBtn";
+import PrimaryActionBtn from "~/components/Buttons/PrimaryActionBtn";
+
+export const loader: LoaderFunction = async ({request}) => {
+    const userId = await requireUserId(request);
+    const user = await getUserById(userId)
+    return {user}
+}
+
+type ActionData = {
+    errors?: {
+      email?: string;
+    };
+};
+
+export const action = async ({ request, params }: any) => {
+    const userId = await requireUserId(request);
+    const form = await request.formData()
+    const email = form.get('email')
+    const date: any = new Date
+    const updatedAt = date.toISOString()
+    console.log(Object.fromEntries(form))
+
+
+    // Action to update quote
+    if(form.get('_method') === 'update') {
+
+        const errors = {
+            email: ''
+        }
+    
+        // validation check to make sure body isn't less than 4 characters
+        function checkEmail(body: any) {
+            if(!email || email.length < 4) {
+                return errors.email = `Email too short`
+            }
+        }
+    
+        checkEmail(email)
+    
+        if (errors.email) {
+            const values = Object.fromEntries(form)
+            return { errors, values }
+        }
+
+        const fields = {email}
+        await prisma.user.update({where: {id: userId}, data: fields})
+        // return redirect(`/quoteNotes/${params.quoteNoteId}`)
+        return redirect(`/user`)
+    }
+}
+
+export default function EditUser() {
+    const user = useLoaderData()
+    const actionData = useActionData()
+    const formRef = useRef<HTMLFormElement>(null)
+
+    let transition = useTransition()
+
+    let isUpdating = 
+        transition.state === "submitting" &&
+        transition.submission.formData.get("_method") === "update"
+
+    useEffect(() => {
+        if (!isUpdating) {
+            formRef.current?.reset();
+        }
+    }, [])
+
+    return (
+        <div className="flex flex-col gap-1 bg-stone-800 p-4 rounded-lg max-w-2xl">
+            <Form method="post"
+                ref={formRef} 
+                className="flex flex-col w-full gap-1">
+                <Link to={`/user`} className="hover:text-white flex w-full justify-end">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </Link>
+                <label className="text-sm font-semibold tracking-wider uppercase">
+                    email
+                </label>
+                {actionData?.errors.email ? (
+                    <div className="flex flex-col">
+                        <ActionDataInput type="text" name="email" defaultValue={user.user.email} />
+                        {/* <input type="text" name="name" className="px-2 py-1 border border-red-400 bg-stone-800 rounded" defaultValue={data.data.name}/> */}
+                        {/* <p className="text-red-400 text-sm">{actionData.errors.name}</p> */}
+                        <ActionDataError children={actionData.errors.email}/>
+                    </div>
+                ) : 
+                    <FormInput type="text" name="email" defaultValue={user.user.email}/>
+                    // <input type="text" name="name" className="px-2 py-1 border border-stone-800 bg-stone-800 rounded w-full" defaultValue={data.data.name}/>
+                }
+                <button type="submit" name="_method" value="update" disabled={isUpdating} className="pt-6">
+                    <PrimaryActionBtn children={isUpdating ? "Updating..." : "Update User"}/>                                
+                </button> 
+            </Form>
+        </div>
+    )
+}
