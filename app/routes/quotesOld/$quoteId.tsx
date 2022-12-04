@@ -141,7 +141,7 @@ export const action = async ({ request, params }: any) => {
             return { errors, values }
         }
 
-        const fields = {body, quoteId, userId}
+        const fields = {body, quoteId, userId, bookId}
         await prisma.tag.create({ 
             data: fields
         })
