@@ -1,11 +1,11 @@
-import { Form, NavLink, Outlet, useActionData, useCatch, useLoaderData, useParams, useSearchParams, useTransition } from "@remix-run/react"
+import { Form, NavLink, Outlet, useActionData, useCatch, useLoaderData, useParams, useTransition } from "@remix-run/react"
 import { Link } from "@remix-run/react"
 import { redirect } from "@remix-run/server-runtime"
 import { Response } from "@remix-run/web-fetch"
 import { useEffect, useRef, useState } from "react"
 import BookIdCard from "~/components/BookIdCard"
 // import BookEditCard from "~/components/BookEditCard"
-import BookBackBtn from "~/components/Buttons/BookBackBtn"
+// import BookBackBtn from "~/components/Buttons/BookBackBtn"
 import BookErrorBackBtn from "~/components/Buttons/BookErrorBackBtn"
 import EditBookBtn from "~/components/Buttons/EditBookBtn"
 import PrimaryActionBtn from "~/components/Buttons/PrimaryActionBtn"
@@ -14,8 +14,8 @@ import PrimaryActionBtn from "~/components/Buttons/PrimaryActionBtn"
 import PageTitle from "~/components/PageTitle"
 import { prisma } from "~/db.server"
 import { requireUserId } from "~/session.server";
-import type { Quote } from "@prisma/client";
-import { getBook } from "~/models/book.sever"
+// import type { Quote } from "@prisma/client";
+// import { getBook } from "~/models/book.sever"
 
 export const loader = async ({params, request}: any) => {
     const userId = await requireUserId(request);
@@ -169,7 +169,7 @@ export const action = async ({request}: any) => {
 
 
 export default function BookIdRoute() {
-    const [edit, setEdit] = useState(false)
+    // const [edit, setEdit] = useState(false)
     // const [edit, setEdit] = useState<Edit | false> (false)
     const params = useParams()
     console.log('useParams ->', params)
