@@ -3,8 +3,9 @@ import { redirect } from "@remix-run/server-runtime";
 import { prisma } from "~/db.server";
 import { requireUserId } from "~/session.server";
 import type { Quote } from "@prisma/client";
+import type { LoaderFunction, ActionFunction } from "@remix-run/node";
 
-export const loader = async ({request, params}: any) => {
+export const loader: LoaderFunction = async ({request, params}) => {
     const userId = await requireUserId(request);
     
     const taggedQuotes2 = await prisma.tag.findMany({
@@ -50,21 +51,21 @@ export const loader = async ({request, params}: any) => {
     
 }
 
-export const action = async ({request, params}: any) => {
+export const action: ActionFunction = async ({request, params}) => {
     const userId = await requireUserId(request);
     const form = await request.formData()
-    const authorId = form.get('authorId')
+    const id = form.get('id') as string
+    const isFavorited = form.get('isFavorited') as string
+    // const authorId = form.get('authorId')
     // const selectAuthorId = form.get('selectAuthorId')
-    const body = form.get('body')
+    // const body = form.get('body')
     // const bookId = form.get('bookId')
-    const authorName = form.get('authorName')
-    const id = form.get('id')
-    const isFavorited = form.get('isFavorited')
+    // const authorName = form.get('authorName')
     // const title = form.get('title')
     // const imgUrl = form.get('imgUrl')
     // const selectAuthorName = form.get('selectAuthorName')
-    console.log(Object.fromEntries(form))
 
+    console.log(Object.fromEntries(form))
 
     // Action to create Quote
     // if(form.get('_method') === 'create') {
@@ -94,8 +95,8 @@ export const action = async ({request, params}: any) => {
 
     // Action to update if Quote is favorited
     if (form.get('_method') !== 'create') {
-        await prisma.quote.update({
-            where: { id: id },
+        await prisma.quote.updateMany({
+            where: { id: id, userId: userId },
             data: { isFavorited: isFavorited }
         })
         return redirect(`/books/${params.bookId}/tags/${params.tagId}`)

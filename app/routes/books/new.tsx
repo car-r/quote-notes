@@ -5,21 +5,22 @@ import NewBookCard from "~/components/NewBookCard";
 import PageTitle from "~/components/PageTitle";
 import { prisma } from "~/db.server";
 import { requireUserId } from "~/session.server";
+import type { LoaderFunction, ActionFunction } from "@remix-run/node";
 
-export const loader = async ({request}: any) => {
+export const loader: LoaderFunction = async ({request}) => {
     const userId = await requireUserId(request);
     const authors = await prisma.author.findMany({where: {userId: userId}})
     
     return {authors}
 }
 
-export const action = async ({request}: any) => {
+export const action: ActionFunction = async ({request}) => {
     const userId = await requireUserId(request);
     const form = await request.formData()
-    const authorId = form.get('authorId')
-    const title = form.get('title')
-    const imgUrl = form.get('imgUrl')
-    const ISBN = form.get('ISBN')
+    const authorId = form.get('authorId') as string
+    const title = form.get('title') as string
+    const imgUrl = form.get('imgUrl') as string
+    const ISBN = form.get('ISBN') as string
 
     const errors = {
         title: '',
@@ -27,7 +28,7 @@ export const action = async ({request}: any) => {
         ISBN: ''
     }
 
-    function checkTitleName(title: any) {
+    function checkTitleName(title: string) {
         if(!title || title.length < 3) {
             return errors.title = `Title too short`
         }

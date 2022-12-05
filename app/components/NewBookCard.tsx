@@ -5,7 +5,34 @@ import ActionDataInput from "./ActionDataInput";
 import PrimaryActionBtn from "./Buttons/PrimaryActionBtn";
 import FormInput from "./FormInput";
 
-export default function NewBookCard({data, onAuthorChange,  actionData}: any) {
+export type Author = {
+    name: string
+    id: string
+}
+
+export type ActionData = {
+    errors: {
+        title: string
+        imgUrl: string
+        ISBN: string
+    }
+}
+
+export type Data = {
+    authors: [{
+        id: string
+        imgUrl: string
+        name: string
+        userId: string
+    }]
+}
+
+export type NewBookCardType = {
+    data: Data
+    actionData: ActionData
+}
+// export default function NewBookCard({data, onAuthorChange,  actionData}: any)
+export default function NewBookCard({data, actionData}: NewBookCardType) {
     let transition = useTransition()
     let isAdding = 
         transition.state === "submitting" &&
@@ -20,7 +47,7 @@ export default function NewBookCard({data, onAuthorChange,  actionData}: any) {
         } 
     },[isAdding])
 
-    console.log(actionData)
+    console.log('newbookcard', data)
     return (
         <div className="col-span-1">
             <Form method="post"
@@ -50,8 +77,8 @@ export default function NewBookCard({data, onAuthorChange,  actionData}: any) {
                         <label className="text-sm font-semibold tracking-wider uppercase">
                             Author
                         </label>
-                        <select name="authorId" className="bg-stone-700 border border-stone-700 rounded-sm p-1" onChange={onAuthorChange}>
-                            {data.authors.map((author: any) => (
+                        <select name="authorId" className="bg-stone-700 border border-stone-700 rounded-sm p-1" >
+                            {data.authors.map((author: Author) => (
                                 <option key={author.id}  value={author.id}>{author.name}</option>
                         ))}
                         </select>
