@@ -27,7 +27,7 @@ export const action: ActionFunction = async ({request}) => {
 export default function TagsIndex() {
     const data = useLoaderData()
     const [search]: string = useOutletContext()
-    console.log(data)
+    console.log('tagsIndex',data)
     console.log('search outlet-> ', search)
 
     const filteredSearch = data.quotes.filter((quote: Quote) =>
