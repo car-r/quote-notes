@@ -14,7 +14,7 @@ const imageOnErrorHandler = (
   ) => {
     event.currentTarget.src = 'https://neelkanthpublishers.com/assets/bookcover_thumb.png';
     event.currentTarget.className = "error";
-  };
+};
 
 export default function BookHomeCard({book}: Book) {
     console.log('book Home Card --> ', book)

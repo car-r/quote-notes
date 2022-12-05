@@ -1,7 +1,7 @@
 import { Form, Link } from "@remix-run/react";
 
 export default function QuoteDetailCard({quote}: any) {
-    console.log(quote)
+    console.log('quote detail card',quote)
     return (
         <div className="md:col-span-2">
             <div className="p-4 md:p-8 mb-4 border border-stone-800 bg-stone-800 rounded-md text-stone-300/60">

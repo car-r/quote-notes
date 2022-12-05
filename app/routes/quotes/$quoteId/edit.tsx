@@ -1,7 +1,7 @@
 import EditQuoteCard from "~/components/EditQuoteCard";
 import type { LoaderFunction, ActionFunction } from "@remix-run/node";
 
-import { useActionData, useLoaderData, useOutletContext } from "@remix-run/react"
+import { useActionData, useLoaderData } from "@remix-run/react"
 import { prisma } from "~/db.server"
 import { requireUserId } from "~/session.server";
 import { redirect } from "@remix-run/node";
@@ -68,12 +68,13 @@ export const action: ActionFunction = async ({ request, params }) => {
 export default function EditQuote() {
     const quote = useLoaderData()
     const actionData = useActionData()
-    const [edit, setEdit]: any = useOutletContext()
+    // const [edit, setEdit]: any = useOutletContext()
 
     
     return (
         <div className="md:col-span-2">
-            <EditQuoteCard quote={quote} actionData={actionData} setEdit={setEdit} edit={edit}  />
+            {/* <EditQuoteCard quote={quote} actionData={actionData} setEdit={setEdit} edit={edit}  /> */}
+            <EditQuoteCard quote={quote} actionData={actionData}  />
         </div>
     )
 }

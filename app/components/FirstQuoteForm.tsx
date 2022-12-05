@@ -1,7 +1,19 @@
 import { Form } from "@remix-run/react";
 import ActionDataError from "./ActionDataError";
 
-export default function FirstQuoteForm({actionData}: any) {
+export type ActionData = {
+    errors: {
+        body: string
+        name: string
+        title: string
+    }
+}
+
+export type FirstQuoteFormType = {
+    actionData: ActionData
+}
+
+export default function FirstQuoteForm({actionData}: FirstQuoteFormType) {
     return (
         <div>
             <Form method="post"
