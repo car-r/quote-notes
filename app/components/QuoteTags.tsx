@@ -3,8 +3,21 @@ import { useEffect, useRef } from "react";
 import ActionDataError from "./ActionDataError";
 import ActionDataInput from "./ActionDataInput";
 import FormInput from "./FormInput";
+import type { Tag } from "@prisma/client";
 
-export default function QuoteTags({quote, actionData, setEdit}: any) {
+export type ActionData = {
+    errors: {
+        tagBody: string | undefined
+    }
+}
+export type QuoteTagsType = {
+    quote: any
+    actionData: ActionData
+}
+
+// export default function QuoteTags({quote, actionData, setEdit}: QuoteTagsType)
+
+export default function QuoteTags({quote, actionData}: QuoteTagsType) {
 
     let transition = useTransition()
     let isDeleting = 
@@ -18,16 +31,22 @@ export default function QuoteTags({quote, actionData, setEdit}: any) {
     // let formRef = useRef()
     const formRef = useRef<HTMLFormElement>(null)
 
+    // useEffect(() => {
+    //     if (!isAddingTag) {
+    //         formRef.current?.reset();
+
+    //     } else if (isAddingTag) {
+    //         setEdit(false)
+    //     }
+    // },[isAddingTag, setEdit])
+
     useEffect(() => {
         if (!isAddingTag) {
             formRef.current?.reset();
+        } 
+    },[isAddingTag])
 
-        } else if (isAddingTag) {
-            setEdit(false)
-        }
-    },[isAddingTag, setEdit])
-
-    console.log('quoteTags component -> ', quote.quote)
+    console.log('quoteTags component -> ', quote)
 
     return (
         <div className="flex flex-col gap-1 bg-stone-800 px-4 pb-4 pt-1 rounded-lg max-w-3xl mb-4">
@@ -38,7 +57,7 @@ export default function QuoteTags({quote, actionData, setEdit}: any) {
                         <p className="text-sm font-semibold tracking-wider uppercase">Tags</p>
                     </div>
                     <div className="flex gap-1 overflow-auto pt-2 pb-6 scrollbar-thin scrollbar-track-stone-700 scrollbar-thumb-stone-600">
-                    {quote.quote.tag?.map((tag: any) => (
+                    {quote.quote.tag?.map((tag: Tag) => (
                         <Form key={tag.id} method="post" name="_method">
                             <div className="items-center flex text-xs text-stone-300 font-thin truncate px-2 py-1 rounded-xl bg-stone-700 gap-1">
                                 <p  className="truncate ... ">

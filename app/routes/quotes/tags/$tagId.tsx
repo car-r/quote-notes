@@ -1,6 +1,7 @@
 import { useCatch, useLoaderData, useOutletContext, useParams } from "@remix-run/react";
 import { redirect } from "@remix-run/server-runtime";
 import QuoteCardTagId from "~/components/QuoteCardTagId";
+import type { LoaderFunction, ActionFunction } from "@remix-run/node";
 
 import { prisma } from "~/db.server";
 import { requireUserId } from "~/session.server";
@@ -14,10 +15,9 @@ export type Tag = {
         body: string
         isFavorited: string
     }
-
 }
 
-export const loader = async ({request, params}: any) => {
+export const loader: LoaderFunction = async ({request, params}) => {
     const userId = await requireUserId(request);
 
     const taggedQuotes = await prisma.tag.findMany({
@@ -46,10 +46,10 @@ export const loader = async ({request, params}: any) => {
     
 }
 
-export const action = async ({request, params}: any) => {
+export const action: ActionFunction = async ({request, params}) => {
     const form = await request.formData()
-    const id = form.get('id')
-    const isFavorited = form.get('isFavorited')
+    const id = form.get('id') as string
+    const isFavorited = form.get('isFavorited') as string
     console.log(id + isFavorited)
 
     await prisma.quote.update({

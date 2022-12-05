@@ -1,4 +1,4 @@
-import { useLoaderData, Link, Outlet, useCatch, useParams, useOutletContext } from "@remix-run/react"
+import { useLoaderData, Link, Outlet, useCatch, useParams } from "@remix-run/react"
 // import { useState } from "react"
 // import AddContentCard from "~/components/AddBookCard"
 import AddQuoteCard from "~/components/AddQuoteCard"
@@ -17,8 +17,18 @@ import AuthorErrorBackBtn from "~/components/Buttons/AuthorErrorBackBtn"
 import AddBookBtn from "~/components/Buttons/AddBookBtn"
 import AddQuoteBtn from "~/components/Buttons/AddQuoteBtn"
 import React from "react"
+import type { LoaderFunction } from "@remix-run/node";
 
-export const loader = async ({params, request}: any) => {
+export type Book = {
+    id: string
+    title: string
+    imgUrl: string
+    author: {
+        name: string
+    }
+}
+
+export const loader: LoaderFunction = async ({params, request}) => {
     const userId = await requireUserId(request);
 
     const author = await prisma.author.findUnique({
@@ -52,41 +62,42 @@ export const loader = async ({params, request}: any) => {
     return {author}
 }
 
-type Edit = {
-    edit: React.Dispatch<React.SetStateAction<boolean>>
-}
+// type Edit = {
+//     edit: React.Dispatch<React.SetStateAction<boolean>>
+// }
 
-type SetEdit = {
-    setEdit: React.Dispatch<React.SetStateAction<boolean>>
-}
+// type SetEdit = {
+//     setEdit: React.Dispatch<React.SetStateAction<boolean>>
+// }
 
-type ContextEditType = { edit: Edit}
-type ContextSetEditType = { setEdit: SetEdit}
+// type ContextEditType = { edit: Edit}
+// type ContextSetEditType = { setEdit: SetEdit}
 
 // interface Props {
 //     edit: boolean;
 //     setEdit: (edit: boolean) => void
 // }
 
-export function useEdit() {
-    return useOutletContext<ContextEditType>()
-}
-export function useSetEdit() {
-    return useOutletContext<ContextSetEditType>()
-}
+// export function useEdit() {
+//     return useOutletContext<ContextEditType>()
+// }
+// export function useSetEdit() {
+//     return useOutletContext<ContextSetEditType>()
+// }
 
 export default function AuthorDetail() {
     const data = useLoaderData()
-    const [edit, setEdit] = React.useState<ContextEditType | ContextSetEditType>()
+    // const [edit, setEdit] = React.useState<ContextEditType | ContextSetEditType>()
     // const [edit, setEdit] = useState(false)
-    console.log(data)
+    console.log('author detail route',data)
 
     return (
         <div className="flex flex-col pt-6 md:pt-10 max-w-5xl">
             <PageTitle children={data.author.name} btn={<EditAuthorBtn  data={data} />}/>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 rounded-xl py-2 mb-20">
                 <AuthorRouteCard author={data}/>
-                <Outlet context={[edit, setEdit]}/>
+                {/* <Outlet context={[edit, setEdit]}/> */}
+                <Outlet />
             </div>
             <div className="mb-28">
                 <SectionTitle children={'Books'} btn={<AddBookBtn />}/>
@@ -98,7 +109,7 @@ export default function AuthorDetail() {
                     </div>
                     :
                     <div className="flex overflow-auto pb-6 snap-x scrollbar-thin scrollbar-track-stone-800 scrollbar-thumb-stone-700 p-1 gap-4">
-                        {data.author.book.map((book: any) => (
+                        {data.author.book.map((book: Book) => (
                             <Link to={`/books/${book.id}`} key={book.id}>
                                 <BookHomeCard book={book}/>
                             </Link>

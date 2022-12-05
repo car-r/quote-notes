@@ -1,6 +1,24 @@
 import { Form, Link } from "@remix-run/react";
 
-export default function QuoteIndexCard({quote}: any) {
+export type QuoteIndexCardType = {
+    quote: {
+        id: string
+        isFavorited: string
+        body: string
+        author: {
+            name: string
+            id: string
+        }
+        book: {
+            id: string
+            title: string
+        }
+    }
+    
+}
+
+export default function QuoteIndexCard({quote}: QuoteIndexCardType) {
+    console.log('quoteindexcard ->', quote)
     return (
         <div className="p-4 border border-stone-800 bg-stone-800 rounded-md text-stone-300/60 hover:ring-2 hover:ring-blue-400 hover:text-stone-100">
             <div className="flex flex-col min-h-full">

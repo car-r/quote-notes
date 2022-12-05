@@ -1,10 +1,22 @@
 
+export type StatsCard = {
+    data: {
+        author: {
+            _count: {
+                book: number
+                quote: number
+                quoteNote: number
+            }
+        }
+    }
+}
 
-export default function AuthorRouteStatsCard({data}: any) {
+export default function AuthorRouteStatsCard({data}: StatsCard) {
     const quotes = {title: 'Quotes', count: data.author._count.quote}
     const books = {title: 'Books', count: data.author._count.book}
     const notes = {title: 'Notes', count: data.author._count.quoteNote}
     const detailArray = [books, quotes, notes]
+    console.log('stats card', data)
     return (
         <div className="flex flex-col sm:h-full sm:justify-center border-2 border-stone-800 p-4 rounded-lg">
             <div className="mb-0">
