@@ -3,7 +3,7 @@ import type { LoaderFunction, ActionFunction } from "@remix-run/node";
 import { useLoaderData, useOutletContext } from "@remix-run/react";
 import { getSortedQuotes, updateQuoteFavorite } from "~/models/quote.server";
 import { requireUserId } from "~/session.server";
-import type { Quote } from "@prisma/client";
+// import type { Quote } from "@prisma/client";
 import QuoteIndexCard from "~/components/QuoteIndexCard";
 // import { useContext, useState } from "react";
 
@@ -24,6 +24,24 @@ export const action: ActionFunction = async ({request}) => {
     return redirect('/quotes')
 }
 
+export type Quote = {
+    body: string
+}
+
+export type QuoteIndexType = {
+    id: string
+    isFavorited: string
+    body: string
+    author: {
+        name: string
+        id: string
+    }
+    book: {
+        id: string
+        title: string
+    }
+}
+
 export default function TagsIndex() {
     const data = useLoaderData()
     const [search]: string = useOutletContext()
@@ -36,7 +54,7 @@ export default function TagsIndex() {
     
     return (
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 mb-1">
-            {filteredSearch.map((quote: Quote) => (
+            {filteredSearch.map((quote: QuoteIndexType) => (
                 <QuoteIndexCard quote={quote} key={quote.id}/>
             ))}
         </div>

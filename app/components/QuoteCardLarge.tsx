@@ -1,6 +1,13 @@
 
 import { Form, Link } from "@remix-run/react";
 
+const imageOnErrorHandler = (
+    event: React.SyntheticEvent<HTMLImageElement, Event>
+  ) => {
+    event.currentTarget.src = 'https://neelkanthpublishers.com/assets/bookcover_thumb.png';
+    event.currentTarget.className = "error";
+};
+
 export default function QuoteCardLarge({quote}: any) {
 
     // console.log('quotecardlarge -->', quote)
@@ -33,8 +40,9 @@ export default function QuoteCardLarge({quote}: any) {
                 <div className="flex justify-between">
                     <div className="flex">
                         <img src={quote.quote.author.imgUrl} alt={quote.quote.author.name}
-                        onError={(e: any) => e.target.src = 'https://icon-library.com/images/default-user-icon/default-user-icon-8.jpg'}
-                        className=" w-14 h-14 md:w-20 md:h-20 object-cover mr-4 rounded-full"/>
+                        onError={imageOnErrorHandler}
+                        className=" w-14 h-14 md:w-20 md:h-20 object-cover mr-4 rounded-full"
+                        />
                         <div className="text-sm sm:text-base flex flex-col justify-center gap-1">
                             <p className=" hover:text-stone-100">
                                 <Link to={`/authors/${quote.quote.author.id}`} className="hover:text-stone-100">

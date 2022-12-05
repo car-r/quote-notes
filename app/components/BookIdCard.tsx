@@ -23,6 +23,13 @@ export type Data = {
     }
 }
 
+const imageOnErrorHandler = (
+    event: React.SyntheticEvent<HTMLImageElement, Event>
+  ) => {
+    event.currentTarget.src = 'https://neelkanthpublishers.com/assets/bookcover_thumb.png';
+    event.currentTarget.className = "error";
+};
+
 export default function BookIdCard({data}: Data) {
     // const [edit, setEdit] = useState(false)
     // const [openLibData, setOpenLibData] = useState([])
@@ -44,8 +51,9 @@ export default function BookIdCard({data}: Data) {
         <div className="flex flex-col p-4 bg-stone-800 rounded-lg">
             <div className="flex flex-col pb-3">
                 <img src={data.data.imgUrl} alt={data.data.title}
-                    onError={(e: any) => e.target.src = 'https://neelkanthpublishers.com/assets/bookcover_thumb.png'}
-                    className="object-fit md:max-w-xs " />
+                    onError={imageOnErrorHandler}
+                    className="object-fit md:max-w-xs " 
+                />
             </div>
              <div>
                 <div className="flex ">

@@ -93,6 +93,19 @@ export const action: ActionFunction = async ({request}) => {
     await updateQuoteFavorite({ userId, id, isFavorited})
     return redirect('/quotes')
 }
+export type QuoteType = {
+    id: string
+    isFavorited: string
+    body: string
+    author: {
+        name: string
+        id: string
+    }
+    book: {
+        id: string
+        title: string
+    }
+}
 
 export default function QuotesIndex() {
     const data = useLoaderData()
@@ -160,7 +173,7 @@ export default function QuotesIndex() {
                     {/* {data.quotes.map((quote: any) => (
                         <QuoteIndexCard quote={quote} key={quote.id}/>
                     ))} */}
-                    {filteredSearch.map((quote: Quote) => (
+                    {filteredSearch.map((quote: QuoteType) => (
                         <QuoteIndexCard quote={quote} key={quote.id}/>
                     ))}
                 </div>

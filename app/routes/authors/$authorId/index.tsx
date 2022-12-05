@@ -2,8 +2,9 @@ import { prisma } from "~/db.server"
 import { requireUserId } from "~/session.server";
 import AuthorRouteStatsCard from "~/components/AuthorRouteStatsCard";
 import { useLoaderData } from "@remix-run/react";
+import type { LoaderFunction } from "@remix-run/node";
 
-export const loader = async ({params, request}: any) => {
+export const loader: LoaderFunction = async ({params, request}) => {
     const userId = await requireUserId(request);
 
     const author = await prisma.author.findUnique({
