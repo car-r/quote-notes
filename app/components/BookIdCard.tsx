@@ -1,13 +1,29 @@
-import { Link, useLoaderData } from "@remix-run/react";
-import { json } from "@remix-run/server-runtime";
-import { useEffect, useState } from "react";
+import { Link } from "@remix-run/react";
+// import { json } from "@remix-run/server-runtime";
+// import { useEffect, useState } from "react";
 
 // export const loader = async () => {
 //     const res = await fetch(`https://openlibrary.org/isbn/0964385619}.json`)
 //     return json(await res.json());
 // }
 
-export default function BookIdCard({data}: any) {
+export type Data = {
+    data: {
+        data: {
+            ISBN: string
+            authorId: string
+            id: string
+            imgUrl: string
+            title: string
+            author: {
+                name: string
+            }
+        }
+        
+    }
+}
+
+export default function BookIdCard({data}: Data) {
     // const [edit, setEdit] = useState(false)
     // const [openLibData, setOpenLibData] = useState([])
     // const loader = useLoaderData()

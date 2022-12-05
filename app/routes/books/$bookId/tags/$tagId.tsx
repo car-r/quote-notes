@@ -2,7 +2,7 @@ import { Form, Link, useCatch, useLoaderData, useOutletContext, useParams } from
 import { redirect } from "@remix-run/server-runtime";
 import { prisma } from "~/db.server";
 import { requireUserId } from "~/session.server";
-import type { Quote, Tag } from "@prisma/client";
+import type { Quote } from "@prisma/client";
 
 export const loader = async ({request, params}: any) => {
     const userId = await requireUserId(request);

@@ -1,16 +1,17 @@
 
-import { useActionData, useLoaderData, useOutletContext } from "@remix-run/react"
+import { useActionData, useLoaderData } from "@remix-run/react"
 import { prisma } from "~/db.server"
 import { requireUserId } from "~/session.server";
 import { redirect } from "@remix-run/node";
-
+import type { LoaderFunction, ActionFunction } from "@remix-run/node";
 import EditNoteCard from "~/components/EditNoteCard";
-import { useEdit } from "../$quoteNoteId";
-import { useEffect } from "react";
+// import { useEdit } from "../$quoteNoteId";
+// import { useEffect } from "react";
 
-export const loader = async ({params}: any) => {
-    const data = await prisma.quoteNote.findUnique({
-        where: { id: params.quoteNoteId},
+export const loader: LoaderFunction = async ({params, request}) => {
+    const userId = await requireUserId(request);
+    const data = await prisma.quoteNote.findFirst({
+        where: { userId: userId, id: params.quoteNoteId},
         include: {
             author: true,
             quote: true
@@ -25,12 +26,12 @@ type ActionData = {
     };
 };
 
-export const action = async ({ request, params }: any) => {
+export const action: ActionFunction = async ({ request, params }) => {
     const form = await request.formData()
-    const noteBody = form.get('noteBody')
-    const quoteId = form.get('quoteId')
-    const date: any = new Date
-    const updatedAt = date.toISOString()
+    const noteBody = form.get('noteBody') as string
+    const quoteId = form.get('quoteId') as string
+    // const date: any = new Date
+    // const updatedAt = date.toISOString()
     console.log(Object.fromEntries(form))
 
     // Action to delete quote
@@ -72,14 +73,14 @@ export const action = async ({ request, params }: any) => {
 export default function EditNote() {
     const data = useLoaderData()
     const actionData = useActionData() as ActionData
-    const [edit, setEdit]: any = useOutletContext()
-    console.log('NoteId edit data --> ', data)
+    // const [edit, setEdit]: any = useOutletContext()
     // let { edit } = useEdit()
+    console.log('NoteId edit data --> ', data)
     
     return (
         <div>
-            <EditNoteCard data={data} setEdit={setEdit} edit={edit} actionData={actionData}/>
-            {/* <EditNoteCard data={data}  actionData={actionData}/> */}
+            {/* <EditNoteCard data={data} setEdit={setEdit} edit={edit} actionData={actionData}/> */}
+            <EditNoteCard data={data}  actionData={actionData}/>
         </div>
     )
 }

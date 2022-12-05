@@ -2,6 +2,8 @@ import { Link, useLoaderData } from "@remix-run/react";
 import SectionTitle from "~/components/SectionTitle";
 import { prisma } from "~/db.server";
 import { getUser, requireUserId } from "~/session.server";
+import type { Quote } from "@prisma/client";
+import type { LoaderFunction } from "@remix-run/node";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -32,7 +34,7 @@ ChartJS.register(
   Legend
 );
 
-export const loader = async ({request}: any) => {
+export const loader: LoaderFunction = async ({request}) => {
   const userId = await requireUserId(request);
   const user = await getUser(request)
   const quotes = await prisma.quote.findMany({
@@ -134,7 +136,12 @@ export const loader = async ({request}: any) => {
   return {quotes, book, authors, groupQuotes, userData, user, userId}
 }
 
-
+// interface QuoteSmall {
+//   body: string
+//   bookId: string
+//   id: string
+//   authorId: string
+// }
 
 export default function Index() {
 
@@ -175,6 +182,8 @@ export default function Index() {
   //     maxBarThickness: 75
   //   }]
   // }
+
+  
   return (
     <>
       {!data.userData ? <div>Home Page</div> : 
@@ -212,7 +221,7 @@ export default function Index() {
               <SectionTitle children={'Favorite Quotes'}/>
               <div className="flex overflow-auto pb-4 snap-x scrollbar-thin scrollbar-track-stone-800 scrollbar-thumb-stone-700">
                 <div className="flex md:flex md:flex-row gap-4 mx-1">
-                  {data.quotes.map((quote: any) => (
+                  {data.quotes.map((quote: Quote) => (
                     <Link to={`/quotes/${quote.id}`} key={quote.id} className="snap-start px-1">
                       <QuoteSmallCard quote={quote}/>
                     </Link>
@@ -225,7 +234,7 @@ export default function Index() {
               <SectionTitle children={'Quotes'}/>
               <div className="flex overflow-auto pb-4 snap-x scrollbar-thin scrollbar-track-stone-800 scrollbar-thumb-stone-700">
                 <div className="flex md:flex md:flex-row gap-4 mx-1">
-                  {data.userData.quotes.map((quote: any) => (
+                  {data.userData.quotes.map((quote: Quote) => (
                     <Link to={`/quotes/${quote.id}`} key={quote.id} className="snap-start px-1">
                       <QuoteSmallCard quote={quote}/>
                     </Link>

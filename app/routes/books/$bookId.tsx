@@ -14,7 +14,7 @@ import PrimaryActionBtn from "~/components/Buttons/PrimaryActionBtn"
 import PageTitle from "~/components/PageTitle"
 import { prisma } from "~/db.server"
 import { requireUserId } from "~/session.server";
-// import type { Quote } from "@prisma/client";
+import type { Tag } from "@prisma/client";
 // import { getBook } from "~/models/book.sever"
 
 export const loader = async ({params, request}: any) => {
@@ -233,11 +233,11 @@ export default function BookIdRoute() {
                             all
                         </p>
                     </Link>
-                    {data.tags?.map((tag: any) => (
-                        <NavLink to={`/books/${data.data.id}/tags/${tag.body}`} key={tag.id} className={({ isActive }) =>
+                    {data.tags?.map((tag: Tag) => (
+                        <NavLink to={`/books/${data.data.id}/tags/${tag.body}`} key={tag.body} className={({ isActive }) =>
                         ` items-center flex text-xs font-semibold px-4 py-2 rounded-xl  whitespace-nowrap cursor-pointer bg-stone-800 hover:bg-stone-700 ${isActive ? "bg-stone-300 text-stone-800 hover:bg-stone-300 " : ""}`
                         }>
-                            <div key={tag.id} >
+                            <div >
                                 <p  className="">{tag.body}</p>
                             </div>
                         </NavLink>
@@ -277,8 +277,6 @@ export default function BookIdRoute() {
                         </div>
                     </Form>
                     <div>
-                        {/* <Outlet context={ [edit, setEdit] }/> */}
-                        {/* <Outlet /> */}
                         <BookIdCard data={data}/>
                     </div>
                 </div>

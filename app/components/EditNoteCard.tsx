@@ -1,7 +1,7 @@
 import { Form, Link, useTransition } from "@remix-run/react";
 import React, { useState } from "react";
 import { useEffect, useRef } from "react";
-import { useEdit, useSetEdit } from "~/routes/quoteNotes/$quoteNoteId";
+// import { useEdit, useSetEdit } from "~/routes/quoteNotes/$quoteNoteId";
 import ActionDataError from "./ActionDataError";
 import UpdateBtn from "./Buttons/UpdateBtn";
 
@@ -11,19 +11,25 @@ type ActionData = {
     };
 };
 
+// type EditNote = {
+//     data: any,
+//     actionData: ActionData,
+//     setEdit: React.Dispatch<React.SetStateAction<boolean>>,
+//     edit: React.Dispatch<React.SetStateAction<boolean>>
+// }
+
 type EditNote = {
     data: any,
     actionData: ActionData,
-    setEdit: React.Dispatch<React.SetStateAction<boolean>>,
-    edit: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-interface Props {
-    edit: boolean;
-    setEdit: (edit: boolean) => void
-}
+// interface Props {
+//     edit: boolean;
+//     setEdit: (edit: boolean) => void
+// }
 
-export default function EditNoteCard({data,  actionData, edit, setEdit}: EditNote) {
+// export default function EditNoteCard({data,  actionData, edit, setEdit}: EditNote)
+export default function EditNoteCard({data,  actionData}: EditNote) {
     const [willDelete, setWillDelete] = useState(false)
     let transition = useTransition()
     let isDeleting = 
@@ -39,13 +45,19 @@ export default function EditNoteCard({data,  actionData, edit, setEdit}: EditNot
     // let { setEdit } = useSetEdit()
     // let { edit } = useEdit()
 
+    // useEffect(() => {
+    //     if (!isUpdating) {
+    //         formRef.current?.reset();
+    //     } else if (isUpdating) {
+    //         setEdit(false)
+    //     }
+    // },[isUpdating, setEdit, edit])
+
     useEffect(() => {
         if (!isUpdating) {
             formRef.current?.reset();
-        } else if (isUpdating) {
-            setEdit(false)
         }
-    },[isUpdating, setEdit, edit])
+    },[isUpdating])
     
     return (
         <div className="md:col-span-2">

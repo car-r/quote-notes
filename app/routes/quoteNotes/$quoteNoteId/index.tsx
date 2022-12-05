@@ -1,20 +1,21 @@
-import { useCatch, useLoaderData, useParams } from "@remix-run/react";
+import { useLoaderData } from "@remix-run/react";
 import QuoteNoteCardLarge from "~/components/QuoteNoteCardLarge";
 import { prisma } from "~/db.server"
+import type { LoaderFunction } from "@remix-run/node";
 
-export const loader = async ({params}: any) => {
-    const data = await prisma.quoteNote.findUnique({
+export const loader: LoaderFunction = async ({params}) => {
+    const quoteNote = await prisma.quoteNote.findUnique({
         where: {id: params.quoteNoteId}
     })
     
-    return {data}
+    return {quoteNote}
 }
 
 export default function QuoteNoteIdHome() {
-    const data = useLoaderData()
+    const quoteNote = useLoaderData()
     return (
         <div>
-            <QuoteNoteCardLarge data={data}/>
+            <QuoteNoteCardLarge quoteNote={quoteNote}/>
         </div>
     )
 }

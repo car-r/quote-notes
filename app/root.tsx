@@ -49,11 +49,11 @@ export default function App() {
       </head>
       <body className="bg-stone-900 flex flex-col min-h-screen mx-auto">
         {!data.user ? 
-        <Outlet />
-        :
-        <Layout>
           <Outlet />
-        </Layout>
+          :
+          <Layout>
+            <Outlet />
+          </Layout>
         }
         {/* <Layout>
           <Outlet />

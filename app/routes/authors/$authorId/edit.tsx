@@ -1,26 +1,28 @@
-import { useActionData, useLoaderData, useOutletContext } from "@remix-run/react"
+import { useActionData, useLoaderData } from "@remix-run/react"
 import { prisma } from "~/db.server"
 import { requireUserId } from "~/session.server";
 import { redirect } from "@remix-run/node";
+import type { LoaderFunction, ActionFunction } from "@remix-run/node";
 
-import { useEdit, useSetEdit } from "../$authorId";
+// import { useEdit, useSetEdit } from "../$authorId";
 
 import EditAuthorCard from "~/components/EditAuthorCard"
 
 
-export const loader = async ({params}: any) => {
-    const data = await prisma.author.findUnique({
-        where: { id: params.authorId},
+export const loader: LoaderFunction = async ({params, request}) => {
+    const userId = await requireUserId(request);
+    const data = await prisma.author.findFirst({
+        where: { userId: userId, id: params.authorId},
         
     })
     return {data}
 }
 
-export const action = async ({request, params}: any) => {
+export const action: ActionFunction = async ({request, params}) => {
     const userId = await requireUserId(request);
     const form = await request.formData()
-    const name = form.get('name')
-    const imgUrl = form.get('imgUrl')
+    const name = form.get('name') as string
+    const imgUrl = form.get('imgUrl') as string
 
     const fields = { name, imgUrl, userId }
 
@@ -61,20 +63,28 @@ export const action = async ({request, params}: any) => {
     return redirect(`/authors/${author.id}`)
 }
 
-type Props = {
-    edit: boolean;
-    setEdit: (edit: boolean) => void
-}
+// type Props = {
+//     edit: boolean;
+//     setEdit: (edit: boolean) => void
+// }
+
+type ActionData = {
+    errors?: {
+      name?: string | undefined;
+      imgUrl?: string | undefined;
+    };
+};
 
 export default function EditAuthor() {
     const data = useLoaderData()
-    const actionData = useActionData()
-    const [edit, setEdit]: any = useOutletContext()
+    const actionData = useActionData() as ActionData
+    // const [edit, setEdit]: any = useOutletContext()
     // const { edit } = useEdit()
     // const { setEdit } = useSetEdit()
     return (
         <div className="">
-            <EditAuthorCard data={data} actionData={actionData} setEdit={setEdit} edit={edit}/>
+            {/* <EditAuthorCard data={data} actionData={actionData} setEdit={setEdit} edit={edit}/> */}
+            <EditAuthorCard data={data} actionData={actionData}/>
         </div>
     )
 }

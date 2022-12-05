@@ -1,5 +1,5 @@
 import { useLoaderData, Link, Outlet, useCatch, useParams, useOutletContext } from "@remix-run/react"
-import { useState } from "react"
+// import { useState } from "react"
 // import AddContentCard from "~/components/AddBookCard"
 import AddQuoteCard from "~/components/AddQuoteCard"
 // import AuthorRouteAuthorCard from "~/components/AuthorRouteAuthorCard"
@@ -12,7 +12,7 @@ import { prisma } from "~/db.server"
 import { requireUserId } from "~/session.server";
 import AddBookCard from "~/components/AddBookCard"
 import AuthorRouteCard from "~/components/AuthorRouteCard"
-import AuthorBackBtn from "~/components/Buttons/AuthorBackBtn"
+// import AuthorBackBtn from "~/components/Buttons/AuthorBackBtn"
 import AuthorErrorBackBtn from "~/components/Buttons/AuthorErrorBackBtn"
 import AddBookBtn from "~/components/Buttons/AddBookBtn"
 import AddQuoteBtn from "~/components/Buttons/AddQuoteBtn"
@@ -63,10 +63,10 @@ type SetEdit = {
 type ContextEditType = { edit: Edit}
 type ContextSetEditType = { setEdit: SetEdit}
 
-interface Props {
-    edit: boolean;
-    setEdit: (edit: boolean) => void
-}
+// interface Props {
+//     edit: boolean;
+//     setEdit: (edit: boolean) => void
+// }
 
 export function useEdit() {
     return useOutletContext<ContextEditType>()
@@ -84,17 +84,10 @@ export default function AuthorDetail() {
     return (
         <div className="flex flex-col pt-6 md:pt-10 max-w-5xl">
             <PageTitle children={data.author.name} btn={<EditAuthorBtn  data={data} />}/>
-            {/* {edit ? 
-                <PageTitle children={data.author.name} btn={<AuthorBackBtn  data={data} edit={edit} setEdit={setEdit}/>}/>
-                :
-                <PageTitle children={data.author.name} btn={<EditAuthorBtn  data={data} edit={edit} setEdit={setEdit}/>}/>
-            }             */}
-            {/* <PageTitle children={data.author.name} btn={<EditAuthorBtn author={data} edit={edit} setEdit={setEdit}/>}/> */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 rounded-xl py-2 mb-20">
                 <AuthorRouteCard author={data}/>
                 <Outlet context={[edit, setEdit]}/>
             </div>
-            {/* <AuthorRouteAuthorCard author={data} actionData={actionData} edit={edit} /> */}
             <div className="mb-28">
                 <SectionTitle children={'Books'} btn={<AddBookBtn />}/>
                 {data.author._count.book < 1 ?
