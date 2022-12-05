@@ -67,7 +67,7 @@ export const action = async ({ request, params }: any) => {
               { errors: { email: "Email is invalid" } },
               { status: 400 }
             );
-          }
+        }
     
         if (errors.email) {
             const values = Object.fromEntries(form)

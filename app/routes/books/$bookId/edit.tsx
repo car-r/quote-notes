@@ -54,7 +54,7 @@ export const action: ActionFunction = async ({request, params}) => {
             ISBN: ''
         }
 
-        function checkTitleName(title: any) {
+        function checkTitleName(title: string) {
             if(!title || title.length < 3) {
                 return errors.title = `Title too short`
             }
@@ -76,7 +76,7 @@ export const action: ActionFunction = async ({request, params}) => {
 
         const isValidISBN = new RegExp('(ISBN[-]*(1[03])*[ ]*(: ){0,1})*(([0-9Xx][- ]*){13}|([0-9Xx][- ]*){10})')
 
-        const validateISBN = (value: any) => {
+        const validateISBN = (value: string) => {
             if (!isValidISBN.test(value)) {
                 return errors.ISBN = `Not a valid ISBN`
             }
