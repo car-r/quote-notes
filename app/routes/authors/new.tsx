@@ -18,7 +18,7 @@ export const action = async ({request}: any) => {
         imgUrl: ''
     }
 
-    function checkAuthorName(name: any) {
+    function checkAuthorName(name: string) {
         if(!name || name.length < 3) {
             return errors.name = `Author name too short`
         }

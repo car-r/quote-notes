@@ -1,12 +1,12 @@
 import { NavLink, Outlet, useLoaderData, useParams } from "@remix-run/react";
 import type { LoaderFunction, ActionFunction } from "@remix-run/node";
 import { redirect } from "@remix-run/server-runtime";
-import AddQuoteCard from "~/components/AddQuoteCard";
+// import AddQuoteCard from "~/components/AddQuoteCard";
 import PageTitle from "~/components/PageTitle";
-import QuoteIndexCard from "~/components/QuoteIndexCard";
-import type { Quote, Tag } from "@prisma/client";
+// import QuoteIndexCard from "~/components/QuoteIndexCard";
+import type { Tag } from "@prisma/client";
 
-import { prisma } from "~/db.server";
+// import { prisma } from "~/db.server";
 import { requireUserId } from "~/session.server";
 
 import {
@@ -18,11 +18,11 @@ import {
     Tooltip,
     Legend,
   } from 'chart.js';
-import { Bar } from 'react-chartjs-2';
-import { useEffect, useState } from "react";
-import SectionTitle from "~/components/SectionTitle";
-import AuthorCard from "~/components/AuthorCard";
-import QuoteIndexSmallCard from "~/components/QuoteIndexSmallCard";
+// import { Bar } from 'react-chartjs-2';
+import { useState } from "react";
+// import SectionTitle from "~/components/SectionTitle";
+// import AuthorCard from "~/components/AuthorCard";
+// import QuoteIndexSmallCard from "~/components/QuoteIndexSmallCard";
 import AddQuoteBtn from "~/components/Buttons/AddQuoteBtn";
 import { getSortedQuotes, updateQuoteFavorite } from "~/models/quote.server";
 import { getTagsByGroup } from "~/models/tag.server";
@@ -131,7 +131,7 @@ export default function QuotesIndex() {
                             </div>
                         </NavLink>
                         {data.tags.map((tag: Tag) => (
-                            <NavLink to={`/quotes/tags/${tag.body}`} key={tag.id} className={({ isActive }) =>
+                            <NavLink to={`/quotes/tags/${tag.body}`} key={tag.body} className={({ isActive }) =>
                             ` items-center flex text-xs font-semibold px-4 py-2 rounded-xl  whitespace-nowrap cursor-pointer bg-stone-800 hover:bg-stone-700 ${isActive ? "bg-stone-300 text-stone-800 hover:bg-stone-300 " : ""}`
                             }>
                                 <div key={tag.id} >
