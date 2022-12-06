@@ -1,4 +1,4 @@
-import { useActionData } from "@remix-run/react";
+import { useActionData, useLoaderData } from "@remix-run/react";
 import { redirect } from "@remix-run/server-runtime";
 import { prisma } from "~/db.server"
 import NewAuthorCard from "~/components/NewAuthorCard";
@@ -6,6 +6,7 @@ import { requireUserId } from "~/session.server";
 import PageTitle from "~/components/PageTitle";
 import AuthorBackBtn from "~/components/Buttons/AuthorBackBtn";
 import AuthorErrorBackBtn from "~/components/Buttons/AuthorErrorBackBtn";
+
 
 export const action = async ({request}: any) => {
     const form = await request.formData()
@@ -15,7 +16,7 @@ export const action = async ({request}: any) => {
 
     const errors = {
         name: '',
-        imgUrl: ''
+        imgUrl: '',
     }
 
     function checkAuthorName(name: string) {
@@ -49,13 +50,14 @@ export const action = async ({request}: any) => {
 
 export default function NewAuthor() {
     const actionData = useActionData()
+    const data = useLoaderData()
     console.log(actionData)
     return (
         <div className="flex flex-col pt-6 md:pt-10 md:max-w-5xl pb-6">
             <PageTitle children={`New Author`} btn={<AuthorBackBtn />}/>
             <div className="flex flex-col w-full md:grid md:grid-cols-4">
                 <div className="col-span-1">
-                    <NewAuthorCard actionData={actionData}/>
+                    <NewAuthorCard actionData={actionData} />
                 </div>
             </div>
         </div>

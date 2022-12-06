@@ -1,12 +1,16 @@
+import { prisma } from "@prisma/client";
 import { Form, useTransition } from "@remix-run/react";
 import { useEffect, useRef } from "react";
+import { requireUserId } from "~/session.server";
 import ActionDataError from "./ActionDataError";
 import ActionDataInput from "./ActionDataInput";
 import PrimaryActionBtn from "./Buttons/PrimaryActionBtn";
 import SuccessBtn from "./Buttons/SuccessBtn";
 import FormInput from "./FormInput";
 
-export default function AddNoteCard({quote, actionData, setEdit}: any) {
+
+
+export default function AddNoteCard({quote, actionData}: any) {
     // console.log(actionData)
     let transition = useTransition()
     let isAddingNote = 
@@ -16,13 +20,21 @@ export default function AddNoteCard({quote, actionData, setEdit}: any) {
     // let formRef = useRef()
     const formRef = useRef<HTMLFormElement>(null)
 
+    // useEffect(() => {
+    //     if (!isAddingNote) {
+    //         formRef.current?.reset();
+    //     } else if (isAddingNote) {
+    //         setEdit(false)
+    //     }
+    // },[isAddingNote, setEdit])
+
     useEffect(() => {
         if (!isAddingNote) {
             formRef.current?.reset();
-        } else if (isAddingNote) {
-            setEdit(false)
-        }
-    },[isAddingNote, setEdit])
+        } 
+    },[isAddingNote])
+
+    console.log('addnotecard', quote)
     
     return (
         <div className="p-4 bg-stone-800 rounded-lg">
@@ -36,9 +48,15 @@ export default function AddNoteCard({quote, actionData, setEdit}: any) {
                     {actionData?.errors.noteBody && (
                     <ActionDataError children={actionData.errors.noteBody}/>
                     )}
+                    {actionData?.errors.pricingPlan &&  (
+                        <ActionDataError children={actionData.errors.pricingPlan} />
+                    )}
                 </label>
                 <input type="hidden" name="authorId" value={quote.quote.authorId}/>
                 <input type="hidden" name="bookId" value={quote.quote.bookId}/>
+                <input hidden type="text" name="pricingPlan" defaultValue={quote.user.pricingPlan}/>
+                {/* <input hidden type="number" name="quoteNoteCount" defaultValue={quote.quote.note.length}/> */}
+                <input hidden type="number" name="quoteNoteCount" defaultValue={quote.user._count.quoteNote}/>
                 {/* <button name="_method" value="note"
                     className="px-4 py-2 mt-2 bg-blue-400 rounded text-white hover:bg-blue-600">
                     {isAddingNote ? "Adding..." : "Add Note"}

@@ -23,13 +23,13 @@ export default function Pricing() {
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-8 h-8">
                                             <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                                         </svg>
-                                        <p className="text-stone-400">Store 50 quotes per book</p>
+                                        <p className="text-stone-400">Store 50 total quotes</p>
                                     </li>
                                     <li className="flex gap-10 items-center text-blue-400">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-8 h-8">
                                             <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                                         </svg>
-                                        <p className="text-stone-400">Add 5 notes per book</p>
+                                        <p className="text-stone-400">Save up to 100 notes</p>
                                     </li>
                                 </ul>
                             </div>
@@ -40,26 +40,26 @@ export default function Pricing() {
                         <div className="flex flex-col gap-8 p-6  md:scale-105 border border-stone-700 rounded-xl max-w-md bg-white">
                             <h4 className="text-xl font-semibold text-blue-400">Pro</h4>
                             <p className="text-5xl font-bold text-stone-900">$5<span className="ml-1 font-semibold text-2xl text-stone-900">/month</span></p>
-                            <p className="text-stone-800">For the never ending learner. Keep 50 books in your library with 100 quotes for each book.</p>
+                            <p className="text-stone-800">For the never ending learner. Keep 25 books in your library with 100 quotes for each book.</p>
                             <div className="">
                                 <ul className="flex flex-col gap-4">
                                     <li className="flex gap-10 items-center text-blue-400">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-8 h-8">
                                             <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                                         </svg>
-                                        <p className="text-stone-800">Keep up to 50 books in your library</p>
+                                        <p className="text-stone-800">Keep up to 20 books in your library</p>
                                     </li>
                                     <li className="flex gap-10 items-center text-blue-400">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-8 h-8">
                                             <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                                         </svg>
-                                        <p className="text-stone-800">Store 100 quotes per book</p>
+                                        <p className="text-stone-800">Store 200 total quotes</p>
                                     </li>
                                     <li className="flex gap-10 items-center text-blue-400">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-8 h-8">
                                             <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                                         </svg>
-                                        <p className="text-stone-800">Add 20 notes per book</p>
+                                        <p className="text-stone-800">Save up to 400 notes</p>
                                     </li>
                                     <li className="flex gap-10 items-center text-blue-400">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-8 h-8">
@@ -90,13 +90,13 @@ export default function Pricing() {
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-8 h-8">
                                             <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                                         </svg>
-                                        <p className="text-stone-400">Unlimited quotes per book</p>
+                                        <p className="text-stone-400">Unlimited quotes</p>
                                     </li>
                                     <li className="flex gap-10 items-center text-blue-400">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-8 h-8">
                                             <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                                         </svg>
-                                        <p className="text-stone-400">Unlimited notes per book</p>
+                                        <p className="text-stone-400">Unlimited notes</p>
                                     </li>
                                     <li className="flex gap-10 items-center text-blue-400">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-8 h-8">

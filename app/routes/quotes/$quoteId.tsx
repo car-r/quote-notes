@@ -28,6 +28,17 @@ type LoaderData = {
 
 export const loader: LoaderFunction = async ({params, request}) => {
     const userId = await requireUserId(request);
+    const user = await prisma.user.findUnique({
+        where: {id: userId},
+        include: {
+            _count: {
+                select: {
+                    quoteNote: true
+                }
+            }
+        }
+    })
+
     invariant(params.quoteId, "quoteId not found");
     // const quote = await prisma.quote.findFirst({
     //     where: { userId: userId, id: params.quoteId},
@@ -54,7 +65,7 @@ export const loader: LoaderFunction = async ({params, request}) => {
         })
     }
     
-    return {quote}
+    return {quote, user}
 
     // const author = await prisma.author.findUnique({
     //     where: { id: quote?.authorId}
@@ -95,6 +106,8 @@ export const action: ActionFunction = async ({ request, params }) => {
     const id = params.quoteId as string
     const isFavorited = form.get('isFavorited') as string
     const tagBody = form.get('tagBody') as string
+    const pricingPlan = form.get('pricingPlan') as string
+    const quoteNoteCount = form.get('quoteNoteCount')  || 0
     const date: any = new Date
     const updatedAt = date.toISOString()
     console.log(Object.fromEntries(form))
@@ -142,8 +155,19 @@ export const action: ActionFunction = async ({ request, params }) => {
         const quoteId = params.quoteId
 
         const errors = {
-            noteBody: ''
+            noteBody: '',
+            pricingPlan: ''
         }
+
+        function validatePricingPlan() {
+            if (pricingPlan === 'free' && quoteNoteCount > 4) {
+                return errors.pricingPlan = `Upgrade your Pricing Plan`
+            } else if (pricingPlan === 'pro' && quoteNoteCount > 9) {
+                return errors.pricingPlan = `Upgrade your Pricing Plan`
+            }
+        }
+
+        validatePricingPlan()
     
         function checkBody(body: string) {
             if(!body || body.length < 4) {
@@ -153,7 +177,7 @@ export const action: ActionFunction = async ({ request, params }) => {
     
         checkBody(body)
     
-        if (errors.noteBody) {
+        if (errors.noteBody || errors.pricingPlan) {
             const values = Object.fromEntries(form)
             return { errors, values }
         }

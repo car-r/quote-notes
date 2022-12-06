@@ -15,6 +15,7 @@ import PageTitle from "~/components/PageTitle"
 import { prisma } from "~/db.server"
 import { requireUserId } from "~/session.server";
 import type { Tag } from "@prisma/client";
+import ActionDataError from "~/components/ActionDataError"
 // import { getBook } from "~/models/book.sever"
 
 export const loader = async ({params, request}: any) => {
@@ -73,6 +74,17 @@ export const loader = async ({params, request}: any) => {
         }]
     })
 
+    const user = await prisma.user.findUnique({
+        where: {id: userId},
+        include: {
+            _count: {
+                select: {
+                    quotes: true
+                }
+            }
+        }
+    })
+
 
     // const response = await fetch(`https://openlibrary.org/isbn/${data.ISBN}.json`)
     // const res = await response.json()
@@ -111,7 +123,7 @@ export const loader = async ({params, request}: any) => {
 
     // return {book, quotes, authors, data}
     // return {data, tags, res}
-    return {data, tags}
+    return {data, tags, user}
 }
 
 export const action = async ({request}: any) => {
@@ -124,6 +136,8 @@ export const action = async ({request}: any) => {
     const authorName = form.get('authorName')
     const id = form.get('id')
     const isFavorited = form.get('isFavorited')
+    const pricingPlan = form.get('pricingPlan') as string
+    const quoteCount = form.get('quoteCount')  || 0
     // const title = form.get('title')
     // const imgUrl = form.get('imgUrl')
     // const selectAuthorName = form.get('selectAuthorName')
@@ -135,7 +149,17 @@ export const action = async ({request}: any) => {
         const body = quoteBody.trim()
         const errors = {
             body: '',
+            pricingPlan: ''
         }
+
+        function validatePricingPlan() {
+            if (pricingPlan === 'free' && quoteCount > 24) {
+                return errors.pricingPlan = `Upgrade your Pricing Plan`
+            } else if (pricingPlan === 'pro' && quoteCount > 49) {
+                return errors.pricingPlan = `Upgrade your Pricing Plan`
+            }
+        }
+        validatePricingPlan()
 
         function checkBody(body: any) {
             if(!body || body.length < 4) {
@@ -145,7 +169,7 @@ export const action = async ({request}: any) => {
     
         checkBody(body)
 
-        if (errors.body) {
+        if (errors.body || errors.pricingPlan) {
             const values = Object.fromEntries(form)
             return { errors, values }
         }
@@ -262,6 +286,9 @@ export default function BookIdRoute() {
                             {actionData?.errors.body && (
                                 <p className="text-red-400 text-sm">{actionData.errors.body}</p>
                             )}
+                            {actionData?.errors.pricingPlan && (
+                            <ActionDataError children={actionData.errors.pricingPlan}/>
+                    )}
                         </div>
                         <div className="hidden">
                             <input type="hidden" name="authorId" value={book.authorId}/>
@@ -269,7 +296,8 @@ export default function BookIdRoute() {
                         <div className="hidden">
                             <input type="hidden" name="bookId" value={book.id}/>
                         </div>
-
+                        <input hidden type="text" name="pricingPlan" defaultValue={data.user.pricingPlan}/>
+                        <input hidden type="number" name="quoteCount" defaultValue={data.user._count.quotes}/>
                         <div className="flex flex-col">
                             <button type="submit" name="_method" value="create" disabled={isAdding}>
                                 <PrimaryActionBtn children={isAdding ? "Adding..." : "Add Quote"}/>
