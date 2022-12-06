@@ -15,6 +15,7 @@ export type ActionData = {
         title: string
         imgUrl: string
         ISBN: string
+        pricingPlan: string
     }
 }
 
@@ -25,6 +26,12 @@ export type Data = {
         name: string
         userId: string
     }]
+    user: {
+        pricingPlan: string
+        _count: {
+            book: number
+        }
+    }
 }
 
 export type NewBookCardType = {
@@ -56,6 +63,11 @@ export default function NewBookCard({data, actionData}: NewBookCardType) {
             >
                 <div className="flex flex-col gap-6">
                     <div className="flex flex-col gap-1">
+                        {actionData?.errors.pricingPlan ? 
+                        <ActionDataError children={actionData.errors.pricingPlan} />
+                        :
+                        null
+                        }
                         <label className="text-sm font-semibold tracking-wider uppercase">
                             Title
                         </label>
@@ -102,23 +114,26 @@ export default function NewBookCard({data, actionData}: NewBookCardType) {
                         )} */}
                     </div>
                     <div className="flex flex-col gap-1">
-                            <label className="text-sm font-semibold tracking-wider uppercase">
-                                ISBN
-                            </label>
-                            {actionData?.errors.ISBN ? (
-                                <div className="flex flex-col">
-                                    <ActionDataInput type="text" name="ISBN" defaultValue={""}/>
-                                    <ActionDataError children={actionData.errors.ISBN} />
-                                </div>
-                            ) : 
-                                <FormInput type="text" name="ISBN" defaultValue={""}/>
-                                
-                            }
-                            {/* <input type="text" name="imgUrl" className="px-2 border border-stone-800 bg-stone-700 rounded" defaultValue={data.data.book[0].imgUrl}/>
-                            {actionData?.errors.imgUrl && (
-                                <ActionDataError children={actionData.errors.imgUrl} />
-                            )} */}
-                        </div>
+                        <label className="text-sm font-semibold tracking-wider uppercase">
+                            ISBN
+                        </label>
+                        {actionData?.errors.ISBN ? (
+                            <div className="flex flex-col">
+                                <ActionDataInput type="text" name="ISBN" defaultValue={""}/>
+                                <ActionDataError children={actionData.errors.ISBN} />
+                            </div>
+                        ) : 
+                            <FormInput type="text" name="ISBN" defaultValue={""}/>
+                            
+                        }
+                        {/* <input type="text" name="imgUrl" className="px-2 border border-stone-800 bg-stone-700 rounded" defaultValue={data.data.book[0].imgUrl}/>
+                        {actionData?.errors.imgUrl && (
+                            <ActionDataError children={actionData.errors.imgUrl} />
+                        )} */}
+                    </div>
+                    <input type="text" hidden name="pricingPlan" defaultValue={data.user.pricingPlan} />
+                    <input type="number" hidden name="bookCount" defaultValue={data.user._count.book} />
+                    {/* <input type="number"  defaultValue={data.user._count.book} /> */}
                 </div>           
                 <div className="flex flex-col">
                     <button 

@@ -19,6 +19,10 @@ export default function User() {
                 <p className="text-sm font-semibold tracking-wider uppercase">email</p>
                 <p className="truncate ..."><span className="font-thin text-lg">{user.user.email}</span></p>
             </div>
+            <div className="flex flex-col py-3 border-b border-stone-700 w-full">
+                <p className="text-sm font-semibold tracking-wider uppercase">Pricing Plan</p>
+                <p className="truncate ..."><span className="font-thin text-lg uppercase">{user.user.pricingPlan}</span></p>
+            </div>
             <div className="flex flex-col py-3 border-b border-stone-700 w-full last:border-0">
                 <p className="text-sm font-semibold tracking-wider uppercase">User created</p>
                 <p><span className="font-thin text-lg">{moment(user.user.createdAt).format('MMM DD, YYYY')}</span></p>

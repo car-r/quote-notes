@@ -18,7 +18,7 @@ export type QuoteIndexCardType = {
 }
 
 export default function QuoteIndexCard({quote}: QuoteIndexCardType) {
-    console.log('quoteindexcard ->', quote)
+    // console.log('quoteindexcard ->', quote)
     return (
         <div className="p-4 border border-stone-800 bg-stone-800 rounded-md text-stone-300/60 hover:ring-2 hover:ring-blue-400 hover:text-stone-100">
             <div className="flex flex-col min-h-full">

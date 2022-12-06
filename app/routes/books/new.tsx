@@ -4,14 +4,25 @@ import BookErrorBackBtn from "~/components/Buttons/BookErrorBackBtn";
 import NewBookCard from "~/components/NewBookCard";
 import PageTitle from "~/components/PageTitle";
 import { prisma } from "~/db.server";
-import { requireUserId } from "~/session.server";
+import { getUser, requireUserId } from "~/session.server";
 import type { LoaderFunction, ActionFunction } from "@remix-run/node";
 
 export const loader: LoaderFunction = async ({request}) => {
     const userId = await requireUserId(request);
+    // const user = await getUser(request)
+    const user = await prisma.user.findUnique({
+        where: {id: userId},
+        include:{
+            _count: {
+                select: {
+                    book: true
+                }
+            }
+        }
+    })
     const authors = await prisma.author.findMany({where: {userId: userId}})
     
-    return {authors}
+    return {authors, user}
 }
 
 export const action: ActionFunction = async ({request}) => {
@@ -21,12 +32,26 @@ export const action: ActionFunction = async ({request}) => {
     const title = form.get('title') as string
     const imgUrl = form.get('imgUrl') as string
     const ISBN = form.get('ISBN') as string
+    const pricingPlan = form.get('pricingPlan') as string
+    const bookCount = form.get('bookCount') || 0
+    console.log(bookCount)
 
     const errors = {
         title: '',
         imgUrl: '',
-        ISBN: ''
+        ISBN: '',
+        pricingPlan: ''
     }
+
+    function validatePricingPlan() {
+        if(pricingPlan === 'free' && bookCount > 4) {
+            return errors.pricingPlan = `Upgrade your Pricing Plan`
+        } else if (pricingPlan === 'elite' && bookCount > 19) {
+            return errors.pricingPlan = `Upgrade your Pricing Plan`
+        }
+    }
+
+    validatePricingPlan()
 
     function checkTitleName(title: string) {
         if(!title || title.length < 3) {
@@ -61,7 +86,7 @@ export const action: ActionFunction = async ({request}) => {
 
     validateISBN(ISBN)
 
-    if (errors.title || errors.imgUrl || errors.ISBN) {
+    if (errors.title || errors.imgUrl || errors.ISBN || errors.pricingPlan) {
         const values = Object.fromEntries(form)
         return { errors, values }
     }

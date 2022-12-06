@@ -1,10 +1,25 @@
-import { useActionData } from "@remix-run/react";
+import { useActionData, useLoaderData } from "@remix-run/react";
 import { redirect } from "@remix-run/server-runtime";
 // import BookCard from "~/components/BookCard";
 import FirstQuoteForm from "~/components/FirstQuoteForm";
 import PageTitle from "~/components/PageTitle";
 import { prisma } from "~/db.server";
 import { requireUserId } from "~/session.server";
+
+export const loader =async ({request}: any) => {
+    const userId = await requireUserId(request);
+    const user = await prisma.user.findUnique({
+        where: {id: userId},
+        include: {
+            _count: {
+                select: {
+                    quotes: true
+                }
+            }
+        }
+    })
+    return {user}
+}
 
 export const action = async ({request}: any) => {
     const form = await request.formData()
@@ -81,6 +96,8 @@ export const action = async ({request}: any) => {
 
 export default function FirstQuote() {
     const actionData = useActionData()
+    const data = useLoaderData()
+    console.log('firstquote',data)
     return (
         <div className="flex flex-col pt-6 md:pt-10 md:max-w-5xl pb-6">
             <PageTitle children={`First Quote`}/>

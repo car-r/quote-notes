@@ -18,6 +18,8 @@ export const action: ActionFunction = async ({request}) => {
     const authorId = form.get('authorId') as string
     const body = form.get('body') as string
     const bookId = form.get('bookId') as string
+    const pricingPlan = form.get('pricingPlan') as string
+    const quoteCount = form.get('quoteCount')  || 0
     // const authorName = form.get('authorName') as string
     console.log(Object.fromEntries(form))
 
@@ -26,8 +28,17 @@ export const action: ActionFunction = async ({request}) => {
 
     const errors = {
         body: '',
-        bookId: ''
+        bookId: '',
+        pricingPlan: ''
     }
+
+    function validatePricingPlan() {
+        if (pricingPlan === 'free' && quoteCount > 24) {
+            return errors.pricingPlan = `Please upgrade your Pricing Plan`
+        }
+    }
+
+    validatePricingPlan()
 
     function checkBody(body: string) {
         if(!body || body.length < 4) {
@@ -45,7 +56,7 @@ export const action: ActionFunction = async ({request}) => {
 
     checkBookId(bookId)
 
-    if (errors.body || errors.bookId) {
+    if (errors.body || errors.bookId || errors.pricingPlan) {
         const values = Object.fromEntries(form)
         return { errors, values }
     }
@@ -118,8 +129,9 @@ export default function NewQuote() {
             <div className="flex flex-col w-full md:grid md:grid-cols-3">
                 <Form method="post"
                     ref={formRef}
-                    className="flex flex-col gap-6 border border-stone-800 bg-stone-800 p-4 rounded-md text-stone-300/60 font-light md:w-72"
+                    className=" border border-stone-800 bg-stone-800 p-4 rounded-md text-stone-300/60 font-light md:w-72"
                 >
+                    <div className="flex flex-col gap-6">
                     <div className="flex flex-col gap-1">
                         <label className="text-sm font-semibold tracking-wider uppercase">
                             Quote
@@ -143,7 +155,7 @@ export default function NewQuote() {
                             ))}
                         </select>
                     </div>
-                    <div className="flex flex-col gap-1">
+                    <div className="flex flex-col gap-1 pb-2">
                         <label className="text-sm font-semibold tracking-wider uppercase">
                             Book
                         </label>
@@ -156,18 +168,24 @@ export default function NewQuote() {
                             <ActionDataError children={actionData.errors.bookId}/>
                         )}
                     </div>
-                    
+                    <input hidden type="text" name="pricingPlan" defaultValue={data.data.pricingPlan}/>
+                    <input hidden type="number" name="quoteCount" defaultValue={data.data._count.quotes}/>
                     {/* <div className="flex flex-col">
                         <button type="submit" name="_method" value="create" disabled={isAdding} 
                             className="px-4 py-2 text-white rounded bg-blue-400 hover:bg-blue-600 ">
                             {isAdding ? "Adding..." : "Add Quote"}
                         </button>
                     </div> */}
-                    <div className="flex flex-col">
+                    </div>
+                    {actionData?.errors.pricingPlan && (
+                            <ActionDataError children={actionData.errors.pricingPlan}/>
+                    )}
+                    <div className="flex flex-col pt-4">
                         <button type="submit" name="_method" value="create" disabled={isAdding} >
                             <PrimaryActionBtn children={isAdding ? "Adding..." : "Add Quote"} />
                         </button>
                     </div>
+                    
                 </Form>
             </div>
         </div>

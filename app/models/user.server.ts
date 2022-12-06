@@ -18,6 +18,11 @@ export async function getUserWithBookAndAuthor(id: User["id"]) {
     include: {
       book: true,
       authors: true,
+      _count: {
+        select: {
+          quotes: true
+        }
+      }
     }
   });
 }
