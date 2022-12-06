@@ -33,7 +33,9 @@ export const action: ActionFunction = async ({request}) => {
     }
 
     function validatePricingPlan() {
-        if (pricingPlan === 'free' && quoteCount > 24) {
+        if (pricingPlan === 'free' && quoteCount > 49) {
+            return errors.pricingPlan = `Please upgrade your Pricing Plan`
+        } else if (pricingPlan === 'pro' && quoteCount > 199) {
             return errors.pricingPlan = `Please upgrade your Pricing Plan`
         }
     }

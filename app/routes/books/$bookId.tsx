@@ -153,9 +153,9 @@ export const action = async ({request}: any) => {
         }
 
         function validatePricingPlan() {
-            if (pricingPlan === 'free' && quoteCount > 24) {
+            if (pricingPlan === 'free' && quoteCount > 49) {
                 return errors.pricingPlan = `Upgrade your Pricing Plan`
-            } else if (pricingPlan === 'pro' && quoteCount > 49) {
+            } else if (pricingPlan === 'pro' && quoteCount > 199) {
                 return errors.pricingPlan = `Upgrade your Pricing Plan`
             }
         }
@@ -287,8 +287,8 @@ export default function BookIdRoute() {
                                 <p className="text-red-400 text-sm">{actionData.errors.body}</p>
                             )}
                             {actionData?.errors.pricingPlan && (
-                            <ActionDataError children={actionData.errors.pricingPlan}/>
-                    )}
+                                <ActionDataError children={actionData.errors.pricingPlan}/>
+                            )}
                         </div>
                         <div className="hidden">
                             <input type="hidden" name="authorId" value={book.authorId}/>
