@@ -6,14 +6,15 @@ import PageTitle from "~/components/PageTitle";
 import { prisma } from "~/db.server";
 import { requireUserId } from "~/session.server";
 
-export const loader =async ({request}: any) => {
+export const loader = async ({request}: any) => {
     const userId = await requireUserId(request);
     const user = await prisma.user.findUnique({
         where: {id: userId},
         include: {
             _count: {
                 select: {
-                    quotes: true
+                    quotes: true,
+                    book: true
                 }
             }
         }
@@ -27,13 +28,30 @@ export const action = async ({request}: any) => {
     const body = form.get('body')
     const name = form.get('name')
     const title = form.get('title')
+    const pricingPlan = form.get('pricingPlan') as string
+    const quoteCount = form.get('quoteCount')  || 0
+    const bookCount = form.get('bookCount')  || 0
     console.log(Object.fromEntries(form))
 
     const errors = {
         body: '',
         name: '',
-        title: ''
+        title: '',
+        pricingPlan: ''
     }
+
+    function validatePricingPlan() {
+        if (pricingPlan === 'free' && quoteCount > 49) {
+            return errors.pricingPlan = `Upgrade your Pricing Plan`
+        } else if (pricingPlan === 'pro' && quoteCount > 199) {
+            return errors.pricingPlan = `Upgrade your Pricing Plan`
+        } else if (pricingPlan === 'free' && bookCount > 4) {
+            return errors.pricingPlan = `Upgrade your Pricing Plan`
+        } else if (pricingPlan === 'pro' && bookCount > 19) {
+            return errors.pricingPlan = `Upgrade your Pricing Plan`
+        }
+    }
+    validatePricingPlan()
 
     function checkAuthorName(name: any) {
         if(!name || name.length < 3) {
@@ -59,7 +77,7 @@ export const action = async ({request}: any) => {
 
     checkBody(body)
 
-    if (errors.body || errors.name || errors.title) {
+    if (errors.body || errors.name || errors.title || errors.pricingPlan) {
         const values = Object.fromEntries(form)
         return { errors, values }
     }
@@ -101,7 +119,7 @@ export default function FirstQuote() {
     return (
         <div className="flex flex-col pt-6 md:pt-10 md:max-w-5xl pb-6">
             <PageTitle children={`First Quote`}/>
-            <FirstQuoteForm actionData={actionData}/>
+            <FirstQuoteForm actionData={actionData} data={data}/>
         </div>
     )
 }
