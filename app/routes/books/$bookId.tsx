@@ -153,7 +153,7 @@ export const action = async ({request}: any) => {
         }
 
         function validatePricingPlan() {
-            if (pricingPlan === 'free' && quoteCount > 49) {
+            if (pricingPlan === 'free' && quoteCount > 24) {
                 return errors.pricingPlan = `Upgrade your Pricing Plan`
             } else if (pricingPlan === 'pro' && quoteCount > 199) {
                 return errors.pricingPlan = `Upgrade your Pricing Plan`
@@ -182,13 +182,13 @@ export const action = async ({request}: any) => {
 
 
     // Action to update if Quote is favorited
-    if (form.get('_method') !== 'create') {
-        await prisma.quote.update({
-            where: { id: id },
-            data: { isFavorited: isFavorited }
-        })
-            return redirect(`/books/${bookId}`)
-    }
+    // if (form.get('_method') !== 'create') {
+    //     await prisma.quote.update({
+    //         where: { id: id },
+    //         data: { isFavorited: isFavorited }
+    //     })
+    //         return redirect(`/books/${bookId}`)
+    // }
 }
 
 

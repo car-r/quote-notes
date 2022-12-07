@@ -99,30 +99,30 @@ export const action: ActionFunction = async ({request, params}) => {
 
 
     // Action to create Quote
-    if(form.get('_method') === 'create') {
-        const body = oldyBody.trim()
-        const errors = {
-            body: '',
-        }
+    // if(form.get('_method') === 'create') {
+    //     const body = oldyBody.trim()
+    //     const errors = {
+    //         body: '',
+    //     }
 
-        function checkBody(body: string) {
-            if(!body || body.length < 4) {
-                return errors.body = `Quote too short`
-            }
-        }
+    //     function checkBody(body: string) {
+    //         if(!body || body.length < 4) {
+    //             return errors.body = `Quote too short`
+    //         }
+    //     }
     
-        checkBody(body)
+    //     checkBody(body)
 
 
-        if (errors.body) {
-            const values = Object.fromEntries(form)
-            return { errors, values }
-        }
+    //     if (errors.body) {
+    //         const values = Object.fromEntries(form)
+    //         return { errors, values }
+    //     }
 
-        const fields = { authorId, body, userId, bookId, authorName }
-        await prisma.quote.create({ data: fields})
-        return redirect(`/books/${bookId}`)
-    }
+    //     const fields = { authorId, body, userId, bookId, authorName }
+    //     await prisma.quote.create({ data: fields})
+    //     return redirect(`/books/${bookId}`)
+    // }
 
 
 
