@@ -160,9 +160,9 @@ export const action: ActionFunction = async ({ request, params }) => {
         }
 
         function validatePricingPlan() {
-            if (pricingPlan === 'free' && quoteNoteCount > 4) {
+            if (pricingPlan === 'free' && quoteNoteCount > 99) {
                 return errors.pricingPlan = `Upgrade your Pricing Plan`
-            } else if (pricingPlan === 'pro' && quoteNoteCount > 9) {
+            } else if (pricingPlan === 'pro' && quoteNoteCount > 399) {
                 return errors.pricingPlan = `Upgrade your Pricing Plan`
             }
         }

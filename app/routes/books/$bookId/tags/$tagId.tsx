@@ -8,20 +8,20 @@ import type { LoaderFunction, ActionFunction } from "@remix-run/node";
 export const loader: LoaderFunction = async ({request, params}) => {
     const userId = await requireUserId(request);
     
-    const taggedQuotes2 = await prisma.tag.findMany({
-        where: {body: params.tagId, bookId: params.bookId },
-        include: {
-            quote: {
-                select: {
-                    body: true,
-                    author: true,
-                    authorId: true,
-                    book: true,
-                    isFavorited: true,
-                }
-            }
-        },
-    })
+    // const taggedQuotes2 = await prisma.tag.findMany({
+    //     where: {body: params.tagId, bookId: params.bookId },
+    //     include: {
+    //         quote: {
+    //             select: {
+    //                 body: true,
+    //                 author: true,
+    //                 authorId: true,
+    //                 book: true,
+    //                 isFavorited: true,
+    //             }
+    //         }
+    //     },
+    // })
 
     const taggedQuotes = await prisma.quote.findMany({
         where: {
@@ -47,7 +47,8 @@ export const loader: LoaderFunction = async ({request, params}) => {
         })
     }
 
-    return {taggedQuotes, taggedQuotes2}
+    // return {taggedQuotes, taggedQuotes2}
+    return {taggedQuotes}
     
 }
 
