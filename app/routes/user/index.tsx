@@ -23,7 +23,7 @@ export default function User() {
                 <div className="flex justify-between items-center">
                     <div>
                         <p className="text-sm font-semibold tracking-wider uppercase">Pricing Plan</p>
-                        <p className="truncate ..."><span className="font-thin text-lg uppercase">{user.user.pricingPlan}</span></p>
+                        <p className="truncate ..."><span className="font-thin text-lg uppercase tracking-wider">{user.user.pricingPlan}</span></p>
                     </div>
                     <div>
                         <Link to="upgrade" className="text-sm font-bold px-3 py-1 rounded bg-blue-400 text-stone-200">Upgrade</Link>

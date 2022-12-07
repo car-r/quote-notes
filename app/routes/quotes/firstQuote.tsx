@@ -100,7 +100,7 @@ export const action = async ({request}: any) => {
         }
     })
 
-    const quote = await prisma.quote.create({
+    await prisma.quote.create({
         data: {
             body: body,
             userId: userId,
