@@ -4,7 +4,7 @@ import BookErrorBackBtn from "~/components/Buttons/BookErrorBackBtn";
 import NewBookCard from "~/components/NewBookCard";
 import PageTitle from "~/components/PageTitle";
 import { prisma } from "~/db.server";
-import { getUser, requireUserId } from "~/session.server";
+import { requireUserId } from "~/session.server";
 import type { LoaderFunction, ActionFunction } from "@remix-run/node";
 
 export const loader: LoaderFunction = async ({request}) => {

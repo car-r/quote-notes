@@ -130,14 +130,15 @@ export const action = async ({request}: any) => {
     const userId = await requireUserId(request);
     const form = await request.formData()
     const authorId = form.get('authorId')
-    // const selectAuthorId = form.get('selectAuthorId')
     const quoteBody = form.get('body')
     const bookId = form.get('bookId')
     const authorName = form.get('authorName')
-    const id = form.get('id')
-    const isFavorited = form.get('isFavorited')
     const pricingPlan = form.get('pricingPlan') as string
     const quoteCount = form.get('quoteCount')  || 0
+
+    // const selectAuthorId = form.get('selectAuthorId')
+    // const id = form.get('id')
+    // const isFavorited = form.get('isFavorited')
     // const title = form.get('title')
     // const imgUrl = form.get('imgUrl')
     // const selectAuthorName = form.get('selectAuthorName')

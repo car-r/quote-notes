@@ -1,12 +1,8 @@
-import { prisma } from "@prisma/client";
 import { Form, useTransition } from "@remix-run/react";
 import { useEffect, useRef } from "react";
-import { requireUserId } from "~/session.server";
 import ActionDataError from "./ActionDataError";
-import ActionDataInput from "./ActionDataInput";
 import PrimaryActionBtn from "./Buttons/PrimaryActionBtn";
-import SuccessBtn from "./Buttons/SuccessBtn";
-import FormInput from "./FormInput";
+
 
 
 
@@ -55,15 +51,9 @@ export default function AddNoteCard({quote, actionData}: any) {
                 <input type="hidden" name="authorId" value={quote.quote.authorId}/>
                 <input type="hidden" name="bookId" value={quote.quote.bookId}/>
                 <input hidden type="text" name="pricingPlan" defaultValue={quote.user.pricingPlan}/>
-                {/* <input hidden type="number" name="quoteNoteCount" defaultValue={quote.quote.note.length}/> */}
                 <input hidden type="number" name="quoteNoteCount" defaultValue={quote.user._count.quoteNote}/>
-                {/* <button name="_method" value="note"
-                    className="px-4 py-2 mt-2 bg-blue-400 rounded text-white hover:bg-blue-600">
-                    {isAddingNote ? "Adding..." : "Add Note"}
-                </button> */}
                 <button name="_method" value="note">
                     <PrimaryActionBtn children={isAddingNote ? "Adding..." : "Add Note"}/>
-                    {/* <SuccessBtn children={isAddingNote ? "Adding..." : "Add Note +"}/> */}
                 </button>
             </Form>
         </div>

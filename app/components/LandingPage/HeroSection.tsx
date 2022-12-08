@@ -4,7 +4,7 @@ export default function HeroSection() {
     return (
         <>
             <div className="flex flex-col w-full py-32 text-stone-100">
-                <div className="flex flex-col lg:flex-row gap-10 mx-auto px-4 max-w-6xl">
+                <div className="flex flex-col lg:flex-row gap-10 mx-auto px-6 max-w-6xl">
                     <div className="">
                         <h1 className="text-5xl md:text-7xl font-bold max-w-xl mb-4">Remember everything you read.</h1>
                         <p className="text-xl md:text-2xl font-light max-w-2xl mb-6 text-transparent bg-clip-text bg-gradient-to-r from-cyan-600 to-blue-500">
