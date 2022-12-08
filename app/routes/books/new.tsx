@@ -46,7 +46,7 @@ export const action: ActionFunction = async ({request}) => {
     function validatePricingPlan() {
         if(pricingPlan === 'free' && bookCount > 4) {
             return errors.pricingPlan = `Upgrade your Pricing Plan`
-        } else if (pricingPlan === 'elite' && bookCount > 19) {
+        } else if (pricingPlan === 'pro' && bookCount > 19) {
             return errors.pricingPlan = `Upgrade your Pricing Plan`
         }
     }
@@ -71,10 +71,10 @@ export const action: ActionFunction = async ({request}) => {
 
     validateImageUrl(imgUrl)
 
-    if (errors.title || errors.imgUrl) {
-        const values = Object.fromEntries(form)
-        return { errors, values }
-    }
+    // if (errors.title || errors.imgUrl) {
+    //     const values = Object.fromEntries(form)
+    //     return { errors, values }
+    // }
 
     const isValidISBN = new RegExp('(^(97(8|9))?\\d{9}(\\d|X)$)|^$')
 

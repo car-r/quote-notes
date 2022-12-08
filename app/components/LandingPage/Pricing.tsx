@@ -40,7 +40,7 @@ export default function Pricing() {
                         <div className="flex flex-col gap-8 p-6  md:scale-105 border border-stone-700 rounded-xl max-w-md bg-white">
                             <h4 className="text-xl font-semibold text-blue-400">Pro</h4>
                             <p className="text-5xl font-bold text-stone-900">$5<span className="ml-1 font-semibold text-2xl text-stone-900">/month</span></p>
-                            <p className="text-stone-800">For the never ending learner. Keep 25 books in your library with 100 quotes for each book.</p>
+                            <p className="text-stone-800">For the never ending learner. Keep 20 books in your library with 200 quotes for each book.</p>
                             <div className="">
                                 <ul className="flex flex-col gap-4">
                                     <li className="flex gap-10 items-center text-blue-400">
