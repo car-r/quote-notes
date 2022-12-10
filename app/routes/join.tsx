@@ -30,7 +30,8 @@ export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData();
   const email = formData.get("email");
   const password = formData.get("password");
-  const redirectTo = safeRedirect(formData.get("redirectTo"), "/");
+  // const redirectTo = safeRedirect(formData.get("redirectTo"), "/");
+  const redirectTo = formData.get("redirectTo");
 
   if (!validateEmail(email)) {
     return json<ActionData>(
@@ -67,7 +68,8 @@ export const action: ActionFunction = async ({ request }) => {
     request,
     userId: user.id,
     remember: false,
-    redirectTo,
+    // redirectTo,
+    redirectTo: typeof redirectTo === "string" ? redirectTo : "/quotes",
   });
 };
 
