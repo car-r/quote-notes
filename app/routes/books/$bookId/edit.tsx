@@ -96,7 +96,7 @@ export const action: ActionFunction = async ({request, params}) => {
 
         await prisma.quote.updateMany({ 
             where: { bookId: bookId },
-            data: { authorId: authorId, authorName: authorName }
+            data: { authorId: authorId }
         })
 
         return redirect(`/books`)

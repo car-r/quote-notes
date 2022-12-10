@@ -10,7 +10,7 @@ generator client {
 model User {
   id    String @id @default(cuid())
   email String @unique
-  pricingPlan String? @default("free")
+  pricingPlan String @default("free")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -71,7 +71,7 @@ model Quote {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  authorName String?
+  // authorName String?
   
   // isFavorited Boolean @default(false)
   isFavorited String @default("notFavorited")
