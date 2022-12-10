@@ -100,7 +100,7 @@ async function seed() {
   const quote1 = await prisma.quote.create({
     data: {
       body: "Thinking that a job makes you secure is lying to yourself.",
-      authorName: 'Robert Kiyosaki',
+      // authorName: 'Robert Kiyosaki',
       userId: user2.id,
       authorId: author.id,
       bookId: book.id,
@@ -111,7 +111,7 @@ async function seed() {
   await prisma.quote.create({
     data: {
       body: "A job is really a short-term solution to a long-term problem.",
-      authorName: 'Robert Kiyosaki',
+      // authorName: 'Robert Kiyosaki',
       userId: user2.id,
       authorId: author.id,
       bookId: book.id,
@@ -122,7 +122,7 @@ async function seed() {
   await prisma.quote.create({
     data: {
       body: "Most people fail to realize that in life, it's not how much money your make. It's how much money you keep.",
-      authorName: 'Robert Kiyosaki',
+      // authorName: 'Robert Kiyosaki',
       userId: user2.id,
       authorId: author.id,
       bookId: book.id,
@@ -133,7 +133,7 @@ async function seed() {
   await prisma.quote.create({
     data: {
       body: "Rich people acquire assets. The poor and middle class acquire liabilities they think are assets.",
-      authorName: 'Robert Kiyosaki',
+      // authorName: 'Robert Kiyosaki',
       userId: user2.id,
       authorId: author.id,
       bookId: book.id,
@@ -144,7 +144,7 @@ async function seed() {
   await prisma.quote.create({
     data: {
       body: "An asset puts money in my pocket. A liability takes money out of my pocket.",
-      authorName: 'Robert Kiyosaki',
+      // authorName: 'Robert Kiyosaki',
       userId: user2.id,
       authorId: author.id,
       bookId: book.id,
@@ -155,7 +155,7 @@ async function seed() {
   await prisma.quote.create({
     data: {
       body: "An intelligent person hires people who are more intelligent than he is.",
-      authorName: 'Robert Kiyosaki',
+      // authorName: 'Robert Kiyosaki',
       userId: user2.id,
       authorId: author.id,
       bookId: book.id,
@@ -166,7 +166,7 @@ async function seed() {
   await prisma.quote.create({
     data: {
       body: "With STRs, income potential will always be a range rather than an exact number.",
-      authorName: 'Avery Carl',
+      // authorName: 'Avery Carl',
       userId: user2.id,
       authorId: author2.id,
       bookId: book2.id,
@@ -177,7 +177,7 @@ async function seed() {
   await prisma.quote.create({
     data: {
       body: "They will forget all about your gift basket if something doesn't go right or if they find a speck of dirt.",
-      authorName: 'Avery Carl',
+      // authorName: 'Avery Carl',
       userId: user2.id,
       authorId: author2.id,
       bookId: book2.id,
@@ -188,7 +188,7 @@ async function seed() {
   await prisma.quote.create({
     data: {
       body: "The absolute biggest fear and worst-case scenario for any STR owner is a missed cleaning.",
-      authorName: 'Avery Carl',
+      // authorName: 'Avery Carl',
       userId: user2.id,
       authorId: author2.id,
       bookId: book2.id,
@@ -199,7 +199,7 @@ async function seed() {
   await prisma.quote.create({
     data: {
       body: "Never post a listing more than fourteen days before you are ready for your first guest check-in.",
-      authorName: 'Avery Carl',
+      // authorName: 'Avery Carl',
       userId: user2.id,
       authorId: author2.id,
       bookId: book2.id,
@@ -210,7 +210,7 @@ async function seed() {
   await prisma.quote.create({
     data: {
       body: "Go into your calendar and ensure that your three-day weekend and holiday rates are very high.",
-      authorName: 'Avery Carl',
+      // authorName: 'Avery Carl',
       userId: user2.id,
       authorId: author2.id,
       bookId: book2.id,
@@ -221,7 +221,7 @@ async function seed() {
   await prisma.quote.create({
     data: {
       body: "The number one rule when evaluating the income potential of a specific property is to never take rental history at face value.",
-      authorName: 'Avery Carl',
+      // authorName: 'Avery Carl',
       userId: user2.id,
       authorId: author2.id,
       bookId: book2.id,
@@ -232,7 +232,7 @@ async function seed() {
   await prisma.quote.create({
     data: {
       body: "A pragmatic programmer takes charge of his or her own career, and isn't afraid to admit ignorance or error.",
-      authorName: 'Andrew Hunt',
+      // authorName: 'Andrew Hunt',
       userId: user.id,
       authorId: author3.id,
       bookId: book3.id,
@@ -243,7 +243,7 @@ async function seed() {
   await prisma.quote.create({
     data: {
       body: "Before you approach anyone to tell them why something can't be done, is late, or is borken, stop and listen to yourself.",
-      authorName: 'Andrew Hunt',
+      // authorName: 'Andrew Hunt',
       userId: user.id,
       authorId: author3.id,
       bookId: book3.id,
@@ -254,7 +254,7 @@ async function seed() {
   await prisma.quote.create({
     data: {
       body: "Don't leave 'broken windows' (bad designs, wrong decisions, or poor code) unrepaired. Fix each one as soon as it is discovered.",
-      authorName: 'Andrew Hunt',
+      // authorName: 'Andrew Hunt',
       userId: user.id,
       authorId: author3.id,
       bookId: book3.id,
@@ -265,7 +265,7 @@ async function seed() {
   await prisma.quote.create({
     data: {
       body: "Systems drift from their specifications feature by feature, while patch after patch gets added to a piece of code until there's nothing of the original left.",
-      authorName: 'Andrew Hunt',
+      // authorName: 'Andrew Hunt',
       userId: user.id,
       authorId: author3.id,
       bookId: book3.id,
@@ -276,7 +276,7 @@ async function seed() {
   await prisma.quote.create({
     data: {
       body: "Don't spoil a perfectly good program by overembellishment and over-refinement.",
-      authorName: 'Andrew Hunt',
+      // authorName: 'Andrew Hunt',
       userId: user.id,
       authorId: author3.id,
       bookId: book3.id,
@@ -287,7 +287,7 @@ async function seed() {
   await prisma.quote.create({
     data: {
       body: "Learn at least one new language every year. Different languages solve the same problems in different ways.",
-      authorName: 'Andrew Hunt',
+      // authorName: 'Andrew Hunt',
       userId: user.id,
       authorId: author3.id,
       bookId: book3.id,
