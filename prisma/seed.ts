@@ -16,7 +16,7 @@ async function seed() {
   const hashedPassword = await bcrypt.hash("racheliscool", 10);
   const hashedPassword2 = await bcrypt.hash("test1234", 10);
 
-  const pricingPlan = 'free'
+  // const pricingPlan = 'free'
 
   const user = await prisma.user.create({
     data: {
@@ -26,7 +26,6 @@ async function seed() {
           hash: hashedPassword,
         },
       },
-      pricingPlan: pricingPlan
     },
   });
 
@@ -38,7 +37,6 @@ async function seed() {
           hash: hashedPassword2,
         },
       },
-      pricingPlan: pricingPlan
     },
   });
 
