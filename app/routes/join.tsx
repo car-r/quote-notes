@@ -68,7 +68,8 @@ export const action: ActionFunction = async ({ request }) => {
     request,
     userId: user.id,
     remember: false,
-    redirectTo,
+    // redirectTo,
+    redirectTo: typeof redirectTo === "string" ? redirectTo : "/quotes",
   });
 };
 
